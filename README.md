@@ -1,2 +1,2 @@
 # Cimber
-CImber - is a free and without ads online cinema 
+Cimber - is a free online cinema without ads

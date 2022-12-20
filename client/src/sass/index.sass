@@ -1,0 +1,61 @@
+@import "./var.sass"
+
+*
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+
+img 
+    display: block
+
+body 
+    font-family: Roobert
+    background: $bg
+    color: $color
+    overflow-x: hidden
+
+.button 
+    height: 2.875rem
+    padding: 0 1.125rem
+    border-radius: .125rem
+    border: 1px solid $color
+    background: $color
+    color: $bg
+    cursor: pointer 
+    transition: .2s all ease 
+
+    &:hover 
+        background: transparent
+        color: $color
+
+.button_a
+    height: 2.875rem
+    padding: 0 1.125rem
+    border-radius: .125rem
+    background: linear-gradient(130deg, rgba(240,168,50,1) 0%, rgba(255,144,93,1) 100%)
+    color: $bg
+    cursor: pointer 
+    transition: .2s all ease 
+    border: none 
+    margin-top: 1rem
+
+    &:hover 
+        transform: scale(1.1)
+
+.a_col
+    background: linear-gradient(90deg, rgba(240,168,50,1) 0%, rgba(255,144,93,1) 100%)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
+svg 
+    display: block
+
+.main-stop 
+    stop-color: rgba(240,168,50,1)
+
+.alt-stop 
+    stop-color: $color_a
+.section_cls 
+    height: 100vh
+
+

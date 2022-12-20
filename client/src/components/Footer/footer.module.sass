@@ -1,0 +1,99 @@
+@import "../../sass/var"
+
+.Footer_container 
+    background: rgba(240, 240, 240, .5)
+    padding: 2rem
+    display: grid
+    
+
+    .Footer_header 
+        width: 100% 
+        display: flex 
+        justify-content: center 
+        align-items: center
+
+    .Footer_inners
+        margin-top: 1.5rem
+        display: grid 
+        grid-template-columns: 33.33% 33.33% 33.33%
+
+        .Footer_inner 
+            width: 100%
+            text-align: center
+            display: grid 
+            height: 100%
+        
+
+            .Content 
+                font-size: 14px
+
+                div 
+                    margin-top: .5rem
+
+                    a
+                        text-decoration: none 
+                        color: rgba(0,0,0, .6)
+
+                        &:hover 
+                            color: $color_a
+    
+    .Footer_bottom 
+        margin-top: 1.5rem
+        display: flex
+        font-size: 10px
+        align-items: center
+        color: rgba(0,0,0, .6)
+
+        .Team
+            width: 100%
+            display: flex
+            justify-content: center
+
+        .Logout 
+            width: 100%
+            margin-left: 3rem
+
+        .Lang 
+            width: 100%
+            display: flex
+            justify-content: end
+            margin-right: 3rem
+
+    .Logout_btn 
+        background: transparent
+        border: none 
+        outline: none 
+        cursor: pointer
+        font-size: 10px
+        color: rgba(0,0,0, .6)
+
+@media(max-width: $mobile_res)
+    .Footer_container 
+        background: rgba(240, 240, 240, .5)
+        padding: 2rem
+        display: grid
+        
+
+        .Footer_header 
+            width: 100% 
+            display: flex 
+            justify-content: center 
+            align-items: center
+
+        .Footer_inners
+            margin-top: 1.5rem
+            display: grid 
+            grid-template-columns: auto
+            grid-gap: 1rem
+
+        .Footer_bottom 
+            flex-direction: column-reverse
+            gap: 1rem
+
+            .Lang 
+                justify-content: center
+                margin-right: 0
+
+            .Logout
+                text-align: center
+                margin-left: 0

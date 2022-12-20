@@ -1,0 +1,36 @@
+@import "../../../sass/var.sass"
+
+.Dropdown_oriented 
+    display: flex
+    justify-content: center
+    gap: .5rem
+    .Lang
+        cursor: pointer
+        img 
+            opacity: .3
+            &.Active 
+                opacity: 1  
+
+.Dropdown_container 
+    .Lang_curr 
+        .Lang_inner 
+            display: flex
+            flex-direction: row-reverse
+            
+            &:hover 
+                .Select_container
+                    opacity: 1
+                                
+            .Select_container
+                cursor: pointer
+                margin-right: .2rem
+                transition: .2s all ease
+                display: flex
+                opacity: 0
+                gap: .2rem
+
+                .Select_el 
+                    transition: .2s all ease 
+
+                    &:hover 
+                        transform: translateY(-.4rem)

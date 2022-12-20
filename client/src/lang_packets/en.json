@@ -1,0 +1,148 @@
+{
+    "packet_name": "en",
+    "g": {
+        "error": {
+            "x1": "Unknown error. Please check that the data you entered is correct.",
+            "x2": "The user is not authorized. Access closed.",
+            "x3": "Validation failed. Please, enter correct data.",
+            "x4": "A user with similar data is already registered in the system.",
+            "x5": "Outdated or corrupted activation link."
+        },
+        "wp": {
+            "logout": "Logout"
+        },
+        "UI": {
+            "input": {
+                "g": {
+                    "search": "Enter film name"
+                },
+                "placeholder": {
+                    "password": "Password",
+                    "email": "Email"
+                },
+                "viewer": {
+                    "show": "Show", 
+                    "hide": "Hide"
+                }
+            }
+        }
+    },
+    "modal": {
+        "header": {
+            "title": "Are you sure you want to logout?"
+        },
+        "action": {
+            "sure": "Continue",
+            "exit": "No, Exit",
+            "save": "Save all my personal data.",
+            "delete": "Delete all my personal data."
+        }
+    },
+    "auth": {
+        "title": {
+            "login": {
+                "fst": "Log",
+                "sec": "in"
+            },
+            "register": {
+                "fst": "Sign",
+                "sec": "up"
+            }
+        },
+        "form": {
+            "button": {
+                "login": "Log in",
+                "register": "Sign up"
+            }
+        },
+        "prop": {
+            "login": {
+                "fst": "Don't have any account yet?",
+                "sec": "Sign up"
+            },
+            "register": {
+                "fst": "Already have an account?",
+                "sec": "Log in"
+            }
+        }
+    },
+    "navbar": {
+        "unauth": {
+            "opts": {
+                "login": "Log in",
+                "registration": "Sign up"
+            }
+        },
+        "opts": {
+            "home": "Home",
+            "profile": "Profile"
+        },
+        "returner": "Go back"
+    },
+    "home": {
+        "title": {
+            "big": {
+                "fst": "Choose what you will ",
+                "sec": "watch ",
+                "thrd": " today"
+            },
+            "small": "And discover our world with satisfaction"
+        },
+        "actions": {
+            "dropdown": {
+                "placeholder": "Pagination method",
+                "auto": "Automatically",
+                "onclick": "On click"
+            },
+            "load_more": "Load more"
+        },
+        "throws": {
+            "not_found": "Movies with similar title not found."
+        }
+    },
+    "profile": {
+        "actions": {
+            "watch_later": "Watch later",
+            "watch": "Watch now"
+        },
+        "info": {
+            "header": {
+                "overwiev": "Overwiev",
+                "reviews": "Reviews"
+            },
+            "main": {
+                "release": "Release",
+                "country_": {
+                    "country": "Country",
+                    "countries": "Countries"
+                },
+                "genre_": {
+                    "genre": "Genre",
+                    "genres": "Genres"
+                },
+                "duration": "Duration"
+            }
+        }
+    },
+    "footer": { 
+        "inner": {
+            "1": {
+                "FAQ": "FAQ",
+                "MC": "Media Center"
+            },
+            "2": {
+                "I": "Inspiration", 
+                "AU": "About us",
+                "WIS": "What is this ?"
+            }, 
+            "3": {
+                "account": "Account",
+                "privacy": "Privacy",
+                "CP": "Cookie Preferences"
+            }
+        },
+        "bottom": {
+            "logout": "logout"
+        }
+    }
+}

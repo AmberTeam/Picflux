@@ -1,0 +1,147 @@
+@import "../../../sass/var"
+
+.FilmPage_container 
+    display: grid
+    gap: 2rem
+    padding: 3rem
+    margin: 0 15rem
+    min-height: 100vh
+
+    .Top_inner 
+        display: flex 
+        gap: 3rem
+
+        .Poster
+            img 
+                border-radius: 16px
+                width: auto
+                height: auto
+
+        .Content
+            .Header
+                display: grid 
+                gap: 1rem
+                justify-items: start
+            
+            .Btns 
+                display: flex
+                gap: .5rem
+
+                .Add_wread 
+                    border: 2px solid $color
+                    background: $color
+                    padding: .8rem 2rem
+                    font-family: 'Roobert'
+                    border-radius: 100px
+                    font-size: 14px
+                    cursor: pointer
+                    transition: .2s all ease 
+                    font-weight: bold
+                    color: $bg
+
+                    &:hover 
+                        background: $bg
+                        color: $color
+
+                .Watch 
+                    text-decoration: none
+                    border: 2px solid #000
+                    padding: .8rem 2rem 
+                    font-family: 'Roobert'
+                    border-radius: 100px
+                    font-size: 14px
+                    cursor: pointer
+                    transition: .2s all ease 
+                    font-weight: bold
+                    background: $bg
+                    color: $color
+
+                    &:hover 
+                        background: #000 
+                        color: $bg
+
+            .Pager
+                display: grid 
+                gap: .5rem
+                
+                .Pager_headers 
+                    display: flex
+                    gap: 1rem
+                    
+                    .Pager_segment 
+                        transition: .2s all ease
+                        cursor: pointer 
+                        padding: .2rem 0
+                        color: rgba(0,0,0, .6)
+
+                        .Name 
+                            font-family: "Roobert"
+
+                        &.Pager_active 
+                            color: #000
+
+                        &:hover 
+                            color: #000
+
+                .Pager_content
+                    .Overwiev 
+                        display: grid 
+                        grid-gap: .5rem
+                        .Inf
+                            font-size: 14px
+                            display: grid 
+                            grid-template-columns: 160px 100%
+
+                            .Inf_row 
+                                opacity: .5
+
+    .Bottom_inner 
+        display: grid
+        gap: 2rem
+
+        .Description 
+            font-weight: bold
+
+        .Frame_container 
+            width: 100%
+
+            .Frame
+                width: 100%
+                height: 50vh
+                border: none 
+                border-radius: 16px
+
+    
+@media(max-width: $mobile_res) 
+    .FilmPage_container 
+        display: grid
+        margin: 0 0
+
+        .Top_inner
+            display: grid
+            .Poster
+                img 
+                    border-radius: 16px
+                    width: 100%
+                    height: auto
+
+            .Content
+                .Btns 
+
+                    .Add_wread 
+                        display: none
+
+                    .Watch 
+                        margin: 1rem 0 
+
+                .Pager
+
+                    .Pager_content
+                        .Overwiev 
+                            .Inf
+                                font-size: 12px
+                                display: grid 
+                                grid-template-columns: 80% 20%
+
+                                .Inf_row 
+                                    opacity: .5

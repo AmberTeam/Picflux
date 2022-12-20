@@ -1,0 +1,114 @@
+@import "../../../sass/var.sass"
+
+.Auth_layout__container
+    display: grid
+    grid-template-columns: 30% 70%
+
+    .Layout_content__container
+        display: grid
+        align-content: center
+        justify-items: start
+        padding: 0 5rem
+        height: 100vh
+        z-index: 10
+
+        h1 
+            padding: 3rem 0
+            font-size: 40px
+
+        div
+            margin-bottom: .5rem
+
+        button 
+            margin-top: .5rem
+            margin-bottom: 1.5rem
+
+        .Act
+
+            a 
+                color: $color_a
+
+    .Layout_promo__container
+        position: relative
+        width: 100%
+        height: 100vh
+        background: transparent
+        color: white
+        overflow: hidden
+        
+
+        &::before 
+            content: ""
+            position: absolute
+            width: 100%
+            height: 120vh
+            background-image: url("../../../sass/utils/img/bg.jpg")
+            transform: rotate(45deg) scale(1.45)
+            z-index: -1
+            
+
+        .blurer
+            display: flex
+            align-items: center
+            justify-content: center
+            z-index: 5
+            position: absolute 
+            top: 0 
+            bottom: 0 
+            right: 0 
+            left: 0
+            background: rgba(0,0,0, .5)
+            backdrop-filter: blur(3px)
+
+            &:hover 
+                h2
+                    .Word 
+                        .Text 
+                            font-size: 25px
+
+            h2 
+                display: flex 
+                
+                .Word 
+                    &:nth-child(1)    
+                        .Text 
+                            transition: .2s all ease 
+                    &:nth-child(2)    
+                        .Text 
+                            transition: .4s all ease 
+                    &:nth-child(3)    
+                        .Text 
+                            transition: .6s all ease 
+
+                    .Letter 
+                        font-size: 35px
+                        color: $color_a
+                    .Text 
+                        font-size: 0px
+
+                
+
+@media(max-width: 1600px)
+     .Auth_layout__container
+        display: grid
+        grid-template-columns: 40% 60%  
+
+@media(max-width: $mobile_res)
+    .Auth_layout__container
+        display: grid
+        grid-template-columns: 100% 0%
+
+        .Layout_content__container
+            padding: 0 2rem
+            .Act
+                font-size: 11px
+
+
+        .Layout_promo__container
+            display: none
+            width: 100%
+            height: 100vh
+            background-image: url("../../../sass/utils/img/bg.jpg")
+            position: relative
+            
+    

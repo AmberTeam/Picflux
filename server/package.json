@@ -1,0 +1,34 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev nodemon index.js",
+    "prod": "cross-env NODE_ENV=prod node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-validator": "^6.14.2",
+    "iptables": "^0.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.2",
+    "nock": "^13.2.9",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "random-id": "^1.0.4",
+    "sqlite3": "^5.1.2",
+    "uuid": "^9.0.0",
+    "websocket": "^1.0.34",
+    "ws": "^8.11.0"
+  }
+}

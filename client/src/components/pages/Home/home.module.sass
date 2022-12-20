@@ -1,0 +1,226 @@
+@import "../../../sass/var.sass"
+
+.Home_section
+    .Section_starter 
+        min-height: 40vh
+        display: grid
+        justify-content: center
+        align-content: center
+        text-align: center
+        
+        h1
+            font-size: 58px
+            font-weight: 600
+            margin-bottom: 3rem
+
+        p
+            font-size: 18px
+
+    .Search_section
+        position: relative
+        width: 100% 
+        display: grid
+        grid-template-columns: 20% 60% 20%
+
+        .Search_field 
+            position: absolute
+            display: grid
+            grid-template-columns: 35% 30% 35%
+            gap: .5rem
+            width: 100%
+            top: -20px
+            align-items: center
+        
+            .Focus_lines
+                width: 100% 
+                height: 1px
+                //background: rgba(10, 10, 10, 1)
+                transition: .2s all ease
+
+                &.Focused 
+                    //background: $color_a
+
+            .Search_input
+                display: flex
+                justify-content: space-between
+                border: 1px solid rgb(0,0,0, .1)
+                background: #fff
+                padding: 6px 6px 6px 15px
+                border-radius: 6px
+                transition: .2s all ease 
+
+                &.Focused
+                    border: 1px solid $color_a
+
+
+                input 
+                    border: none 
+                    background: transparent
+                    color: $color
+                    outline: none
+                    width: 100%
+            
+                .Search_loop
+                    background: transparent 
+                    border: none 
+                    cursor: pointer
+
+                    svg
+                        circle
+                            transition: .2s all ease 
+                        path
+                            transition: .2s all ease 
+
+                    &:hover 
+
+                        svg
+                            circle
+                                stroke: $color_a
+                            path
+                                stroke: $color_a
+
+            .Tool_container 
+                display: flex 
+                justify-content: start
+            
+
+
+    .Section_content
+        min-height: 60vh
+        background: rgba(240, 240, 240, 1)
+
+        .Content_content 
+            padding: 4rem 4rem 4rem 4rem
+            display: grid 
+            grid-template-columns: calc(20% - 1.5rem) calc(20% - 1.5rem) calc(20% - 1.5rem)  calc(20% - 1.5rem) calc(20% - 1.5rem)
+            grid-gap: 2rem
+
+            &.Not_Found
+                grid-template-columns: auto 
+                min-height: 60vh
+                align-content: center 
+                justify-content: center
+
+            .NotFound
+                display: flex 
+                justify-content: center 
+                align-items: center
+                svg 
+                    width: 50px
+
+@media(max-width: $mobile_res)
+    .Home_section 
+        .Section_starter 
+            
+            h1
+                font-size: 32px
+                font-weight: 600
+                margin-bottom: 3rem
+                padding: 0 1rem
+
+            p
+                font-size: 18px
+                margin-bottom: 1rem
+
+        .Search_section
+
+            .Search_field 
+                grid-template-columns: auto
+                display: grid
+                justify-content: center 
+            .Tool_container 
+                justify-content: center!important
+
+        .Section_content 
+            padding-top: 40px
+            .Content_content 
+                grid-template-columns: auto
+
+                
+
+$width: 100px
+$height: 100px
+
+.Loader
+    display: flex 
+    justify-content: center 
+    align-items: center
+
+    .Loader_container
+        //background: #eaeaea
+        width: $width*2
+        height: $height*2
+
+
+    .line
+        height: 3px
+        width: 100%
+        background: #fff
+        margin-top: 30%
+    
+    .inner
+        width: 100%
+        height: inherit
+        background: linear-gradient(90deg, rgba(240,168,50,1) 0%, rgba(255,144,93,1) 100%)
+        animation: slide 4s ease-in-out infinite
+    
+
+
+    @keyframes slide
+        0%
+            transform-origin: left
+            transform: scalex(0.3)
+        
+        //12.5%
+            //transform-origin: left
+            //transform: scalex(0.2)
+        //
+        25%
+            transform-origin: left
+            transform: scalex(1)
+        
+        26%
+            transform-origin: right
+            transform: scalex(1)
+        
+        50%
+            transform-origin: right
+            transform: scalex(0.3)
+        
+        //62.5%
+            //transform-origin: right
+            //transform: scalex(0.2)
+        //
+        75%
+            transform-origin: right
+            transform: scalex(1)
+        
+        76%
+            transform-origin: left
+            transform: scalex(1)
+        
+        100%
+            transform-origin: left
+            transform: scalex(0.3)
+
+.Click_container
+    display: flex
+    justify-content: center
+    padding: 0rem 4rem 4rem 4rem
+
+    .Load_more 
+        display: flex
+        justify-content: center 
+        align-items: center
+
+        &:hover 
+            svg 
+                fill: $color
+
+        svg 
+            margin-right: .1rem
+            transition: .2s all ease
+            height: 26px
+            fill: #fff
+
+        

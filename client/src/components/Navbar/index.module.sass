@@ -1,0 +1,113 @@
+@import "../../sass/var.sass"
+
+.Return_btn 
+    position: absolute 
+    z-index: 11
+    margin-top: 5rem 
+    margin-left: 5rem
+    background: $color 
+    color: $bg
+    display: flex
+    border: none
+    padding: .5rem 1rem
+    border-radius: 22px
+    align-items: center
+    gap: .5rem
+    cursor: pointer 
+    font-size: 16px
+    text-decoration: none
+    transition: .2s all ease 
+
+    &:hover 
+        svg
+            transform: translateX(-5px)
+
+    svg 
+        fill: $bg
+        width: 20px
+        height: 20px
+        transition: .2s all ease
+
+
+.Navbar 
+    position: relative
+    display: grid 
+    grid-template-columns: 15% 70% 15%
+    padding: 1.5rem
+
+    .Navbar_promo
+        display: flex
+        align-items: center
+        justify-content: space-between
+
+        .Amber 
+            display: flex
+            align-items: center
+
+            .Icon 
+                margin-right: .5rem
+
+            .Name 
+                font-family: "GT America Mono"
+                font-weight: 400
+                font-size: 18px
+
+        .Opts 
+            display: flex
+            gap: 1rem
+
+            a
+                color: $color 
+                text-decoration: none
+                transition: .2s all ease 
+
+                &:hover
+                    opacity: 0.5
+
+        .Btns_container 
+            display: flex
+            gap: 1rem
+                
+            .Auth_btn 
+                padding: .5rem 1rem
+                border: none
+                border-radius: 9px
+                transition: .2s all ease
+                cursor: pointer
+                font-size: 16px 
+                text-decoration: none
+
+            .Login_btn 
+                background: rgba(240,168,50,1)
+                color: $bg
+
+                &:hover 
+                    background: rgba(255,144,93,1)
+
+            .Reg_btn
+                background: transparent 
+                color: rgba(240,168,50,1)
+                border: 1px solid rgba(240,168,50,1)
+                
+                &:hover 
+                    background: rgba(240,168,50,1)
+                    color: $bg
+
+
+        .Profile 
+            display: flex
+    
+            .Icon 
+                border-radius: 50%
+
+@media(max-width: $mobile_res)
+    .Return_btn 
+        margin-left: 2rem 
+
+    .Navbar 
+        grid-template-columns: auto
+
+        .Navbar_promo
+
+            .Opts 
+                display: none

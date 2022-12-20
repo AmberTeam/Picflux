@@ -1,0 +1,47 @@
+@import "../../sass/var"
+
+.Modal_container 
+    position: fixed 
+    top: 0 
+    left: 0 
+    right: 0 
+    z-index: 12
+    transition: .2s all ease
+
+    width: 100%
+    background: #ED4337
+    padding: 1rem
+    color: #fff
+    display: flex 
+    gap: .5rem
+    align-items: center
+
+    justify-content: space-between
+
+    transform: translateY(-100%)
+
+    &.Active 
+        transform: translateY(0)
+
+    .Message 
+        font-size: 16px
+
+    .Close_btn
+        background: transparent 
+        border: none 
+        cursor: pointer
+
+        &:hover 
+            svg 
+                transform: rotateZ(90deg)
+        
+        svg 
+            transition: .6s all ease 
+            display: block 
+            fill: #fff
+
+@media(max-width: $mobile_res) 
+    .Modal_container
+        .Message 
+            font-size: 13px
+

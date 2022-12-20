@@ -67,9 +67,11 @@ namespace Cimber.Scraper.Scrapers
                     ?.SelectSingleNode(@".//span[@itemprop=""genre""]")
                     .InnerText.Split(",")
                     .ToList();
-                var duration = document?.SelectSingleNode(
-                    @".//div[contains(concat("" "",normalize-space(@class),"" ""),"" kino-lines "")]/ul/li/div[contains(concat("" "",normalize-space(@class),"" ""),"" k-label "")]/span[contains(normalize-space(),""Продолжительность:"")]/parent::*/parent::*"
-                ).InnerText.Split(":")[1].Trim();
+                var duration = document
+                    ?.SelectSingleNode(
+                        @".//div[contains(concat("" "",normalize-space(@class),"" ""),"" kino-lines "")]/ul/li/div[contains(concat("" "",normalize-space(@class),"" ""),"" k-label "")]/span[contains(normalize-space(),""Продолжительность:"")]/parent::*/parent::*"
+                    )
+                    ?.InnerText?.Split(":")[1]?.Trim();
                 var description = document
                     ?.SelectSingleNode(".//span[@itemprop=\"description\"]")
                     .InnerText.Trim();

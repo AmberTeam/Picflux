@@ -1,0 +1,571 @@
+2022-12-20 21:10:46,560 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database..ctor(String path, String name) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 40
+2022-12-20 21:45:32,746 [1] WARN LOGGER - System.InvalidOperationException: Database is not open
+   at System.Data.SQLite.SQLiteCommand.InitializeForReader()
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 97
+2022-12-20 21:45:32,797 [1] WARN LOGGER - System.InvalidOperationException: Database is not open
+   at System.Data.SQLite.SQLiteCommand.InitializeForReader()
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 117
+2022-12-20 21:45:36,308 [1] WARN LOGGER - System.InvalidOperationException: Database is not open
+   at System.Data.SQLite.SQLiteCommand.InitializeForReader()
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 97
+2022-12-20 21:45:36,310 [1] WARN LOGGER - System.InvalidOperationException: Database is not open
+   at System.Data.SQLite.SQLiteCommand.InitializeForReader()
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 117
+2022-12-20 21:47:08,075 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 21:54:17,905 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishDescription(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 34
+2022-12-20 21:54:28,502 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishDescription(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 34
+2022-12-20 21:54:37,411 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishDescription(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 34
+2022-12-20 21:54:42,421 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishName(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 14
+2022-12-20 21:54:48,485 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.getLink(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 53
+2022-12-20 21:54:48,493 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'uriString')
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url, String method)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishDescription(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 33
+2022-12-20 21:55:03,551 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishDescription(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 34
+2022-12-20 21:56:26,311 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishDescription(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 34
+2022-12-20 21:58:30,777 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 21:58:55,262 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 21:58:59,368 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishName(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 14
+2022-12-20 21:59:02,443 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.getLink(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 53
+2022-12-20 21:59:02,445 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'uriString')
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url, String method)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishDescription(String name) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 33
+2022-12-20 21:59:16,596 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 21:59:36,667 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 21:59:49,632 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 22:00:11,363 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 22:22:10,143 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 22:22:29,287 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 22:31:34,481 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishCountries(List`1 countries)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 22
+2022-12-20 22:31:34,809 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:34,903 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:35,001 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:55,042 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishCountries(List`1 countries)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 22
+2022-12-20 22:31:55,264 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishCountries(List`1 countries)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 22
+2022-12-20 22:31:55,378 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishCountries(List`1 countries)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 22
+2022-12-20 22:31:55,563 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:55,886 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:56,516 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:56,620 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:56,733 [1] ERROR LOGGER - System.Xml.XPath.XPathException: Expression must evaluate to a node-set.
+   at System.Xml.XPath.XPathNavigator.Select(XPathExpression expr)
+   at System.Xml.XPath.XPathNavigator.Select(String xpath)
+   at HtmlAgilityPack.HtmlNode.SelectSingleNode(String xpath)
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 49
+2022-12-20 22:31:56,741 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 22:39:18,051 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url, String method)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:39:18,547 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishCountries(List`1 countries)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 23
+2022-12-20 22:39:18,718 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 50
+2022-12-20 22:39:18,808 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 50
+2022-12-20 22:39:18,911 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.GoogleTranslateScraper.GetEnglishGenres(List`1 genres)+MoveNext() in D:\Dev\Cimber\Cimber.Translator\Scrapers\GoogleTranslateScraper.cs:line 50
+2022-12-20 22:39:36,286 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:41:56,910 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url, String method)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:43:26,011 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:43:56,956 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:49:29,173 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url, String method)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:51:28,051 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url, String method)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:51:51,785 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:52:01,479 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:52:41,840 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url, String method)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:54:46,418 [1] ERROR LOGGER - System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at HtmlAgilityPack.HtmlWeb.Load(String url)
+   at Cimber.Translator.Scrapers.BaseScraper.getDocument(String url) in D:\Dev\Cimber\Cimber.Translator\Scrapers\BaseScraper.cs:line 12
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 83
+2022-12-20 22:59:07,049 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 22:59:33,438 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 22:59:39,710 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Translator.Scrapers.ImdbScraper.GetEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Scrapers\ImdbScraper.cs:line 72
+2022-12-20 23:00:04,639 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:00:25,574 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:00:46,251 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:01:10,240 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:01:31,984 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:01:46,592 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:02:04,638 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:02:30,897 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:05:48,633 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:05:51,135 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:05:52,831 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:05:55,674 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:05:58,903 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:04,430 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:06,336 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:20,225 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:24,751 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:27,687 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:36,310 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:42,009 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:48,179 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:56,247 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98
+2022-12-20 23:06:57,968 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Translator.Database.AddEnglishFilm(Film film) in D:\Dev\Cimber\Cimber.Translator\Database.cs:line 98

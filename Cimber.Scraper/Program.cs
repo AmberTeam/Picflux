@@ -1,6 +1,10 @@
 ﻿using Cimber.Scraper;
 using Cimber.Scraper.Models;
 
+const string LOGO =
+    "  ___                              ___  \r\n (o o)                            (o o) \r\n(  V  ) CIMBER SCRAPER v1.0.1 (  V  )\r\n--m-m------------------------------m-m--\n";
+
+Console.WriteLine(LOGO);
 Console.Write(
     "Please choose a website to scrape:\n1 - Gidonline\n2 - Kinogo\n3 - Kinokrad\n4 - Kinoprofi\n-> "
 );

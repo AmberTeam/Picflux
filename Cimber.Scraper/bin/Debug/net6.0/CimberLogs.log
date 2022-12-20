@@ -1,0 +1,56 @@
+2022-12-20 14:26:05,235 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Scraper.Database..ctor() in D:\Dev\Cimber\Cimber.Scraper\Database.cs:line 35
+2022-12-20 14:27:18,404 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Scraper.Database..ctor() in D:\Dev\Cimber\Cimber.Scraper\Database.cs:line 35
+2022-12-20 14:27:44,521 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinogoScraper.getFilm(String url) in D:\Dev\Cimber\Cimber.Scraper\Scrapers\KinogoScraper.cs:line 70
+2022-12-20 14:28:01,687 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinogoScraper.getFilm(String url) in D:\Dev\Cimber\Cimber.Scraper\Scrapers\KinogoScraper.cs:line 70
+2022-12-20 14:28:03,375 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinogoScraper.getFilm(String url) in D:\Dev\Cimber\Cimber.Scraper\Scrapers\KinogoScraper.cs:line 70
+2022-12-20 14:28:08,888 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinogoScraper.getFilm(String url) in D:\Dev\Cimber\Cimber.Scraper\Scrapers\KinogoScraper.cs:line 70
+2022-12-20 14:28:15,158 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinogoScraper.getFilm(String url) in D:\Dev\Cimber\Cimber.Scraper\Scrapers\KinogoScraper.cs:line 70
+2022-12-20 14:28:36,823 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinogoScraper.getFilm(String url) in D:\Dev\Cimber\Cimber.Scraper\Scrapers\KinogoScraper.cs:line 70
+2022-12-20 14:29:02,582 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Scraper.Database..ctor() in D:\Dev\Cimber\Cimber.Scraper\Database.cs:line 35
+2022-12-20 14:32:34,932 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Scraper.Database..ctor() in D:\Dev\Cimber\Cimber.Scraper\Database.cs:line 35

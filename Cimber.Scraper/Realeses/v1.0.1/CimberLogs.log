@@ -3263,3 +3263,687 @@ near "s": syntax error
    at Cimber.Scraper.Scrapers.KinokradScraper.getLinks(String url)
 2022-12-20 23:09:10,429 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
    at Cimber.Scraper.Scrapers.KinokradScraper.getFilms(String url)
+2022-12-20 23:17:23,094 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.KinokradScraper.getFilm(String url)
+2022-12-20 23:19:03,813 [1] ERROR LOGGER - System.FormatException: Input string was not in a correct format.
+   at System.Number.ThrowOverflowOrFormatException(ParsingStatus , TypeCode )
+   at System.Int32.Parse(String s)
+   at Cimber.Scraper.Scrapers.KinokradScraper.getFilm(String url)
+2022-12-20 23:19:13,146 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.KinokradScraper.getFilm(String url)
+2022-12-20 23:19:41,384 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinokradScraper.getFilm(String url)
+2022-12-20 23:25:22,506 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Scraper.Database..ctor()
+2022-12-20 23:32:54,703 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+near "s": syntax error
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-20 23:33:27,087 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-20 23:35:23,894 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-20 23:36:11,027 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-20 23:40:00,687 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-20 23:50:52,024 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+near "85": syntax error
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-20 23:55:42,627 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-20 23:58:45,318 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-20 23:59:21,058 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:02:19,060 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:02:29,634 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:02:54,882 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:05:27,217 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:07:50,812 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:10:22,124 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:10:27,641 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:10:48,514 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 00:11:13,339 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 00:11:38,384 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:12:31,005 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:13:04,080 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:13:23,537 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:14:26,796 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:14:36,583 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:14:39,275 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:19:34,435 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:19:47,865 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:32:01,387 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 00:38:16,170 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:39:35,022 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:40:32,336 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 00:41:31,541 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:48:04,475 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:50:28,558 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:51:41,567 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 00:51:59,361 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 00:52:11,426 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:56:23,028 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:59:25,691 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:59:27,076 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 00:59:31,233 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:02:14,564 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:05:17,438 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:06:49,064 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:07:05,198 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:10:16,311 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 01:10:28,549 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:15:44,207 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 01:17:34,648 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:17:35,958 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:17:37,271 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:17:38,588 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:17:46,306 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:18:28,716 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:19:03,337 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:19:23,498 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:26:19,337 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:31:17,014 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:34:25,765 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:34:31,337 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:35:29,690 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:36:10,960 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:40:55,725 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:41:31,666 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:42:26,621 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:48:07,748 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:48:32,708 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:50:03,207 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 01:55:17,002 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:55:52,678 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 01:59:36,643 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:01:35,615 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:02:33,007 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:03:37,325 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:07:51,700 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:18:14,878 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:19:22,181 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:21:37,655 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:22:13,418 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:23:58,990 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:08,487 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:13,492 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:14,768 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:16,796 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:18,272 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:19,545 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:21,006 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:28,277 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:32,994 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:34,997 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:36,814 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:38,821 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:40,782 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:42,405 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:44,038 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:46,733 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:50,309 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:51,543 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:54,069 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:55,336 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:56,567 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:24:59,339 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:25:47,555 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:28:02,768 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:30:33,343 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:31:52,089 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:44:37,726 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 02:45:59,917 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 02:52:01,300 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:18:20,813 [1] ERROR LOGGER - System.Net.WebException: The operation has timed out.
+   at System.Net.HttpWebRequest.GetResponse()
+   at HtmlAgilityPack.HtmlWeb.Get(Uri uri, String method, String path, HtmlDocument doc, IWebProxy proxy, ICredentials creds)
+   at HtmlAgilityPack.HtmlWeb.Load(Uri uri, String method)
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:18:59,283 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 03:22:39,126 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:22:42,859 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:23:16,836 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:30:46,640 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:33:07,724 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:33:55,010 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:34:08,310 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:34:38,135 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:37:59,331 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 03:45:17,475 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 03:47:34,322 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 03:54:44,303 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 04:01:49,909 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 04:06:09,610 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 04:06:34,448 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 04:21:04,597 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 04:37:05,465 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 04:37:49,039 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 04:43:36,294 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.KinoprofiScraper.getFilm(String url)
+2022-12-21 11:55:41,586 [1] WARN LOGGER - code = Error (1), message = System.Data.SQLite.SQLiteException (0x800007BF): SQL logic error
+table films already exists
+   at System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   at System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   at System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   at Cimber.Scraper.Database..ctor()
+2022-12-21 12:05:15,390 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 12:11:29,592 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 12:21:14,188 [1] ERROR LOGGER - System.IO.IOException: Unable to read data from the transport connection: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond..
+ ---> System.Net.Sockets.SocketException (10060): A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+   at System.Net.Sockets.NetworkStream.Read(Span`1 )
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.Read(Span`1 )
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter )
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter , Memory`1 )
+   at System.Net.Security.SslStream.Read(Byte[] , Int32 , Int32 )
+   at System.Net.Http.HttpConnection.FillAsync(Boolean )
+   at System.Net.Http.HttpConnection.Fill()
+   at System.Net.Http.HttpConnection.ChunkedEncodingReadStream.Read(Span`1 )
+   at System.Net.Http.HttpBaseStream.Read(Byte[] , Int32 , Int32 )
+   at System.IO.StreamReader.ReadBuffer()
+   at System.IO.StreamReader.ReadToEnd()
+   at HtmlAgilityPack.HtmlDocument.Load(TextReader reader)
+   at HtmlAgilityPack.HtmlWeb.Get(Uri uri, String method, String path, HtmlDocument doc, IWebProxy proxy, ICredentials creds)
+   at HtmlAgilityPack.HtmlWeb.Load(Uri uri, String method)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getLinks(String url)
+2022-12-21 12:21:14,190 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilms(String url)
+2022-12-21 12:21:14,190 [1] WARN LOGGER - Trying to rescrape the url(https://gidonline.io/page/147) 1 times of 5
+2022-12-21 12:21:58,897 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 12:37:41,996 [1] ERROR LOGGER - System.IO.IOException: Unable to read data from the transport connection: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond..
+ ---> System.Net.Sockets.SocketException (10060): A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+   at System.Net.Sockets.NetworkStream.Read(Span`1 )
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.Read(Span`1 )
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter )
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter , Memory`1 )
+   at System.Net.Security.SslStream.Read(Byte[] , Int32 , Int32 )
+   at System.Net.Http.HttpConnection.FillAsync(Boolean )
+   at System.Net.Http.HttpConnection.Fill()
+   at System.Net.Http.HttpConnection.ChunkedEncodingReadStream.Read(Span`1 )
+   at System.Net.Http.HttpBaseStream.Read(Byte[] , Int32 , Int32 )
+   at System.IO.StreamReader.ReadBuffer()
+   at System.IO.StreamReader.ReadToEnd()
+   at HtmlAgilityPack.HtmlDocument.Load(TextReader reader)
+   at HtmlAgilityPack.HtmlWeb.Get(Uri uri, String method, String path, HtmlDocument doc, IWebProxy proxy, ICredentials creds)
+   at HtmlAgilityPack.HtmlWeb.Load(Uri uri, String method)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getLinks(String url)
+2022-12-21 12:37:42,000 [1] ERROR LOGGER - System.NullReferenceException: Object reference not set to an instance of an object.
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilms(String url)
+2022-12-21 12:37:42,000 [1] WARN LOGGER - Trying to rescrape the url(https://gidonline.io/page/212) 1 times of 5
+2022-12-21 12:40:10,292 [1] ERROR LOGGER - System.Net.WebException: An error occurred while sending the request.
+ ---> System.Net.Http.HttpRequestException: An error occurred while sending the request.
+ ---> System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](TIOAdapter )
+   at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](TIOAdapter , Memory`1 )
+   at System.Net.Security.SslStream.Read(Byte[] , Int32 , Int32 )
+   at System.IO.Stream.Read(Span`1 )
+   at System.Net.Http.HttpConnection.InitialFillAsync(Boolean )
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage , Boolean , CancellationToken )
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsyncCore(HttpRequestMessage , Boolean , CancellationToken )
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage , Boolean , Boolean , CancellationToken )
+   at System.Net.Http.HttpMessageHandlerStage.Send(HttpRequestMessage , CancellationToken )
+   at System.Net.Http.DiagnosticsHandler.SendAsync(HttpRequestMessage , Boolean , CancellationToken )
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage , Boolean , CancellationToken )
+   at System.Net.Http.HttpMessageHandlerStage.Send(HttpRequestMessage , CancellationToken )
+   at System.Net.Http.SocketsHttpHandler.Send(HttpRequestMessage , CancellationToken )
+   at System.Net.Http.HttpMessageInvoker.Send(HttpRequestMessage , CancellationToken )
+   at System.Net.Http.HttpClient.Send(HttpRequestMessage , HttpCompletionOption , CancellationToken )
+   at System.Net.HttpWebRequest.SendRequest(Boolean )
+   at System.Net.HttpWebRequest.GetResponse()
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.GetResponse()
+   at HtmlAgilityPack.HtmlWeb.Get(Uri uri, String method, String path, HtmlDocument doc, IWebProxy proxy, ICredentials creds)
+   at HtmlAgilityPack.HtmlWeb.Load(Uri uri, String method)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 12:50:27,220 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 13:03:58,721 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 13:12:51,849 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 13:17:02,787 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 13:18:54,351 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 13:19:26,652 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 13:23:19,740 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 13:26:04,591 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 13:34:38,824 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 13:37:54,390 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 14:05:46,666 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:06:07,311 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:06:23,124 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:09:40,310 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 14:13:18,931 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 14:14:11,548 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:23:42,457 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:24:34,833 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:25:49,878 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:25:54,897 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:26:58,132 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:27:32,966 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 14:28:19,901 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:28:32,957 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 14:29:19,491 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:29:28,507 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:30:08,977 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 14:36:07,552 [1] ERROR LOGGER - System.ArgumentNullException: Value cannot be null. (Parameter 'source')
+   at System.Linq.ThrowHelper.ThrowArgumentNullException(ExceptionArgument )
+   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)
+   at Cimber.Scraper.Scrapers.GidonlineScraper.getFilm(String url)
+2022-12-21 14:53:43,728 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)
+2022-12-21 14:53:48,770 [1] WARN LOGGER - code = Constraint (19), message = System.Data.SQLite.SQLiteException (0x800027AF): constraint failed
+not an error
+   at System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   at System.Data.SQLite.SQLiteDataReader.NextResult()
+   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   at Cimber.Scraper.Database.AddFilm(Film film)

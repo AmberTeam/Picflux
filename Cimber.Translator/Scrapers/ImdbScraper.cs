@@ -32,9 +32,7 @@ namespace Cimber.Translator.Scrapers
                 string link = getLink(name);
                 var document = getDocument(link)?.DocumentNode;
                 var description = document!
-                    .SelectSingleNode(
-                        "/html/body/div[2]/main/div/section[1]/section/div[3]/section/section/div[3]/div[2]/div[1]/div[1]/p/span[1]"
-                    )
+                    .SelectSingleNode(".//span[@data-testid=\"plot-xl\"]")
                     .InnerText;
                 return description;
             }
@@ -76,11 +74,9 @@ namespace Cimber.Translator.Scrapers
                             "/html/body/div[2]/main/div[2]/div[3]/section/div/div[1]/section[2]/div[2]/ul/li[1]/div[2]/div[1]/a"
                         )
                         .Attributes["href"].Value;
-                var name = document!
-                    .SelectSingleNode(
-                        "/html/body/div[2]/main/div[2]/div[3]/section/div/div[1]/section[2]/div[2]/ul/li[1]/div[2]/div[1]/a"
-                    )
-                    .InnerText;
+                var name = document!.SelectSingleNode(
+                    "/html/body/div[2]/main/div[2]/div[3]/section/div/div[1]/section[2]/div[2]/ul/li[1]/div[2]/div[1]/a"
+                );
 
                 var subdocument = getDocument(link)?.DocumentNode;
                 var description = subdocument!
@@ -90,7 +86,7 @@ namespace Cimber.Translator.Scrapers
                     .InnerText;
 
                 film.Description = description;
-                film.Name = name;
+                film.Name = name.InnerText;
 
                 return film;
             }

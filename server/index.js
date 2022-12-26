@@ -10,8 +10,9 @@ const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
 const http = require("http")
 const rid = require('random-id')
+const extract = require("./puppeteer_tests/")
 
-const app = express() 
+const app = express()  
  
 app.use('/static', express.static(path.join(__dirname, '/static')))
 app.use(fileupload()) 
@@ -23,7 +24,7 @@ app.use(cors({
 }))
 app.use('/api', routes)  
 app.use(errorMiddleware)
-
+ 
 if (process.env.NODE_ENV === 'prod') {
   app.use('/', express.static(path.join(__dirname, "..", 'client', 'build')))
   
@@ -32,12 +33,13 @@ if (process.env.NODE_ENV === 'prod') {
   })
 }
 
-async function bootstrap() {
+async function bootstrap() { 
     try {
         await mongoose.connect(process.env.DB, {
           useNewUrlParser: true,
           useUnifiedTopology: true
         })
+  
         app.listen(process.env.PORT, () => console.log(`\n[server] Listening on ${process.env.PORT} \n`))
         //Init WebSocketServer
         require("./websocket/index")
@@ -48,4 +50,4 @@ async function bootstrap() {
     }
 }
 
-bootstrap()   
+bootstrap()    

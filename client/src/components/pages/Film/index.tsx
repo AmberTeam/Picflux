@@ -125,7 +125,7 @@ const FilmPage = () => {
                     {film.description}
                 </div>
                 <div className={cl.Frame_container} id="frame">
-                    <iframe className={cl.Frame} src={film.players[0] as any}/>
+                    <iframe className={cl.Frame} src={film.players[0] as any} allowFullScreen/>
                 </div>
             </div>
         </div>

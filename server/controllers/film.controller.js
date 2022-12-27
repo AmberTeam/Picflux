@@ -18,8 +18,9 @@ class FileController {
         const {id} = req.params
         DBAgent.db.get(DBAgent.__getByIdMethod, [id], async (err, row) => {
             row.players = JSON.parse(row.players)
-            const extracted_mp4 = await MFE.intercept_requests(row.players[0], '.mp4', 10)
-            return res.json({...row, players: [extracted_mp4]})
+            console.log(row.players)
+            //const extracted_mp4 = await MFE.intercept_requests(row.players[0], '.mp4', 10)
+            return res.json({...row})
         }) 
     }
 

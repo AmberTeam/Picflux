@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import AllowAuth from '../../AllowAuth'
 import { useTranslation } from '../../../hooks/translator.hook'
 import { observer } from 'mobx-react-lite'
+import axios from 'axios'
+import http from 'http'
 
 const FilmPage = () => {
 
@@ -15,6 +17,7 @@ const FilmPage = () => {
     const [active, setActive] = useState<number>(1)
     const [film, setFilm] = useState<IFilm | null>(null)
     const [frameWidth, setFrameWidth] = useState<number>()
+    const [test, setTest] = useState<string>()
     
     const {id} = useParams()
 
@@ -29,6 +32,14 @@ const FilmPage = () => {
     const getFilmData = async () => {
         const response = await UserService.getById(id)
         const filmConfig = reparseFilmConfig(response.data)
+        const filmDoc = await fetch(filmConfig.players[0] as any, {method: "GET", headers: {
+            'Content-Type': 'text/html'
+          }}).then(function(response) {
+            return response.text();
+          }).then(function(data) {
+            setTest(data.replace("'preroll':",  "'replacetest':")) // this will be a string
+            console.log(data.replace("'preroll':",  "'replacetest':"))
+          });
         setFilm(filmConfig)
     }
 
@@ -125,6 +136,7 @@ const FilmPage = () => {
                     {film.description}
                 </div>
                 <div className={cl.Frame_container} id="frame">
+                    <iframe srcDoc={test!}/>
                     <iframe className={cl.Frame} src={film.players[0] as any} allowFullScreen/>
                 </div>
             </div>

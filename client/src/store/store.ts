@@ -22,6 +22,8 @@ export default class Store {
 
     lang = this.predefineLang(lconfig.lang_defaut);
 
+    theme = 'light'
+
     logoutModalActive = false;
 
     logModalConfig = {} as ILogModal
@@ -77,6 +79,21 @@ export default class Store {
         const lang_name = localStorage.getItem('lang')
         const lang = this.predefineLang(lang_name!) 
         this.setLang(lang)
+    }
+
+    //THEME 
+    setDefaultTheme() {
+        this.setTheme('light')
+    }
+
+    setTheme(theme: string) {
+        this.theme = theme
+        localStorage.setItem('theme', theme)
+    }
+
+    checkTheme() {
+        const theme = localStorage.getItem('theme') as string
+        this.setTheme(theme)
     }
 
     //LOGOUT MODAL

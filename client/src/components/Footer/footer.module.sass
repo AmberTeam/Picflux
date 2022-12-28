@@ -1,10 +1,11 @@
-@import "../../sass/var"
 
 .Footer_container 
-    background: rgba(240, 240, 240, .5)
+    background: var(--footer-bg)
     padding: 2rem
     display: grid
     
+    &.Primary
+        background: var(--fg)
 
     .Footer_header 
         width: 100% 
@@ -32,17 +33,17 @@
 
                     a
                         text-decoration: none 
-                        color: rgba(0,0,0, .6)
+                        color: var(--footer-color)
 
                         &:hover 
-                            color: $color_a
+                            color: var(--color-a)
     
     .Footer_bottom 
         margin-top: 1.5rem
         display: flex
         font-size: 10px
         align-items: center
-        color: rgba(0,0,0, .6)
+        color: var(--footer-color)
 
         .Team
             width: 100%
@@ -65,15 +66,10 @@
         outline: none 
         cursor: pointer
         font-size: 10px
-        color: rgba(0,0,0, .6)
+        color: var(--footer-color)
 
-@media(max-width: $mobile_res)
+@media(max-width: 1100px)
     .Footer_container 
-        background: rgba(240, 240, 240, .5)
-        padding: 2rem
-        display: grid
-        
-
         .Footer_header 
             width: 100% 
             display: flex 

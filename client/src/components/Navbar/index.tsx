@@ -11,6 +11,7 @@ import ru from "../../lang_packets/ru.json"
 import { useTranslation } from '../../hooks/translator.hook'
 import AllowAuth from '../AllowAuth'
 import AllowNotAuth from '../AllowNotAuth'
+import ThemeTumbler from '../UI/ThemeTumbler'
 
 const Navbar: FC = () => {
 
@@ -47,6 +48,7 @@ const Navbar: FC = () => {
                         <a href="/"> {translate("navbar.opts.home")}</a>
                     </div>
                 </div>
+                <ThemeTumbler/>
                 <AllowAuth>
                     <a className={cl.Profile} href="/profile">
                         <img className={cl.Icon} src={store.user.avatar} width="32px"/>
@@ -56,9 +58,6 @@ const Navbar: FC = () => {
                     <div className={cl.Btns_container}>
                         <a href="/login" className={`${cl.Auth_btn} ${cl.Login_btn}`}>
                             {translate("navbar.unauth.opts.login")}
-                        </a>
-                        <a href="/registration" className={`${cl.Auth_btn} ${cl.Reg_btn}`}>
-                            {translate("navbar.unauth.opts.registration")}
                         </a>
                     </div>
                 </AllowNotAuth>

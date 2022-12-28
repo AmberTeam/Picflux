@@ -2,7 +2,6 @@ import React, {createContext} from 'react';
 import ReactDOM from "react-dom/client";
 import App from './App';
 import Store from "./store/store";
-import "./sass/index.sass"
 import 'swiper/css';
 
 interface State {
@@ -21,6 +20,6 @@ root.render(
     <Context.Provider value={{
         store
     }}>
-        <App />
+        <App/>
     </Context.Provider>
 );

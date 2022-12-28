@@ -17,7 +17,7 @@ const FilmPage = () => {
     const [active, setActive] = useState<number>(1)
     const [film, setFilm] = useState<IFilm | null>(null)
     const [frameWidth, setFrameWidth] = useState<number>()
-    const [test, setTest] = useState<string>()
+    const [rPlayer, setRPlayer] = useState<string>()
     
     const {id} = useParams()
 
@@ -32,22 +32,32 @@ const FilmPage = () => {
     const getFilmData = async () => {
         const response = await UserService.getById(id)
         const filmConfig = reparseFilmConfig(response.data)
-        const filmDoc = await fetch(filmConfig.players[0] as any, {method: "GET", headers: {
-            'Content-Type': 'text/html'
-          }}).then(function(response) {
-            return response.text();
-          }).then(function(data) {
-            setTest(data.replace("'preroll':",  "'replacetest':")) // this will be a string
-            console.log(data.replace("'preroll':",  "'replacetest':"))
-          });
         setFilm(filmConfig)
+        console.log("\n[cimber_prllrem] Fetching player configuration...")
+        const filmDoc = await fetch(filmConfig.players[0] as any, 
+            {
+                method: "GET", 
+                headers: {
+                    'Content-Type': 'text/html'
+                }
+            }
+        ).then(function(response) {
+            console.log("\n[cimber_prllrem] Done.")
+            return response.text();
+        }).then(async function(data) {
+            console.log("\n[cimber_prllrem] Rewriting player configuration...")
+            const rewrited = await data.replace("'preroll':",  "'__undefined__':")
+            console.log("\n[cimber_prllrem] Done.")
+            setRPlayer(rewrited)
+        });
     }
 
     useEffect(() => {
         getFilmData()
     }, [id])
 
-    if(!film) return <h1>sas</h1>
+    if(!film) return <div className={cl.Loader_container}>Loading film configuration</div>
+
     return (
         <div className={cl.FilmPage_container}>
             <div className={cl.Top_inner}>
@@ -136,8 +146,7 @@ const FilmPage = () => {
                     {film.description}
                 </div>
                 <div className={cl.Frame_container} id="frame">
-                    <iframe srcDoc={test!}/>
-                    <iframe className={cl.Frame} src={film.players[0] as any} allowFullScreen/>
+                    <iframe className={cl.Frame} srcDoc={rPlayer!}/>
                 </div>
             </div>
         </div>

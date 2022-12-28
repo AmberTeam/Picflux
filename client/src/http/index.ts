@@ -4,7 +4,7 @@ import {store} from "../index";
 import {IUser} from "../models/IUser";
 import { ILogModal } from '../store/store';
 
-export const API_URL = `http://localhost:5000/api`
+export const API_URL = `/api`
 
 const $api = axios.create({
     headers: {

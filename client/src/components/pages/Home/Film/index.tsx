@@ -3,7 +3,6 @@ import React, {FC, useContext, useEffect, useState, useRef } from 'react'
 import { IFilm } from "../../../../models/IFilm"
 import cl from "./film.module.sass"
 import {useNavigate} from "react-router-dom"
-import Genre from "../../../Genre"
 
 const HomePage: FC<IFilm> = (props: IFilm) => {
  

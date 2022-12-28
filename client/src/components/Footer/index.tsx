@@ -1,19 +1,29 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import cl from './footer.module.sass'
 import ic from '../../img/Icon_nav.png'
 import { useTranslation } from "../../hooks/translator.hook";
 import LangDropdown from "../UI/LangDropdown";
 import { Context } from "../..";
 import { observer } from "mobx-react-lite";
+import { useLocation } from "react-router-dom";
 
 const Footer: FC = () => {
 
     const {translate, setLanguage} = useTranslation()
+    const [primary, setPrimary] = useState<boolean>(false)
+    const location = useLocation()
 
     const {store} = useContext(Context)
 
+    useEffect(() => {
+        if(location.pathname.includes('film') || location.pathname.includes('login') || location.pathname.includes('registration'))
+            setPrimary(true)
+        else
+            setPrimary(false)
+    }, [location])
+
     return (
-        <footer className={cl.Footer_container}> 
+        <footer className={`${cl.Footer_container} ${primary ? cl.Primary : ""}`}> 
             <div className={cl.Footer_header}> <img src={ic} draggable={false} width="44px" /> </div>
             <div className={cl.Footer_inners}>
                 <div className={cl.Footer_inner}>

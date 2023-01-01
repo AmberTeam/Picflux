@@ -1,18 +1,16 @@
-import { observer } from 'mobx-react-lite'
-import React, {FC, useContext, useEffect, useState, useRef } from 'react'
-import cl from "./home.module.sass"
-import { IFilm } from "../../../models/IFilm"
+import {FC, useEffect, useState, useRef, useContext } from 'react'
+import { useTranslation } from '../../../hooks/translator.hook'
+import { useResizeHandler } from '../../../hooks/resizehandler.hook'
 import { useObserver } from '../../../hooks/observer.hook'
+import { IFilm } from "../../../models/IFilm"
+import { Context } from '../../..'
+import { observer } from 'mobx-react-lite'
 import userService from "../../../services/UserService"
 import Film from './Film/'
-import {Context} from "../../../"
-import { useTranslation } from '../../../hooks/translator.hook'
 import Dropdown from '../../UI/Dropdown'
+import cl from "./home.module.sass"
 
 const HomePage: FC = () => {
-    
-
-    const {store} = useContext(Context)
 
     const obsElement = useRef() as React.MutableRefObject<HTMLInputElement>
 
@@ -30,6 +28,9 @@ const HomePage: FC = () => {
 	const [loading, setLoading] = useState<boolean>(false)
 	const [canLoad, setCanLoad] = useState<boolean>(true)
     const [paginateMethod, setPaginateMetod] = useState<string>('click')
+    const [adaptInterface, setAdaptInterface] = useState<boolean>(false)
+
+    const {store} = useContext(Context)
 
     function reset() {
         setNotFound(false)
@@ -83,7 +84,13 @@ const HomePage: FC = () => {
 
     useObserver(obsElement, canLoad, loading, () => {
 		setPage(page + 1)
+        store.setSearchQueuePage(page + 1)
 	})
+
+    useResizeHandler((width) => {
+        if(width <= 1100) !adaptInterface && setAdaptInterface(true)
+        if(width > 1100) setAdaptInterface(false)
+    })
 
     useEffect(() => {
 		fetchPosts(limit, page, 1)
@@ -99,6 +106,7 @@ const HomePage: FC = () => {
     
     return (
         <section className={cl.Home_section}>
+
             <div className={cl.Section_starter}>
                 <h1>
                     {translate("home.title.big.fst")} <span className="a_col">{translate("home.title.big.sec")}</span> {translate("home.title.big.thrd")}
@@ -109,7 +117,22 @@ const HomePage: FC = () => {
             </div>
             <div className={cl.Search_section}>
                 <div className={cl.Search_field}>
-                    <span className={`${focused ? cl.Focused : ""} ${cl.Focus_lines}`}></span>
+                    <div className={`${cl.Tool_container} ${cl.Search_ints}`}>
+                        {
+                            adaptInterface 
+                            ? 
+                            <Dropdown default={1} childs={[{content: translate("home.actions.dropdown.onclick"), value: "click"}, {content: translate("home.actions.dropdown.auto"), value: "auto"}]} callback={e => setPaginateMetod(e)}>
+                                {translate("home.actions.dropdown.placeholder")}: 
+                            </Dropdown>
+                            :
+                            <button className={cl.Tool}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                </svg>
+                            </button> 
+                        }
+                    </div>
                     <div className={`${focused ? cl.Focused : ""} ${cl.Search_input}`}>
                         <input 
                             id="search"
@@ -125,11 +148,21 @@ const HomePage: FC = () => {
                         </button>
                     </div>
                     <div className={cl.Tool_container}>
-                        <Dropdown default={1} childs={[{content: translate("home.actions.dropdown.onclick"), value: "click"}, {content: translate("home.actions.dropdown.auto"), value: "auto"}]} callback={e => setPaginateMetod(e)}>
-                            {translate("home.actions.dropdown.placeholder")}: 
-                        </Dropdown>
+                        {
+                            adaptInterface 
+                            ? 
+                            <button className={cl.Tool}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                </svg>
+                            </button> 
+                            :
+                            <Dropdown default={1} childs={[{content: translate("home.actions.dropdown.onclick"), value: "click"}, {content: translate("home.actions.dropdown.auto"), value: "auto"}]} callback={e => setPaginateMetod(e)}>
+                                {translate("home.actions.dropdown.placeholder")}: 
+                            </Dropdown>
+                        }
                     </div>
-                    <span className={`${focused ? cl.Focused : ""} ${cl.Focus_lines}`}></span>
                 </div>
             </div>
             <div className={cl.Section_content}>

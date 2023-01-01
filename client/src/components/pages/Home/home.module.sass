@@ -80,6 +80,33 @@
             .Tool_container 
                 display: flex 
                 justify-content: start
+
+                &.Search_ints
+                    display: flex
+                    justify-content: end
+
+                .Tool
+                    min-height: 40px
+                    min-width: 40px
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    border: 1px solid var(--border-grey)
+                    background: var(--bg)
+                    border-radius: 6px
+                    cursor: pointer
+                    transition: .2s all ease
+
+                    &:hover 
+                        border-color: var(--color-a)
+
+                        svg 
+                            fill: var(--color-a)
+
+                    svg 
+                        fill: #7d7d7d
+                        transition: .2s all ease
+                    
             
 
 
@@ -130,7 +157,7 @@
                 justify-content: center!important
 
         .Section_content 
-            padding-top: 40px
+            padding-top: 100px
             .Content_content 
                 grid-template-columns: auto
 

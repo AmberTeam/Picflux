@@ -6,13 +6,15 @@
   "scripts": {
     "start": "npm i --prefix client && npm run build --prefix client && npm i --prefix server && npm run prod --prefix server",
     "dev": "concurrently \"npm run start --prefix client\" \"npm run dev --prefix server\"",
-    "prod": "npm run prod --prefix server"
+    "prod": "npm run prod --prefix server",
+    "psprod": "npm run psprod --prefix server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.0",
-    "concurrently": "^7.5.0"
+    "concurrently": "^7.5.0",
+    "http-proxy": "^1.18.1"
   }
 }

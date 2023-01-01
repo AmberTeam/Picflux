@@ -24,6 +24,8 @@ export default class Store {
 
     theme = 'light'
 
+    searchQueuePage = 0
+
     logoutModalActive = false;
 
     logModalConfig = {} as ILogModal
@@ -79,6 +81,25 @@ export default class Store {
         const lang_name = localStorage.getItem('lang')
         const lang = this.predefineLang(lang_name!) 
         this.setLang(lang)
+    }
+
+    //SEARCH QUEUE
+    checkSearchQueue() {
+        const queue_page = localStorage.getItem("sqp") 
+        if(queue_page) {
+            const queue_int = Number(queue_page)
+            return queue_int
+        } else this.setDefaultQueueConfig()
+    }
+    
+    setDefaultQueueConfig() {
+        this.searchQueuePage = 0
+        localStorage.setItem("sqp", "0")
+    }
+
+    setSearchQueuePage(page: number) {
+        this.searchQueuePage = page
+        localStorage.setItem("sqp", String(page))
     }
 
     //THEME 

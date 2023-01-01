@@ -6,6 +6,7 @@ import ukr_img from "../../../img/lang_ic/ukr.png"
 import cl from "./index.module.sass"
 import { useTranslation } from "../../../hooks/translator.hook"
 import { observer } from "mobx-react-lite"
+import { useResizeHandler } from "../../../hooks/resizehandler.hook"
 
 interface ILangDropdown {
     orientation?: string
@@ -32,11 +33,9 @@ const LangDropdown: FC<ILangDropdown> =  ({...props}) => {
         setfLangs([...fLangs])
     }, [currLang])
 
-    useEffect(() => {
-        window.addEventListener('resize', e => {
-            setInnerWidth(window.innerWidth)
-        })
-    }, [])
+    useResizeHandler((width) => {
+        setInnerWidth(width)
+    })
 
     if(innerWidth <= 1100) {
         return (

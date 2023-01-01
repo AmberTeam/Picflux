@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nodemon index.js",
-    "prod": "cross-env NODE_ENV=prod node index.js"
+    "prod": "cross-env NODE_ENV=prod node index.js",
+    "psprod": "cross-env NODE_ENV=prod nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,14 +19,12 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
+    "express-http-proxy": "^1.6.3",
     "express-validator": "^6.14.2",
-    "iptables": "^0.0.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.2",
-    "nock": "^13.2.9",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
-    "puppeteer": "^19.4.1",
     "random-id": "^1.0.4",
     "sqlite3": "^5.1.2",
     "uuid": "^9.0.0",

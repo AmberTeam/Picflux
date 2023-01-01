@@ -7,8 +7,6 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import AllowAuth from '../../AllowAuth'
 import { useTranslation } from '../../../hooks/translator.hook'
 import { observer } from 'mobx-react-lite'
-import axios from 'axios'
-import http from 'http'
 
 const FilmPage = () => {
 
@@ -16,8 +14,8 @@ const FilmPage = () => {
     const {translate} = useTranslation()
     const [active, setActive] = useState<number>(1)
     const [film, setFilm] = useState<IFilm | null>(null)
-    const [frameWidth, setFrameWidth] = useState<number>()
     const [rPlayer, setRPlayer] = useState<string>()
+    const [test, setTest] = useState<string>()
     
     const {id} = useParams()
 
@@ -32,8 +30,26 @@ const FilmPage = () => {
     const getFilmData = async () => {
         const response = await UserService.getById(id)
         const filmConfig = reparseFilmConfig(response.data)
+        console.log(filmConfig)
         setFilm(filmConfig)
-        console.log("\n[cimber_prllrem] Fetching player configuration...")
+        var tes = filmConfig.players[0] as any
+        var sus = tes.replace("&#58;", ":")
+        setTest(sus)
+        const test = await fetch(sus, {
+         
+        }).then(function (response) {
+            return response.text();
+        }).then(async function (data) {
+            const c_data = data.replace("/playerjs/js/playerjs.js?=1012", `${sus.replace("movie/4064ea93129b60391c850a5bb185a04a/iframe", "")}/playerjs/js/playerjs.js?=1012`).replace("preroll", "ssss")
+            console.log(c_data)
+            setRPlayer(c_data)
+        });
+        /*await fetch(filmConfig.players[0] as any, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'text/html;charset=utf-8'
+            }
+        })
         const filmDoc = await fetch(filmConfig.players[0] as any, 
             {
                 method: "GET", 
@@ -42,14 +58,11 @@ const FilmPage = () => {
                 }
             }
         ).then(function(response) {
-            console.log("\n[cimber_prllrem] Done.")
             return response.text();
         }).then(async function(data) {
-            console.log("\n[cimber_prllrem] Rewriting player configuration...")
             const rewrited = await data.replace("'preroll':",  "'__undefined__':")
-            console.log("\n[cimber_prllrem] Done.")
             setRPlayer(rewrited)
-        });
+        }); */
     }
 
     useEffect(() => {
@@ -146,7 +159,8 @@ const FilmPage = () => {
                     {film.description}
                 </div>
                 <div className={cl.Frame_container} id="frame">
-                    <iframe className={cl.Frame} srcDoc={rPlayer!}/>
+                    <iframe className={cl.Frame} srcDoc={rPlayer}/>
+                    <iframe className={cl.Frame} src={test as any}/>
                 </div>
             </div>
         </div>

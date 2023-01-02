@@ -39,7 +39,7 @@ namespace Cimber.Translator
                                         Language.Russian,
                                         Language.English,
                                         country
-                                    )
+                                    )!
                                 );
                             }
 
@@ -47,7 +47,7 @@ namespace Cimber.Translator
                             foreach (var genre in film.Genres)
                             {
                                 enGenres.Add(
-                                    TranslationApi.Translate(Language.Russian, Language.English, genre)
+                                    TranslationApi.Translate(Language.Russian, Language.English, genre)!
                                 );
                             }
 
@@ -61,7 +61,7 @@ namespace Cimber.Translator
                             {
                                 enFilm.Countries = enCountries;
                                 enFilm.Genres = enGenres;
-                                enFilm.Duration = enDuration;
+                                enFilm.Duration = enDuration!;
                                 enFilm.Language = Language.English;
 
                                 _database.AddEnglishFilm(enFilm);
@@ -89,7 +89,7 @@ namespace Cimber.Translator
                                         film.Year,
                                         description,
                                         enCountries,
-                                        enDuration,
+                                        enDuration!,
                                         enGenres,
                                         film.Poster,
                                         film.Players,
@@ -131,7 +131,7 @@ namespace Cimber.Translator
                                         Language.Russian,
                                         Language.Ukrainian,
                                         country
-                                    )
+                                    )!
                                 );
                             }
                             var uaGenres = new List<string>();
@@ -142,7 +142,7 @@ namespace Cimber.Translator
                                         Language.Russian,
                                         Language.Ukrainian,
                                         genre
-                                    )
+                                    )!
                                 );
                             }
 
@@ -152,8 +152,8 @@ namespace Cimber.Translator
                             {
                                 uaFilm.Countries = uaCountries;
                                 uaFilm.Genres = uaGenres;
-                                uaFilm.Name = uaName;
-                                uaFilm.Description = uaDescription;
+                                uaFilm.Name = uaName!;
+                                uaFilm.Description = uaDescription!;
                                 uaFilm.Language = Language.Ukrainian;
 
                                 _database.AddUkrainianFilm(uaFilm);

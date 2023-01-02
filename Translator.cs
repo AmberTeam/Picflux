@@ -26,76 +26,83 @@ namespace Cimber.Translator
                 {
                     foreach (var film in films)
                     {
-                        var imdbScraper = new ImdbScraper();
-                        var enFilm = imdbScraper.GetEnglishFilm(film);
-
-                        var enCountries = new List<string>();
-                        foreach (var country in film.Countries)
+                        try
                         {
-                            enCountries.Add(
-                                TranslationApi.Translate(
+                            var imdbScraper = new ImdbScraper();
+                            var enFilm = imdbScraper.GetEnglishFilm(film);
+
+                            var enCountries = new List<string>();
+                            foreach (var country in film.Countries)
+                            {
+                                enCountries.Add(
+                                    TranslationApi.Translate(
+                                        Language.Russian,
+                                        Language.English,
+                                        country
+                                    )
+                                );
+                            }
+
+                            var enGenres = new List<string>();
+                            foreach (var genre in film.Genres)
+                            {
+                                enGenres.Add(
+                                    TranslationApi.Translate(Language.Russian, Language.English, genre)
+                                );
+                            }
+
+                            var enDuration = TranslationApi.Translate(
+                                Language.Russian,
+                                Language.English,
+                                film.Duration
+                            );
+
+                            if (enFilm != null)
+                            {
+                                enFilm.Countries = enCountries;
+                                enFilm.Genres = enGenres;
+                                enFilm.Duration = enDuration;
+                                enFilm.Language = Language.English;
+
+                                _database.AddEnglishFilm(enFilm);
+                                pbar.Tick($"Last film: {enFilm.Name}({film.Id})");
+                            }
+                            else
+                            {
+                                var enName = TranslationApi.Translate(
                                     Language.Russian,
                                     Language.English,
-                                    country
-                                )
-                            );
+                                    film.Name
+                                );
+                                var description = TranslationApi.Translate(
+                                    Language.Russian,
+                                    Language.English,
+                                    film.Description
+                                );
+
+                                if (enName == null || description == null)
+                                    return;
+
+                                _database.AddEnglishFilm(
+                                    new Film(
+                                        enName,
+                                        film.Year,
+                                        description,
+                                        enCountries,
+                                        enDuration,
+                                        enGenres,
+                                        film.Poster,
+                                        film.Players,
+                                        film.Id,
+                                        Language.English
+                                    )
+                                );
+                                pbar.Tick($"Last film: {enName ?? "Unknown"}({film.Id})");
+                            }
                         }
-
-                        var enGenres = new List<string>();
-                        foreach (var genre in film.Genres)
+                        catch (Exception ex)
                         {
-                            enGenres.Add(
-                                TranslationApi.Translate(Language.Russian, Language.English, genre)
-                            );
-                        }
-
-                        var enDuration = TranslationApi.Translate(
-                            Language.Russian,
-                            Language.English,
-                            film.Duration
-                        );
-
-                        if (enFilm != null)
-                        {
-                            enFilm.Countries = enCountries;
-                            enFilm.Genres = enGenres;
-                            enFilm.Duration = enDuration;
-                            enFilm.Language = Language.English;
-
-                            _database.AddEnglishFilm(enFilm);
-                            pbar.Tick($"Last film: {enFilm.Name}({film.Id})");
-                        }
-                        else
-                        {
-                            var enName = TranslationApi.Translate(
-                                Language.Russian,
-                                Language.English,
-                                film.Name
-                            );
-                            var description = TranslationApi.Translate(
-                                Language.Russian,
-                                Language.English,
-                                film.Description
-                            );
-
-                            if (enName == null || description == null)
-                                return;
-
-                            _database.AddEnglishFilm(
-                                new Film(
-                                    enName,
-                                    film.Year,
-                                    description,
-                                    enCountries,
-                                    enDuration,
-                                    enGenres,
-                                    film.Poster,
-                                    film.Players,
-                                    film.Id,
-                                    Language.English
-                                )
-                            );
-                            pbar.Tick($"Last film: {enName ?? "Unknown"}({film.Id})");
+                            Logger.Error(ex.ToString());
                         }
                     }
                 }
@@ -103,56 +110,64 @@ namespace Cimber.Translator
                 {
                     foreach (var film in films)
                     {
-                        var uaName = TranslationApi.Translate(
-                            Language.Russian,
-                            Language.Ukrainian,
-                            film.Name
-                        );
-                        var uaDescription = TranslationApi.Translate(
-                            Language.Russian,
-                            Language.Ukrainian,
-                            film.Description
-                        );
-
-                        var uaCountries = new List<string>();
-                        foreach (var country in film.Countries)
+                        try
                         {
-                            uaCountries.Add(
-                                TranslationApi.Translate(
-                                    Language.Russian,
-                                    Language.Ukrainian,
-                                    country
-                                )
+                            var uaName = TranslationApi.Translate(
+                                                        Language.Russian,
+                                                        Language.Ukrainian,
+                                                        film.Name
+                                                    );
+                            var uaDescription = TranslationApi.Translate(
+                                Language.Russian,
+                                Language.Ukrainian,
+                                film.Description
                             );
-                        }
-                        var uaGenres = new List<string>();
-                        foreach (var genre in film.Genres)
-                        {
-                            uaGenres.Add(
-                                TranslationApi.Translate(
-                                    Language.Russian,
-                                    Language.Ukrainian,
-                                    genre
-                                )
-                            );
-                        }
 
-                        var uaFilm = film;
+                            var uaCountries = new List<string>();
+                            foreach (var country in film.Countries)
+                            {
+                                uaCountries.Add(
+                                    TranslationApi.Translate(
+                                        Language.Russian,
+                                        Language.Ukrainian,
+                                        country
+                                    )
+                                );
+                            }
+                            var uaGenres = new List<string>();
+                            foreach (var genre in film.Genres)
+                            {
+                                uaGenres.Add(
+                                    TranslationApi.Translate(
+                                        Language.Russian,
+                                        Language.Ukrainian,
+                                        genre
+                                    )
+                                );
+                            }
 
-                        if (uaFilm != null)
-                        {
-                            uaFilm.Countries = uaCountries;
-                            uaFilm.Genres = uaGenres;
-                            uaFilm.Name = uaName;
-                            uaFilm.Description = uaDescription;
-                            uaFilm.Language = Language.Ukrainian;
+                            var uaFilm = film;
 
-                            _database.AddUkrainianFilm(uaFilm);
-                            pbar.Tick($"Last film: {uaFilm.Name}({film.Id})");
+                            if (uaFilm != null)
+                            {
+                                uaFilm.Countries = uaCountries;
+                                uaFilm.Genres = uaGenres;
+                                uaFilm.Name = uaName;
+                                uaFilm.Description = uaDescription;
+                                uaFilm.Language = Language.Ukrainian;
+
+                                _database.AddUkrainianFilm(uaFilm);
+                                pbar.Tick($"Last film: {uaFilm.Name}({film.Id})");
+                            }
+                            else
+                            {
+                                pbar.Tick("Didn't work");
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            pbar.Tick("Didn't work");
+                            Logger.Error(ex.ToString());
+                            throw;
                         }
                     }
                 }

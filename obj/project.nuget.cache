@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "R/RYw//3oCARiu9kb1ep0dQ7ByDdlRMhNGUA2VarrOSGXJSgXEBrfdV02Q8wZzBKb5sc5aps1Maz8G3FAJ822w==",
+  "dgSpecHash": "vnyEuwvLHO72uWjMkR+q0IVEhzjPcU7DPSzyzFN9eLVtBXRTN3KlEZS+9OoorzJI727hbs2aNrD8hNT+EFvn8Q==",
   "success": true,
   "projectFilePath": "/home/uaquax/Dev/Projects/Cimber/Cimber.Translator/Cimber.Translator.csproj",
   "expectedPackageFiles": [
@@ -28,24 +28,12 @@
     "/home/uaquax/.nuget/packages/runtime.any.system.runtime.interopservices/4.3.0/runtime.any.system.runtime.interopservices.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/runtime.any.system.text.encoding/4.3.0/runtime.any.system.text.encoding.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/runtime.any.system.threading.tasks/4.3.0/runtime.any.system.threading.tasks.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/runtime.native.system/4.3.0/runtime.native.system.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/runtime.native.system.data.sqlclient.sni/4.7.0/runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.native.system.security.cryptography.openssl/4.3.0/runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.opensuse.13.2-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.opensuse.42.1-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.unix.system.private.uri/4.3.0/runtime.unix.system.private.uri.4.3.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/runtime.unix.system.runtime.extensions/4.3.0/runtime.unix.system.runtime.extensions.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/runtime.win-arm64.runtime.native.system.data.sqlclient.sni/4.4.0/runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/runtime.win-x64.runtime.native.system.data.sqlclient.sni/4.4.0/runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0/runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "/home/uaquax/.nuget/packages/runtime.win.system.runtime.extensions/4.3.0/runtime.win.system.runtime.extensions.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/shellprogressbar/5.2.0/shellprogressbar.5.2.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/stub.system.data.sqlite.core.netstandard/1.0.117/stub.system.data.sqlite.core.netstandard.1.0.117.nupkg.sha512",
     "/home/uaquax/.nuget/packages/system.codedom/4.7.0/system.codedom.4.7.0.nupkg.sha512",
@@ -79,10 +67,10 @@
     "/home/uaquax/.nuget/packages/system.threading/4.3.0/system.threading.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/system.threading.tasks/4.3.0/system.threading.tasks.4.3.0.nupkg.sha512",
     "/home/uaquax/.nuget/packages/system.windows.extensions/4.7.0/system.windows.extensions.4.7.0.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/microsoft.netcore.app.runtime.linux-x64/6.0.12/microsoft.netcore.app.runtime.linux-x64.6.0.12.nupkg.sha512",
+    "/home/uaquax/.nuget/packages/microsoft.netcore.app.runtime.win-x64/6.0.12/microsoft.netcore.app.runtime.win-x64.6.0.12.nupkg.sha512",
     "/home/uaquax/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.12/microsoft.aspnetcore.app.ref.6.0.12.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-x64/6.0.12/microsoft.aspnetcore.app.runtime.linux-x64.6.0.12.nupkg.sha512",
-    "/home/uaquax/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.12/microsoft.netcore.app.host.linux-x64.6.0.12.nupkg.sha512"
+    "/home/uaquax/.nuget/packages/microsoft.aspnetcore.app.runtime.win-x64/6.0.12/microsoft.aspnetcore.app.runtime.win-x64.6.0.12.nupkg.sha512",
+    "/home/uaquax/.nuget/packages/microsoft.netcore.app.host.win-x64/6.0.12/microsoft.netcore.app.host.win-x64.6.0.12.nupkg.sha512"
   ],
   "logs": []
 }

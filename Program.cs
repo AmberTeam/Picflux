@@ -8,7 +8,7 @@ const string LOGO =
 Console.OutputEncoding = Encoding.UTF8;
 Console.WriteLine(LOGO);
 
-Console.Write("Please enter the path to your database\n-> ");
+Console.Write("\nPlease enter the path to your database\n-> ");
 string? path = Console.ReadLine();
 // string path = "/home/uaquax/Dev/Projects/Cimber/Cimber.Translator/CimberDB.db";
 
@@ -16,14 +16,14 @@ string? path = Console.ReadLine();
 if (path == null)
     return;
 
-Console.Write("Please enter a new name of your database\n-> ");
+Console.Write("\nPlease enter a new name of your database\n-> ");
 string? name = Console.ReadLine();
 // string name = "/home/uaquax/Dev/Projects/Cimber/Cimber.Translator/CimberDB";
 
 if (name == null)
     return;
 
-Console.Write("Please enter a language you want to translate\n0 - English\n1 - Ukrainian\n-> ");
+Console.Write("\nPlease enter a language you want to translate\n0 - English\n1 - Ukrainian\n-> ");
 string? languageText = Console.ReadLine();
 // string languageText = "0";
 
@@ -33,5 +33,12 @@ if (languageText == null)
 var language = languageText.Contains("0") ? Language.English : Language.Ukrainian;
 Logger.InitLogger();
 
-var translator = new Translator(path, name, language);
+Console.Write("\nPlese enter the start point\n-> ");
+int startPoint;
+bool startPointResult = int.TryParse(Console.ReadLine(), out startPoint);
+
+if (startPointResult == false)
+    startPoint = 0;
+
+var translator = new Translator(path, name, language, startPoint);
 translator.Start();

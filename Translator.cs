@@ -7,12 +7,14 @@ namespace Cimber.Translator
     internal class Translator
     {
         private readonly Database _database;
+        private readonly int _startPoint;
         private readonly Language _language;
 
-        public Translator(string path, string name, Language langauge)
+        public Translator(string path, string name, Language langauge, int startPoint)
         {
             _language = langauge;
             _database = new Database(path, name);
+            _startPoint = startPoint;
         }
 
         public void Start()
@@ -22,12 +24,16 @@ namespace Cimber.Translator
 
             using (var pbar = new ProgressBar(films.Count(), "Translating", options))
             {
+                for (int i = 0; i <= _startPoint; i++)
+                    pbar.Tick("Translating");
                 if (_language == Language.English)
                 {
-                    foreach (var film in films)
+                    for (int i = _startPoint; i < films.Count(); i++)
                     {
                         try
                         {
+                            var film = films.ElementAt(i);
+
                             var imdbScraper = new ImdbScraper();
                             var enFilm = imdbScraper.GetEnglishFilm(film);
 
@@ -65,7 +71,7 @@ namespace Cimber.Translator
                                 enFilm.Language = Language.English;
 
                                 _database.AddEnglishFilm(enFilm);
-                                pbar.Tick($"Last film: {enFilm.Name}({film.Id})");
+                                pbar.Tick($"Last film: {enFilm.Name}({i})");
                             }
                             else
                             {
@@ -97,7 +103,7 @@ namespace Cimber.Translator
                                         Language.English
                                     )
                                 );
-                                pbar.Tick($"Last film: {enName ?? "Unknown"}({film.Id})");
+                                pbar.Tick($"Last film: {enName ?? "Unknown"}({i})");
                             }
                         }
                         catch (Exception ex)
@@ -108,10 +114,12 @@ namespace Cimber.Translator
                 }
                 else if (_language == Language.Ukrainian)
                 {
-                    foreach (var film in films)
+                    for (int i = _startPoint; i < films.Count(); i++)
                     {
                         try
                         {
+                            var film = films.ElementAt(i);
+
                             var uaName = TranslationApi.Translate(
                                                         Language.Russian,
                                                         Language.Ukrainian,

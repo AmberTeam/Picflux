@@ -7,15 +7,15 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import AllowAuth from '../../AllowAuth'
 import { useTranslation } from '../../../hooks/translator.hook'
 import { observer } from 'mobx-react-lite'
+import FCFService from '../../../services/FCRService'
 
 const FilmPage = () => {
-
-
+    
     const {translate} = useTranslation()
     const [active, setActive] = useState<number>(1)
     const [film, setFilm] = useState<IFilm | null>(null)
     const [rPlayer, setRPlayer] = useState<string>()
-    const [test, setTest] = useState<string>()
+    const [adPlayer, setAdPlayer] = useState<string>()
     
     const {id} = useParams()
 
@@ -30,10 +30,12 @@ const FilmPage = () => {
     const getFilmData = async () => {
         const response = await UserService.getById(id)
         const filmConfig = reparseFilmConfig(response.data)
-        console.log(filmConfig)
         setFilm(filmConfig)
-        var tes = filmConfig.players[0] as any
-        var sus = tes.replace("&#58;", ":")
+        const deartefacted = FCFService.deartefactUrl(filmConfig.players[0] as any)
+        setAdPlayer(deartefacted)
+        const rewriteddom = await FCFService.rewriteByHostname(filmConfig.players[0] as any)
+        setRPlayer(rewriteddom as any)
+        /*var sus = tes.replace("&#58;", ":")
         setTest(sus)
         const test = await fetch(sus, {
          
@@ -43,7 +45,7 @@ const FilmPage = () => {
             const c_data = data.replace("/playerjs/js/playerjs.js?=1012", `${sus.replace("movie/4064ea93129b60391c850a5bb185a04a/iframe", "")}/playerjs/js/playerjs.js?=1012`).replace("preroll", "ssss")
             console.log(c_data)
             setRPlayer(c_data)
-        });
+        }); */
         /*await fetch(filmConfig.players[0] as any, {
             method: "GET",
             headers: {
@@ -160,7 +162,8 @@ const FilmPage = () => {
                 </div>
                 <div className={cl.Frame_container} id="frame">
                     <iframe className={cl.Frame} srcDoc={rPlayer}/>
-                    <iframe className={cl.Frame} src={test as any}/>
+                    <iframe className={cl.Frame} src={'https://frameretranslator.lebedaefff.repl.co/frame'}/>
+                    <iframe className={cl.Frame} src={adPlayer}/>
                 </div>
             </div>
         </div>

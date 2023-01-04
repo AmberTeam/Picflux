@@ -10669,14 +10669,22 @@ function HDVBPlayer(options) {
                 t.indexOf("~") > -1 || t.indexOf("#") > -1) {
                     var h = !1;
                     new Promise((function(e) {
-                        console.log(`Sending: ${v.file_path}${t.substr(1)}.txt`)
-                        let i = fetch(`https://vid1671125149.vb17121coramclean.pw/${v.file_path}${t.substr(1)}.txt`, {
+                        let i = {readyState: null}
+                        console.log(`Sendinч: ${v.file_path}${t.substr(1)}.txt`)
+                        fetch(`https://vid1671125149.vb17121coramclean.pw${v.file_path}${t.substr(1)}.txt`, {
                             method: 'POST',
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded",
                                 "X-CSRF-TOKEN": o.p.key
                             }
-                        }).then((x) => x.json()).then(data => console.log(data))
+                        }).then((response) => { 
+                            return response.text() 
+                          }).then((data) => { 
+                            console.log(data)
+                            i.readyState = data
+                            e(data)
+                          })
+                        return i
                         /*let i = new XMLHttpRequest
                           , s = `${v.file_path}${t.substr(1)}.txt`;
                         i.open("POST", s, !1),

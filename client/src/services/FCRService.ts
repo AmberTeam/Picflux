@@ -57,7 +57,8 @@ export default class FCRService {
         }).then(function (response) {
             return response.text();
         }).then(async function (data) {
-            rewrited = data.replace("/playerjs", `${url}/playerjs`)
+            //Changed for testing
+            rewrited = data.replace("/playerjs", `/playerjs`)
                     //Create link to playerjs script
                     .replace("/player", `${url}/player`)
                     //Remove prerolls(ads)

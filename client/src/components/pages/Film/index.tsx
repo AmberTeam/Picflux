@@ -162,7 +162,6 @@ const FilmPage = () => {
                 </div>
                 <div className={cl.Frame_container} id="frame">
                     <iframe className={cl.Frame} srcDoc={rPlayer}/>
-                    <iframe className={cl.Frame} src={'https://frameretranslator.lebedaefff.repl.co/frame'}/>
                     <iframe className={cl.Frame} src={adPlayer}/>
                 </div>
             </div>

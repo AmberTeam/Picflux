@@ -58,7 +58,7 @@ export default class FCRService {
             return response.text();
         }).then(async function (data) {
             //Changed for testing
-            rewrited = data.replace("/playerjs", `/playerjs`)
+            rewrited = data.replace("/playerjs/js/playerjs.js?=1012", STATICS.vid167.playerjs_url)
                     //Create link to playerjs script
                     .replace("/player", `${url}/player`)
                     //Remove prerolls(ads)
@@ -108,12 +108,14 @@ export const STATICS = {
         domain: 'spinning.allohalive.com',
         url: 'https://spinning.allohalive.com',
         url_slashed: 'https://spinning.allohalive.com/',
+        playerjs_url: '/pjs/vid',
         cb: FCRService.rewriteSpinningAllohaliveCom
     },
     vid167: {
         domain: 'vid167',
         url: 'https://vid1672084730.vb17121coramclean.pw',
         url_slashed: "https://vid1672084730.vb17121coramclean.pw/",
+        playerjs_url: '/static/pjs/js/vid167/playerjs.js',
         cb: FCRService.rewriteVid167
     },
 }

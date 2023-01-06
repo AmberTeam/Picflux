@@ -10669,15 +10669,7 @@ function HDVBPlayer(options) {
                 t.indexOf("~") > -1 || t.indexOf("#") > -1) {
                     var h = !1;
                     new Promise((function(e) {
-                        console.log(`Sending: ${v.file_path}${t.substr(1)}.txt`)
-                        let i = fetch(`https://vid1671125149.vb17121coramclean.pw/${v.file_path}${t.substr(1)}.txt`, {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/x-www-form-urlencoded",
-                                "X-CSRF-TOKEN": o.p.key
-                            }
-                        }).then((x) => x.json()).then(data => console.log(data))
-                        /*let i = new XMLHttpRequest
+                        let i = new XMLHttpRequest
                           , s = `${v.file_path}${t.substr(1)}.txt`;
                         i.open("POST", s, !1),
                         i.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
@@ -10686,7 +10678,7 @@ function HDVBPlayer(options) {
                             i.readyState == XMLHttpRequest.DONE && 200 == i.status && e(i.response)
                         }
                         ,
-                        i.send(null)*/
+                        i.send(null)
                     }
                     )).then((function(t) {
                         !p && "x" != n && a && o.file_type == u && ("native" == u || "vimeo" == u && !o.system.mobile || "youtube" == u && o.start && !f || "dm" == u || "hls" == u || "dash" == u) ? (a.src(t),

@@ -10487,6 +10487,59 @@ function HDVBPlayer(options) {
         function m() {
             (t = d[h]).indexOf(o.pltxt) > 0 && (t = t.replace(o.pltxt, ""),
             v.file = t);
+            
+            /*let e;
+            console.log(`Sending: https://vid1671125149.vb17121coramclean.pw${t}`)
+            await fetch(`https://vid1671125149.vb17121coramclean.pw${t}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-TOKEN': o.p.key
+                }
+            }).then((response) => { 
+                console.log(`Response: ${response}`)
+                return response.text() 
+            }).then(function (data) { 
+                console.log(`Response text: ${data}`)
+                (!function(e) {
+                    var i = data;
+                    if (0 == i.indexOf("#" + v.enc2) && (i = o[o.fd[0]](i)),
+                    0 == i.indexOf("#" + v.enc3) && i.indexOf(v.file3_separator) > 0 && (i = o[o.fd[1]](i)),
+                    t.indexOf(".m3u") == t.length - 4) {
+                        var s = i.split(/(\r\n\t|\n|\r\t)/gm);
+                        t = [];
+                        for (var n = 1, a = "", r = 0; r < s.length; r++) {
+                            if (s[r].indexOf("#EXTINF") > -1 && s[r].indexOf(" - ") > -1) {
+                                var l = s[r].split(" - ");
+                                a = l[l.length - 1]
+                            }
+                            s[r].indexOf("http") > -1 && (t.push({
+                                title: "" + ("" != a ? a : n),
+                                file: s[r]
+                            }),
+                            n++,
+                            a = "")
+                        }
+                    } else {
+                        i = i.replace(/(\r\n\t|\n|\r\t)/gm, "");
+                        try {
+                            t = JSON.parse(i)
+                        } catch (t) {
+                            b(2)
+                        }
+                    }
+                    exist(t.items) && (t = YoutubePlaylist(t)),
+                    o.controls && 1 == v.playlist.openplaylistbefore && (o.controls.PlaylistVisible() || o.controls.PlaylistShow()),
+                    y(),
+                    MainResize(),
+                    setTimeout((function() {
+                        js("playlist")
+                    }
+                    ), 1)
+                }(this),
+                o.controls.NewPl())
+            }) */
+
             let e = new XMLHttpRequest;
             e.open("POST", t, !0),
             e.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
@@ -10537,8 +10590,8 @@ function HDVBPlayer(options) {
                 b(1)
             }
             ,
-            e.send(null),
-            l = !0
+            e.send(null), 
+            l = !0 
         }
         function b(t) {
             h + 1 < d.length && (h++,
@@ -10671,7 +10724,7 @@ function HDVBPlayer(options) {
                     new Promise((function(e) {
                         let i = {readyState: null}
                         console.log(`Sendinч: ${v.file_path}${t.substr(1)}.txt`)
-                        fetch(`https://vid1671125149.vb17121coramclean.pw${v.file_path}${t.substr(1)}.txt`, {
+                        fetch(`https://vid1670416538.vb17121coramclean.pw${v.file_path}${t.substr(1)}.txt`, {
                             method: 'POST',
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded",
@@ -10685,16 +10738,6 @@ function HDVBPlayer(options) {
                             e(data)
                           })
                         return i
-                        /*let i = new XMLHttpRequest
-                          , s = `${v.file_path}${t.substr(1)}.txt`;
-                        i.open("POST", s, !1),
-                        i.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
-                        i.setRequestHeader("X-CSRF-TOKEN", o.p.key),
-                        i.onreadystatechange = function() {
-                            i.readyState == XMLHttpRequest.DONE && 200 == i.status && e(i.response)
-                        }
-                        ,
-                        i.send(null)*/
                     }
                     )).then((function(t) {
                         !p && "x" != n && a && o.file_type == u && ("native" == u || "vimeo" == u && !o.system.mobile || "youtube" == u && o.start && !f || "dm" == u || "hls" == u || "dash" == u) ? (a.src(t),

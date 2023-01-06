@@ -7,40 +7,13 @@ const cookieParser = require("cookie-parser")
 const mongoose = require("mongoose")
 const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
-const fs = require('fs')
-
+const proxy = require('express-http-proxy'
+)
 const app = express()  
 
-app.post('/playlist/:id', async (req, res, next) => {
-  const test = await fetch(`https://vid1672084730.vb17121coramclean.pw/playlist/${req.url}`, {  
-    method: "POST",
-    headers: {
-      'Sec-Fetch-Site': 'same-origin', 
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(req.body)
-  }).then((response) => { 
-    return response.text()  
-  }).then((data) => { 
-    console.log(data) 
-  })
-  res.setHeader('Content-Type', 'application/vnd.apple.mpegurl')
-  res.send("https://b-401.vb17121coramclean.pw/stream2/b-401/2b0d43ec1fc39b2c90fb24f7f7271518/MJTMsp1RshGTygnMNRUR2N2MSlnWXZEdMNDZzQWe5MDZzMmdZJTO1R2RWVHZDljekhkSsl1VwYnWtx2cihVT21EVVRjT6FVMZRlSollaZFjWElFMPdkTplFVrFTWXVUNNJjUr50RJRjTENWP:1672618777:79.239.228.211:514cc26a99e69c47cb1588843c384245658e8838d688976ee70865237cda6b0f/index.m3u8")
-})
 
-app.get('/playerjs/js/playerjs.js', (req, res) => {
-  res.sendFile(`${__dirname}/static/pjs/playerjs.js`)
-})
+app.post('/playlist/:id', proxy('https://vid1670416538.vb17121coramclean.pw'))
 
-app.get('/js/ch.js?v=1.31', (req, res) => {
-  return res.status(404).json()
-})
-
-/*app.use('/playlist', proxy("vid1672084730.vb17121coramclean.pw", {
-  proxyErrorHandler: function(err, res, next) {
-    next(err);
-  }
-}))*/
 app.use('/static', express.static(path.join(__dirname, '/static')))
 app.use(fileupload()) 
 app.use(express.json())

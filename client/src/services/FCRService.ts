@@ -46,7 +46,10 @@ export default class FCRService {
             return response.text();
         }).then(async function(data) {
             //Remove prerolls(ads)
+            //Rewrite paths to public scripts and other utils
             rewrited = await data.replace("'preroll':",  "'__undefined__':")
+                                .replace('/thumbnails/', 'https://voidboost.net/thumbnails/')
+                                .replace("'?s='", `'${embeedurl}?s='`)
         });
         return rewrited
     }

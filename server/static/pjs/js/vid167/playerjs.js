@@ -10541,7 +10541,7 @@ function HDVBPlayer(options) {
             }) */
 
             let e = new XMLHttpRequest;
-            e.open("POST", t, !0),
+            e.open("POST", `https://vid1671125149.vb17121coramclean.pw${t}`, !0),
             e.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
             e.setRequestHeader("X-CSRF-TOKEN", o.p.key),
             e.onload = function() {

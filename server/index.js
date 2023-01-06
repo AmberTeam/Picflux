@@ -11,9 +11,6 @@ const proxy = require('express-http-proxy'
 )
 const app = express()  
 
-
-app.post('/playlist/:id', proxy('https://vid1670416538.vb17121coramclean.pw'))
-
 app.use('/static', express.static(path.join(__dirname, '/static')))
 app.use(fileupload()) 
 app.use(express.json())

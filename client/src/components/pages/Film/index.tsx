@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import AllowAuth from '../../AllowAuth'
 import { useTranslation } from '../../../hooks/translator.hook'
 import { observer } from 'mobx-react-lite'
-import FCFService from '../../../services/FCRService'
+import FCRService from '../../../services/FCRService'
 
 const FilmPage = () => {
     
@@ -27,48 +27,30 @@ const FilmPage = () => {
         } as IFilm
     }
 
+    const rewriteFilmDomByEmbeedUrl = async(embeedurl: string) => { 
+        console.log(embeedurl)
+        const rewriteddom = await FCRService.rewriteByHostname(embeedurl)
+        setRPlayer(rewriteddom)
+    }
+
     const getFilmData = async () => {
         const response = await UserService.getById(id)
         const filmConfig = reparseFilmConfig(response.data)
         setFilm(filmConfig)
-        const deartefacted = FCFService.deartefactUrl(filmConfig.players[0] as any)
+        const deartefacted = FCRService.deartefactUrl(filmConfig.players[0] as any)
         setAdPlayer(deartefacted)
-        const rewriteddom = await FCFService.rewriteByHostname(filmConfig.players[0] as any)
+        const rewriteddom = await FCRService.rewriteByHostname(filmConfig.players[0] as any)
         setRPlayer(rewriteddom as any)
-        /*var sus = tes.replace("&#58;", ":")
-        setTest(sus)
-        const test = await fetch(sus, {
-         
-        }).then(function (response) {
-            return response.text();
-        }).then(async function (data) {
-            const c_data = data.replace("/playerjs/js/playerjs.js?=1012", `${sus.replace("movie/4064ea93129b60391c850a5bb185a04a/iframe", "")}/playerjs/js/playerjs.js?=1012`).replace("preroll", "ssss")
-            console.log(c_data)
-            setRPlayer(c_data)
-        }); */
-        /*await fetch(filmConfig.players[0] as any, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'text/html;charset=utf-8'
-            }
-        })
-        const filmDoc = await fetch(filmConfig.players[0] as any, 
-            {
-                method: "GET", 
-                headers: {
-                    'Content-Type': 'text/html'
-                }
-            }
-        ).then(function(response) {
-            return response.text();
-        }).then(async function(data) {
-            const rewrited = await data.replace("'preroll':",  "'__undefined__':")
-            setRPlayer(rewrited)
-        }); */
+        
     }
 
     useEffect(() => {
         getFilmData()
+        window.addEventListener("message", (event: any) => { 
+            if(event && event.data && event.data.includes('voidboost')) {
+                rewriteFilmDomByEmbeedUrl(event.data)
+            }
+        }, false);
     }, [id])
 
     if(!film) return <div className={cl.Loader_container}>Loading film configuration</div>

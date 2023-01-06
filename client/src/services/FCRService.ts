@@ -50,6 +50,8 @@ export default class FCRService {
             rewrited = await data.replace("'preroll':",  "'__undefined__':")
                                 .replace('/thumbnails/', 'https://voidboost.net/thumbnails/')
                                 .replace("'?s='", `'${embeedurl}?s='`)
+                                .replace(`_url_params = ''`, `_url_params = ''; parent.postMessage('https://voidboost.net/embed/517338?s='+ _season +'&e='+ _episode +'&h='+ cdn.player.getVBR() + _url_params, "*");`)
+                                //'https://voidboost.net/embed/517338?s='+ _season +'&amp;e='+ _episode +'&amp;h='+ cdn.player.getVBR() + _url_params
         });
         return rewrited
     }

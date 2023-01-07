@@ -22,7 +22,7 @@ export default class FCRService {
         switch(url_deconstructed.host) { 
             // voidboost.net
             case STATICS.voidboost_net.domain:
-                return STATICS.voidboost_net.cb(deartefacted)
+                return STATICS.voidboost_net.cb(deartefacted, url_deconstructed.hostname)
             // api.loadbox.ws
             case STATICS.api_loadbox_ws.domain: 
                 return STATICS.api_loadbox_ws.cb(deartefacted)
@@ -33,7 +33,7 @@ export default class FCRService {
         
     }
 
-    static async rewriteVoidboost(embeedurl: string) {
+    static async rewriteVoidboost(embeedurl: string, url_domain: string) {
         let rewrited = ""
         await fetch(embeedurl, 
             {
@@ -50,8 +50,8 @@ export default class FCRService {
             rewrited = await data.replace("'preroll':",  "'__undefined__':")
                                 .replace('/thumbnails/', 'https://voidboost.net/thumbnails/')
                                 .replace("'?s='", `'${embeedurl}?s='`)
-                                .replace(`_url_params = ''`, `_url_params = ''; parent.postMessage('https://voidboost.net/embed/517338?s='+ _season +'&e='+ _episode +'&h='+ cdn.player.getVBR() + _url_params, "*");`)
-                                //'https://voidboost.net/embed/517338?s='+ _season +'&amp;e='+ _episode +'&amp;h='+ cdn.player.getVBR() + _url_params
+                                .replace(`_url_params = ''`, `_url_params = ''; parent.postMessage('https://voidboost.net/embed/${embeedurl}?s='+ _season +'&e='+ _episode +'&h='+ cdn.player.getVBR() + _url_params, "*");`)
+                                .replace(`window.location.href = '/'+ type +'/'+ t +'/iframe?h='+ cdn.player.getVBR() + a;`, `parent.postMessage(window.location.href = 'https://voidboost.net/'+ type +'/'+ t +'/iframe?h='+ cdn.player.getVBR() + a)`)
         });
         return rewrited
     }

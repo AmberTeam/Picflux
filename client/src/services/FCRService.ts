@@ -92,7 +92,7 @@ export default class FCRService {
         }).then(res_txt => {
             rewrited = res_txt.replace("/js/jquery.min.js", `${STATICS.spinning_allihalive_com.url}/js/jquery.min.js`)
                             .replace("/js/baron.js", `${STATICS.spinning_allihalive_com.url}/js/baron.js`)
-                            .replace("/js/default-dist.js", `${STATICS.spinning_allihalive_com.url}/js/default-dist.js`)
+                            .replace("/js/default-dist.js", STATICS.spinning_allihalive_com.default_dist_url)
                             .replace("/js/playerjs-alloha-new.js", STATICS.spinning_allihalive_com.playerjs_url)
                             .replace("/style/style.css", `${STATICS.spinning_allihalive_com.url}/style/style.css`)
                             .replace("/js/iife.min.js", `${STATICS.spinning_allihalive_com.url}/js/iife.min.js`)
@@ -123,6 +123,7 @@ export const STATICS = {
         url: 'https://spinning.allohalive.com',
         url_slashed: 'https://spinning.allohalive.com/',
         playerjs_url: '/static/pjs/js/alloha/playerjs-alloha-new.js',
+        default_dist_url: "/static/pjs/js/alloha/default-dist.js",
         cb: FCRService.rewriteSpinningAllohaliveCom
     },
     vid167: {

@@ -15,6 +15,8 @@ const app = express()
 app.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy('https://d0b-000-2600g0.streamalloha.live'))
 http://  /hs/49/1673231815/M7--moJ6xIcMivYHtk0TdA/366/697366/4/index-f4-v1-sa4-a1.m3u8
 app.get("/hs/:s/:r/:d/:q/:sw/:sd/index-f4-v1-sa4-a1.m3u8", proxy('https://d0b-000-2600g0.streamalloha.live'))
+//http://localhost/hs/49/1673237826/ga3N76ZsbFbPtQzIpaAEFQ/366/697366/4/seg-3-f4-v1-sa4-a1.ts
+app.get("/hs/:s/:d/:w/:a/:p/:s/:ts", proxy('https://d0b-000-2600g0.streamalloha.live'))
 app.get('/js/ch.js', (req, res) => {
   return res.status(404).json()
 })

@@ -15187,10 +15187,14 @@ eval(function(p, a, c, k, e, d) {
                     try {
                         if (n)
                             try {
-                                n(r, e.url)
+                                let ssssssss = e.url
+                                ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', "")
+                                n(r, ssssssss)
                             } catch (t) {
-                                r.open("GET", e.url, !0),
-                                n(r, e.url)
+                                let ssssssss = e.url
+                                ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', "")
+                                r.open("GET", ssssssss, !0),
+                                n(r, ssssssss)
                             }
                         let ssssssss = e.url
                         ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', "")

@@ -82,17 +82,25 @@ export default class FCRService {
 
     static async rewriteSpinningAllohaliveCom(embeedurl: string) {
         let rewrited = ""
-        await fetch(embeedurl, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'text/html; charset=UTF-8',
-                'Content-Encoding': 'gzip'
-            }
-        }).then((response) => {
-            return response.text()
-        }).then(async (data) => {
-            console.log(data)
+        const deconstructed = new URL(embeedurl)
+        console.log(deconstructed)
+        const response = await fetch("/rewrite/allohalive" + deconstructed.pathname + deconstructed.search, {
+            method: "POST",
+            body: embeedurl
+        }).then(res => {
+            return res.text()
+        }).then(res_txt => {
+            rewrited = res_txt.replace("/js/jquery.min.js", `${STATICS.spinning_allihalive_com.url}/js/jquery.min.js`)
+                            .replace("/js/baron.js", `${STATICS.spinning_allihalive_com.url}/js/baron.js`)
+                            .replace("/js/default-dist.js", `${STATICS.spinning_allihalive_com.url}/js/default-dist.js`)
+                            .replace("/js/playerjs-alloha-new.js", STATICS.spinning_allihalive_com.playerjs_url)
+                            .replace("/style/style.css", `${STATICS.spinning_allihalive_com.url}/style/style.css`)
+            //<script src=&quot;/js/jquery.min.js?v=3.6.0&quot;></script>}
+            //<script src=&quot;/js/baron.js?v=1.931&quot;></script>
+            //<script src=&quot;/js/default-dist.js?v=4.16&quot;></script>
+            //<script src=&quot;/js/playerjs-alloha-new.js?v=16.14.2&quot;></script>
         })
+        return rewrited
     }
 }
 
@@ -113,7 +121,7 @@ export const STATICS = {
         domain: 'spinning.allohalive.com',
         url: 'https://spinning.allohalive.com',
         url_slashed: 'https://spinning.allohalive.com/',
-        playerjs_url: '/pjs/vid',
+        playerjs_url: '/static/pjs/js/alloha/playerjs-alloha-new.js',
         cb: FCRService.rewriteSpinningAllohaliveCom
     },
     vid167: {

@@ -7,9 +7,20 @@ const cookieParser = require("cookie-parser")
 const mongoose = require("mongoose")
 const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
-const proxy = require('express-http-proxy'
-)
+const proxy = require('express-http-proxy')
 const app = express()  
+
+//https://d0b-000-2600g0.streamalloha.live/hs/49/1673209625/g0oQlfBQ7Gj7scJMNAq6GA/366/697366/4/master.m3u8
+app.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy('https://d0b-000-2600g0.streamalloha.live'))
+app.get('/js/ch.js', (req, res) => {
+  return res.status(404).json()
+})
+
+app.post("/rewrite/allohalive", proxy('https://spinning.allohalive.com', {
+  proxyReqPathResolver: function (req) {
+    return req.url.replace("/rewrite/allohalive", "")
+  }
+}))
 
 app.use('/static', express.static(path.join(__dirname, '/static')))
 app.use(fileupload()) 

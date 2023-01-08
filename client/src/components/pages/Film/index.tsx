@@ -21,7 +21,7 @@ const FilmPage = () => {
 
     const reparseFilmConfig = (config: IFilm) => {
         return {
-            ...config,
+            ...config, 
             genres: JSON.parse(config?.genres as any),
             countries: JSON.parse(config?.countries as any)
         } as IFilm
@@ -144,7 +144,6 @@ const FilmPage = () => {
                 </div>
                 <div className={cl.Frame_container} id="frame">
                     <iframe className={cl.Frame} srcDoc={rPlayer}/>
-                    <iframe className={cl.Frame} src={adPlayer}/>
                 </div>
             </div>
         </div>

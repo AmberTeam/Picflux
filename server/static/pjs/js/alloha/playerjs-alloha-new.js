@@ -15197,8 +15197,7 @@ eval(function(p, a, c, k, e, d) {
                                 n(r, ssssssss)
                             }
                         let ssssssss = e.url
-                        ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', "")
-                        r.readyState || r.open("GET", ssssssss, !0);
+                        r.readyState || r.open("GET", ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', ""), !0);
                         var a = this.context.headers;
                         if (a)
                             for (var s in a)

@@ -95,6 +95,7 @@ export default class FCRService {
                             .replace("/js/default-dist.js", `${STATICS.spinning_allihalive_com.url}/js/default-dist.js`)
                             .replace("/js/playerjs-alloha-new.js", STATICS.spinning_allihalive_com.playerjs_url)
                             .replace("/style/style.css", `${STATICS.spinning_allihalive_com.url}/style/style.css`)
+                            .replace("/js/iife.min.js", `${STATICS.spinning_allihalive_com.url}/js/iife.min.js`)
             //<script src=&quot;/js/jquery.min.js?v=3.6.0&quot;></script>}
             //<script src=&quot;/js/baron.js?v=1.931&quot;></script>
             //<script src=&quot;/js/default-dist.js?v=4.16&quot;></script>

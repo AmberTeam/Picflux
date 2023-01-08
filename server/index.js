@@ -11,7 +11,10 @@ const proxy = require('express-http-proxy')
 const app = express()  
 
 //https://d0b-000-2600g0.streamalloha.live/hs/49/1673209625/g0oQlfBQ7Gj7scJMNAq6GA/366/697366/4/master.m3u8
+
 app.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy('https://d0b-000-2600g0.streamalloha.live'))
+http://  /hs/49/1673231815/M7--moJ6xIcMivYHtk0TdA/366/697366/4/index-f4-v1-sa4-a1.m3u8
+app.get("/hs/:s/:r/:d/:q/:sw/:sd/index-f4-v1-sa4-a1.m3u8", proxy('https://d0b-000-2600g0.streamalloha.live'))
 app.get('/js/ch.js', (req, res) => {
   return res.status(404).json()
 })

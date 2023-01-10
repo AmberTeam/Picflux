@@ -4,26 +4,51 @@ const routes = require("./routes")
 const path = require("path")
 const cors = require("cors")
 const cookieParser = require("cookie-parser") 
-const mongoose = require("mongoose")
+const mongoose = require("mongoose") 
 const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
 const proxy = require('express-http-proxy')
-const app = express()  
+const request = require("request") 
+const app = express()    
 
-//https://d0b-000-2600g0.streamalloha.live/hs/49/1673209625/g0oQlfBQ7Gj7scJMNAq6GA/366/697366/4/master.m3u8
+app.get('/:hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
+  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+  return req.query.nrw
+}))
+app.get('/:hs/:s/:r/:v/:g/:z/master.m3u8', proxy((req, res) => {
+  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+  return req.query.nrw
+}))
+app.get("/:hs/:s/:d/:w/:a/:p/:s/:ts", proxy((req, res) => {
+  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+  return req.query.nrw
+}))
 
-app.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy('https://d0b-000-2600g0.streamalloha.live'))
-http://  /hs/49/1673231815/M7--moJ6xIcMivYHtk0TdA/366/697366/4/index-f4-v1-sa4-a1.m3u8
-app.get("/hs/:s/:r/:d/:q/:sw/:sd/index-f4-v1-sa4-a1.m3u8", proxy('https://d0b-000-2600g0.streamalloha.live'))
-//http://localhost/hs/49/1673237826/ga3N76ZsbFbPtQzIpaAEFQ/366/697366/4/seg-3-f4-v1-sa4-a1.ts
-app.get("/hs/:s/:d/:w/:a/:p/:s/:ts", proxy('https://d0b-000-2600g0.streamalloha.live'))
+app.post("/allohalive-tokenacc", proxy((req, res) => {
+  return "https://spinning.allohalive.com"
+}, {
+  proxyReqPathResolver: function (req) {
+    return req.url.replace("allohalive-tokenacc", "")
+  },
+}))
+
 app.get('/js/ch.js', (req, res) => {
-  return res.status(404).json()
+  return res.status(404).json() 
 })
 
-app.post("/rewrite/allohalive", proxy('https://spinning.allohalive.com', {
+app.get('/4Em7.txt', proxy((req, res) => {
+  return "https://z9mx.streamalloha.live"
+}))
+
+app.post("/rewrite/allohalive", proxy((req, res) => { 
+  return 'https://spinning.allohalive.com'
+}, {
   proxyReqPathResolver: function (req) {
     return req.url.replace("/rewrite/allohalive", "")
+  },
+  userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
+    const data = proxyResData.toString()
+    return data.replace("89.40.183.122", userReq.socket.remoteAddress)
   }
 }))
 
@@ -32,12 +57,12 @@ app.use(fileupload())
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  credentials: true, 
-  origin: process.env.CLIENT  
+  credentials: true,  
+  origin: process.env.CLIENT   
 }))
 app.use('/api', routes)  
 app.use(errorMiddleware)
- 
+  
 if (process.env.NODE_ENV === 'prod') {
   app.use('/', express.static(path.join(__dirname, "..", 'client', 'build')))
   

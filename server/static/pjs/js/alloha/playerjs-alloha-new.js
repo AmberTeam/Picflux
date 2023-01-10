@@ -15177,7 +15177,23 @@ eval(function(p, a, c, k, e, d) {
             ,
             e.loadInternal = function() {
                 var t = this.config
-                  , e = this.context;
+                  , e = this.context,
+                    c = function(url) {
+                        console.log(url)
+                        let r = url
+                        let u = new URL(url)
+                        r = r.replace(u.origin, "")
+                        console.log(e.url)
+                        return {
+                            rewrited: {
+                                url: `${r}?nrw=${u.origin}`
+                            },
+                            deconfigured: {
+                                ...u
+                            }
+                        }
+                    },
+                    e_r = c(e.url)
                 if (t) {
                     var r = this.loader = new self.XMLHttpRequest
                       , i = this.stats;
@@ -15187,17 +15203,12 @@ eval(function(p, a, c, k, e, d) {
                     try {
                         if (n)
                             try {
-                                let ssssssss = e.url
-                                ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', "")
-                                n(r, ssssssss)
+                                n(r, e_r.rewrited.url)
                             } catch (t) {
-                                let ssssssss = e.url
-                                ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', "")
-                                r.open("GET", ssssssss, !0),
-                                n(r, ssssssss)
+                                r.open("GET", e_r.rewrited.url, !0),
+                                n(r, e_r.rewrited.url)
                             }
-                        let ssssssss = e.url
-                        r.readyState || r.open("GET", ssssssss.replace('https://d0b-000-2600g0.streamalloha.live', ""), !0);
+                        r.readyState || r.open("GET", e_r.rewrited.url, !0);
                         var a = this.context.headers;
                         if (a)
                             for (var s in a)

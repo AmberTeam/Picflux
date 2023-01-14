@@ -1,17 +1,12 @@
 import { observer } from 'mobx-react-lite'
-import React, {FC, useContext, useEffect, useState} from 'react'
+import {FC, useContext, useEffect, useState} from 'react'
 import cl from './index.module.sass'
 import {Context} from "../../index"
 import ic from "../../img/Icon_nav.png"
-import user from "./icons/user32.png"
-import profile from "../../img/profile.png"
 import { useLocation } from 'react-router-dom'
-import en from "../../lang_packets/en.json"
-import ru from "../../lang_packets/ru.json"
 import { useTranslation } from '../../hooks/translator.hook'
 import AllowAuth from '../AllowAuth'
 import AllowNotAuth from '../AllowNotAuth'
-import ThemeTumbler from '../UI/ThemeTumbler'
 
 const Navbar: FC = () => {
 
@@ -48,7 +43,6 @@ const Navbar: FC = () => {
                         <a href="/"> {translate("navbar.opts.home")}</a>
                     </div>
                 </div>
-                <ThemeTumbler/>
                 <AllowAuth>
                     <a className={cl.Profile} href="/profile">
                         <img className={cl.Icon} src={store.user.avatar} width="32px"/>

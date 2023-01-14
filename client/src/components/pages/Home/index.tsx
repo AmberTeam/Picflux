@@ -84,7 +84,6 @@ const HomePage: FC = () => {
 
     useObserver(obsElement, canLoad, loading, () => {
 		setPage(page + 1)
-        store.setSearchQueuePage(page + 1)
 	})
 
     useResizeHandler((width) => {
@@ -93,20 +92,21 @@ const HomePage: FC = () => {
     })
 
     useEffect(() => {
-		fetchPosts(limit, page, 1)
+        fetchPosts(limit, page, 1)
+        store.setPseudoQueuePage(page)
 	}, [page])
 
-    const handleKeyUp = (e: any) => {
-        if (e.key === 'Enter') {
-            handleCustomSearchReq()
-        } else {
-            setSearchQuery(e.target.value)
+    useEffect(() => {
+        const searchQueue = store.checkSearchQueue()
+        if(searchQueue) {
+            console.log("setted: " + searchQueue)
+            setPage(searchQueue)
         }
-    }
+        return () => store.restoreSearchQueueByPseudoSQ()
+    }, [])
     
     return (
         <section className={cl.Home_section}>
-
             <div className={cl.Section_starter}>
                 <h1>
                     {translate("home.title.big.fst")} <span className="a_col">{translate("home.title.big.sec")}</span> {translate("home.title.big.thrd")}
@@ -133,7 +133,10 @@ const HomePage: FC = () => {
                             </button> 
                         }
                     </div>
-                    <div className={`${focused ? cl.Focused : ""} ${cl.Search_input}`}>
+                    <form className={`${focused ? cl.Focused : ""} ${cl.Search_input}`} onSubmit={e => {
+                        e.preventDefault()
+                        handleCustomSearchReq()
+                    }}>
                         <input 
                             id="search"
                             placeholder={translate("g.UI.input.g.search")}
@@ -141,12 +144,12 @@ const HomePage: FC = () => {
                             onBlur={() => {
                                 setFocused(false)
                             }}
-                            onKeyUp={handleKeyUp} 
+                            onChange={e => setSearchQuery(e.target.value)}
                         />
-                        <button className={cl.Search_loop} onClick={() => handleCustomSearchReq()}>
+                        <button className={cl.Search_loop} onClick={() => handleCustomSearchReq()} type="submit">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14.6311" cy="11.5653" r="6.79336" transform="rotate(47 14.6311 11.5653)" stroke="#BAB4C2"></circle><path d="M9.48543 16.3638L4.33989 21.1621" stroke="#BAB4C2"></path></svg>
                         </button>
-                    </div>
+                    </form>
                     <div className={cl.Tool_container}>
                         {
                             adaptInterface 

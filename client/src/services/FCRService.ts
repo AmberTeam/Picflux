@@ -69,21 +69,18 @@ export default class FCRService {
                     //Remove prerolls(ads)
                     .replace("preroll", "__undefined__")
                     //Remove pause banner
-                    .replace('"show": true', '"show": false')
-
-            console.log(rewrited)
+                    .replace("pausebanner", "__undefined__")
+                    .replace("banner_show", "__undefined__")
         })
         return rewrited
     }
 
     static async rewriteApiLoadboxWs(embeedurl: string) {
-        console.log(STATICS.api_loadbox_ws)
     }
 
     static async rewriteSpinningAllohaliveCom(embeedurl: string) {
         let rewrited = ""
         const deconstructed = new URL(embeedurl)
-        console.log(deconstructed)
         const response = await fetch("/rewrite/allohalive" + deconstructed.pathname + deconstructed.search, {
             method: "POST",
             body: embeedurl
@@ -96,10 +93,6 @@ export default class FCRService {
                             .replace("/js/playerjs-alloha-new.js", STATICS.spinning_allihalive_com.playerjs_url)
                             .replace("/style/style.css", `${STATICS.spinning_allihalive_com.url}/style/style.css`)
                             .replace("/js/iife.min.js", `${STATICS.spinning_allihalive_com.url}/js/iife.min.js`)
-            //<script src=&quot;/js/jquery.min.js?v=3.6.0&quot;></script>}
-            //<script src=&quot;/js/baron.js?v=1.931&quot;></script>
-            //<script src=&quot;/js/default-dist.js?v=4.16&quot;></script>
-            //<script src=&quot;/js/playerjs-alloha-new.js?v=16.14.2&quot;></script>
         })
         return rewrited
     }

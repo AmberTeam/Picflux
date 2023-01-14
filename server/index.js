@@ -19,7 +19,12 @@ app.get('/:hs/:s/:r/:v/:g/:z/master.m3u8', proxy((req, res) => {
   if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
   return req.query.nrw
 }))
+//HLS media transporting 
 app.get("/:hs/:s/:d/:w/:a/:p/:s/:ts", proxy((req, res) => {
+  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+  return req.query.nrw
+}))
+app.get("/:hs/:s/:d/:w/:a/:p/:ts", proxy((req, res) => {
   if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
   return req.query.nrw
 }))

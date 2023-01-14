@@ -1,5 +1,6 @@
 interface IPlayer {
-    player: string
+    url: string
+    variant: number
 }
 
 export interface IFilm {

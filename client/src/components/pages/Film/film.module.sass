@@ -73,6 +73,9 @@
                         padding: .2rem 0
                         color: rgba(0,0,0, .6)
 
+                        &.Pager_inactive 
+                            opacity: .6
+
                         .Name 
                             font-family: "Roobert"
                             color: var(--color)
@@ -104,18 +107,90 @@
 
         .Frame_container 
             width: 100%
+            display: flex 
+
+            .PlayerTabs_container 
+                position: relative
+                border-radius: 16px 0px 0px 16px
+                display: grid
+                align-content: space-between
+                width: 0px
+                transition: .2s all ease
+                overflow: hidden
+                background: var(--player-tabs-bg)
+                gap: 1px
+
+                &.Active 
+                    width: calc(150px + 2.4rem)
+                    .Tabs_inner 
+                        .Tab 
+                            overflow: visible
+                .Tabs_inner
+                    position: relative
+                    display: grid
+                    gap: 1px
+
+                    .Selected_span
+                        position: absolute
+                        left: -5px
+
+                    &.Players_container
+                        display: flex
+
 
             .Frame
                 width: 100%
                 height: 50vh
                 border: none 
-                border-radius: 16px
+                border-radius: 0px 16px 16px 0px
+                transition: .4s all ease
 
-    
+                &.Active 
+                    border-radius: 16px
+.Tab 
+    min-width: 150px
+    transition: .2s all ease
+    background: var(--player-tab-bg)
+    color: var(--player-tab-col)
+    padding: .8rem
+    transition: .2s all ease
+    cursor: pointer
+    overflow: hidden
+    border-left: 0 
+    border-top: 0
+    border-bottom: 0
+    border-right: 2px solid var(--color-a)
+    font-size: 12px
+    text-align: center
+    text-decoration: none
+
+    .Ad_prefix
+        font-size: 10px
+        color: red
+
+    .NoAd_prefix 
+        font-size: 10px 
+        color: green
+
+    &.Active 
+        background: var(--player-tab-h-col) 
+
+    &:hover
+        background: var(--player-tab-h-col)
+
+    &.First 
+        border-top-left-radius: 16px
+        
 @media(max-width: 1100px) 
+    .Tab 
+        border-right: 0px
+        border-top-left-radius: 0px!important
+
+
     .FilmPage_container 
         display: grid
         margin: 0 0
+    
 
         .Top_inner
             display: grid
@@ -145,3 +220,19 @@
 
                                 .Inf_row 
                                     opacity: .5
+
+        .Bottom_inner 
+            .Frame_container 
+                width: 100%
+                display: flex
+                flex-flow: row wrap
+                flex-direction: column-reverse
+                    
+                    
+
+                .PlayerTabs_container 
+                    width: 100%!important
+                    border-radius: 0px 0px 16px 16px
+
+                .Frame
+                    border-radius: 16px 16px 0px 0px

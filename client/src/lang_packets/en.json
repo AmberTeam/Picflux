@@ -8,6 +8,12 @@
             "x4": "A user with similar data is already registered in the system.",
             "x5": "Outdated or corrupted activation link."
         },
+        "message": {
+            "ad_ts_wrn": "Attention, the technology for removing ads is in test mode, which may cause errors!"
+        },
+        "success": {
+            "x1": "Yop"
+        },
         "wp": {
             "logout": "Logout"
         },
@@ -100,7 +106,7 @@
             "not_found": "Movies with similar title not found."
         }
     },
-    "profile": {
+    "film": {
         "actions": {
             "watch_later": "Watch later",
             "watch": "Watch now"
@@ -121,6 +127,15 @@
                     "genres": "Genres"
                 },
                 "duration": "Duration"
+            }
+        },
+        "player": {
+            "tab": {
+                "player": "Player",
+                "opts": {
+                    "question": "Any question ?",
+                    "issue": "Report an issue"
+                }
             }
         }
     },

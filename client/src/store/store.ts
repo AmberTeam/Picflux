@@ -14,7 +14,8 @@ import ukr_img from "../img/lang_ic/ukr.png"
 
 export interface ILogModal {
     code: string,
-    alt: string
+    alt: string,
+    status?: number,
 }
 
 export default class Store {
@@ -24,6 +25,7 @@ export default class Store {
 
     theme = 'light'
 
+    _searchQueuePage = 0
     searchQueuePage = 0
 
     logoutModalActive = false;
@@ -89,7 +91,7 @@ export default class Store {
         if(queue_page) {
             const queue_int = Number(queue_page)
             return queue_int
-        } else this.setDefaultQueueConfig()
+        } else console.log('store elsed')
     }
     
     setDefaultQueueConfig() {
@@ -97,9 +99,18 @@ export default class Store {
         localStorage.setItem("sqp", "0")
     }
 
+    setPseudoQueuePage(page: number) {
+        this._searchQueuePage = page
+    }
+
     setSearchQueuePage(page: number) {
         this.searchQueuePage = page
         localStorage.setItem("sqp", String(page))
+    }
+
+    restoreSearchQueueByPseudoSQ() {
+        console.log(this._searchQueuePage)
+        this.setSearchQueuePage(this._searchQueuePage)
     }
 
     //THEME 

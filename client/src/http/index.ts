@@ -4,7 +4,7 @@ import {store} from "../index";
 import {IUser} from "../models/IUser";
 import { ILogModal } from '../store/store';
 
-export const API_URL = `/api`
+export const API_URL = `http://localhost:5000/api`
 
 const $api = axios.create({
     headers: {
@@ -36,7 +36,8 @@ $api.interceptors.response.use((config) => {
         }
     }
     store.callLogModal({
-        ...error.response.data.config as ILogModal
+        ...error.response.data.config as ILogModal,
+        status: 0
     })
     throw error;
 })

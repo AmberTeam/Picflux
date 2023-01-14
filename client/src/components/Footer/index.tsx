@@ -6,6 +6,8 @@ import LangDropdown from "../UI/LangDropdown";
 import { Context } from "../..";
 import { observer } from "mobx-react-lite";
 import { useLocation } from "react-router-dom";
+import ThemeTumbler from "../UI/ThemeTumbler";
+
 
 const Footer: FC = () => {
 
@@ -24,7 +26,13 @@ const Footer: FC = () => {
 
     return (
         <footer className={`${cl.Footer_container} ${primary ? cl.Primary : ""}`}> 
-            <div className={cl.Footer_header}> <img src={ic} draggable={false} width="44px" /> </div>
+            <div className={cl.Footer_header}> 
+                <img src={ic} draggable={false} width="44px"/> 
+                <div></div>
+                <div className={cl.Theme_controls}>
+                    <ThemeTumbler/>
+                </div>
+            </div>
             <div className={cl.Footer_inners}>
                 <div className={cl.Footer_inner}>
                     <div className={cl.Content}> 

@@ -71,6 +71,7 @@ const FilmPage = () => {
 
     const getFilmData = async () => {
         const response = await UserService.getById(id)
+        localStorage.setItem('last_seen', String(response.data.id))
         const filmConfig = reparseFilmConfig(response.data)
         setFAvailablePTabs(filmConfig.players as any)
         setFilm(filmConfig)
@@ -226,6 +227,7 @@ const FilmPage = () => {
                                 src={rPlayer.content} 
                                 onMouseEnter={() => changeActivePSelector()} 
                                 onMouseLeave={() => changeActivePSelector()}
+                                allowFullScreen
                             />
                             :
                             <iframe 
@@ -233,6 +235,7 @@ const FilmPage = () => {
                                 srcDoc={rPlayer.content} 
                                 onMouseEnter={() => changeActivePSelector()} 
                                 onMouseLeave={() => changeActivePSelector()}
+                                allowFullScreen
                             />
                     }
                 </div>

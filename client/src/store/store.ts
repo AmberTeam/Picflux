@@ -11,6 +11,7 @@ import en from '../lang_packets/en.json'
 import en_img from "../img/lang_ic/en.png"
 import ru_img from "../img/lang_ic/ru.png"
 import ukr_img from "../img/lang_ic/ukr.png"
+import { ISQueue } from "../models/ISQueue";
 
 export interface ILogModal {
     code: string,
@@ -24,9 +25,6 @@ export default class Store {
     lang = this.predefineLang(lconfig.lang_defaut);
 
     theme = 'light'
-
-    _searchQueuePage = 0
-    searchQueuePage = 0
 
     logoutModalActive = false;
 
@@ -87,30 +85,34 @@ export default class Store {
 
     //SEARCH QUEUE
     checkSearchQueue() {
-        const queue_page = localStorage.getItem("sqp") 
-        if(queue_page) {
-            const queue_int = Number(queue_page)
-            return queue_int
-        } else console.log('store elsed')
+        const SQ = localStorage.getItem("sqp") 
+        if(SQ) {
+            return JSON.parse(SQ)
+        }
     }
     
-    setDefaultQueueConfig() {
-        this.searchQueuePage = 0
-        localStorage.setItem("sqp", "0")
+    setDefaultQueueConfig(config: ISQueue) {
+        localStorage.setItem("sqp", JSON.stringify([config]))
     }
 
-    setPseudoQueuePage(page: number) {
-        this._searchQueuePage = page
-    }
+    setSearchQueuePage(config: ISQueue, flag: number = 0) {
+        switch(flag) {
+            case 0:
+                let SQ = this.checkSearchQueue()
+                if(Array.isArray(SQ)) {
+                    SQ.push({...config, page: SQ.length})
+                } else {
+                    console.log(config)
+                    SQ = [config]
+                }
+                
+                localStorage.setItem("sqp", JSON.stringify(SQ))
 
-    setSearchQueuePage(page: number) {
-        this.searchQueuePage = page
-        localStorage.setItem("sqp", String(page))
-    }
-
-    restoreSearchQueueByPseudoSQ() {
-        console.log(this._searchQueuePage)
-        this.setSearchQueuePage(this._searchQueuePage)
+                return SQ
+            case 1: 
+                localStorage.setItem("sqp", JSON.stringify([]))
+                return
+        }
     }
 
     //THEME 

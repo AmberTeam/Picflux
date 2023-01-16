@@ -28,6 +28,7 @@ class FileController {
 
     search(req, res) { 
         const {limit, offset, query} = req.body
+        console.log(offset)
         DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit), [], (err, rows) => {
             if(!rows) return res.json([])
             const arr = []

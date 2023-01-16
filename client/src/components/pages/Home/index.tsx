@@ -9,14 +9,16 @@ import userService from "../../../services/UserService"
 import Film from './Film/'
 import Dropdown from '../../UI/Dropdown'
 import cl from "./home.module.sass"
+import { ISQueue } from '../../../models/ISQueue'
 
 const HomePage: FC = () => {
 
     const obsElement = useRef() as React.MutableRefObject<HTMLInputElement>
+    const contentElement = useRef() as React.MutableRefObject<HTMLDivElement> 
 
     const {translate} = useTranslation()
 
-    const [films, setFilms] = useState<IFilm[]>([])
+    const [films, setFilms] = useState<IFilm[] | [any]>([])
 
     const [focused, setFocused] = useState<boolean>(false)
 
@@ -24,7 +26,7 @@ const HomePage: FC = () => {
     const [_searchQuery, _setSearchQuery] = useState<string>('')
 	const [searchQuery, setSearchQuery] = useState<string>('')
 	const [page, setPage] = useState<number>(0)
-	const [limit, setLimit] = useState<number>(10)
+	const [limit, setLimit] = useState<number>(12)
 	const [loading, setLoading] = useState<boolean>(false)
 	const [canLoad, setCanLoad] = useState<boolean>(true)
     const [paginateMethod, setPaginateMetod] = useState<string>('click')
@@ -39,15 +41,15 @@ const HomePage: FC = () => {
         return 0
     }
     
-	const fetchPosts = async (limit: number, page: number, arg: number) => {
+	const fetchPosts = async (limit: number, _page: number, arg: number) => {
         //arg = 1: called from observer hook 
         //arg = 2: called from page
-
+        console.log(page)
 		setLoading(true)
 		try {
             let curr_page
-            curr_page = page
-            
+            curr_page = _page
+
             //Resetting tates
             _setSearchQuery(searchQuery)
             if(arg == 2) curr_page = reset()
@@ -80,6 +82,33 @@ const HomePage: FC = () => {
     const handleCustomSearchReq = () => {
         if(searchQuery == _searchQuery) return
         fetchPosts(limit, page, 2)
+        store.setDefaultQueueConfig({page: 0, query: searchQuery})
+    }
+
+    const resetSearchQueue = async () => {
+        reset()
+        setFilms([])
+        setSearchQuery("")
+        restoreSearchQueue([{page: 0, query: ""}])
+        store.setDefaultQueueConfig({page: 0, query: ""})
+    }
+
+    const restoreSearchQueue = async (qConfig: any) => {
+        console.log(qConfig)
+        const returns = [] as any
+        for(let i = 0; i < qConfig.length; i++) {
+            const t = await userService.search(qConfig[i].query, limit, i * limit)
+            t.data.map(film => {
+                returns.push(film)
+            })
+            if(i === qConfig.length - 1) {
+                setSearchQuery(qConfig[i].query)
+            }
+        }
+        setFilms([...returns] as any)
+        setTimeout(() => {
+            contentElement.current.scrollIntoView({behavior: 'auto', block: 'center'})
+        }, 0)
     }
 
     useObserver(obsElement, canLoad, loading, () => {
@@ -92,21 +121,30 @@ const HomePage: FC = () => {
     })
 
     useEffect(() => {
-        fetchPosts(limit, page, 1)
-        store.setPseudoQueuePage(page)
-	}, [page])
+        if(page !== 0) {
+            const q = store.checkSearchQueue()
+            if(page === q.length -1) return console.log('from restore')
+            console.log(q.length)
+            console.log(page)
+            fetchPosts(limit, page, 1)
+            store.setSearchQueuePage({page, query: searchQuery})
+        } else {
+            restoreSearchQueue({page: 0, query: ""})
+        }
+    }, [page])
+
 
     useEffect(() => {
         const searchQueue = store.checkSearchQueue()
         if(searchQueue) {
-            console.log("setted: " + searchQueue)
-            setPage(searchQueue)
+            restoreSearchQueue(searchQueue)
+            setPage(searchQueue.length -1)
         }
-        return () => store.restoreSearchQueueByPseudoSQ()
     }, [])
     
     return (
         <section className={cl.Home_section}>
+            <h1 style={{position: 'fixed'}}>{page}</h1>
             <div className={cl.Section_starter}>
                 <h1>
                     {translate("home.title.big.fst")} <span className="a_col">{translate("home.title.big.sec")}</span> {translate("home.title.big.thrd")}
@@ -125,7 +163,7 @@ const HomePage: FC = () => {
                                 {translate("home.actions.dropdown.placeholder")}: 
                             </Dropdown>
                             :
-                            <button className={cl.Tool}>
+                            <button className={cl.Tool} onClick={() => resetSearchQueue()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                     <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
@@ -144,6 +182,7 @@ const HomePage: FC = () => {
                             onBlur={() => {
                                 setFocused(false)
                             }}
+                            defaultValue={searchQuery}
                             onChange={e => setSearchQuery(e.target.value)}
                         />
                         <button className={cl.Search_loop} onClick={() => handleCustomSearchReq()} type="submit">
@@ -154,7 +193,7 @@ const HomePage: FC = () => {
                         {
                             adaptInterface 
                             ? 
-                            <button className={cl.Tool}>
+                            <button className={cl.Tool} onClick={() => resetSearchQueue()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                     <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
@@ -171,8 +210,18 @@ const HomePage: FC = () => {
             <div className={cl.Section_content}>
                 <div className={`${cl.Content_content} ${notFound == true ? cl.Not_Found : ""}`}>
                     {
-                        films.length ? films.map((film: IFilm) => 
-                            <Film key={film.id} {...film}/>
+                        films.length ? films.map((film: IFilm) => {
+                            const last_seen = localStorage.getItem('last_seen')
+                            if(film.id == Number(last_seen)) return (
+                                <span style={{position: 'relative', display: 'flex'}}>
+                                    <Film key={film.id} {...film}/>
+                                    <div ref={contentElement} className={cl.Dropper}></div>
+                                </span>
+                            )
+                            return (
+                                <Film key={film.id} {...film}/>
+                            )
+                        }
                         )
                         :
                         <>
@@ -199,7 +248,6 @@ const HomePage: FC = () => {
                     </div>
                 }
                 {
-                    paginateMethod === 'click' && canLoad && 
                     <div className={cl.Click_container}>
                         <button className={`button ${cl.Load_more}`} onClick={() => setPage(page + 1)}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

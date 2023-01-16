@@ -36,7 +36,7 @@ const Navbar: FC = () => {
             <div className={cl.Navbar_promo}>
                 <div className={cl.Amber}>
                     <img className={cl.Icon} src={ic} width="32"/>
-                    <span className={cl.Name}> Cimber </span>
+                    <span className={cl.Name}> imber </span>
                 </div>
                 <div className={cl.Opts}>
                     <div className={cl.Route}>

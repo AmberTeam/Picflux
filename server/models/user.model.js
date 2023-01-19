@@ -7,7 +7,7 @@ const UserSchema = new Schema({
     isActivated: {type: Boolean, default: false},
     activationLink: {type: String},
     username: { type: String, unique: true, required: true },
-    seeLater: { type: Array, default: [] },
+    watchLater: { type: Array, default: [] },
     friends: { type: Array, default: [] }
 })
 

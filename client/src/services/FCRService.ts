@@ -14,11 +14,22 @@ export default class FCRService {
         } else return {ready: false, data: undefined}
     }
 
+    static async checkForApiTobacoWs(url: string) {
+        if(url.includes(STATICS.api_tobaco_ws.domain)) {
+            const rewrited = await STATICS.api_tobaco_ws.cb(url)
+            console.log(rewrited)
+            return {ready: true, data: rewrited}
+        } else return {ready: false, data: undefined}
+    }
+
     static async rewriteByHostname(frameurl: string) {
         const deartefacted = this.deartefactUrl(frameurl)
         const url_deconstructed = new URL(deartefacted)
         const isVid167 = await this.checkForVid167(deartefacted, url_deconstructed.origin) as any
+        const isTobacoWs = await this.checkForApiTobacoWs(deartefacted) as any
         if(isVid167.ready) return isVid167.data
+        console.log('not vid')
+        if(isTobacoWs.ready) return isTobacoWs.data
         switch(url_deconstructed.host) { 
             // voidboost.net
             case STATICS.voidboost_net.domain:
@@ -35,25 +46,29 @@ export default class FCRService {
 
     static async rewriteVoidboost(embeedurl: string, url_domain: string) {
         let rewrited = ""
-        await fetch(embeedurl, 
-            {
-                method: "GET", 
-                headers: {
-                    'Content-Type': 'text/html'
+        try {
+            await fetch(embeedurl, 
+                {
+                    method: "GET", 
+                    headers: {
+                        'Content-Type': 'text/html'
+                    }
                 }
-            }
-        ).then(function(response) {
-            return response.text();
-        }).then(async function(data) {
-            //Remove prerolls(ads)
-            //Rewrite paths to public scripts and other utils
-            rewrited = await data.replace("'preroll':",  "'__undefined__':")
-                                .replace('/thumbnails/', 'https://voidboost.net/thumbnails/')
-                                .replace("'?s='", `'${embeedurl}?s='`)
-                                .replace(`_url_params = ''`, `_url_params = ''; parent.postMessage('https://voidboost.net/embed/${embeedurl}?s='+ _season +'&e='+ _episode +'&h='+ cdn.player.getVBR() + _url_params, "*");`)
-                                .replace(`window.location.href = '/'+ type +'/'+ t +'/iframe?h='+ cdn.player.getVBR() + a;`, `parent.postMessage(window.location.href = 'https://voidboost.net/'+ type +'/'+ t +'/iframe?h='+ cdn.player.getVBR() + a)`)
-        });
-        return rewrited
+            ).then(function(response) {
+                return response.text();
+            }).then(async function(data) {
+                //Remove prerolls(ads)
+                //Rewrite paths to public scripts and other utils
+                rewrited = await data.replace("'preroll':",  "'__undefined__':")
+                                    .replace('/thumbnails/', 'https://voidboost.net/thumbnails/')
+                                    .replace("'?s='", `'${embeedurl}?s='`)
+                                    .replace(`_url_params = ''`, `_url_params = ''; parent.postMessage('https://voidboost.net/embed/${embeedurl}?s='+ _season +'&e='+ _episode +'&h='+ cdn.player.getVBR() + _url_params, "*");`)
+                                    .replace(`window.location.href = '/'+ type +'/'+ t +'/iframe?h='+ cdn.player.getVBR() + a;`, `parent.postMessage(window.location.href = 'https://voidboost.net/'+ type +'/'+ t +'/iframe?h='+ cdn.player.getVBR() + a)`)
+            });
+            return rewrited
+        } catch(e) {
+            console.log(e)
+        }
     }
 
     static async rewriteVid167(embeedurl: string, url: string) {
@@ -76,12 +91,24 @@ export default class FCRService {
     }
 
     static async rewriteApiLoadboxWs(embeedurl: string) {
+        let rewrited = ""
+        await fetch(embeedurl, {
+            method: "GET"
+        }).then(function (response) {
+            return response.text();
+        }).then(async function (data) {
+            //Changed for testing
+            rewrited = data
+            console.log(data)
+        })
+        
+        return rewrited
     }
 
     static async rewriteSpinningAllohaliveCom(embeedurl: string) {
         let rewrited = ""
         const deconstructed = new URL(embeedurl)
-        const response = await fetch("/rewrite/allohalive" + deconstructed.pathname + deconstructed.search, {
+        await fetch("/rewrite/allohalive" + deconstructed.pathname + deconstructed.search, {
             method: "POST",
             body: embeedurl
         }).then(res => {
@@ -96,6 +123,19 @@ export default class FCRService {
         })
         return rewrited
     }
+
+    static async rewriteApiTobacoWs(embeedurl: string) {
+        let rewrited = ""
+        await fetch(embeedurl, {
+            method: "GET"
+        }).then(res => {
+            return res.text()
+        }).then(res_txt => {
+            rewrited = res_txt
+            console.log(rewrited)
+        })
+        return rewrited
+    }
 }
 
 export const STATICS = {
@@ -105,6 +145,10 @@ export const STATICS = {
         url_slashed: 'https://voidboost.net/',
         cb: FCRService.rewriteVoidboost 
     }, 
+    api_tobaco_ws: {
+        domain: 'tobaco.ws',
+        cb: FCRService.rewriteApiTobacoWs
+    },
     api_loadbox_ws: {
         domain: 'api.loadbox.ws',
         url: 'https://api.loadbox.ws',

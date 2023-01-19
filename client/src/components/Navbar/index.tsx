@@ -44,7 +44,7 @@ const Navbar: FC = () => {
                     </div>
                 </div>
                 <AllowAuth>
-                    <a className={cl.Profile} href="/profile">
+                    <a className={cl.Profile} href={`/profile/${store.user.id}`}>
                         <img className={cl.Icon} src={store.user.avatar} width="32px"/>
                     </a>
                 </AllowAuth>

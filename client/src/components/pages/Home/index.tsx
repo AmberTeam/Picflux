@@ -213,7 +213,7 @@ const HomePage: FC = () => {
                         films.length ? films.map((film: IFilm) => {
                             const last_seen = localStorage.getItem('last_seen')
                             if(film.id == Number(last_seen)) return (
-                                <span style={{position: 'relative', display: 'flex'}}>
+                                <span style={{position: 'relative', display: 'flex'}} key={film.id}>
                                     <Film key={film.id} {...film}/>
                                     <div ref={contentElement} className={cl.Dropper}></div>
                                 </span>

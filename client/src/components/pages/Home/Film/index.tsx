@@ -4,7 +4,7 @@ import { IFilm } from "../../../../models/IFilm"
 import cl from "./film.module.sass"
 import {useNavigate} from "react-router-dom"
 
-const HomePage: FC<IFilm> = (props: IFilm) => {
+const FilmComponent: FC<IFilm> = (props: IFilm) => {
  
     const navigate = useNavigate()
 
@@ -41,11 +41,14 @@ const HomePage: FC<IFilm> = (props: IFilm) => {
             </div>
             <div className={cl.Opts}>
                 <button className={cl.NT_btn} onClick={() => {
-                    window.open(`http://localhost:3000/film/${props.id}`, '_blank')?.focus()
+                    window.open(`/film/${props.id}`, '_blank')?.focus()
                 }}> open in a new tab </button>
+                <button className={cl.NT_btn} onClick={() => {
+                    window.open(`/film/${props.id}`, '_blank')?.focus()
+                }}> watch later </button>
             </div>
         </div>
     )
 }
 
-export default HomePage
+export default FilmComponent

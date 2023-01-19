@@ -1,9 +1,9 @@
 const DBAgent = require("../utils/db")
-const sqlite = require("sqlite3")
-const FilmModel = require("../dtos/film.dto")
+const filmService = require("../service/film.service")
+const userService = require("../service/user.service")
+const UserModel = require("../models/user.model")
 
-
-class FileController {
+class FilmController {
 
     paginate(req, res) {
         const {offset, limit} = req.query
@@ -12,10 +12,19 @@ class FileController {
         })
     }
      
-    getById(req, res) {
+    async getById(req, res) {
         const {id} = req.params
         DBAgent.db.get(DBAgent.__getByIdMethod, [id], async (err, row) => {
             row.players = JSON.parse(row.players)
+            if(req.user) {
+                const req_owner = await UserModel.findById(req.user.id)
+                
+                return res.json({
+                    ...row,
+                    watchLater: req_owner.watchLater
+                })
+            }
+
             return res.json({...row})
         }) 
     }
@@ -28,7 +37,6 @@ class FileController {
 
     search(req, res) { 
         const {limit, offset, query} = req.body
-        console.log(offset)
         DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit), [], (err, rows) => {
             if(!rows) return res.json([])
             const arr = []
@@ -39,6 +47,29 @@ class FileController {
             return res.json(rows)
         })
     }
+
+    async getWillReadFilms(req, res) {
+        const response = await filmService.getWillReadFilms(req.user.id)
+        return res.json(response)
+    }
+
+    async removeWillReadFilm(req, res, next) {
+        try {
+            const response = await filmService.removeWillReadFilm(req.user.id, req.body.id)
+            return res.json(response)
+        } catch(e) {
+            return next(ApiError.UnauthorizedError())
+        }
+    }
+
+    async addWillReadFilm(req, res) {
+        try {
+            const response = await filmService.addWillReadFilm(req.user.id, req.body.id)
+            return res.json(response)
+        } catch(e) {
+            return next(ApiError.UnauthorizedError())
+        }
+    }
 }
 
-module.exports = new FileController()
+module.exports = new FilmController()

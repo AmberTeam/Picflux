@@ -73,12 +73,13 @@ class UserController {
         }
     }
 
-    async getUsers(req, res, next) {
+    async getUserBId(req, res, next) {
         try {
-            const users = await userService.getAllUsers();
-            return res.json(users);
-        } catch (e) {
-            next(e);
+            const {id} = req.params
+            const user = await userService.getUserBId(id, req.user.id === id && req.query.crr ? true : false )
+            return res.json(user)
+        } catch(e) {
+            next(e)
         }
     }
 }

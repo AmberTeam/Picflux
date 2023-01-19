@@ -13,10 +13,14 @@
         border-color: var(--color-a)
         box-shadow: 0px 0px 50px 4px rgba(0,0,0,0.10)
 
-        .Picture 
-            .Blurer 
-                backdrop-filter: blur(4px)
+        .Opts 
+            .NT_btn 
                 opacity: 1
+        .Content_container
+            .Picture 
+                .Blurer 
+                    backdrop-filter: blur(4px)
+                    opacity: 1
 
     .Content_container
 
@@ -63,17 +67,27 @@
                 margin-top: .5rem
                 font-size: 12px
     .Opts 
-        display: grid
-        grid-template-columns: 50% 50%
+        display: flex
+        justify-content: start
         align-items: end
-        padding: 1rem
+        gap: .4rem
+        padding: 0 1rem 1rem 1rem
 
         .NT_btn 
-            background: var(--color-a)
+            background: var(--color)
             border: none 
-            border-radius: 6px 
-            padding: .5rem .4rem
-            color: var(--color)
-            font-size: 11px
+            border-radius: 16px 
+            padding: .3rem .4rem
+            color: var(--bg)
+            font-size: 10px
             font-family: 'Roobert'
             cursor: pointer
+            transition: .2s all ease
+            opacity: 0
+
+            
+
+@media(max-width: 650px)
+    .Film_container 
+        .Opts 
+            display: none

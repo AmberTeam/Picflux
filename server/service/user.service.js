@@ -4,8 +4,8 @@ const uuid = require('uuid');
 const tokenService = require('./token.service');
 const UserDto = require('../dtos/user.dto');
 const ApiError = require('../exceptions/api.error');
-const fileService = require('../service/file.service')
-const rid = require("random-id")
+const rid = require("random-id");
+const sqlite = require('sqlite3')
 
 class UserService {
     async registration(email, password) {
@@ -75,6 +75,34 @@ class UserService {
 
     async update(user, txt, password, avatar = null) {
 
+    }
+
+    async getUserBId(id, own) {
+        const userData = await UserModel.findById(id)
+        const userDto = new UserDto(userData)
+        if(own) {
+            const watchLater = []
+            const promices = []
+            userData.watchLater.map(fid => {
+                const pr = new Promise(function(resolve, reject) {
+                    const db = new sqlite.Database("ifdb.db")
+                    db.get("SELECT * FROM films WHERE id = ?", [fid], async (err, row) => {
+                        row.players = JSON.parse(row.players)
+                        row.genres = JSON.parse(row.genres),
+                        row.countries = JSON.parse(row.countries)
+                        resolve(row)
+                    }) 
+                })
+                promices.push(pr)
+            })
+            await Promise.all(promices).then(values => values.map(val => watchLater.push(val)))
+            return {
+                ...userDto,
+                watchLater
+            }
+        }
+
+        return userDto
     }
 }
 

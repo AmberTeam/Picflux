@@ -33,7 +33,7 @@ const Routes_ = () => {
                     <>
                         <Route path="/registration" element={<Navigate to="/"/>}/>
                         <Route path="/login" element={<Navigate to="/"/>}/>
-                        <Route path="/profile" element={<ProfilePage/>}/>
+                        <Route path="/profile/:id" element={<ProfilePage/>}/>
                     </>
                 }
             </Routes>

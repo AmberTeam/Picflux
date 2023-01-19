@@ -22,6 +22,7 @@ const FilmPage = () => {
     const [originalPlayerFlag, setOriginalPlayerFlag] = useState<boolean>(false)
     const [mobileOriented, setMobileOriented] = useState<boolean>(false)
     const [rPlayer, setRPlayer] = useState<any>()
+    const [isInWatchLater, setIsInWL] = useState<boolean | null>(null)
 
     useResizeHandler((w: number) => {
         if(w > 1000) setMobileOriented(false)
@@ -76,6 +77,20 @@ const FilmPage = () => {
         setFAvailablePTabs(filmConfig.players as any)
         setFilm(filmConfig)
         rewriteFilmDomByEmbeedUrl(filmConfig.players[0])
+        if(filmConfig.watchLater?.includes(String(filmConfig.id))) setIsInWL(true)
+        else setIsInWL(false)
+    }
+
+    const changeWatchLater = async () => {
+        if(isInWatchLater == null) return  
+        if(isInWatchLater == true) {
+            console.log(isInWatchLater)
+            await UserService.removeWLFilm(film!.id)
+            setIsInWL(false)
+        } else {
+            await UserService.addWLFilm(film!.id)
+            setIsInWL(true)    
+        }
     }
 
     const changeActivePSelector = () => {
@@ -112,8 +127,8 @@ const FilmPage = () => {
                         <h1>{film.name} ({film.year})</h1>
                         <div className={cl.Btns}>
                             <AllowAuth>
-                                <button className={cl.Add_wread}>
-                                    {translate("film.actions.watch_later")}
+                                <button className={cl.Add_wread} onClick={() => changeWatchLater()}>
+                                    { isInWatchLater ? "Remove from watch later" : translate("film.actions.watch_later")}
                                 </button>
                             </AllowAuth>
                             <a href="#frame" className={cl.Watch}>

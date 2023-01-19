@@ -100,7 +100,8 @@
                 "auto": "Automatically",
                 "onclick": "On click"
             },
-            "load_more": "Load more"
+            "load_more": "Load more",
+            "new_tab": "Open in a new tab"
         },
         "throws": {
             "not_found": "Movies with similar title not found."

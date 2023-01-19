@@ -3,17 +3,13 @@ const tokenService = require('../service/token.service');
 
 module.exports = function (req, res, next) {
     try {
-        if(req.headers.authorization) {
+        if(!req.headers.authorization.includes('null')) {
             const authorizationHeader = req.headers.authorization
             const accessToken = authorizationHeader.split(' ')[1];
-            if (!accessToken) {
-                return next(ApiError.UnauthorizedError());
-            }
     
             const userData = tokenService.validateAccessToken(accessToken);
-            if (!userData) {
-                return next(ApiError.UnauthorizedError());
-            }
+            
+            if (!userData) return next()
     
             req.user = userData;
             

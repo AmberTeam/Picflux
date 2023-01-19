@@ -17,7 +17,6 @@ export default class FCRService {
     static async checkForApiTobacoWs(url: string) {
         if(url.includes(STATICS.api_tobaco_ws.domain)) {
             const rewrited = await STATICS.api_tobaco_ws.cb(url)
-            console.log(rewrited)
             return {ready: true, data: rewrited}
         } else return {ready: false, data: undefined}
     }
@@ -28,7 +27,6 @@ export default class FCRService {
         const isVid167 = await this.checkForVid167(deartefacted, url_deconstructed.origin) as any
         const isTobacoWs = await this.checkForApiTobacoWs(deartefacted) as any
         if(isVid167.ready) return isVid167.data
-        console.log('not vid')
         if(isTobacoWs.ready) return isTobacoWs.data
         switch(url_deconstructed.host) { 
             // voidboost.net

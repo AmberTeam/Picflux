@@ -44,7 +44,6 @@ const HomePage: FC = () => {
 	const fetchPosts = async (limit: number, _page: number, arg: number) => {
         //arg = 1: called from observer hook 
         //arg = 2: called from page
-        console.log(page)
 		setLoading(true)
 		try {
             let curr_page
@@ -94,10 +93,10 @@ const HomePage: FC = () => {
     }
 
     const restoreSearchQueue = async (qConfig: any) => {
-        console.log(qConfig)
         const returns = [] as any
         for(let i = 0; i < qConfig.length; i++) {
             const t = await userService.search(qConfig[i].query, limit, i * limit)
+            if(!t.data.length) setCanLoad(false)
             t.data.map(film => {
                 returns.push(film)
             })
@@ -107,7 +106,7 @@ const HomePage: FC = () => {
         }
         setFilms([...returns] as any)
         setTimeout(() => {
-            contentElement.current.scrollIntoView({behavior: 'auto', block: 'center'})
+            if(contentElement && contentElement.current) contentElement.current.scrollIntoView({behavior: 'auto', block: 'center'})
         }, 0)
     }
 
@@ -123,9 +122,7 @@ const HomePage: FC = () => {
     useEffect(() => {
         if(page !== 0) {
             const q = store.checkSearchQueue()
-            if(page === q.length -1) return console.log('from restore')
-            console.log(q.length)
-            console.log(page)
+            if(q && page === q.length -1) return
             fetchPosts(limit, page, 1)
             store.setSearchQueuePage({page, query: searchQuery})
         } else {
@@ -139,12 +136,14 @@ const HomePage: FC = () => {
         if(searchQueue) {
             restoreSearchQueue(searchQueue)
             setPage(searchQueue.length -1)
+        } else {
+            setPage(0)
+            fetchPosts(limit, 0, 2)
         }
     }, [])
     
     return (
         <section className={cl.Home_section}>
-            <h1 style={{position: 'fixed'}}>{page}</h1>
             <div className={cl.Section_starter}>
                 <h1>
                     {translate("home.title.big.fst")} <span className="a_col">{translate("home.title.big.sec")}</span> {translate("home.title.big.thrd")}
@@ -239,7 +238,25 @@ const HomePage: FC = () => {
                     }
                 </div>
                 {
-                    <div ref={obsElement} className={cl.Loader} style={paginateMethod === 'auto' ? loading ?  {display: "none"} : canLoad ? {display: "flex"} : {display: "none"} : {display: 'none'}}>
+                    <div 
+                        ref={obsElement} 
+                        className={cl.Loader} 
+                        style={
+                            paginateMethod === 'auto' 
+                                ?
+                                    loading 
+                                        ?  
+                                            {display: "none"} 
+                                        : 
+                                            canLoad 
+                                                ?
+                                                    {display: "flex"} 
+                                                : 
+                                                    {display: "none"} 
+                                : 
+                                    {display: 'none'}
+                        }
+                    >
                         <div className={cl.Loader_container}>
                             <div className={cl.line}>
                                 <div className={cl.inner}></div>
@@ -248,16 +265,20 @@ const HomePage: FC = () => {
                     </div>
                 }
                 {
-                    <div className={cl.Click_container}>
-                        <button className={`button ${cl.Load_more}`} onClick={() => setPage(page + 1)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                            </svg>
-                            <span>
-                                {translate("home.actions.load_more")}
-                            </span>
-                        </button>
-                    </div>
+                    paginateMethod === 'click'
+                        &&
+                            canLoad 
+                            &&
+                        <div className={cl.Click_container}>
+                            <button className={`button ${cl.Load_more}`} onClick={() => setPage(page + 1)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                </svg>
+                                <span>
+                                    {translate("home.actions.load_more")}
+                                </span>
+                            </button>
+                        </div>
                 }
             </div>
         </section>

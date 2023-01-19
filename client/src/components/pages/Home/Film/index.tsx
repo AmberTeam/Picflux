@@ -3,10 +3,13 @@ import React, {FC, useContext, useEffect, useState, useRef } from 'react'
 import { IFilm } from "../../../../models/IFilm"
 import cl from "./film.module.sass"
 import {useNavigate} from "react-router-dom"
+import { useTranslation } from '../../../../hooks/translator.hook'
 
 const FilmComponent: FC<IFilm> = (props: IFilm) => {
  
     const navigate = useNavigate()
+
+    const {translate} = useTranslation()
 
     return (
         <div className={cl.Film_container}> 
@@ -42,10 +45,7 @@ const FilmComponent: FC<IFilm> = (props: IFilm) => {
             <div className={cl.Opts}>
                 <button className={cl.NT_btn} onClick={() => {
                     window.open(`/film/${props.id}`, '_blank')?.focus()
-                }}> open in a new tab </button>
-                <button className={cl.NT_btn} onClick={() => {
-                    window.open(`/film/${props.id}`, '_blank')?.focus()
-                }}> watch later </button>
+                }}> {translate("home.actions.new_tab")} </button>
             </div>
         </div>
     )

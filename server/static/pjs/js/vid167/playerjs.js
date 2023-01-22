@@ -10723,8 +10723,7 @@ function HDVBPlayer(options) {
                     var h = !1;
                     new Promise((function(e) {
                         let i = {readyState: null}
-                        console.log(`Sendinч: ${v.file_path}${t.substr(1)}.txt`)
-                        fetch(`https://vid1670416538.vb17121coramclean.pw${v.file_path}${t.substr(1)}.txt`, {
+                        fetch(`__hostreplace__${v.file_path}${t.substr(1)}.txt`, {
                             method: 'POST',
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded",

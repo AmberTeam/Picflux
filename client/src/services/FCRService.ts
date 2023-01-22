@@ -76,7 +76,8 @@ export default class FCRService {
             return response.text();
         }).then(async function (data) {
             //Changed for testing
-            rewrited = data.replace("/playerjs/js/playerjs.js?=1012", STATICS.vid167.playerjs_url)
+            console.log(url)
+            rewrited = data.replace("/playerjs/js/playerjs.js?=1012", `${STATICS.vid167.playerjs_url}?curl=${url}`)
                     //Create link to playerjs script
                     .replace("/player", `${url}/player`)
                     //Remove prerolls(ads)
@@ -166,7 +167,7 @@ export const STATICS = {
         domain: 'vid167',
         url: 'https://vid1672084730.vb17121coramclean.pw',
         url_slashed: "https://vid1672084730.vb17121coramclean.pw/",
-        playerjs_url: '/static/pjs/js/vid167/playerjs.js',
+        playerjs_url: '/vid167/playerjs',
         cb: FCRService.rewriteVid167
     },
 }

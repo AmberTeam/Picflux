@@ -8,7 +8,7 @@ const mongoose = require("mongoose")
 const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
 const proxy = require('express-http-proxy')
-const request = require("request") 
+const fs = require("fs")
 const app = express()    
 
 app.get('/:hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
@@ -28,6 +28,15 @@ app.get("/:hs/:s/:d/:w/:a/:p/:ts", proxy((req, res) => {
   if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
   return req.query.nrw
 }))
+
+app.get("/vid167/playerjs", async (req, res) => {
+  fs.readFile(`${__dirname}/static/pjs/js/vid167/playerjs.js`, (err, data) => {
+    if(err) console.log(err)
+    res.contentType('text/javascript')
+    const data_str = String(data)
+    return res.send(data_str.replace("__hostreplace__", req.query.curl))
+  })
+})
 
 app.post("/allohalive-tokenacc", proxy((req, res) => {
   return "https://spinning.allohalive.com"

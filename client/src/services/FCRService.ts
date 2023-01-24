@@ -119,6 +119,8 @@ export default class FCRService {
                             .replace("/js/playerjs-alloha-new.js", STATICS.spinning_allihalive_com.playerjs_url)
                             .replace("/style/style.css", `${STATICS.spinning_allihalive_com.url}/style/style.css`)
                             .replace("/js/iife.min.js", `${STATICS.spinning_allihalive_com.url}/js/iife.min.js`)
+                            .replace("var fpPromise = FingerprintJS.load();", "var fpPromise = FingerprintJS.load(); console.log('TUST');")
+                            .replace(`<!-- <script src="https://allvideometrika.com/alloha.php" async></script> -->`, "")
         })
         return rewrited
     }

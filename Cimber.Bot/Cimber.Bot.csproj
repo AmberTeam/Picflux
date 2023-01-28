@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="2.3.0" />
+    <PackageReference Include="Telegram.Bot" Version="18.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cimber.Bot.Database\Cimber.Bot.Database.csproj" />
+    <ProjectReference Include="..\Cimber.Bot.Extensions\Cimber.Bot.Extensions.csproj" />
+    <ProjectReference Include="..\Cimber.Bot.Logger\Cimber.Bot.Logger.csproj" />
+    <ProjectReference Include="..\Cimber.Bot.MessageTemplates\Cimber.Bot.MessageTemplates.csproj" />
+    <ProjectReference Include="..\Cimber.Bot.Models\Cimber.Bot.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update=".env">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

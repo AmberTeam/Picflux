@@ -1,0 +1,128 @@
+2023-01-27 15:08:48.7631|Error|[0] [System.Data.SQLite]
+	SQL logic error
+table Bug already exists | 
+2023-01-27 15:09:30.9804|Error|[0] [System.Data.SQLite]
+	SQL logic error
+table Bug already exists | 
+2023-01-27 15:09:49.6986|Error|[0] [System.Data.SQLite]
+	SQL logic error
+table Bug already exists | 
+2023-01-27 15:09:49.7919|Debug|Client has been created | 
+2023-01-27 15:09:52.0152|Error|[0] [System.Data.SQLite]
+	SQL logic error
+table Bug already exists | 
+2023-01-27 15:09:52.0717|Debug|Client has been created | 
+2023-01-27 15:10:18.4183|Debug|Client has been created | 
+2023-01-27 15:10:43.7930|Debug|Client has been created | 
+2023-01-27 15:11:05.1223|Debug|Client has been created | 
+2023-01-27 15:11:09.9977|Error|[0] [Telegram.Bot]
+	Conflict: terminated by other getUpdates request; make sure that only one bot instance is running | 
+2023-01-27 15:11:13.4184|Error|[0] [Telegram.Bot]
+	Conflict: terminated by other getUpdates request; make sure that only one bot instance is running | 
+2023-01-27 15:11:16.8267|Error|[0] [Telegram.Bot]
+	Conflict: terminated by other getUpdates request; make sure that only one bot instance is running | 
+2023-01-27 15:12:33.6052|Debug|Client has been created | 
+2023-01-27 15:13:10.5027|Error|[0] [System.Linq]
+	Sequence contains no matching element | 
+2023-01-27 15:13:10.5164|Error|[7] [Cimber.Bot.MessageTemplates]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:13:31.4200|Debug|Client has been created | 
+2023-01-27 15:13:35.0137|Error|[0] [System.Linq]
+	Sequence contains no matching element | 
+2023-01-27 15:13:35.0137|Error|[7] [Cimber.Bot.MessageTemplates]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:14:00.3263|Debug|Client has been created | 
+2023-01-27 15:14:03.7433|Error|[0] [System.Linq]
+	Sequence contains no matching element | 
+2023-01-27 15:14:31.5899|Debug|Client has been created | 
+2023-01-27 15:15:10.0018|Debug|Client has been created | 
+2023-01-27 15:15:11.7634|Error|[0] [System.Linq]
+	Sequence contains no matching element | 
+2023-01-27 15:15:11.7634|Error|[7] [Cimber.Bot.MessageTemplates]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:15:12.4619|Error|[0] [System.Linq]
+	Sequence contains no matching element | 
+2023-01-27 15:15:12.4619|Error|[7] [Cimber.Bot.MessageTemplates]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:15:20.5757|Debug|Client has been created | 
+2023-01-27 15:16:17.5423|Debug|Client has been created | 
+2023-01-27 15:26:37.8550|Debug|Client has been created | 
+2023-01-27 15:27:01.3593|Debug|Client has been created | 
+2023-01-27 15:29:15.7951|Debug|Client has been created | 
+2023-01-27 15:37:03.7670|Debug|Client has been created | 
+2023-01-27 15:37:13.6203|Error|[72] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:37:14.2359|Error|[72] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:37:14.7099|Error|[72] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:44:03.9240|Debug|Client has been created | 
+2023-01-27 15:44:08.4226|Error|[72] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:44:13.9049|Error|[72] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:44:14.7759|Error|[72] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:44:15.1133|Error|[72] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 15:44:30.1403|Debug|Client has been created | 
+2023-01-27 15:44:53.8902|Debug|Client has been created | 
+2023-01-27 15:54:59.6062|Debug|Client has been created | 
+2023-01-27 15:56:38.6111|Debug|Client has been created | 
+2023-01-27 15:57:24.5448|Debug|Client has been created | 
+2023-01-27 16:03:48.0460|Debug|Client has been created | 
+2023-01-27 16:05:06.0288|Debug|Client has been created | 
+2023-01-27 16:06:14.3531|Error|[0] [Telegram.Bot]
+	Exception during making request | 
+2023-01-27 16:10:02.5739|Debug|Client has been created | 
+2023-01-27 16:15:17.9473|Error|[0] [Telegram.Bot]
+	Request timed out | 
+2023-01-27 16:16:38.2992|Debug|Client has been created | 
+2023-01-27 16:18:00.5130|Debug|Client has been created | 
+2023-01-27 16:18:46.6580|Error|[0] [System.Private.CoreLib]
+	The input string 'Change the language' was not in a correct format. | 
+2023-01-27 16:19:32.6950|Error|[0] [System.Private.CoreLib]
+	The input string 'Список помилок' was not in a correct format. | 
+2023-01-27 16:35:11.3899|Debug|Client has been created | 
+2023-01-27 16:35:16.5673|Error|[0] [Telegram.Bot]
+	Exception during making request | 
+2023-01-27 16:35:35.7940|Debug|Client has been created | 
+2023-01-27 16:35:37.9667|Error|[340] [Cimber.Bot]
+	The method or operation is not implemented. | 
+2023-01-27 16:35:49.4548|Error|[340] [Cimber.Bot]
+	The method or operation is not implemented. | 
+2023-01-27 16:35:57.8657|Error|[0] [System.Private.CoreLib]
+	The input string '更改语言' was not in a correct format. | 
+2023-01-27 16:38:14.6707|Debug|Client has been created | 
+2023-01-27 16:38:17.9575|Error|[340] [Cimber.Bot]
+	The method or operation is not implemented. | 
+2023-01-27 16:38:26.3895|Error|[340] [Cimber.Bot]
+	The method or operation is not implemented. | 
+2023-01-27 16:38:47.6375|Error|[340] [Cimber.Bot]
+	The method or operation is not implemented. | 
+2023-01-27 16:41:08.6907|Debug|Client has been created | 
+2023-01-27 16:41:23.7692|Error|[0] [System.Private.CoreLib]
+	The input string 'Отправить ошибку' was not in a correct format. | 
+2023-01-27 16:41:28.5633|Error|[0] [System.Private.CoreLib]
+	The input string 'Отправить ошибку' was not in a correct format. | 
+2023-01-27 16:41:37.9977|Error|[0] [System.Private.CoreLib]
+	The input string 'Изменить язык' was not in a correct format. | 
+2023-01-27 16:41:48.2515|Error|[0] [System.Private.CoreLib]
+	The input string 'Change the language' was not in a correct format. | 
+2023-01-27 16:41:54.6251|Debug|Client has been created | 
+2023-01-27 16:43:54.4964|Debug|Client has been created | 
+2023-01-27 16:44:30.4231|Debug|Client has been created | 
+2023-01-27 16:54:06.1923|Debug|Client has been created | 
+2023-01-27 16:54:31.3193|Error|[55] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 16:55:23.1072|Debug|Client has been created | 
+2023-01-27 16:57:01.3081|Debug|Client has been created | 
+2023-01-27 16:57:03.0692|Error|[58] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 16:57:12.9376|Error|[58] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-01-27 16:57:39.5277|Debug|Client has been created | 
+2023-01-27 16:59:56.9953|Debug|Client has been created | 
+2023-01-27 17:00:13.0313|Error|[0] [Telegram.Bot]
+	Bad Request: file is too big | 
+2023-01-27 17:01:38.4021|Debug|Client has been created | 

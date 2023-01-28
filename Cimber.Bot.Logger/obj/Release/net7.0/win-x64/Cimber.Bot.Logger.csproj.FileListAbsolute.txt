@@ -1,0 +1,13 @@
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\win-x64\nlog.config
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\win-x64\Cimber.Bot.Logger.deps.json
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\win-x64\Cimber.Bot.Logger.dll
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\win-x64\Cimber.Bot.Logger.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\Cimber.Bot.Logger.csproj.AssemblyReference.cache
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\Cimber.Bot.Logger.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\Cimber.Bot.Logger.AssemblyInfoInputs.cache
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\Cimber.Bot.Logger.AssemblyInfo.cs
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\Cimber.Bot.Logger.csproj.CoreCompileInputs.cache
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\Cimber.Bot.Logger.dll
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\refint\Cimber.Bot.Logger.dll
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\Cimber.Bot.Logger.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\win-x64\ref\Cimber.Bot.Logger.dll

@@ -1,0 +1,12 @@
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\bin\Debug\net7.0\Cimber.Bot.Models.deps.json
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\bin\Debug\net7.0\Cimber.Bot.Models.dll
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\bin\Debug\net7.0\Cimber.Bot.Models.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\Cimber.Bot.Models.csproj.AssemblyReference.cache
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\Cimber.Bot.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\Cimber.Bot.Models.AssemblyInfoInputs.cache
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\Cimber.Bot.Models.AssemblyInfo.cs
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\Cimber.Bot.Models.csproj.CoreCompileInputs.cache
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\Cimber.Bot.Models.dll
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\refint\Cimber.Bot.Models.dll
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\Cimber.Bot.Models.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Debug\net7.0\ref\Cimber.Bot.Models.dll

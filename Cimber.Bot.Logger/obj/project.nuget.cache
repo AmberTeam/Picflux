@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Q5hx7YnzYlkh7D8astvgeLrkEavaIw91dFxUfCaI+FlSIfLirIrd0jlIJmXh4ohBAi15gTkEhlCXaLha72HQ6g==",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\uaquax\\.nuget\\packages\\nlog\\5.1.1\\nlog.5.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}

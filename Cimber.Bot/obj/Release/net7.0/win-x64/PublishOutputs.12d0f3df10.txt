@@ -1,0 +1,9 @@
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\Cimber.Bot.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\nlog.config
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\.env
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\Cimber.Bot.Database.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\Cimber.Bot.Extensions.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\Cimber.Bot.Logger.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\Cimber.Bot.MessageTemplates.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\Cimber.Bot.Models.pdb
+D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\Releases\v2.0.0\Cimber.Bot.exe

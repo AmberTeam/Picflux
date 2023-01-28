@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cimber.Bot.Extensions\Cimber.Bot.Extensions.csproj" />
+    <ProjectReference Include="..\Cimber.Bot.Logger\Cimber.Bot.Logger.csproj" />
+    <ProjectReference Include="..\Cimber.Bot.Models\Cimber.Bot.Models.csproj" />
+  </ItemGroup>
+
+</Project>

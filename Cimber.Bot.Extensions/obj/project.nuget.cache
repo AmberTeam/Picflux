@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "Qjwot52Il9shQcj+qMJjx2VdPEZjJe0LaTi7lSLMiRoGrE7QSJ5Rsop1nJMVpJGxfkmiPnFET0IInGSL5EgMew==",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\Cimber.Bot.Extensions.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\uaquax\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\uaquax\\.nuget\\packages\\nlog\\5.1.1\\nlog.5.1.1.nupkg.sha512",
+    "C:\\Users\\uaquax\\.nuget\\packages\\telegram.bot\\18.0.0\\telegram.bot.18.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

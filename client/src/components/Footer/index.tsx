@@ -60,7 +60,7 @@ const Footer: FC = () => {
                     {store.isAuth && <button className={cl.Logout_btn} onClick={() => store.callLogoutModal()}>{translate("footer.bottom.logout")}</button>}
                 </div>
                 <div className={cl.Team}>
-                    <span> Amber Team 2022 </span>
+                    <span> Amber Team 2023 </span>
                 </div>
                 <div className={cl.Lang}>
                     <LangDropdown orientation={'mobile'}/> 

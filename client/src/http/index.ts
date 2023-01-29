@@ -8,7 +8,7 @@ export const API_URL = `/api`
 
 const $api = axios.create({
     headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data' 
     },
     withCredentials: true,
     baseURL: API_URL

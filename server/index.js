@@ -9,20 +9,31 @@ const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
 const proxy = require('express-http-proxy')
 const fs = require("fs")  
-const app = express()    
-
+const app = express()     
+ 
 app.get('/:hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
   if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-  return req.query.nrw
+  return req.query.nrw 
+})) 
+app.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
+  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+  console.log(req.query.nrw + "SUS")
+  return req.query.nrw 
 }))
 app.get('/:hs/:s/:r/:v/:g/:z/master.m3u8', proxy((req, res) => {
   if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
   return req.query.nrw
-}))
+})) 
+
 //HLS media transporting 
 app.get("/:hs/:s/:d/:w/:a/:p/:s/:ts", proxy((req, res) => {
-  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-  return req.query.nrw
+  return "https://d0b-000-2600g0.streamalloha.live"
+  if(req.query && req.query.nrw) {
+    if(req.query.nrw != undefined || req.query.nrw != "undefined") return "https://950-8ca-2500g0.streamalloha.live"
+    console.log("[C_ADREM]: Received manifest request: " + req.query.nrw)
+    if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+    return req.query.nrw
+  } else return "https://950-8ca-2500g0.streamalloha.live"
 }))
 app.get("/:hs/:s/:d/:w/:a/:p/:ts", proxy((req, res) => {
   if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
@@ -35,7 +46,6 @@ app.get("/subs/:q/:w/:e/:r/:t/index.php", proxy((req, res) => {
 
 app.get("/vid167/playerjs", async (req, res) => {
   fs.readFile(`${__dirname}/static/pjs/js/vid167/playerjs.js`, (err, data) => {
-    if(err) console.log(err)
     res.contentType('text/javascript')
     const data_str = String(data)
     return res.send(data_str.replace("__hostreplace__", req.query.curl))
@@ -49,10 +59,6 @@ app.post("/allohalive-tokenacc", proxy((req, res) => {
     return req.url.replace("allohalive-tokenacc", "")
   },
 }))
-
-app.get('/js/ch.js', (req, res) => {
-  return res.status(404).json() 
-})
 
 app.get('/4Em7.txt', proxy((req, res) => {
   return "https://z9mx.streamalloha.live"

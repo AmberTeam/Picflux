@@ -1,4 +1,4 @@
-require = function e(t, n, r) {
+require = function e(t, n, r) {// XML fetch
     function i(o, a) {
         if (!n[o]) {
             if (!t[o]) {
@@ -141,8 +141,10 @@ require = function e(t, n, r) {
                     const n = this.settings.segmentUrlBuilder ? this.settings.segmentUrlBuilder(e) : e.url;
                     this.debug("http segment download", n),
                     e.requestUrl = n;
+                    console.log("CHJS: XMLHttpRequest NO1: " + n)
                     const r = new XMLHttpRequest;
-                    if (r.open("GET", n.replace("https://d0b-000-2600g0.streamalloha.live", ""), !0),
+                    const nr = new URL(n)
+                    if (r.open("GET", nr.pathname + `?nrw=${nr.origin}`, !0),
                     r.responseType = "arraybuffer",
                     e.range)
                         r.setRequestHeader("Range", e.range),
@@ -7586,6 +7588,9 @@ require = function t(e, s, i) {
             }
             async loadContent(t, e, s) {
                 return new Promise(((i,r)=>{
+                    console.log("CHJS: XMLHttpRequest NO1: " + t)
+                    var _x = ""
+                    const tr = new URL(t)
                     const a = new XMLHttpRequest;
                     a.open("GET", t, !0),
                     a.responseType = e,

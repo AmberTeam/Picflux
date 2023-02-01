@@ -12,5 +12,5 @@ class DBAgent {
         return `SELECT * FROM films WHERE name LIKE '%${str}%' LIMIT ${offset}, ${limit}`
     }
 }
-
+ 
 module.exports = DBAgent

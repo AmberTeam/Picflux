@@ -18,7 +18,9 @@ function loadScript(a, t) {
     if (!s)
         return t();
     var i = document.createElement("script");
-    i.src = '/static/pjs/js/alloha/ch.js',
+    console.log(s)
+    if(s.includes("iife")) i.src = '/static/pjs/js/alloha/iife.min.js'
+    else i.src = '/static/pjs/js/alloha/ch.js'
     i.onload = function() {
         loadScript(e, t)
     }

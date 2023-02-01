@@ -144,7 +144,7 @@ require = function e(t, n, r) {// XML fetch
                     console.log("CHJS: XMLHttpRequest NO1: " + n)
                     const r = new XMLHttpRequest;
                     const nr = new URL(n)
-                    if (r.open("GET", nr.pathname + `?nrw=${nr.origin}`, !0),
+                    if (r.open("GET", n, !0),
                     r.responseType = "arraybuffer",
                     e.range)
                         r.setRequestHeader("Range", e.range),

@@ -7,75 +7,11 @@ const cookieParser = require("cookie-parser")
 const mongoose = require("mongoose") 
 const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
-const proxy = require('express-http-proxy')
-const fs = require("fs")  
+const proxyRouter = require("./routes/proxy.router")
+const Debugger = require("./utils/debugger")
 const app = express()     
- 
-app.get('/:hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
-  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-  return req.query.nrw 
-})) 
-app.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
-  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-  console.log(req.query.nrw + "SUS")
-  return req.query.nrw 
-}))
-app.get('/:hs/:s/:r/:v/:g/:z/master.m3u8', proxy((req, res) => {
-  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-  return req.query.nrw
-})) 
 
-//HLS media transporting 
-app.get("/:hs/:s/:d/:w/:a/:p/:s/:ts", proxy((req, res) => {
-  return "https://d0b-000-2600g0.streamalloha.live"
-  if(req.query && req.query.nrw) {
-    if(req.query.nrw != undefined || req.query.nrw != "undefined") return "https://950-8ca-2500g0.streamalloha.live"
-    console.log("[C_ADREM]: Received manifest request: " + req.query.nrw)
-    if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-    return req.query.nrw
-  } else return "https://950-8ca-2500g0.streamalloha.live"
-}))
-app.get("/:hs/:s/:d/:w/:a/:p/:ts", proxy((req, res) => {
-  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-  return req.query.nrw
-}))
-app.get("/subs/:q/:w/:e/:r/:t/index.php", proxy((req, res) => {
-  if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
-  return req.query.nrw
-}))
-
-app.get("/vid167/playerjs", async (req, res) => {
-  fs.readFile(`${__dirname}/static/pjs/js/vid167/playerjs.js`, (err, data) => {
-    res.contentType('text/javascript')
-    const data_str = String(data)
-    return res.send(data_str.replace("__hostreplace__", req.query.curl))
-  })
-})
-
-app.post("/allohalive-tokenacc", proxy((req, res) => {
-  return "https://spinning.allohalive.com"
-}, {
-  proxyReqPathResolver: function (req) {
-    return req.url.replace("allohalive-tokenacc", "")
-  },
-}))
-
-app.get('/4Em7.txt', proxy((req, res) => {
-  return "https://z9mx.streamalloha.live"
-}))
-
-app.post("/rewrite/allohalive", proxy((req, res) => { 
-  return 'https://spinning.allohalive.com'
-}, {
-  proxyReqPathResolver: function (req) {
-    return req.url.replace("/rewrite/allohalive", "")
-  },
-  userResDecorator: function(proxyRes, proxyResData, userReq, userRes) {
-    const data = proxyResData.toString()
-    return data.replace("89.40.183.122", userReq.socket.remoteAddress)
-  }
-}))
-
+app.use(proxyRouter)
 app.use('/static', express.static(path.join(__dirname, '/static')))
 app.use(fileupload()) 
 app.use(express.json())
@@ -88,6 +24,7 @@ app.use('/api', routes)
 app.use(errorMiddleware)
   
 if (process.env.NODE_ENV === 'prod') {
+  const dbg = new Debugger()
   app.use('/', express.static(path.join(__dirname, "..", 'client', 'build')))
   
   app.get('*', (req, res) => {

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Q5hx7YnzYlkh7D8astvgeLrkEavaIw91dFxUfCaI+FlSIfLirIrd0jlIJmXh4ohBAi15gTkEhlCXaLha72HQ6g==",
+  "dgSpecHash": "/OtJQvYxTEI4Ht4y5bETSi2h+4r/n4eKkquKI2riGOi87dzuHDi+7GgVe9X+9YHZqdUFGtSINksl4hfjDoDSfA==",
   "success": true,
-  "projectFilePath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj",
+  "projectFilePath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\uaquax\\.nuget\\packages\\nlog\\5.1.1\\nlog.5.1.1.nupkg.sha512"
   ],

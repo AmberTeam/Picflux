@@ -20,9 +20,11 @@ namespace Cimber.Bot.Database
                 var commandString =
                     "CREATE TABLE Bug ("
                     + "Id INTEGER PRIMARY KEY,"
+                    + "Title TEXT    NOT NULL,"
                     + "Description TEXT    NOT NULL,"
                     + "Type INTEGER,"
-                    + "FromUser INTEGER,"
+                    + "FromUserId INTEGER,"
+                    + "FromUserName TEXT,"
                     + "Os INTEGER,"
                     + "Path TEXT)";
                 var command = new SQLiteCommand(commandString, _connection);
@@ -54,11 +56,11 @@ namespace Cimber.Bot.Database
 
                 if (bug.Path == null)
                 {
-                    commandString = $"INSERT INTO Bug (Description, Type, FromUser, Os) VALUES ('{bug.Description}', {(int)bug.Type}, {bug.FromUser}, {(int)bug!.Os!});";
+                    commandString = $"INSERT INTO Bug (Title, Description, Type, FromUserId, FromUserName, Os) VALUES ('{bug.Title}', '{bug.Description}', {(int)bug.Type}, {bug.FromUserId}, '{bug.FromUsername}', {(int)bug!.Os!});";
                 }
                 else
                 {
-                    commandString = $"INSERT INTO Bug (Description, Type, FromUser, Os, Path) VALUES ('{bug.Description}', {(int)bug.Type}, {bug.FromUser}, {(int)bug!.Os!}, '{bug.Path}');";
+                    commandString = $"INSERT INTO Bug (Title, Description, Type, FromUserId, FromUserName, Os, Path) VALUES ('{bug.Title}', '{bug.Description}', {(int)bug.Type}, {bug.FromUserId}, '{bug.FromUsername}', {(int)bug!.Os!}, '{bug.Path}');";
                 }
                 var command = new SQLiteCommand(commandString, _connection);
                 command.ExecuteNonQuery();
@@ -83,22 +85,24 @@ namespace Cimber.Bot.Database
                 try
                 {
                     int id = reader.GetInt32(0);
-                    string description = reader.GetString(1);
-                    int? type = reader.GetInt32(2);
-                    long? fromUser = reader.GetInt32(3);
-                    int? os = reader.GetInt32(4);
+                    string title = reader.GetString(1);
+                    string description = reader.GetString(2);
+                    int? type = reader.GetInt32(3);
+                    long? fromUserId = reader.GetInt32(4);
+                    string? fromUserName = reader.GetString(5);
+                    int? os = reader.GetInt32(6);
 
                     string? path;
 
                     try
                     {
-                        path = reader.GetString(5);
+                        path = reader.GetString(7);
                     }
                     catch
                     {
                         path = "NO PATH";
                     }
-                    bug = new Bug() { Id = id, FromUser = fromUser, Description = description, Type = (Models.Type)type, Os = (Os)os, Path = path };
+                    bug = new Bug() { Id = id, FromUserId = fromUserId, FromUsername = fromUserName, Title = title, Description = description, Type = (Models.Type)type, Os = (Os)os, Path = path };
                 }
                 catch (Exception ex)
                 {
@@ -128,12 +132,13 @@ namespace Cimber.Bot.Database
                 {
                     try
                     {
-                        string description = reader.GetString(1);
-                        int? type = reader.GetInt32(2);
-                        long? fromUser = reader.GetInt32(3);
-                        var path = reader.GetValue(4);
+                        string description = reader.GetString(2);
+                        int? type = reader.GetInt32(3);
+                        long? fromUserId = reader.GetInt32(4);
+                        string? fromUserName = reader.GetString(5);
+                        var path = reader.GetString(7);
 
-                        bug = new Bug() { Id = id, FromUser = fromUser, Description = description, Type = (Models.Type)type, Path = path.ToString() };
+                        bug = new Bug() { Id = id, FromUserId = fromUserId, FromUsername = fromUserName, Description = description, Type = (Models.Type)type, Path = path.ToString() };
                     }
                     catch (Exception ex)
                     {

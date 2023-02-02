@@ -54,6 +54,41 @@ namespace Cimber.Bot.MessageTemplates
             }
         }
 
+        public static IReplyMarkup SubmitWithoutMedia(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return Markups.SubmitWithoutMediaEng;
+                case Models.Language.Ukrainian:
+                    return Markups.SubmitWithoutMediaUkr;
+                case Models.Language.Chinese:
+                    return Markups.SubmitWithoutMediaChi;
+                case Models.Language.Russian:
+                    return Markups.SubmitWithoutMediaRus;
+                default:
+                    return Markups.SubmitWithoutMediaEng;
+            }
+        }
+
+        public static IReplyMarkup DetailedBugMarkup(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return Markups.DetailedBugEng;
+                case Models.Language.Ukrainian:
+                    return Markups.DetailedBugUkr;
+                case Models.Language.Chinese:
+                    return Markups.DetailedBugChi;
+                case Models.Language.Russian:
+                    return Markups.DetailedBugRus;
+
+                default:
+                    return Markups.DetailedBugEng;
+            }
+        }
+
         public static string ChooseLanguage(this Models.User user)
         {
             switch (user.InterfaceLanguage)
@@ -90,21 +125,57 @@ namespace Cimber.Bot.MessageTemplates
             }
         }
 
-        public static string SendBugMessage(this Models.User user)
+        public static string SendBugTitleMessage(this Models.User user)
         {
             switch (user.InterfaceLanguage)
             {
                 case Models.Language.English:
-                    return "Please submit an error description with a photo|file|video (in one message) under 10 MB in size here:";
+                    return "Please submit a bug title below:";
                 case Models.Language.Ukrainian:
-                    return "Будь ласка, надішліть опис помилки з фотографією|файлом|відео (одним повідомленням) розміром менше 10 МБ сюди:";
+                    return "Будь ласка, надішліть назву помилки нижче:";
                 case Models.Language.Chinese:
-                    return "请在此处提交带有 照片|文件|视频（一条消息）的错误说明，大小不超过 10 MB：";
+                    return "请在下方提交错误标题：";
                 case Models.Language.Russian:
-                    return "Пожалуйста, отправьте описание ошибки с фотографией|файлом|видео (одним сообщением) размером менее 10 МБ сюда:";
+                    return "Пожалуйста, отправьте название ошибки ниже:";
 
                 default:
-                    return "Please submit an error description with a photo|file|video (in one message) under 10 MB in size here:";
+                    return "Please submit a bug title below:";
+            }
+        }
+
+        public static string SendBugDescriptionMessage(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "Please submit a bug description below:";
+                case Models.Language.Ukrainian:
+                    return "Будь ласка, надішліть опис помилки нижче:";
+                case Models.Language.Chinese:
+                    return "请在下方提交错误描述：";
+                case Models.Language.Russian:
+                    return "Пожалуйста, отправьте описание ошибки ниже:";
+
+                default:
+                    return "Please submit a bug description below:";
+            }
+        }
+
+        public static string SendBugMediaMessage(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "Please submit a photo|video|document of the error (up to 10 MB) below:";
+                case Models.Language.Ukrainian:
+                    return "Будь ласка, надішліть фото|відео|документ помилки (до 10 МБ) нижче:";
+                case Models.Language.Chinese:
+                    return "请在下方提交错误的 照片|视频|文档（低于 10 MB）：";
+                case Models.Language.Russian:
+                    return "Пожалуйста, отправьте фото|видео|документ об ошибке (до 10 МБ) ниже:";
+
+                default:
+                    return "Please submit a photo|video|document of the error (up to 10 MB) below:";
             }
         }
 

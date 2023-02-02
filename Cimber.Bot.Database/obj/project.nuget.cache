@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e1BloqoQA9rpRtnKGFDWSWnigeYno7fq/MX/KE/xcmi8Pmn7gJ664nqzH+bUqiUNNbjhvVh6Pucb0tg25k2geA==",
+  "dgSpecHash": "vbeAnm3U8MnVXQFOJM9zf0OFtfukSMDqjtDLDB0osVZ45y4rGf1TghEK5jspqhtowkpQ+DsbWPV5SUp9UjgUtg==",
   "success": true,
-  "projectFilePath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Database\\Cimber.Bot.Database.csproj",
+  "projectFilePath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Database\\Cimber.Bot.Database.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\uaquax\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

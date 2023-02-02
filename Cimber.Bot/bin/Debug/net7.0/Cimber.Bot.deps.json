@@ -1036,6 +1036,7 @@
       },
       "Cimber.Bot.MessageTemplates/1.0.0": {
         "dependencies": {
+          "Cimber.Bot.Database": "1.0.0",
           "Cimber.Bot.Extensions": "1.0.0",
           "Cimber.Bot.Logger": "1.0.0",
           "Cimber.Bot.Models": "1.0.0"

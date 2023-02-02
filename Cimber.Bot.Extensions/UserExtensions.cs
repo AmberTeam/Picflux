@@ -49,6 +49,40 @@ namespace Cimber.Bot.Extensions
             }
         }
 
+        public static void SetLastMessageId(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, int messageId)
+        {
+            try
+            {
+                var user = messageUser.User(ref list);
+
+                if (user == null)
+                    user = messageUser.Activate(ref list);
+
+                list.First(u => u.Id == user!.Id).LastMessageId = messageId;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetLastBugId(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, int bugId)
+        {
+            try
+            {
+                var user = messageUser.User(ref list);
+
+                if (user == null)
+                    user = messageUser.Activate(ref list);
+
+                list.First(u => u.Id == user!.Id).LastBugId = bugId;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
         public static void SetLanguage(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, Language language)
         {
             try
@@ -76,6 +110,40 @@ namespace Cimber.Bot.Extensions
                     user = messageUser.Activate(ref list);
 
                 list.First(u => u.Id == user!.Id).Os = os;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetTitle(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, string title)
+        {
+            try
+            {
+                var user = messageUser.User(ref list);
+
+                if (user == null)
+                    user = messageUser.Activate(ref list);
+
+                list.First(u => u.Id == user!.Id).BugTitle = title;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetDescription(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, string description)
+        {
+            try
+            {
+                var user = messageUser.User(ref list);
+
+                if (user == null)
+                    user = messageUser.Activate(ref list);
+
+                list.First(u => u.Id == user!.Id).BugDescription = description;
             }
             catch (Exception ex)
             {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {}
+    "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {}
   },
   "projects": {
-    "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {
+    "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj",
+        "projectUniqueName": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj",
         "projectName": "Cimber.Bot.Logger",
-        "projectPath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj",
+        "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj",
         "packagesPath": "C:\\Users\\uaquax\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\obj\\",
+        "outputPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\uaquax\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -3,8 +3,11 @@
     public enum State
     {
         Default,
-        SendABug,
-        Fix,
+        ChooseOs,
+        SendBugTitle,
+        SendBugDescription,
+        SendBugMedia,
+        SendBug,
         ChooseLanguage
     }
 }

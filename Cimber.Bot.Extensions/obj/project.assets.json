@@ -166,11 +166,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\Cimber.Bot.Extensions.csproj",
+      "projectUniqueName": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\Cimber.Bot.Extensions.csproj",
       "projectName": "Cimber.Bot.Extensions",
-      "projectPath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\Cimber.Bot.Extensions.csproj",
+      "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\Cimber.Bot.Extensions.csproj",
       "packagesPath": "C:\\Users\\uaquax\\.nuget\\packages\\",
-      "outputPath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\obj\\",
+      "outputPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\uaquax\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -187,11 +187,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {
-              "projectPath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj"
+            "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {
+              "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj"
             },
-            "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Models\\Cimber.Bot.Models.csproj": {
-              "projectPath": "D:\\Dev\\Cimber\\Cimber.Bot\\Cimber.Bot.Models\\Cimber.Bot.Models.csproj"
+            "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Models\\Cimber.Bot.Models.csproj": {
+              "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Models\\Cimber.Bot.Models.csproj"
             }
           }
         }

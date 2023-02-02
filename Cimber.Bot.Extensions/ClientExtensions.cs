@@ -6,7 +6,10 @@ namespace Cimber.Bot.Extensions
 {
     public static class ClientExtensions
     {
-        public static async Task<Bug?> GetFilePath(this ITelegramBotClient client, Message message, Models.Type type, string token)
+        public static async Task<string?> GetFilePath(this ITelegramBotClient client, 
+                                                    Message message, 
+                                                    Models.Type type, 
+                                                    string token)
         {
             if (type == Models.Type.Text) return null;
 
@@ -23,15 +26,8 @@ namespace Cimber.Bot.Extensions
 
 
             var fileInfo = await client.GetFileAsync(fileId);
-            var bug = new Bug()
-            {
-                Description = message!.Caption ?? "NO DESCRIPTION",
-                Type = type,
-                FromUser = message.Chat.Id,
-                Path = $"https://api.telegram.org/file/bot{token}/{fileInfo.FilePath}"
-            };
 
-            return bug;
+            return $"https://api.telegram.org/file/bot{token}/{fileInfo.FilePath}";
         }
     }
 }

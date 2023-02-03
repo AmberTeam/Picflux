@@ -243,6 +243,13 @@ namespace Cimber.Bot
                                 break;
                             case State.ChooseLanguage:
                                 break;
+                            case State.ChoseRejectReason:
+                                message!.From!.SetState(ref ActiveUsers, State.Default);
+
+                                await _client.SendTextMessageAsync(message!.From!.Id, "✅ You have successfully rejected a bug");
+                                await _client.SendTextMessageAsync(message!.From!.User(ref ActiveUsers)!.LastBug!.FromUserId!, $"❌ Your bug has benn rejected, due to the reason: {message.Text}");
+
+                                break;
                         }
                         break;
                     case MessageType.Photo:
@@ -262,15 +269,27 @@ namespace Cimber.Bot
                             Os = message!.From!.User(ref ActiveUsers)!.Os
                         };
                         database.AddBug(photoBug);
+                        photoBug.Id = database.AddBug(photoBug);
 
-                        message!.From!.SetState(ref ActiveUsers, State.Default);
-                        await _client.SendTextMessageAsync(message!.From!.Id, user.SendThanksMessage());
-                        
+                        message.From.SetState(ref ActiveUsers, State.Default);
+                        await _client.SendTextMessageAsync(message.From!.Id, user.SendThanksMessage());
+
                         string photoText = $"<b>New bug</b>\n\n\n<b>Id: </b>{photoBug!.Id}\n<b>Title: </b>{photoBug!.Title}\n<b>Description: </b>{photoBug!.Description}\n<b>Type: </b>{photoBug!.Type}\n<b>From User(Id): </b>{photoBug!.FromUserId}\n<b>From User(Username): </b>{photoBug!.FromUsername}\n<b>Operating System: </b>{photoBug!.Os}\n<b>Media path: </b>{photoBug!.Path}";
+                        InlineKeyboardMarkup photoMarkup = new(new[]
+                        {
+                            new []
+                            {
+                                 InlineKeyboardButton.WithCallbackData("✅ Accept", $"ACCEPT:{photoBug.Id}")
+                            },
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData("❌ Reject", $"REJECT:{photoBug.Id}")
+                            }
+                        });
 
                         foreach (var admin in AdminList)
                         {
-                            await _client.SendTextMessageAsync(admin, photoText, parseMode: ParseMode.Html);
+                            await _client.SendTextMessageAsync(admin, photoText, replyMarkup: photoMarkup, parseMode: ParseMode.Html);
                         }
 
                         break;
@@ -290,16 +309,27 @@ namespace Cimber.Bot
                             Path = videoPath,
                             Os = message!.From!.User(ref ActiveUsers)!.Os
                         };
-                        database.AddBug(videoBug);
+                        videoBug.Id = database.AddBug(videoBug);
 
-                        message!.From!.SetState(ref ActiveUsers, State.Default);
-                        await _client.SendTextMessageAsync(message!.From!.Id, user.SendThanksMessage());
-                        
+                        message.From.SetState(ref ActiveUsers, State.Default);
+                        await _client.SendTextMessageAsync(message.From!.Id, user.SendThanksMessage());
+
                         string videoText = $"<b>New bug</b>\n\n\n<b>Id: </b>{videoBug!.Id}\n<b>Title: </b>{videoBug!.Title}\n<b>Description: </b>{videoBug!.Description}\n<b>Type: </b>{videoBug!.Type}\n<b>From User(Id): </b>{videoBug!.FromUserId}\n<b>From User(Username): </b>{videoBug!.FromUsername}\n<b>Operating System: </b>{videoBug!.Os}\n<b>Media path: </b>{videoBug!.Path}";
+                        InlineKeyboardMarkup videoMarkup = new(new[]
+                        {
+                            new []
+                            {
+                                 InlineKeyboardButton.WithCallbackData("✅ Accept", $"ACCEPT:{videoBug.Id}")
+                            },
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData("❌ Reject", $"REJECT:{videoBug.Id}")
+                            }
+                        });
 
                         foreach (var admin in AdminList)
                         {
-                            await _client.SendTextMessageAsync(admin, videoText, parseMode: ParseMode.Html);
+                            await _client.SendTextMessageAsync(admin, videoText, replyMarkup: videoMarkup, parseMode: ParseMode.Html);
                         }
 
                         break;
@@ -319,16 +349,24 @@ namespace Cimber.Bot
                             Path = documentPath,
                             Os = message!.From!.User(ref ActiveUsers)!.Os
                         };
-                        database.AddBug(documentBug);
-
-                        message!.From!.SetState(ref ActiveUsers, State.Default);
-                        await _client.SendTextMessageAsync(message!.From!.Id, user.SendThanksMessage());
+                        documentBug.Id = database.AddBug(documentBug);
 
                         string documentText = $"<b>New bug</b>\n\n\n<b>Id: </b>{documentBug!.Id}\n<b>Title: </b>{documentBug!.Title}\n<b>Description: </b>{documentBug!.Description}\n<b>Type: </b>{documentBug!.Type}\n<b>From User(Id): </b>{documentBug!.FromUserId}\n<b>From User(Username): </b>{documentBug!.FromUsername}\n<b>Operating System: </b>{documentBug!.Os}\n<b>Media path: </b>{documentBug!.Path}";
+                        InlineKeyboardMarkup documentMarkup = new(new[]
+                        {
+                            new []
+                            {
+                                 InlineKeyboardButton.WithCallbackData("✅ Accept", $"ACCEPT:{documentBug.Id}")
+                            },
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData("❌ Reject", $"REJECT:{documentBug.Id}")
+                            }
+                        });
 
                         foreach (var admin in AdminList)
                         {
-                            await _client.SendTextMessageAsync(admin, documentText, parseMode: ParseMode.Html);
+                            await _client.SendTextMessageAsync(admin, documentText, replyMarkup: documentMarkup, parseMode: ParseMode.Html);
                         }
 
                         break;
@@ -478,16 +516,27 @@ namespace Cimber.Bot
                             Path = null,
                             Os = user!.Os
                         };
-                        database.AddBug(bug);
+                        bug.Id = database.AddBug(bug);
 
                         update.CallbackQuery.From!.SetState(ref ActiveUsers, State.Default);
                         await _client.SendTextMessageAsync(update.CallbackQuery.From!.Id, user.SendThanksMessage());
                         
                         string text = $"<b>New bug</b>\n\n\n<b>Id: </b>{bug!.Id}\n<b>Title: </b>{bug!.Title}\n<b>Description: </b>{bug!.Description}\n<b>Type: </b>{bug!.Type}\n<b>From User(Id): </b>{bug!.FromUserId}\n<b>From User(Username): </b>{bug!.FromUsername}\n<b>Operating System: </b>{bug!.Os}\n<b>Media path: </b>{bug!.Path}";
+                        InlineKeyboardMarkup markup = new(new[]
+                        {
+                            new []
+                            {
+                                 InlineKeyboardButton.WithCallbackData("✅ Accept", $"ACCEPT:{bug.Id}")
+                            },
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData("❌ Reject", $"REJECT:{bug.Id}")
+                            }
+                        });
 
                         foreach (var admin in AdminList)
                         {
-                            await _client.SendTextMessageAsync(admin, text, parseMode: ParseMode.Html);
+                            await _client.SendTextMessageAsync(admin, text, replyMarkup: markup, parseMode: ParseMode.Html);
                         }
 
                         break;
@@ -538,7 +587,7 @@ namespace Cimber.Bot
                             var messageId = user.LastMessageId;
                             var bugId = user.LastBugId;
                             
-                            database.DeleteBug(bugId);
+                            var fixedBug = database.DeleteBug(bugId);
 
                             var backBugs_ = database.GetBugs().ToList();
 
@@ -550,7 +599,35 @@ namespace Cimber.Bot
                             InlineKeyboardMarkup bugsMarkup_ = new InlineKeyboardMarkup(menu_.Pages);
 
                             await _client.EditMessageTextAsync(update!.CallbackQuery.From.Id, user.LastMessageId, "Bugs list", replyMarkup: bugsMarkup_);
+                            await _client.SendTextMessageAsync(fixedBug!.FromUserId!, $"<b>Your bug has been fixed</b>\n\n\n<b>Id: </b>{fixedBug!.Id}\n<b>Title: </b>{fixedBug!.Title}\n<b>Description: </b>{fixedBug!.Description}\n<b>Type: </b>{fixedBug!.Type}\n<b>From User(Id): </b>{fixedBug!.FromUserId}\n<b>From User(Username): </b>{fixedBug!.FromUsername}\n<b>Operating System: </b>{fixedBug!.Os}", parseMode: ParseMode.Html);
+                        }
+                        else if (data.Contains("REJECT")
+                            && user.Permission == UserPermission.Admin)
+                        {
+                            int bugId;
+                            bool isInt = int.TryParse(data.Split("REJECT:")[1].Trim(), out bugId);
 
+                            if (isInt)
+                            {
+                                var fixedBug = database.DeleteBug(bugId);
+
+                                update.CallbackQuery.From.SetLastBug(ref ActiveUsers, fixedBug!);
+                                update.CallbackQuery.From.SetState(ref ActiveUsers, State.ChoseRejectReason);
+
+                                await _client.SendTextMessageAsync(update.CallbackQuery.From.Id, user.ChooseRejectReason());
+                            }
+                        }
+                        else if (data.Contains("ACCEPT"))
+                        {
+                            int bugId;
+                            bool isInt = int.TryParse(data.Split("ACCEPT:")[1].Trim(), out bugId);
+
+                            if (isInt)
+                            {
+                                database.Verify(bugId);
+
+                                await _client.SendTextMessageAsync(update.CallbackQuery.From.Id, "✅");
+                            }
                         }
                         break;
                 }

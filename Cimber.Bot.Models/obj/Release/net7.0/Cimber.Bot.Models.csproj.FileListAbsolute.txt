@@ -10,3 +10,15 @@ D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.
 D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\refint\Cimber.Bot.Models.dll
 D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.pdb
 D:\Dev\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\ref\Cimber.Bot.Models.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\bin\Release\net7.0\Cimber.Bot.Models.deps.json
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\bin\Release\net7.0\Cimber.Bot.Models.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\bin\Release\net7.0\Cimber.Bot.Models.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.csproj.AssemblyReference.cache
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.AssemblyInfoInputs.cache
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.AssemblyInfo.cs
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.csproj.CoreCompileInputs.cache
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\refint\Cimber.Bot.Models.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\Cimber.Bot.Models.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Models\obj\Release\net7.0\ref\Cimber.Bot.Models.dll

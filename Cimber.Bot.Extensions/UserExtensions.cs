@@ -83,6 +83,23 @@ namespace Cimber.Bot.Extensions
             }
         }
 
+        public static void SetLastBug(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, Bug? bug)
+        {
+            try
+            {
+                var user = messageUser.User(ref list);
+
+                if (user == null)
+                    user = messageUser.Activate(ref list);
+
+                list.First(u => u.Id == user!.Id).LastBug = bug;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
         public static void SetLanguage(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, Language language)
         {
             try

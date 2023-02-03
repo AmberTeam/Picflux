@@ -132,7 +132,7 @@ namespace Cimber.Bot.MessageTemplates
         {
             new []
             {
-                InlineKeyboardButton.WithCallbackData("⬅️ 回来", "BACK"),
+                InlineKeyboardButton.WithCallbackData("⬅️ 返回", "BACK"),
                 InlineKeyboardButton.WithCallbackData("🛠 修复", "FIX")
             },
         });

@@ -232,5 +232,23 @@ namespace Cimber.Bot.MessageTemplates
                     return "The bug has been successfully fixed :D";
             }
         }
+
+        public static string ChooseRejectReason(this Models.User user) 
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "Enter a rejection reason below (this reason will be visible to the submitting user):";
+                case Models.Language.Ukrainian:
+                    return "Введіть причину відхилення нижче (цю причину бачитиме користувач, який надсилає запит):";
+                case Models.Language.Chinese:
+                    return "在下方输入拒绝原因（提交用户可以看到该原因）：";
+                case Models.Language.Russian:
+                    return "Введите причину отклонения ниже (эта причина будет видна подавшему заявку пользователю): ";
+
+                default:
+                    return "Enter a rejection reason below (this reason will be visible to the submitting user): ";
+            }
+        }
     }
 }

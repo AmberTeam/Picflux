@@ -262,3 +262,55 @@ table Bug already exists |
 	Specified cast is not valid. | 
 2023-02-02 11:15:17.0289|Error|[0] [System.Data.SQLite]
 	Specified cast is not valid. | 
+2023-02-03 09:31:18.4108|Debug|Client has been created | 
+2023-02-03 09:31:26.5971|Error|[0] [System.Data.SQLite]
+	Specified cast is not valid. | 
+2023-02-03 09:31:27.3037|Error|[553] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-02-03 09:31:32.3121|Error|[0] [System.Data.SQLite]
+	Specified cast is not valid. | 
+2023-02-03 09:31:32.8785|Error|[553] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-02-03 09:31:44.5040|Debug|Client has been created | 
+2023-02-03 09:32:07.4842|Error|[0] [System.Data.SQLite]
+	Specified cast is not valid. | 
+2023-02-03 09:33:34.1147|Debug|Client has been created | 
+2023-02-03 09:33:36.7420|Error|[0] [Telegram.Bot]
+	Bad Request: message to edit not found | 
+2023-02-03 09:34:20.9127|Debug|Client has been created | 
+2023-02-03 10:18:36.5341|Debug|Client has been created | 
+2023-02-03 10:39:18.0811|Debug|Client has been created | 
+2023-02-03 10:43:24.2236|Debug|Client has been created | 
+2023-02-03 10:43:28.5764|Debug|Client has been created | 
+2023-02-03 10:44:09.9066|Debug|Client has been created | 
+2023-02-03 10:44:36.0540|Debug|Client has been created | 
+2023-02-03 10:46:41.9530|Debug|Client has been created | 
+2023-02-03 10:46:54.0275|Error|[0] [System.Data.SQLite]
+	SQL logic error
+no such table: films | 
+2023-02-03 10:51:37.9516|Debug|Client has been created | 
+2023-02-03 10:52:41.2222|Error|[247] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-02-03 10:52:46.1891|Error|[247] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-02-03 10:52:53.4058|Debug|Client has been created | 
+2023-02-03 10:53:41.6226|Error|[247] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-02-03 10:53:58.5209|Debug|Client has been created | 
+2023-02-03 10:54:26.2555|Debug|Client has been created | 
+2023-02-03 10:54:32.6468|Error|[248] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-02-03 10:54:50.9011|Debug|Client has been created | 
+2023-02-03 10:55:35.3739|Debug|Client has been created | 
+2023-02-03 10:56:23.0825|Debug|Client has been created | 
+2023-02-03 10:57:43.9807|Debug|Client has been created | 
+2023-02-03 10:58:52.5409|Debug|Client has been created | 
+2023-02-03 10:59:43.2897|Error|[251] [Cimber.Bot]
+	Object reference not set to an instance of an object. | 
+2023-02-03 11:00:39.0953|Debug|Client has been created | 
+2023-02-03 11:01:16.3482|Debug|Client has been created | 
+2023-02-03 11:14:14.2623|Debug|Client has been created | 
+2023-02-03 11:14:22.0539|Error|[0] [Telegram.Bot]
+	Exception during making request | 
+2023-02-03 11:14:22.1887|Error|[0] [Telegram.Bot]
+	Exception during making request | 

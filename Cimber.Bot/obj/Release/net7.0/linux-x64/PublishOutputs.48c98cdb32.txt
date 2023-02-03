@@ -1,0 +1,10 @@
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\Cimber.Bot.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\nlog.config
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\.env
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\SQLite.Interop.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\Cimber.Bot.Database.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\Cimber.Bot.Extensions.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\Cimber.Bot.Logger.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\Cimber.Bot.MessageTemplates.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\Cimber.Bot.Models.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\publish\linux-x64\Cimber.Bot

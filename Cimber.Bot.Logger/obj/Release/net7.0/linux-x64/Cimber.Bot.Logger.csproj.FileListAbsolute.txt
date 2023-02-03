@@ -1,0 +1,13 @@
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\linux-x64\nlog.config
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\linux-x64\Cimber.Bot.Logger.deps.json
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\linux-x64\Cimber.Bot.Logger.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\bin\Release\net7.0\linux-x64\Cimber.Bot.Logger.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\Cimber.Bot.Logger.csproj.AssemblyReference.cache
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\Cimber.Bot.Logger.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\Cimber.Bot.Logger.AssemblyInfoInputs.cache
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\Cimber.Bot.Logger.AssemblyInfo.cs
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\Cimber.Bot.Logger.csproj.CoreCompileInputs.cache
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\Cimber.Bot.Logger.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\refint\Cimber.Bot.Logger.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\Cimber.Bot.Logger.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Logger\obj\Release\net7.0\linux-x64\ref\Cimber.Bot.Logger.dll

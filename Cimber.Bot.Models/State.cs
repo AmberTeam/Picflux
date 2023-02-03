@@ -8,6 +8,7 @@
         SendBugDescription,
         SendBugMedia,
         SendBug,
+        ChoseRejectReason,
         ChooseLanguage
     }
 }

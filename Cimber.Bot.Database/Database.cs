@@ -1,6 +1,7 @@
 ﻿using Cimber.Bot.Extensions;
 using Cimber.Bot.Models;
 using System.Data.SQLite;
+using System.IO;
 
 namespace Cimber.Bot.Database
 {
@@ -26,6 +27,7 @@ namespace Cimber.Bot.Database
                     + "FromUserId INTEGER,"
                     + "FromUserName TEXT,"
                     + "Os INTEGER,"
+                    + "IsVerified BOOLEAN DEFAULT 0,"
                     + "Path TEXT)";
                 var command = new SQLiteCommand(commandString, _connection);
                 command.ExecuteNonQuery();
@@ -47,8 +49,8 @@ namespace Cimber.Bot.Database
         /// Adds bug to db
         /// </summary>
         /// <param name="bug"></param>
-        /// <returns>Has bug added to db</returns>
-        public bool AddBug(Bug bug)
+        /// <returns>Bug Id</returns>
+        public int AddBug(Bug bug)
         {
             try
             {
@@ -56,26 +58,24 @@ namespace Cimber.Bot.Database
 
                 if (bug.Path == null)
                 {
-                    commandString = $"INSERT INTO Bug (Title, Description, Type, FromUserId, FromUserName, Os) VALUES ('{bug.Title}', '{bug.Description}', {(int)bug.Type}, {bug.FromUserId}, '{bug.FromUsername}', {(int)bug!.Os!});";
+                    commandString = $"INSERT INTO Bug (Title, Description, Type, FromUserId, FromUserName, Os, IsVerified) VALUES ('{bug.Title}', '{bug.Description}', {(int)bug.Type}, {bug.FromUserId}, '{bug.FromUsername}', {(int)bug!.Os!}, {false});";
                 }
                 else
                 {
-                    commandString = $"INSERT INTO Bug (Title, Description, Type, FromUserId, FromUserName, Os, Path) VALUES ('{bug.Title}', '{bug.Description}', {(int)bug.Type}, {bug.FromUserId}, '{bug.FromUsername}', {(int)bug!.Os!}, '{bug.Path}');";
+                    commandString = $"INSERT INTO Bug (Title, Description, Type, FromUserId, FromUserName, Os, IsVerified, Path) VALUES ('{bug.Title}', '{bug.Description}', {(int)bug.Type}, {bug.FromUserId}, '{bug.FromUsername}', {(int)bug!.Os!}, {false}, '{bug.Path}');";
                 }
                 var command = new SQLiteCommand(commandString, _connection);
-                command.ExecuteNonQuery();
-
-                return true;
+                return command.ExecuteNonQuery();
             }
             catch
             {
-                return false;
+                return 0;
             }
         }
 
         public IEnumerable<Bug> GetBugs()
         {
-            var getCommandString = $@"SELECT * FROM Bug;";
+            var getCommandString = $@"SELECT * FROM Bug WHERE IsVerified = {true};";
             var reader = new SQLiteCommand(getCommandString, _connection).ExecuteReader();
 
             while (reader.Read())
@@ -96,7 +96,7 @@ namespace Cimber.Bot.Database
 
                     try
                     {
-                        path = reader.GetString(7);
+                        path = reader.GetString(8);
                     }
                     catch
                     {
@@ -117,6 +117,21 @@ namespace Cimber.Bot.Database
             }
         }
 
+        public void Verify(int id)
+        {
+            try
+            {
+                string commandString = $"UPDATE Bug SET IsVerified={true} WHERE id={id};";
+
+                var command = new SQLiteCommand(commandString, _connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.Error($"[{e.GetLine()}] [{e.Source}]\n\t{e.Message}");
+            }
+        }
+
         public Bug? DeleteBug(int id)
         {
             try
@@ -132,13 +147,25 @@ namespace Cimber.Bot.Database
                 {
                     try
                     {
+                        string title = reader.GetString(1);
                         string description = reader.GetString(2);
                         int? type = reader.GetInt32(3);
                         long? fromUserId = reader.GetInt32(4);
                         string? fromUserName = reader.GetString(5);
-                        var path = reader.GetString(7);
+                        int? os = reader.GetInt32(6);
 
-                        bug = new Bug() { Id = id, FromUserId = fromUserId, FromUsername = fromUserName, Description = description, Type = (Models.Type)type, Path = path.ToString() };
+                        string? path;
+
+                        try
+                        {
+                            path = reader.GetString(8);
+                        }
+                        catch
+                        {
+                            path = "NO PATH";
+                        }
+
+                        bug = new Bug() { Id = id, FromUserId = fromUserId, FromUsername = fromUserName, Title = title, Description = description, Type = (Models.Type)type, Os = (Os)os, Path = path };
                     }
                     catch (Exception ex)
                     {

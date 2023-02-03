@@ -14,5 +14,6 @@
         public UserPermission Permission { get; set; } = UserPermission.User;
         public int LastMessageId { get; set; }
         public int LastBugId { get; set; }
+        public Bug? LastBug { get; set; }
     }
 }

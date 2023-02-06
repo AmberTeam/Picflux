@@ -10,6 +10,7 @@ import FCRService from '../../../services/FCRService'
 import { config } from 'process'
 import { useResizeHandler } from '../../../hooks/resizehandler.hook'
 import { Context } from '../../..'
+import LoaderMini from '../../UI/LoaderMini'
 
 const FilmPage = () => {
     
@@ -23,6 +24,7 @@ const FilmPage = () => {
     const [mobileOriented, setMobileOriented] = useState<boolean>(false)
     const [rPlayer, setRPlayer] = useState<any>()
     const [isInWatchLater, setIsInWL] = useState<boolean | null>(null)
+    const [isWLLoading, setIsWLLoading] = useState<boolean>(false)
 
     useResizeHandler((w: number) => {
         if(w > 1000) setMobileOriented(false)
@@ -83,13 +85,21 @@ const FilmPage = () => {
 
     const changeWatchLater = async () => {
         if(isInWatchLater == null) return  
-        if(isInWatchLater == true) {
-            console.log(isInWatchLater)
-            await UserService.removeWLFilm(film!.id)
-            setIsInWL(false)
-        } else {
-            await UserService.addWLFilm(film!.id)
-            setIsInWL(true)    
+        try {
+            if(isInWatchLater == true) {
+                console.log(isInWatchLater)
+                setIsWLLoading(true)
+                await UserService.removeWLFilm(film!.id)
+                setIsInWL(false)
+            } else {
+                setIsWLLoading(true)
+                await UserService.addWLFilm(film!.id)
+                setIsInWL(true)    
+            }
+        } catch(e) {
+            console.log(e) 
+        } finally {
+            setIsWLLoading(false)
         }
     }
 
@@ -127,8 +137,25 @@ const FilmPage = () => {
                         <h1>{film.name} ({film.year})</h1>
                         <div className={cl.Btns}>
                             <AllowAuth>
-                                <button className={cl.Add_wread} onClick={() => changeWatchLater()}>
-                                    { isInWatchLater ? "Remove from watch later" : translate("film.actions.watch_later")}
+                                <button className={`${cl.Add_wread} ${isWLLoading ? cl.Loading : ""}`} onClick={() => changeWatchLater()}>
+                                    {
+                                        isWLLoading 
+                                            ?
+                                            <LoaderMini/>
+                                            :
+                                            isInWatchLater 
+                                                ? 
+                                                    <>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox='0 0 1793 1792'><path d="M1420 128q23 0 44 9 33 13 52.5 41t19.5 62v1289q0 34-19.5 62t-52.5 41q-19 8-44 8-48 0-83-32l-441-424-441 424q-36 33-83 33-23 0-44-9-33-13-52.5-41t-19.5-62V240q0-34 19.5-62t52.5-41q21-9 44-9h1048z"/></svg>
+                                                        <span>{translate("film.actions.watch_later_svd")}</span>
+                                                    </>
+                                                :
+                                                    <>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox='0 0 1793 1792'><path d="M1408 256H384v1242l423-406 89-85 89 85 423 406V256zm12-128q23 0 44 9 33 13 52.5 41t19.5 62v1289q0 34-19.5 62t-52.5 41q-19 8-44 8-48 0-83-32l-441-424-441 424q-36 33-83 33-23 0-44-9-33-13-52.5-41t-19.5-62V240q0-34 19.5-62t52.5-41q21-9 44-9h1048z"/>
+                                                        </svg>
+                                                        <span>{translate("film.actions.watch_later")}</span>
+                                                    </>
+                                    }
                                 </button>
                             </AllowAuth>
                             <a href="#frame" className={cl.Watch}>

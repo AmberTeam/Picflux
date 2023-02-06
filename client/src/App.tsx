@@ -5,12 +5,13 @@ import HomePage from './components/pages/Home'
 import {Context} from "./index"
 import {observer} from "mobx-react-lite"
 import {IUser} from "./models/IUser"
-import UserService from "./services/UserService"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Navbar from './components/Navbar'
 import LogModal from './components/LogModal'
 import FilmPage from './components/pages/Film'
 import ProfilePage from './components/pages/Profile'
+import SettingsPage from './components/pages/Settings'
+import UndefinedRoutePage from './components/pages/UndefRoute'
 import Footer from './components/Footer'
 import LogoutModal from './components/LogoutModal'
 import "./sass/index.sass"
@@ -52,9 +53,13 @@ const App: FC = () => {
                         <>
                             <Route path="/registration" element={<Navigate to="/"/>}/>
                             <Route path="/login" element={<Navigate to="/"/>}/>
-                            <Route path="/profile/:id" element={<ProfilePage/>}/>
+                            <Route path="/profile">
+                                <Route path=":id/preview" element={<ProfilePage/>}/>
+                                <Route path="settings" element={<SettingsPage/>}/>
+                                <Route path="*" element={<UndefinedRoutePage/>}/>
+                            </Route>
                         </>
-                    }     
+                    } 
                 </Routes>
                 <Footer/>
             </BrowserRouter>

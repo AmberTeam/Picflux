@@ -57,10 +57,10 @@ const Footer: FC = () => {
             </div>
             <div className={cl.Footer_bottom}>
                 <div className={cl.Logout}>
-                    {store.isAuth && <button className={cl.Logout_btn} onClick={() => store.callLogoutModal()}>{translate("footer.bottom.logout")}</button>}
+                    {store.isAuth && <button className="button_mini" onClick={() => store.callLogoutModal()}>{translate("footer.bottom.logout")}</button>}
                 </div>
                 <div className={cl.Team}>
-                    <span> Amber Team 2023 </span>
+                    <span> Amber Team 2023. Cimber v1.0.1 </span>
                 </div>
                 <div className={cl.Lang}>
                     <LangDropdown orientation={'mobile'}/> 

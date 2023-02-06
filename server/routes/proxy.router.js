@@ -4,7 +4,7 @@ const fs = require('fs')
 const router = new Router()
 
 router.get('/:hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
-    if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+    if(req.query.nrw.includes(process.env.API_ORIGIN)) return "https://78b-621-330g0.streamalloha.live"
     return req.query.nrw 
     },
     {
@@ -16,7 +16,7 @@ router.get('/:hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
 ) 
 
 router.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
-        if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+        if(req.query.nrw.includes(process.env.API_ORIGIN)) return "https://78b-621-330g0.streamalloha.live"
         return req.query.nrw 
     },
     {
@@ -28,7 +28,7 @@ router.get('/hs/:s/:r/:v/:g/:z/:q/master.m3u8', proxy((req, res) => {
 ) 
 
 router.get('/:hs/:s/:r/:v/:g/:z/master.m3u8', proxy((req, res) => {
-        if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+        if(req.query.nrw.includes(process.env.API_ORIGIN)) return "https://78b-621-330g0.streamalloha.live"
         return req.query.nrw
     },
     {
@@ -42,7 +42,7 @@ router.get('/:hs/:s/:r/:v/:g/:z/master.m3u8', proxy((req, res) => {
 //HLS media transporting 
 router.get("/:hs/:s/:d/:w/:a/:p/:s/:ts", proxy((req, res) => {
         if(req.query && req.query.nrw) {
-            if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+            if(req.query.nrw.includes(process.env.API_ORIGIN)) return "https://78b-621-330g0.streamalloha.live"
             return req.query.nrw
         } else return "https://78b-621-330g0.streamalloha.live"
     },
@@ -56,7 +56,7 @@ router.get("/:hs/:s/:d/:w/:a/:p/:s/:ts", proxy((req, res) => {
 
 router.get("/:hs/:s/:d/:w/:a/:p/:ts", proxy((req, res) => {
         if(req.query && req.query.nrw) {
-            if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+            if(req.query.nrw.includes(process.env.API_ORIGIN)) return "https://78b-621-330g0.streamalloha.live"
             return req.query.nrw
         } else return "https://78b-621-330g0.streamalloha.live"
     },
@@ -69,7 +69,7 @@ router.get("/:hs/:s/:d/:w/:a/:p/:ts", proxy((req, res) => {
 )
 
 router.get("/subs/:q/:w/:e/:r/:t/index.php", proxy((req, res) => {
-        if(req.query.nrw.includes('localhost')) return "https://78b-621-330g0.streamalloha.live"
+        if(req.query.nrw.includes(process.env.API_ORIGIN)) return "https://78b-621-330g0.streamalloha.live"
         return req.query.nrw
     })
 )

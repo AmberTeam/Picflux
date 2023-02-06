@@ -36,8 +36,10 @@ class FilmController {
     }
 
     search(req, res) { 
+        const {fl, flt} = req.query
         const {limit, offset, query} = req.body
-        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit), [], (err, rows) => {
+        const fl_arr = fl.split(" ").filter((flt) => flt !== "")
+        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit, fl_arr), [], (err, rows) => {
             if(!rows) return res.json([])
             const arr = []
             rows.map((row) => {

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nodemon index.js",
     "prod": "cross-env NODE_ENV=prod node index.js",
-    "psprod": "cross-env NODE_ENV=prod nodemon index.js"
+    "psprod": "cross-env NODE_ENV=psprod nodemon index.js"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,41 @@
+.BrickSelector
+    display: grid
+    gap: .7rem
+
+    .Selector_body 
+        display: flex
+        gap: .5rem
+        flex-wrap: wrap
+
+        .Selector_action 
+            padding: .4rem 
+            border: 1px solid var(--mtd-col)
+            border-radius: 6px
+            background: transparent
+            color: var(--mtd-col)
+            transition: .2s all ease
+            cursor: pointer
+            opacity: .7
+
+            &.Default
+                &:hover 
+                    border-color: var(--color-a)
+                    color: var(--color-a)
+            
+            &.Selected 
+                border-color: var(--color-a)
+                background: rgba(240, 168, 50, .3)
+                color: var(--color-a)
+                opacity: 1
+            
+                &:hover 
+                    border-color: #ED4337
+                    color: #ED4337
+                    background: rgba(237, 67, 55, .3)
+
+            &.Selected_required_all
+                border-color: var(--color-a)
+                color: var(--color-a)
+                background: rgba(240, 168, 50, .3)
+                opacity: 1
+            

@@ -1,0 +1,65 @@
+
+.ContentModal_container 
+    position: fixed
+    top: 0 
+    bottom: 0 
+    left: 0 
+    right: 0
+    z-index: 99999
+    backdrop-filter: blur(6px)
+    display: flex 
+    justify-content: center 
+    align-items: center
+    transition: .2s all ease
+    transform: translateY(0)
+
+    &.Inactive 
+        transform: translateY(-100%)
+        
+    .Modal_inner
+        max-width: 50vh
+        box-shadow: 0px 0px 74px -13px rgba(0,0,0,0.75)
+        background: var(--fg)
+        padding: 1.5rem
+        min-height: 38vh
+        border-radius: 10px
+        display: grid
+        align-content: space-between
+
+        .Modal_header 
+            display: flex
+            align-items: center
+            justify-content: space-between
+            margin-bottom: 2rem
+
+            .Exec
+                cursor: pointer
+                border: none 
+                background: transparent
+                svg 
+                    fill: var(--color)
+
+            .Title 
+                font-size: 22px 
+                font-weight: bold
+        
+        .Modal_content 
+            display: grid 
+            grid-gap: 1rem
+
+        .Modal_action
+            display: grid 
+            grid-gap: 1.5rem
+
+            .Action_sec 
+                display: grid
+                gap: .5rem
+
+                .Radio 
+                    display: flex 
+                    gap: .2rem
+
+            .Action_end 
+                display: flex
+                gap: .5rem
+    

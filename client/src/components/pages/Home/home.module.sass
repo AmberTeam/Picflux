@@ -1,3 +1,26 @@
+.Pagination_mtd
+    display: grid
+    gap: .7rem
+    
+    .Mtd_header 
+    
+    .Mtd_body 
+        display: flex
+        gap: .5rem
+        flex-wrap: wrap
+
+        .Mtd_action 
+            padding: .4rem 
+            border: 1px solid var(--mtd-col)
+            border-radius: 6px
+            background: transparent
+            color: var(--mtd-col)
+            transition: .2s all ease
+            cursor: pointer
+
+            &:hover 
+                border-color: var(--color-a)
+                color: var(--color-a)
 .Home_section
     .Section_starter 
         min-height: 40vh
@@ -188,7 +211,9 @@
         .Section_content 
             padding-top: 100px
             .Content_content 
-                grid-template-columns: auto
+                padding: 4rem 1rem 4rem 1rem
+                grid-gap: 1rem
+                grid-template-columns: calc(50% - .5rem) calc(50% - .5rem)
 
                 
 

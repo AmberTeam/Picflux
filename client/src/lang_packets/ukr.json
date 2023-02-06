@@ -109,6 +109,7 @@
     },
     "film": {
       "actions": {
+        "watch_later_svd": "Збережено",
         "watch_later": "Дивитися пізніше",
         "watch": "Дивитись зараз"
       },

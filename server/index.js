@@ -23,7 +23,7 @@ app.use(cors({
 app.use('/api', routes)  
 app.use(errorMiddleware)
   
-if (process.env.NODE_ENV === 'prod') {
+if (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'psprod') {
   const dbg = new Debugger()
   app.use('/', express.static(path.join(__dirname, "..", 'client', 'build')))
   

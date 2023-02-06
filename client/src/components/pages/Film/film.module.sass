@@ -27,9 +27,11 @@
                 gap: .5rem
 
                 .Add_wread 
+                    display: flex
+                    gap: .3rem
                     border: 2px solid var(--color)
                     background: var(--color)
-                    padding: .8rem 2rem
+                    padding: .8rem 2rem .8rem 2rem
                     font-family: 'Roobert'
                     border-radius: 100px
                     font-size: 14px
@@ -38,9 +40,21 @@
                     font-weight: bold
                     color: var(--bg)
 
+                    svg 
+                        fill: var(--bg)
+                        transition: .2s all ease
+                    
+                    &.Loading 
+                        background: var(--bg)
+                        color: var(--color)
+
+
                     &:hover 
                         background: var(--bg)
                         color: var(--color)
+
+                        svg 
+                            fill: var(--color)
 
                 .Watch 
                     text-decoration: none

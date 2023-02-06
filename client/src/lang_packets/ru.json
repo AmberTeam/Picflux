@@ -109,6 +109,7 @@
     },
     "film": {
         "actions": {
+            "watch_later_svd": "Сохранено",
             "watch_later": "Смотреть позже",
             "watch": "Смотреть сейчас"
         },

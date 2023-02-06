@@ -27,8 +27,81 @@
         height: 20px
         transition: .2s all ease
 
+.Navbar_navigator 
+    width: 100%
+    color: var(--color)
+    z-index: 20
+    font-size: 14px
+    transition: .3s all ease
+    background: var(--fg)
+    position: fixed
+    transform: translateY(-100px) 
+    top: 0
+    padding: 1rem
 
-.Navbar 
+    display: flex
+    justify-content: center
+    
+
+    .Navigator_content 
+        display: flex
+        justify-content: space-evenly
+        width: 100%
+
+        .Navigator_links
+            display: flex
+            gap: .5rem
+
+            .Navigator_link 
+
+                &:hover 
+                    a 
+                        &::before
+                            width: 100%
+                            transition: width 0.3s cubic-bezier(0.22, 0.61, 0.36, 1)
+
+                        &::after
+                            width: 100%
+                            background: transparent
+                            transition: 0s
+                a
+                    position: relative
+                    font-family: 'Roobert'
+                    text-decoration: none 
+                    color: var(--color)
+
+                    &::before
+                        content: ''
+                        position: absolute
+                        bottom: -0.2rem
+                        width: 0
+                        height: 0.1rem
+                        background: var(--color-a)
+
+                    &::after
+                        content: ''
+                        position: absolute
+                        bottom: -0.2rem
+                        width: 0
+                        height: 0.1rem
+                        background: var(--color-a)
+
+                    &::before 
+                        left: 0 
+                    
+                    &::after 
+                        right: 0 
+                        transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)
+                
+
+    &.Down 
+        transform: translateY(0)
+
+
+.Navbar
+    z-index: 11 
+    width: 100%
+    transition: .2s all ease
     position: relative
     display: grid 
     grid-template-columns: 15% 70% 15%

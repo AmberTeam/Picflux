@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cimber.Bot.Database\Cimber.Bot.Database.csproj" />
     <ProjectReference Include="..\Cimber.Bot.Logger\Cimber.Bot.Logger.csproj" />
     <ProjectReference Include="..\Cimber.Bot.Models\Cimber.Bot.Models.csproj" />
   </ItemGroup>

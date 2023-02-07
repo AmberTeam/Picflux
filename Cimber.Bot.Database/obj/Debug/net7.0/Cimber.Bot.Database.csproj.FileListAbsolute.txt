@@ -25,10 +25,8 @@ D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.D
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Database.runtimeconfig.json
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Database.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Database.pdb
-D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Extensions.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Logger.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Models.dll
-D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Extensions.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Logger.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Debug\net7.0\Cimber.Bot.Models.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\obj\Debug\net7.0\Cimber.Bot.Database.csproj.AssemblyReference.cache

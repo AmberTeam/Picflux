@@ -27,27 +27,27 @@ namespace Cimber.Bot.MessageTemplates
             switch (user.InterfaceLanguage)
             {
                 case Models.Language.English:
-                    if (user.Permission == Models.UserPermission.User)
+                    if (user.IsAdmin == false)
                         return Markups.MainMenuEngUser;
                     else
                         return Markups.MainMenuEngAdmin;
                 case Models.Language.Ukrainian:
-                    if (user.Permission == Models.UserPermission.User)
+                    if (user.IsAdmin == false)
                         return Markups.MainMenuUkrUser;
                     else
                         return Markups.MainMenuUkrAdmin;
                 case Models.Language.Chinese:
-                    if (user.Permission == Models.UserPermission.User)
+                    if (user.IsAdmin == false)
                         return Markups.MainMenuChiUser;
                     else
                         return Markups.MainMenuChiAdmin;
                 case Models.Language.Russian:
-                    if (user.Permission == Models.UserPermission.User)
+                    if (user.IsAdmin == false)
                         return Markups.MainMenuRusUser;
                     else
                         return Markups.MainMenuRusAdmin;
                 default:
-                    if (user.Permission == Models.UserPermission.User)
+                    if (user.IsAdmin == false)
                         return Markups.MainMenuEngUser;
                     else
                         return Markups.MainMenuEngAdmin;
@@ -248,6 +248,114 @@ namespace Cimber.Bot.MessageTemplates
 
                 default:
                     return "Enter a rejection reason below (this reason will be visible to the submitting user): ";
+            }
+        }
+
+        public static string SuccessRejectedBug(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "✅ You have successfully rejected a bug";
+                case Models.Language.Ukrainian:
+                    return "✅ Ви успішно відхилили помилку";
+                case Models.Language.Chinese:
+                    return "✅ 您已成功拒绝一个错误";
+                case Models.Language.Russian:
+                    return "✅ Вы успешно отклонили ошибку";
+
+                default:
+                    return "✅ You have successfully rejected a bug";
+            }
+        }
+
+        public static string YourBugRejected(this Models.User user, string text)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return $"❌ Your bug has benn rejected, due to the reason: {text}";
+                case Models.Language.Ukrainian:
+                    return $"❌ Вашу помилку відхилено з причини: {text}";
+                case Models.Language.Chinese:
+                    return $"❌ 您的错误已被拒绝，原因是：{text}";
+                case Models.Language.Russian:
+                    return $"❌ Ваш баг отклонен по причине: {text}";
+
+                default:
+                    return $"❌ Your bug has benn rejected, due to the reason: {text}";
+            }
+        }
+        
+        public static string AcceptMessage(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "✅ Accept";
+                case Models.Language.Ukrainian:
+                    return "✅ Прийняти";
+                case Models.Language.Chinese:
+                    return "✅ 接受";
+                case Models.Language.Russian:
+                    return "✅ Принять";
+
+                default:
+                    return "✅ Accept";
+            }
+        }
+
+        public static string RejectMessage(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "❌ Reject";
+                case Models.Language.Ukrainian:
+                    return "❌ Відхилити";
+                case Models.Language.Chinese:
+                    return "❌ 拒绝";
+                case Models.Language.Russian:
+                    return "❌ Отклонить";
+
+                default:
+                    return "❌ Reject";
+            }
+        }
+
+        public static string NewBugMessage(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "🆕 New Bug";
+                case Models.Language.Ukrainian:
+                    return "🆕 Нова помилка";
+                case Models.Language.Chinese:
+                    return "🆕 新错误";
+                case Models.Language.Russian:
+                    return "🆕 Новая ошибка";
+
+                default:
+                    return "🆕 New Bug";
+            }
+        }
+
+        public static string BugsListMessage(this Models.User user)
+        {
+            switch (user.InterfaceLanguage)
+            {
+                case Models.Language.English:
+                    return "⛔ Bugs List";
+                case Models.Language.Ukrainian:
+                    return "⛔ Список помилок";
+                case Models.Language.Chinese:
+                    return "⛔ 错误列表";
+                case Models.Language.Russian:
+                    return "⛔ Список ошибок";
+
+                default:
+                    return "⛔ Bugs List";
             }
         }
     }

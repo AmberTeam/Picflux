@@ -28,9 +28,6 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\Cimber.Bot.Extensions.csproj": {
-                "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Extensions\\Cimber.Bot.Extensions.csproj"
-              },
               "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {
                 "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj"
               },
@@ -99,6 +96,9 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
+              "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Database\\Cimber.Bot.Database.csproj": {
+                "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Database\\Cimber.Bot.Database.csproj"
+              },
               "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj": {
                 "projectPath": "D:\\Dev\\Amber\\Cimber\\Cimber.Bot\\Cimber.Bot.Logger\\Cimber.Bot.Logger.csproj"
               },

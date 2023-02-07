@@ -11,13 +11,13 @@ namespace Cimber.Bot
 {
     public class BotService
     {
-        private List<Models.User> ActiveUsers = new List<Models.User>();
         private readonly List<long> AdminList = new List<long>()
         {
             930727649,
             1495480119
         };
-        private readonly Database.Database database = new Database.Database();
+        private readonly Database.BugsDatabase bugsDatabase = new Database.BugsDatabase();
+        
         private readonly TelegramBotClient _client;
 
         public BotService()
@@ -52,14 +52,15 @@ namespace Cimber.Bot
                     case UpdateType.Message:
                         if (update.Message == null || update.Message.From == null)
                             return;
-                        update.Message.From.SetPermission(ref ActiveUsers, AdminList);
-
+                        update.Message.From.AddUser(AdminList);
+                        update.Message.From.SetPermission(AdminList);
+                            
                         if (update!.Message!.Type != MessageType.Text)
-                            await messageHandler(update, update!.Message!.From!.User(ref ActiveUsers)!);
+                            await messageHandler(update, update!.Message!.From!.User()!);
                         else if (update!.Message!.Text!.StartsWith("/"))
-                            await commandHandler(update, update!.Message!.From!.User(ref ActiveUsers)!);
+                            await commandHandler(update, update!.Message!.From!.User()!);
                         else
-                            await messageHandler(update, update!.Message!.From!.User(ref ActiveUsers)!);
+                            await messageHandler(update, update!.Message!.From!.User()!);
                         break;
                     case UpdateType.InlineQuery:
                         break;
@@ -68,8 +69,9 @@ namespace Cimber.Bot
                     case UpdateType.CallbackQuery:
                         if (update.CallbackQuery == null)
                             return;
-                        update.CallbackQuery.From.SetPermission(ref ActiveUsers, AdminList);
-                        await callBackQueryHandler(update, update!.CallbackQuery!.From!.User(ref ActiveUsers)!);
+                        update.CallbackQuery.From.AddUser(AdminList);
+                        update.CallbackQuery.From.SetPermission(AdminList);
+                        await callBackQueryHandler(update, update!.CallbackQuery!.From!.User()!);
                         break;
                     case UpdateType.EditedMessage:
                         break;
@@ -228,15 +230,15 @@ namespace Cimber.Bot
 
                                 break;
                             case State.SendBugTitle:
-                                message!.From!.SetTitle(ref ActiveUsers, message!.Text!);
-                                message!.From!.SetState(ref ActiveUsers, State.SendBugDescription);
+                                message!.From!.SetTitle(message!.Text!);
+                                message!.From!.SetState(State.SendBugDescription);
 
                                 await _client.SendTextMessageAsync(message!.From!.Id, user.SendBugDescriptionMessage(), parseMode: ParseMode.Html);
 
                                 break;
                             case State.SendBugDescription:
-                                message!.From!.SetDescription(ref ActiveUsers, message!.Text!);
-                                message!.From!.SetState(ref ActiveUsers, State.SendBugMedia);
+                                message!.From!.SetDescription(message!.Text!);
+                                message!.From!.SetState(State.SendBugMedia);
 
                                 await _client.SendTextMessageAsync(message!.From!.Id, user.SendBugMediaMessage(), replyMarkup: user.SubmitWithoutMedia(), parseMode: ParseMode.Html);
 
@@ -244,11 +246,17 @@ namespace Cimber.Bot
                             case State.ChooseLanguage:
                                 break;
                             case State.ChoseRejectReason:
-                                message!.From!.SetState(ref ActiveUsers, State.Default);
+                                var bug = bugsDatabase.DeleteBug(message!.From!.User()!.CurrentBugId);
 
-                                await _client.SendTextMessageAsync(message!.From!.Id, "✅ You have successfully rejected a bug");
-                                await _client.SendTextMessageAsync(message!.From!.User(ref ActiveUsers)!.LastBug!.FromUserId!, $"❌ Your bug has benn rejected, due to the reason: {message.Text}");
+                                message!.From!.SetState(State.Default);
 
+                                await _client.SendTextMessageAsync(message!.From!.Id, user.SuccessRejectedBug());
+
+                                if (bug!.FromUserId == null) return;
+                                long id = bug!.FromUserId ?? 0;
+
+                                await _client.SendTextMessageAsync(bug!.FromUserId!, UserExtensions.GetUser(id)!.YourBugRejected(message.Text!));
+                                   
                                 break;
                         }
                         break;
@@ -260,35 +268,35 @@ namespace Cimber.Bot
 
                         var photoBug = new Bug()
                         {
-                            Description = message!.From!.User(ref ActiveUsers)!.BugDescription,
-                            Title = message!.From!.User(ref ActiveUsers)!.BugTitle,
+                            Description = message!.From!.User()!.BugDescription,
+                            Title = message!.From!.User()!.BugTitle,
                             Type = Models.Type.Photo,
                             FromUserId = message.Chat.Id,
                             FromUsername = message!.From!.Username,
                             Path = photoPath,
-                            Os = message!.From!.User(ref ActiveUsers)!.Os
+                            Os = message!.From!.User()!.Os
                         };
-                        database.AddBug(photoBug);
-                        photoBug.Id = database.AddBug(photoBug);
+                        bugsDatabase.AddBug(photoBug);
+                        photoBug.Id = bugsDatabase.AddBug(photoBug);
 
-                        message.From.SetState(ref ActiveUsers, State.Default);
+                        message.From.SetState(State.Default);
                         await _client.SendTextMessageAsync(message.From!.Id, user.SendThanksMessage());
-
-                        string photoText = $"<b>New bug</b>\n\n\n<b>Id: </b>{photoBug!.Id}\n<b>Title: </b>{photoBug!.Title}\n<b>Description: </b>{photoBug!.Description}\n<b>Type: </b>{photoBug!.Type}\n<b>From User(Id): </b>{photoBug!.FromUserId}\n<b>From User(Username): </b>{photoBug!.FromUsername}\n<b>Operating System: </b>{photoBug!.Os}\n<b>Media path: </b>{photoBug!.Path}";
-                        InlineKeyboardMarkup photoMarkup = new(new[]
-                        {
-                            new []
-                            {
-                                 InlineKeyboardButton.WithCallbackData("✅ Accept", $"ACCEPT:{photoBug.Id}")
-                            },
-                            new[]
-                            {
-                                InlineKeyboardButton.WithCallbackData("❌ Reject", $"REJECT:{photoBug.Id}")
-                            }
-                        });
 
                         foreach (var admin in AdminList)
                         {
+                            string photoText = $"<b>{UserExtensions.GetUser(admin)!.NewBugMessage()}</b>\n\n\n<b>Id: </b>{photoBug!.Id}\n<b>Title: </b>{photoBug!.Title}\n<b>Description: </b>{photoBug!.Description}\n<b>Type: </b>{photoBug!.Type}\n<b>From User(Id): </b>{photoBug!.FromUserId}\n<b>From User(Username): </b>{photoBug!.FromUsername}\n<b>Operating System: </b>{photoBug!.Os}\n<b>Media path: </b>{photoBug!.Path}";
+                            InlineKeyboardMarkup photoMarkup = new(new[]
+                            {
+                            new []
+                            {
+                                 InlineKeyboardButton.WithCallbackData(UserExtensions.GetUser(admin)!.AcceptMessage(), $"ACCEPT:{photoBug.Id}")
+                            },
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData(UserExtensions.GetUser(admin)!.RejectMessage(), $"REJECT:{photoBug.Id}")
+                            }
+                        });
+
                             await _client.SendTextMessageAsync(admin, photoText, replyMarkup: photoMarkup, parseMode: ParseMode.Html);
                         }
 
@@ -301,20 +309,20 @@ namespace Cimber.Bot
 
                         var videoBug = new Bug()
                         {
-                            Description = message!.From!.User(ref ActiveUsers)!.BugDescription,
-                            Title = message!.From!.User(ref ActiveUsers)!.BugTitle,
+                            Description = message!.From!.User()!.BugDescription,
+                            Title = message!.From!.User()!.BugTitle,
                             Type = Models.Type.Video,
                             FromUserId = message.Chat.Id,
                             FromUsername = message!.From!.Username,
                             Path = videoPath,
-                            Os = message!.From!.User(ref ActiveUsers)!.Os
+                            Os = message!.From!.User()!.Os
                         };
-                        videoBug.Id = database.AddBug(videoBug);
+                        videoBug.Id = bugsDatabase.AddBug(videoBug);
 
-                        message.From.SetState(ref ActiveUsers, State.Default);
+                        message.From.SetState(State.Default);
                         await _client.SendTextMessageAsync(message.From!.Id, user.SendThanksMessage());
 
-                        string videoText = $"<b>New bug</b>\n\n\n<b>Id: </b>{videoBug!.Id}\n<b>Title: </b>{videoBug!.Title}\n<b>Description: </b>{videoBug!.Description}\n<b>Type: </b>{videoBug!.Type}\n<b>From User(Id): </b>{videoBug!.FromUserId}\n<b>From User(Username): </b>{videoBug!.FromUsername}\n<b>Operating System: </b>{videoBug!.Os}\n<b>Media path: </b>{videoBug!.Path}";
+                        string videoText = $"<b>{user.NewBugMessage()}</b>\n\n\n<b>Id: </b>{videoBug!.Id}\n<b>Title: </b>{videoBug!.Title}\n<b>Description: </b>{videoBug!.Description}\n<b>Type: </b>{videoBug!.Type}\n<b>From User(Id): </b>{videoBug!.FromUserId}\n<b>From User(Username): </b>{videoBug!.FromUsername}\n<b>Operating System: </b>{videoBug!.Os}\n<b>Media path: </b>{videoBug!.Path}";
                         InlineKeyboardMarkup videoMarkup = new(new[]
                         {
                             new []
@@ -341,17 +349,17 @@ namespace Cimber.Bot
 
                         var documentBug = new Bug()
                         {
-                            Description = message!.From!.User(ref ActiveUsers)!.BugDescription,
-                            Title = message!.From!.User(ref ActiveUsers)!.BugTitle,
+                            Description = message!.From!.User()!.BugDescription,
+                            Title = message!.From!.User()!.BugTitle,
                             Type = Models.Type.Document,
                             FromUserId = message.Chat.Id,
                             FromUsername = message!.From!.Username,
                             Path = documentPath,
-                            Os = message!.From!.User(ref ActiveUsers)!.Os
+                            Os = message!.From!.User()!.Os
                         };
-                        documentBug.Id = database.AddBug(documentBug);
+                        documentBug.Id = bugsDatabase.AddBug(documentBug);
 
-                        string documentText = $"<b>New bug</b>\n\n\n<b>Id: </b>{documentBug!.Id}\n<b>Title: </b>{documentBug!.Title}\n<b>Description: </b>{documentBug!.Description}\n<b>Type: </b>{documentBug!.Type}\n<b>From User(Id): </b>{documentBug!.FromUserId}\n<b>From User(Username): </b>{documentBug!.FromUsername}\n<b>Operating System: </b>{documentBug!.Os}\n<b>Media path: </b>{documentBug!.Path}";
+                        string documentText = $"<b>{user.NewBugMessage()}</b>\n\n\n<b>Id: </b>{documentBug!.Id}\n<b>Title: </b>{documentBug!.Title}\n<b>Description: </b>{documentBug!.Description}\n<b>Type: </b>{documentBug!.Type}\n<b>From User(Id): </b>{documentBug!.FromUserId}\n<b>From User(Username): </b>{documentBug!.FromUsername}\n<b>Operating System: </b>{documentBug!.Os}\n<b>Media path: </b>{documentBug!.Path}";
                         InlineKeyboardMarkup documentMarkup = new(new[]
                         {
                             new []
@@ -393,55 +401,55 @@ namespace Cimber.Bot
                     case "ANDROID":
                         if (user.State != State.ChooseOs) return;
 
-                        update.CallbackQuery.From.SetOs(ref ActiveUsers, Os.Android);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, State.SendBugTitle);
+                        update.CallbackQuery.From.SetOs(Os.Android);
+                        update.CallbackQuery.From.SetState(State.SendBugTitle);
                         await _client.SendTextMessageAsync(update!.CallbackQuery.From.Id, user.SendBugTitleMessage());
 
                         break;
                     case "IOS":
                         if (user.State != State.ChooseOs) return;
 
-                        update.CallbackQuery.From.SetOs(ref ActiveUsers, Os.Ios);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, State.SendBugTitle);
+                        update.CallbackQuery.From.SetOs(Os.Ios);
+                        update.CallbackQuery.From.SetState(State.SendBugTitle);
                         await _client.SendTextMessageAsync(update!.CallbackQuery.From.Id, user.SendBugTitleMessage());
                         break;
                     case "IPADOS":
                         if (user.State != State.ChooseOs) return;
 
-                        update.CallbackQuery.From.SetOs(ref ActiveUsers, Os.IPadOS);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, State.SendBugTitle);
+                        update.CallbackQuery.From.SetOs(Os.IPadOS);
+                        update.CallbackQuery.From.SetState(State.SendBugTitle);
                         await _client.SendTextMessageAsync(update!.CallbackQuery.From.Id, user.SendBugTitleMessage());
 
                         break;
                     case "MACOS":
                         if (user.State != State.ChooseOs) return;
 
-                        update.CallbackQuery.From.SetOs(ref ActiveUsers, Os.MacOS);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, State.SendBugTitle);
+                        update.CallbackQuery.From.SetOs(Os.MacOS);
+                        update.CallbackQuery.From.SetState(State.SendBugTitle);
                         await _client.SendTextMessageAsync(update!.CallbackQuery.From.Id, user.SendBugTitleMessage());
 
                         break;
                     case "LINUX":
                         if (user.State != State.ChooseOs) return;
 
-                        update.CallbackQuery.From.SetOs(ref ActiveUsers, Os.Linux);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, State.SendBugTitle);
+                        update.CallbackQuery.From.SetOs(Os.Linux);
+                        update.CallbackQuery.From.SetState(State.SendBugTitle);
                         await _client.SendTextMessageAsync(update!.CallbackQuery.From.Id, user.SendBugTitleMessage());
 
                         break;
                     case "WINDOWS":
                         if (user.State != State.ChooseOs) return;
 
-                        update.CallbackQuery.From.SetOs(ref ActiveUsers, Os.Windows);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, State.SendBugTitle);
+                        update.CallbackQuery.From.SetOs(Os.Windows);
+                        update.CallbackQuery.From.SetState(State.SendBugTitle);
                         await _client.SendTextMessageAsync(update!.CallbackQuery.From.Id, user.SendBugTitleMessage());
 
                         break;
                     case "OTHER":
                         if (user.State != State.ChooseOs) return;
 
-                        update.CallbackQuery.From.SetOs(ref ActiveUsers, Os.Other);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, State.SendBugTitle);
+                        update.CallbackQuery.From.SetOs(Os.Other);
+                        update.CallbackQuery.From.SetState(State.SendBugTitle);
                         await _client.SendTextMessageAsync(update!.CallbackQuery.From.Id, user.SendBugTitleMessage());
 
                         break;
@@ -453,8 +461,8 @@ namespace Cimber.Bot
                     case "EN":
                         if (user.State != State.ChooseLanguage) return;
 
-                        update.CallbackQuery.From.SetLanguage(ref ActiveUsers, Models.Language.English);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, Models.State.Default);
+                        update.CallbackQuery.From.SetLanguage(Models.Language.English);
+                        update.CallbackQuery.From.SetState(Models.State.Default);
                         await _client.SendTextMessageAsync(
                             update.CallbackQuery.From.Id,
                             "You have successfully changed the language to English",
@@ -465,8 +473,8 @@ namespace Cimber.Bot
                     case "UA":
                         if (user.State != State.ChooseLanguage) return;
 
-                        update.CallbackQuery.From.SetLanguage(ref ActiveUsers, Models.Language.Ukrainian);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, Models.State.Default);
+                        update.CallbackQuery.From.SetLanguage(Models.Language.Ukrainian);
+                        update.CallbackQuery.From.SetState(Models.State.Default);
                         await _client.SendTextMessageAsync(
                             update.CallbackQuery.From.Id,
                             "Ви успішно змінили мову на українську",
@@ -477,8 +485,8 @@ namespace Cimber.Bot
                     case "CN":
                         if (user.State != State.ChooseLanguage) return;
 
-                        update.CallbackQuery.From.SetLanguage(ref ActiveUsers, Models.Language.Chinese);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, Models.State.Default);
+                        update.CallbackQuery.From.SetLanguage(Models.Language.Chinese);
+                        update.CallbackQuery.From.SetState(Models.State.Default);
                         await _client.SendTextMessageAsync(
                             update.CallbackQuery.From.Id,
                             "您已成功将语言更改为中文",
@@ -489,8 +497,8 @@ namespace Cimber.Bot
                     case "RU":
                         if (user.State != Models.State.ChooseLanguage) return;
 
-                        update.CallbackQuery.From.SetLanguage(ref ActiveUsers, Models.Language.Russian);
-                        update.CallbackQuery.From.SetState(ref ActiveUsers, Models.State.Default);
+                        update.CallbackQuery.From.SetLanguage(Models.Language.Russian);
+                        update.CallbackQuery.From.SetState(Models.State.Default);
                         await _client.SendTextMessageAsync(
                             update.CallbackQuery.From.Id,
                             "Вы успешно сменили язык на русский",
@@ -516,12 +524,12 @@ namespace Cimber.Bot
                             Path = null,
                             Os = user!.Os
                         };
-                        bug.Id = database.AddBug(bug);
+                        bug.Id = bugsDatabase.AddBug(bug);
 
-                        update.CallbackQuery.From!.SetState(ref ActiveUsers, State.Default);
+                        update.CallbackQuery.From!.SetState(State.Default);
                         await _client.SendTextMessageAsync(update.CallbackQuery.From!.Id, user.SendThanksMessage());
                         
-                        string text = $"<b>New bug</b>\n\n\n<b>Id: </b>{bug!.Id}\n<b>Title: </b>{bug!.Title}\n<b>Description: </b>{bug!.Description}\n<b>Type: </b>{bug!.Type}\n<b>From User(Id): </b>{bug!.FromUserId}\n<b>From User(Username): </b>{bug!.FromUsername}\n<b>Operating System: </b>{bug!.Os}\n<b>Media path: </b>{bug!.Path}";
+                        string text = $"<b>{user.NewBugMessage()}</b>\n\n\n<b>Id: </b>{bug!.Id}\n<b>Title: </b>{bug!.Title}\n<b>Description: </b>{bug!.Description}\n<b>Type: </b>{bug!.Type}\n<b>From User(Id): </b>{bug!.FromUserId}\n<b>From User(Username): </b>{bug!.FromUsername}\n<b>Operating System: </b>{bug!.Os}\n<b>Media path: </b>{bug!.Path}";
                         InlineKeyboardMarkup markup = new(new[]
                         {
                             new []
@@ -542,18 +550,18 @@ namespace Cimber.Bot
                         break;
 
                     case "BACK":
-                        if (user.Permission == UserPermission.User) return;
+                        if (user.IsAdmin == false) return;
 
-                        var backBugs = database.GetBugs().ToList();
+                        var backBugs = bugsDatabase.GetBugs().ToList();
 
                         if (backBugs == null) return;
 
-                        var bugsList = backBugs.Select(b => InlineKeyboardButton.WithCallbackData($"{b.Id} {b.Title}", $"BUG:{b.Id}MESSAGE:{user.LastMessageId}")).ToList();
+                        var bugsList = backBugs.Select(b => InlineKeyboardButton.WithCallbackData($"{b.Id} {b.Title}", $"BUG:{b.Id}MESSAGE:{user.CurrentMessageId}")).ToList();
                         var menu = new Menu<InlineKeyboardButton>(5, bugsList);
 
                         InlineKeyboardMarkup bugsMarkup = new InlineKeyboardMarkup(menu.Pages);
 
-                        await _client.EditMessageTextAsync(update!.CallbackQuery.From.Id, user.LastMessageId, "Bugs list", replyMarkup: bugsMarkup);
+                        await _client.EditMessageTextAsync(update!.CallbackQuery.From.Id, user.CurrentMessageId, user.BugsListMessage(), replyMarkup: bugsMarkup);
 
                         break;
 
@@ -561,7 +569,7 @@ namespace Cimber.Bot
 
                     default:
                         if (data.Contains("BUG:") 
-                            && user.Permission == UserPermission.Admin)
+                            && user.IsAdmin == true)
                         {
                             var messageId = int.Parse(data.Split("MESSAGE:")[1].Trim().Split(":")[0]);
                             int bugId;
@@ -569,7 +577,7 @@ namespace Cimber.Bot
 
                             if (isInt)
                             {
-                                var bugs = database.GetBugs().ToList();
+                                var bugs = bugsDatabase.GetBugs().ToList();
                                 var bug_ = bugs.FirstOrDefault(b => b.Id == bugId);
 
                                 if (bug_ == null) return;
@@ -577,43 +585,41 @@ namespace Cimber.Bot
                                 string text_ =$"<b>Id: </b>{bug_!.Id}\n<b>Title: </b>{bug_!.Title}\n<b>Description: </b>{bug_!.Description}\n<b>Type: </b>{bug_!.Type}\n<b>From User(Id): </b>{bug_!.FromUserId}\n<b>From User(Username): </b>{bug_!.FromUsername}\n<b>Operating System: </b>{bug_!.Os}\n<b>Media path: </b>{bug_!.Path}";
 
                                 if (bug_.Id != null)
-                                    update!.CallbackQuery.From.SetLastBugId(ref ActiveUsers, bug_.Id ?? 0);
+                                    update!.CallbackQuery.From.SetCurrentBugId(bug_.Id ?? 0);
                                 await _client.EditMessageTextAsync(update!.CallbackQuery!.From.Id, messageId, text_, replyMarkup: (InlineKeyboardMarkup)user.DetailedBugMarkup(), parseMode: ParseMode.Html);
                             }
                         }
                         else if (data.Contains("FIX")
-                            && user.Permission == UserPermission.Admin)
+                            && user.IsAdmin == true)
                         {
-                            var messageId = user.LastMessageId;
-                            var bugId = user.LastBugId;
+                            var messageId = user.CurrentMessageId;
+                            var bugId = user.CurrentBugId;
                             
-                            var fixedBug = database.DeleteBug(bugId);
+                            var fixedBug = bugsDatabase.DeleteBug(bugId);
 
-                            var backBugs_ = database.GetBugs().ToList();
+                            var backBugs_ = bugsDatabase.GetBugs().ToList();
 
                             if (backBugs_ == null) return;
 
-                            var bugsList_ = backBugs_.Select(b => InlineKeyboardButton.WithCallbackData($"{b.Id} {b.Title}", $"BUG:{b.Id}MESSAGE:{user.LastMessageId}")).ToList();
+                            var bugsList_ = backBugs_.Select(b => InlineKeyboardButton.WithCallbackData($"{b.Id} {b.Title}", $"BUG:{b.Id}MESSAGE:{user.CurrentMessageId}")).ToList();
                             var menu_ = new Menu<InlineKeyboardButton>(5, bugsList_);
 
                             InlineKeyboardMarkup bugsMarkup_ = new InlineKeyboardMarkup(menu_.Pages);
 
-                            await _client.EditMessageTextAsync(update!.CallbackQuery.From.Id, user.LastMessageId, "Bugs list", replyMarkup: bugsMarkup_);
+                            await _client.EditMessageTextAsync(update!.CallbackQuery.From.Id, user.CurrentMessageId, user.BugsListMessage(), replyMarkup: bugsMarkup_);
                             await _client.SendTextMessageAsync(fixedBug!.FromUserId!, $"<b>Your bug has been fixed</b>\n\n\n<b>Id: </b>{fixedBug!.Id}\n<b>Title: </b>{fixedBug!.Title}\n<b>Description: </b>{fixedBug!.Description}\n<b>Type: </b>{fixedBug!.Type}\n<b>From User(Id): </b>{fixedBug!.FromUserId}\n<b>From User(Username): </b>{fixedBug!.FromUsername}\n<b>Operating System: </b>{fixedBug!.Os}", parseMode: ParseMode.Html);
                         }
                         else if (data.Contains("REJECT")
-                            && user.Permission == UserPermission.Admin)
+                            && user.IsAdmin == true)
                         {
                             int bugId;
                             bool isInt = int.TryParse(data.Split("REJECT:")[1].Trim(), out bugId);
 
                             if (isInt)
                             {
-                                var fixedBug = database.DeleteBug(bugId);
-
-                                update.CallbackQuery.From.SetLastBug(ref ActiveUsers, fixedBug!);
-                                update.CallbackQuery.From.SetState(ref ActiveUsers, State.ChoseRejectReason);
-
+                                update.CallbackQuery.From.SetState(State.ChoseRejectReason);
+                                update.CallbackQuery.From.SetCurrentBugId(bugId);
+                                
                                 await _client.SendTextMessageAsync(update.CallbackQuery.From.Id, user.ChooseRejectReason());
                             }
                         }
@@ -624,7 +630,7 @@ namespace Cimber.Bot
 
                             if (isInt)
                             {
-                                database.Verify(bugId);
+                                bugsDatabase.Verify(bugId);
 
                                 await _client.SendTextMessageAsync(update.CallbackQuery.From.Id, "✅");
                             }
@@ -655,27 +661,26 @@ namespace Cimber.Bot
                                         replyMarkup: Markups.ChooseOS,
                                         replyToMessageId: update.Message.MessageId);
 
-            update.Message.From!.Activate(ref ActiveUsers);
-            update.Message.From!.SetState(ref ActiveUsers, State.ChooseOs);
+            update.Message.From!.SetState(State.ChooseOs);
         }
 
         private async Task SendBugList(Update update, Models.User user)
         {
-            if (user.Permission == UserPermission.User) return;
+            if (user.IsAdmin == false) return;
 
-            var bugs = database.GetBugs().ToList();
+            var bugs = bugsDatabase.GetBugs().ToList();
 
             if (bugs == null) return;
             
             var message = await _client.SendTextMessageAsync(update!.Message!.Chat.Id, "Loading...");
-            update!.Message!.From!.SetLastMessageId(ref ActiveUsers, message.MessageId);
+            update!.Message!.From!.SetCurrentMessageId(message.MessageId);
 
             var bugsList = bugs.Select(b => InlineKeyboardButton.WithCallbackData($"{b.Id} {b.Title}", $"BUG:{b.Id}MESSAGE:{message.MessageId}")).ToList();
             var menu = new Menu<InlineKeyboardButton>(5, bugsList);
 
             InlineKeyboardMarkup bugsMarkup = new InlineKeyboardMarkup(menu.Pages);
 
-            await _client.EditMessageTextAsync(update!.Message!.Chat.Id, message.MessageId, "Bugs list", replyMarkup: bugsMarkup);
+            await _client.EditMessageTextAsync(update!.Message!.Chat.Id, message.MessageId, user.BugsListMessage(), replyMarkup: bugsMarkup);
         }
 
         private async Task SendLanguage(Update update, Models.User user)
@@ -684,7 +689,7 @@ namespace Cimber.Bot
                             update!.Message!.Chat.Id,
                             user.ChooseLanguage(),
                             replyMarkup: Markups.ChooseLanguage);
-            update!.Message!.From!.SetState(ref ActiveUsers, Models.State.ChooseLanguage);
+            update!.Message!.From!.SetState(Models.State.ChooseLanguage);
         }
     }
 }

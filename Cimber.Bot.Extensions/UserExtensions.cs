@@ -1,28 +1,16 @@
 ﻿using Cimber.Bot.Models;
-using Telegram.Bot.Types;
 
 namespace Cimber.Bot.Extensions
 {
     public static class UserExtensions
     {
-        public static Models.User? User(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list)
+        private static readonly Database.UsersDatabase usersDatabase = new Database.UsersDatabase();
+
+        public static User? User(this Telegram.Bot.Types.User messageUser)
         {
             try
             {
-                Models.User? user;
-                try
-                {
-                    user = list.ToList().First(u => u.Id == messageUser!.Id);
-
-                    if (user == null)
-                    {
-                        user = messageUser.Activate(ref list);
-                    }
-                }
-                catch
-                {
-                    user = messageUser.Activate(ref list);
-                }
+                var user = usersDatabase.GetUser(messageUser.Id);
                 return user;
             }
             catch (Exception ex)
@@ -32,189 +20,143 @@ namespace Cimber.Bot.Extensions
             }
         }
 
-        public static void SetState(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, State state)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).State = state;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetLastMessageId(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, int messageId)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).LastMessageId = messageId;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetLastBugId(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, int bugId)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).LastBugId = bugId;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetLastBug(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, Bug? bug)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).LastBug = bug;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetLanguage(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, Language language)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).InterfaceLanguage = language;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetOs(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, Os os)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).Os = os;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetTitle(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, string title)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).BugTitle = title;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetDescription(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, string description)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).BugDescription = description;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void Inactivate(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list)
-        {
-            try
-            {
-                list.RemoveAll(u => u.Id == messageUser.Id);
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static void SetPermission(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list, List<long> adminList)
-        {
-            try
-            {
-                var user = messageUser.User(ref list);
-
-                if (user == null)
-                    user = messageUser.Activate(ref list);
-
-                list.First(u => u.Id == user!.Id).Permission = adminList.Contains(messageUser.Id) ? UserPermission.Admin : UserPermission.User;
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-            }
-        }
-
-        public static Models.User? Activate(this Telegram.Bot.Types.User messageUser, ref List<Models.User> list)
+        public static void AddUser(this Telegram.Bot.Types.User messageUser, List<long> adminList)
         {
             try
             {
                 var user = new Models.User()
                 {
-                    Id = messageUser!.Id,
-                    Os = Os.Other,
-                    State = State.Default,
-                    Firstname = messageUser!.FirstName,
-                    Lastname = messageUser!.LastName,
-                    Username = messageUser!.Username
+                    ChatId = messageUser.Id,
+                    Firstname = messageUser.FirstName,
+                    Lastname = messageUser.LastName,
+                    Username = messageUser.Username,
+                    IsAdmin = adminList.Contains(messageUser.Id)
                 };
+                usersDatabase.AddUser(user);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
 
-                if (list.Where(u => u.Id == user!.Id).Count() < 1)
-                {
-                    list.Add(user!);
-                }
+        public static void SetState(this Telegram.Bot.Types.User messageUser, State state)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.State = state;
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetCurrentMessageId(this Telegram.Bot.Types.User messageUser, int messageId)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.CurrentMessageId = messageId;
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetCurrentBugId(this Telegram.Bot.Types.User messageUser, int bugId)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.CurrentBugId = bugId;
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetLanguage(this Telegram.Bot.Types.User messageUser, Language language)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.InterfaceLanguage = language;
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetOs(this Telegram.Bot.Types.User messageUser, Os os)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.Os = os;
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetTitle(this Telegram.Bot.Types.User messageUser, string title)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.BugTitle = title;
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetDescription(this Telegram.Bot.Types.User messageUser, string description)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.BugDescription = description;
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static void SetPermission(this Telegram.Bot.Types.User messageUser, List<long> adminList)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(messageUser.Id);
+                user!.IsAdmin = adminList.Contains(user.ChatId);
+                usersDatabase.UpdateUser(user!);
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+            }
+        }
+
+        public static User? GetUser(long id)
+        {
+            try
+            {
+                var user = usersDatabase.GetUser(id);
                 return user;
             }
             catch (Exception ex)

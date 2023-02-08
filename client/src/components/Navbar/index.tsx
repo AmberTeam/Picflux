@@ -27,8 +27,8 @@ const Navbar: FC = () => {
     useEffect(() => {
         if(location.pathname == '/login' || location.pathname == '/registration') setIsAuth(true)
         else setIsAuth(false)
-        if(location.pathname == '/') setNDisabled(true)
-        else if(navigatorDisabled) setNDisabled(false)
+        if(location.pathname == '/') setNDisabled(false)
+        else if(navigatorDisabled) setNDisabled(true)
     }, [location])
 
     if(isAuth) return <a href="/" className={cl.Return_btn}>
@@ -73,9 +73,11 @@ const Navbar: FC = () => {
                         <div className={cl.Navigator_link}>
                             <a href="#">Главная</a>
                         </div>
-                        <div className={cl.Navigator_link}>
-                            <a href="#">Профилль</a>
-                        </div>
+                        <AllowAuth>
+                            <div className={cl.Navigator_link}>
+                                <a href="#">Профилль</a>
+                            </div>      
+                        </AllowAuth>
                         <div className={cl.Navigator_link}>
                             <a href="#">Настройки</a>
                         </div>

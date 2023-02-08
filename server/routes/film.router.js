@@ -7,7 +7,7 @@ const condauthMiddleware = require("../middlewares/condauth.middleware")
 router.get("/get-all", filmController.getAll)
 router.get("/get/:id", condauthMiddleware, filmController.getById)
 router.get("/get", filmController.paginate)
-router.post("/search", filmController.search)
+router.post("/search", condauthMiddleware, filmController.search)
 router.post("/wl/add", authMiddleware, filmController.addWillReadFilm)
 router.post("/wl/rem", authMiddleware, filmController.removeWillReadFilm)
 

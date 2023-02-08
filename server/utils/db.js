@@ -8,14 +8,17 @@ class DBAgent {
     static __getByIdMethod = "SELECT * FROM films WHERE id = ?"
     static __getAllMethod = "SELECT * from films"
 
-    static formatSearchMethodStr(str, offset, limit, filters) {
+    static formatSearchMethodStr(str, offset, limit, filters, fltype) {
         var flt_construct = ''
-        filters.forEach((filter, i) => {
-            if(i == 0) flt_construct = flt_construct + `genres LIKE '%"${filter}"%'`
-            else flt_construct = flt_construct + ` AND genres LIKE '%"${filter}"%'`
-        })
-        console.log(`SELECT * FROM films WHERE lowerName LIKE '%${str}%' WHERE ${flt_construct} LIMIT ${offset}, ${limit}`)
-        return `SELECT * FROM films WHERE lowerName LIKE '%${str}%' LIMIT ${offset}, ${limit}`
+        console.log(fltype) 
+        if(fltype !== 'without') {
+            filters.forEach((filter, i) => {
+                if(i == 0) flt_construct = ` AND genres${fltype == 'solely' ? " NOT" : ""} LIKE '%${filter}%'`
+                else flt_construct = flt_construct + ` AND genres${fltype == 'solely' ? " NOT" : ""} LIKE '%${filter}%'`
+            })
+
+            return `SELECT * FROM films WHERE lowerName LIKE '%${str}%' ${flt_construct} LIMIT ${offset}, ${limit}`
+        } else return `SELECT * FROM films WHERE lowerName LIKE '%${str}%' LIMIT ${offset}, ${limit}`
     }
 }
 

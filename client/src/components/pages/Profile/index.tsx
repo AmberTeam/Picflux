@@ -75,7 +75,7 @@ const ProfilePage = () => {
                                     <div className={cl.WL_container}>
                                         {
                                             user.watchLater.map((film: IFilm) => 
-                                                <Film {...film} key={film.id}/>
+                                                <Film {...{...film, watchLater: user.watchLater} as IFilm} key={film.id}/>
                                             )
                                         }
                                     </div>

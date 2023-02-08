@@ -35,14 +35,19 @@ class FilmController {
         })
     }
 
-    search(req, res) { 
+    search(req, res) {
         const {fl, flt} = req.query
         const {limit, offset, query} = req.body
-        const fl_arr = fl.split(" ").filter((flt) => flt !== "")
-        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit, fl_arr), [], (err, rows) => {
+        const fl_arr = fl.split(" ").filter((fle) => fle !== "")
+        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit, fl_arr, flt), [], async (err, rows) => {
             if(!rows) return res.json([])
             const arr = []
+            var req_owner
+            if(req.user) {
+                req_owner = await UserModel.findById(req.user.id)
+            } 
             rows.map((row) => {
+                if(req_owner) row.watchLater = req_owner.watchLater
                 row.players = JSON.parse(row.players)
                 row.genres = JSON.parse(row.genres)
             })

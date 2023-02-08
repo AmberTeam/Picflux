@@ -13,7 +13,6 @@ import { Context } from '../../..'
 import LoaderMini from '../../UI/LoaderMini'
 
 const FilmPage = () => {
-    
     const {store} = useContext(Context)
     const {translate} = useTranslation()
     const [descTab, setDescTab] = useState<number>(1)

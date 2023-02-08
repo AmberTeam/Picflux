@@ -85,7 +85,7 @@
         },
         "returner": "Go back"
     },
-    "home": {
+    "home": { 
         "title": {
             "big": {
                 "fst": "Choose what you will ",

@@ -45,7 +45,6 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
     }
 
     useEffect(() => {
-        console.log(props)
         if(props.restoreConfig) {
             setSelected([...props.restoreConfig])
         } else {
@@ -63,11 +62,13 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
                 {
                     props.actions.map((action: IBrickAction) => {
                         var d_flag = false
+                        var last_flag = false
                         for(var i=0;i < selected.length;i++) {
                             if(selected[i].content == action.content) d_flag = true
+                            if(selected.length == 1 && selected[0].content == action.content) last_flag = true
                         }
                         return (
-                            <button key={action.content} className={`${cl.Selector_action} ${d_flag ? props.selectors_required > 2 ? cl.Selected : cl.Selected_required_all : cl.Default}`} onClick={() => selectHandler(action)}>{action.content}</button>
+                            <button key={action.content} className={`${cl.Selector_action} ${d_flag ? props.selectors_required > 2 ? last_flag ? cl.Selected_required_all : cl.Selected : cl.Selected_required_all : cl.Default}`} onClick={() => {if(!last_flag) selectHandler(action)}}>{action.content}</button>
                         )
                     })
                 }

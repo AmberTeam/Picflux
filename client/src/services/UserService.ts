@@ -8,18 +8,23 @@ import { IDLC } from "../components/pages/Home";
 export default class UserService {
     static async search(query: string, limit: number, page: number, fconfig: IDLC): Promise<AxiosResponse<IFilm[]>> {
         var req_queried = '/film/search'
-        if(fconfig !== undefined) {
-            var fl = '?fl='
-            console.log(fconfig)
-            fconfig.filtering.forEach((filter: any, i) => {
-                fl = fl + " " + filter.value
-            })
-            req_queried = req_queried + fl
+        if(fconfig !== undefined || fconfig !== null) {
+            if(fconfig.filtering !== null) {
+                var fl = '?fl='
+                fconfig.filtering.forEach((filter: any, i) => {
+                    fl = fl + " " + filter.value
+                })
+                req_queried = req_queried + fl
+            }
         } 
         if(fconfig.filtering_type) {
-            if(req_queried == '/film/search') req_queried = req_queried + "?flt=" + fconfig.filtering_type
-            else req_queried = req_queried + "&flt=" + fconfig.filtering_type
+            if(fconfig.filtering_type=='without') req_queried = '/film/search?fl=[]&flt=' + fconfig.filtering_type
+            else {
+                if(req_queried == '/film/search') req_queried = req_queried + "?flt=" + fconfig.filtering_type
+                else req_queried = req_queried + "&flt=" + fconfig.filtering_type
+            }
         }
+        console.log(req_queried)
         return $api.post<IFilm[]>(req_queried, {query, limit, offset: page})
     }
 

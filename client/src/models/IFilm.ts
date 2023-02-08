@@ -14,5 +14,5 @@ export interface IFilm {
     poster: string
     language: number
     players: IPlayer[]
-    watchLater?: [string]
+    watchLater?: any[]
 }

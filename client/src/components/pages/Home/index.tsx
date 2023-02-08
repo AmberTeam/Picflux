@@ -40,7 +40,7 @@ const HomePage: FC = () => {
     const [filteringConfig, setFConfig] = useState<any[] | undefined>(undefined)
     const [filteringType, setFType] = useState<string | undefined>(undefined)
     const [lanceCReady, setLanceCReady] = useState<boolean>(false)
-    const [dynamicLanceConfig, setDLC] = useState<IDLC>({} as IDLC)
+    const [dynamicLanceConfig, setDLC] = useState<IDLC>({filtering: [] as any, filtering_type: 'without'} as IDLC)
     const [adaptInterface, setAdaptInterface] = useState<boolean>(false)
     const [lanceSettingsModalActive, setLanceSettingsModalActive] = useState<boolean>(false)
 
@@ -100,19 +100,23 @@ const HomePage: FC = () => {
             else setPaginateMethod('click')
 
             //Filtering
-            const filtrc = localStorage.getItem("filtr_c")
+            var filtrc = localStorage.getItem("filtr_c")
             if(filtrc) {
                 setFConfig(JSON.parse(filtrc))
             } else {
+                localStorage.setItem('filtr_c', JSON.stringify([]))
+                filtrc = [] as any
                 setFConfig([])
             }
 
             //FType 
-            const filtrt = localStorage.getItem("filtr_t")
+            var filtrt = localStorage.getItem("filtr_t")
             if(filtrt) {
                 setFType(filtrt)
             } else {
-                setFType('inclusive')
+                localStorage.setItem('filtr_t', 'without')
+                filtrt = 'without'
+                setFType('without')
             }
             
             setDLC({filtering: JSON.parse(filtrc as string) as string[], filtering_type: filtrt as string})
@@ -132,9 +136,10 @@ const HomePage: FC = () => {
     }
 
     const restoreSearchQueue = async (qConfig: any) => {
+        console.log(dynamicLanceConfig)
         const returns = [] as any
         for(let i = 0; i < qConfig.length; i++) {
-            const t = await userService.search(qConfig[i].query, limit, i * limit, dynamicLanceConfig)
+            const t = await userService.search(qConfig[i].query.toLowerCase(), limit, i * limit, dynamicLanceConfig)
             if(!t.data.length) setCanLoad(false)
             t.data.map(film => {
                 returns.push(film)
@@ -143,6 +148,7 @@ const HomePage: FC = () => {
                 setSearchQuery(qConfig[i].query)
             }
         }
+        console.log(returns)
         setFilms([...returns] as any)
         setTimeout(() => {
             if(contentElement && contentElement.current) contentElement.current.scrollIntoView({behavior: 'auto', block: 'center'})
@@ -170,8 +176,11 @@ const HomePage: FC = () => {
     }, [page])
 
     useEffect(() => {
+        console.log(dynamicLanceConfig)
         const searchQueue = store.checkSearchQueue()
+        console.log(searchQuery)
         if(searchQueue) {
+            console.log('her')
             restoreSearchQueue(searchQueue)
             setPage(searchQueue.length -1)
         } else {
@@ -211,7 +220,7 @@ const HomePage: FC = () => {
                         </div>
                         <div className={cl.Pagination_mtd}>
                             <BSelector 
-                                selectors_required={23} 
+                                selectors_required={27} 
                                 actions={
                                     [
                                         {content: "Ужасы", value: "ужасы"}, 
@@ -222,7 +231,7 @@ const HomePage: FC = () => {
                                         {content: "Боевик", value: "боевик"}, 
                                         {content: "Фэнтези", value: "фэнтези"}, 
                                         {content: "Наука", value: "наука"}, 
-                                        {content: "Мультфильмы", value: "мультфильмы"}, 
+                                        {content: "Мультфильм", value: "мультфильм"}, 
                                         {content: "Биография", value: "биография"}, 
                                         {content: "Спорт", value: "спорт"}, 
                                         {content: "Семейный", value: "семейный"}, 
@@ -237,7 +246,11 @@ const HomePage: FC = () => {
                                         {content: "Документальный", value: "документальный"}, 
                                         {content: "История", value: "история"},
                                         {content: "Аниме", value: "аниме"},
-                                        {content: "Мюзикл", value: "мюзикл"}
+                                        {content: "Мюзикл", value: "мюзикл"},
+                                        {content: "Детектив", value: "детектив"},
+                                        {content: "Фантастика", value: "фантастика"},
+                                        {content: "Катастрофа", value: "катастрофа"},
+                                        {content: "Музыка", value: "музыка"}
                                     ]
                                 } 
                                 action_c={(value: any) => {
@@ -251,12 +264,13 @@ const HomePage: FC = () => {
                         </div>
                         <div className={cl.Pagination_mtd}>
                             <BSelector 
-                                default={filteringType === 'solely' ? 0 : 1}
+                                default={filteringType === 'solely' ? 0 : filteringType == 'without' ? 2 : 1}
                                 selectors_required={1} 
                                 actions={
                                     [
                                         {content: "Исключительно", value: "solely"},
-                                        {content: "Включительно", value: "inclusive"}
+                                        {content: "Включительно", value: "inclusive"},
+                                        {content: "Без фильтрации", value: "without"}
                                     ]
                                 } 
                                 action_c={(value: any) => {

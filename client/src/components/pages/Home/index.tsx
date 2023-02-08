@@ -256,6 +256,8 @@ const HomePage: FC = () => {
                                 action_c={(value: any) => {
                                     if(value == undefined || value == null || !value.length) return 
                                     localStorage.setItem("filtr_c", JSON.stringify(value))
+                                    setDLC({...dynamicLanceConfig, filtering: value})
+                                    resetSearchQueue()
                                 }}
                                 restoreConfig={[...filteringConfig]}
                             >
@@ -276,6 +278,8 @@ const HomePage: FC = () => {
                                 action_c={(value: any) => {
                                     if(value == undefined || value == null || !value.length) return 
                                     localStorage.setItem("filtr_t", value[0].value)
+                                    setDLC({...dynamicLanceConfig, filtering_type: value[0].value})
+                                    resetSearchQueue()
                                 }}
                             >
                                 Тип фильтрации:

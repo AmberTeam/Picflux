@@ -229,7 +229,6 @@ D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\obj\Release\net7.0\win-x64\Cimber.Bot.genrun
 D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\obj\Release\net7.0\win-x64\ref\Cimber.Bot.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\win-x64\Cimber.Bot.exe
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\win-x64\nlog.config
-D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\win-x64\.env
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\win-x64\Cimber.Bot.deps.json
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\win-x64\Cimber.Bot.runtimeconfig.json
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Release\net7.0\win-x64\Cimber.Bot.dll

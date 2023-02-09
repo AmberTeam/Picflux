@@ -3,10 +3,8 @@ D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Database.runtimeconfig.json
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Database.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Database.pdb
-D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Extensions.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Logger.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Models.dll
-D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Extensions.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Logger.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\bin\Release\net7.0\linux-x64\Cimber.Bot.Models.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Database\obj\Release\net7.0\linux-x64\Cimber.Bot.Database.csproj.AssemblyReference.cache

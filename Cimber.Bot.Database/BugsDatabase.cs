@@ -86,8 +86,8 @@ namespace Cimber.Bot.Database
                     int id = reader.GetInt32(0);
                     string title = reader.GetString(1);
                     string description = reader.GetString(2);
-                    int? type = reader.GetInt32(3);
-                    long? fromUserId = reader.GetInt32(4);
+                    Models.Type? type = (Models.Type)reader.GetInt32(3);
+                    long? fromUserId = reader.GetInt64(4);
                     string? fromUserName = reader.GetString(5);
                     int? os = reader.GetInt32(6);
 
@@ -127,8 +127,8 @@ namespace Cimber.Bot.Database
                 {
                     string title = reader.GetString(1);
                     string description = reader.GetString(2);
-                    int? type = reader.GetInt32(3);
-                    long? fromUserId = reader.GetInt32(4);
+                    Models.Type? type = (Models.Type)reader.GetInt32(3);
+                    long? fromUserId = reader.GetInt64(4);
                     string? fromUserName = reader.GetString(5);
                     int? os = reader.GetInt32(6);
 
@@ -173,7 +173,6 @@ namespace Cimber.Bot.Database
         {
             try
             {
-                // Getting bug 
                 var getCommandString = $@"SELECT * FROM Bug WHERE Id = {id};";
                 var reader = new SQLiteCommand(getCommandString, _connection).ExecuteReader();
 
@@ -186,8 +185,8 @@ namespace Cimber.Bot.Database
                     {
                         string title = reader.GetString(1);
                         string description = reader.GetString(2);
-                        int? type = reader.GetInt32(3);
-                        long? fromUserId = reader.GetInt32(4);
+                        Models.Type? type = (Models.Type)reader.GetInt32(3);
+                        long? fromUserId = reader.GetInt64(4);
                         string? fromUserName = reader.GetString(5);
                         int? os = reader.GetInt32(6);
 

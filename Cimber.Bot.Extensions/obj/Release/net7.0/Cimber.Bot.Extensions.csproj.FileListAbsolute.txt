@@ -34,3 +34,7 @@ D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\obj\Release\net7.0\Cimber.B
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\obj\Release\net7.0\refint\Cimber.Bot.Extensions.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\obj\Release\net7.0\Cimber.Bot.Extensions.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\obj\Release\net7.0\ref\Cimber.Bot.Extensions.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\bin\Release\net7.0\Cimber.Bot.Extensions.runtimeconfig.json
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\bin\Release\net7.0\Cimber.Bot.Database.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\bin\Release\net7.0\Cimber.Bot.Database.pdb
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot.Extensions\obj\Release\net7.0\Cimber.Bot.Extensions.genruntimeconfig.cache

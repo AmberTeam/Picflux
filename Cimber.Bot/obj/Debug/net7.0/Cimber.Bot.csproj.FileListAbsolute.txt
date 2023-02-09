@@ -59,7 +59,6 @@ D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\obj\Debug\net7.0\ref\Cimber.Bot.dll
 D:\Dev\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\.env
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\Cimber.Bot.exe
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\nlog.config
-D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\.env
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\Cimber.Bot.deps.json
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\Cimber.Bot.runtimeconfig.json
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\Cimber.Bot.dll
@@ -116,3 +115,4 @@ D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\obj\Debug\net7.0\refint\Cimber.Bot.dll
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\obj\Debug\net7.0\Cimber.Bot.pdb
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\obj\Debug\net7.0\Cimber.Bot.genruntimeconfig.cache
 D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\obj\Debug\net7.0\ref\Cimber.Bot.dll
+D:\Dev\Amber\Cimber\Cimber.Bot\Cimber.Bot\bin\Debug\net7.0\.env

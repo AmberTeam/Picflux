@@ -26,3 +26,30 @@
 	Exception during making request | 
 2023-02-07 15:09:21.5057|Error|[0] [Telegram.Bot]
 	Exception during making request | 
+2023-02-10 03:29:15.9989|Debug|Client has been created | 
+2023-02-10 03:31:25.8317|Error|[0] [Telegram.Bot]
+	Bad Request: chat not found | 
+2023-02-10 03:35:12.6856|Debug|Client has been created | 
+2023-02-10 03:37:11.0468|Debug|Client has been created | 
+2023-02-10 03:37:15.0445|Debug|Client has been created | 
+2023-02-10 03:37:17.7248|Error|[0] [Telegram.Bot]
+	Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message | 
+2023-02-10 03:39:36.1189|Debug|Client has been created | 
+2023-02-10 03:40:49.7783|Debug|Client has been created | 
+2023-02-10 03:40:57.1392|Debug|Client has been created | 
+2023-02-10 03:42:02.1073|Debug|Client has been created | 
+2023-02-10 03:42:05.9087|Debug|Client has been created | 
+2023-02-10 03:42:18.5278|Error|[0] [Telegram.Bot]
+	Bad Request: chat not found | 
+2023-02-10 03:42:27.1057|Debug|Client has been created | 
+2023-02-10 03:43:00.5821|Error|[0] [Telegram.Bot]
+	Bad Request: chat not found | 
+2023-02-10 03:43:29.2056|Debug|Client has been created | 
+2023-02-10 03:43:54.7276|Error|[0] [Telegram.Bot]
+	Bad Request: chat not found | 
+2023-02-10 03:44:10.7022|Debug|Client has been created | 
+2023-02-10 03:45:13.1430|Debug|Client has been created | 
+2023-02-10 03:45:15.5672|Error|[0] [Telegram.Bot]
+	Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message | 
+2023-02-10 03:45:23.7925|Debug|Client has been created | 
+2023-02-10 03:45:47.9216|Debug|Client has been created | 

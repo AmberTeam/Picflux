@@ -1806,7 +1806,6 @@
       },
       "Cimber.Bot.Database/1.0.0": {
         "dependencies": {
-          "Cimber.Bot.Extensions": "1.0.0",
           "Cimber.Bot.Logger": "1.0.0",
           "Cimber.Bot.Models": "1.0.0",
           "System.Data.SQLite": "1.0.117"
@@ -1817,6 +1816,7 @@
       },
       "Cimber.Bot.Extensions/1.0.0": {
         "dependencies": {
+          "Cimber.Bot.Database": "1.0.0",
           "Cimber.Bot.Logger": "1.0.0",
           "Cimber.Bot.Models": "1.0.0",
           "Telegram.Bot": "18.0.0"

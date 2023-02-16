@@ -1,15 +1,15 @@
 module.exports = class FilmDto {
     id 
-    name 
-    year 
-    description 
-    countries
-    duration
-    genres
+    name  
+    year   
+    description   
+    countries  
+    duration   
+    genres 
     poster
-    language
+    language 
     players
-    
+     
     constructor(model) {
         this.id = model.id 
         this.name = model.name 
@@ -19,7 +19,7 @@ module.exports = class FilmDto {
         this.duration = model.duration
         this.genres = JSON.parse(model.genres) 
         this.poster = model.poster 
-        this.language = model.language
+        this.language = model.language 
         this.players = JSON.parse(model.Players)
     }
 

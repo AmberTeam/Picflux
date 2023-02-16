@@ -27,6 +27,137 @@
         height: 20px
         transition: .2s all ease
 
+.Navigator_container
+    position: fixed 
+    display: grid
+    grid-template-columns: 70% 30%
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
+    z-index: 999
+    visibility: hidden
+
+    &.Active
+        .Blurer
+            opacity: 1
+            visibility: visible
+
+        .Navigator_content 
+            transform: translateX(0)
+    .Blurer
+        position: absolute
+        height: 100%
+        width: 100%
+        background: rgba(0, 0, 0, .2)
+        backdrop-filter: blur(4px)
+        opacity: 0
+        visibility: hidden
+        transition: .2s all ease
+
+
+    .Navigator_content
+        right: 0
+        transform: translateX(100%)
+        background: var(--fg)
+        transition: .2s all ease
+        position: fixed
+        top: 0
+        right: 0
+        height: 100%
+        width: 30%
+        display: grid
+        align-content: space-between
+        
+        .Navigator_bottom
+            padding: 1rem
+
+            .Controlls 
+                display: flex 
+                justify-content: space-between
+
+
+        .Navigator_main
+            
+            .HR 
+                border-bottom: 1px solid var(--navigator-border)
+                width: 100%
+
+            .Navigator_header
+                padding: 1rem
+                display: flex
+                justify-content: space-between
+
+                .Btns_container 
+                    display: flex
+                    gap: 1rem
+                        
+                    .Auth_btn 
+                        padding: .5rem 1rem
+                        border: none
+                        border-radius: 9px
+                        transition: .2s all ease
+                        cursor: pointer
+                        font-size: 16px 
+                        text-decoration: none
+
+                    .Login_btn 
+                        background: rgba(240,168,50,1)
+                        color: var(--bg)
+
+                        &:hover 
+                            background: rgba(255,144,93,1)
+
+                    .Reg_btn
+                        background: transparent 
+                        color: rgba(240,168,50,1)
+                        border: 1px solid rgba(240,168,50,1)
+                        
+                        &:hover 
+                            background: rgba(240,168,50,1)
+                            color: var(--bg)
+
+                .Header_account 
+
+                    .Account_content
+                        display: flex
+                        align-items: center 
+                        gap: .5rem
+                         
+                        a 
+                            img 
+                                border-radius: 50%
+
+                .Header_exec 
+                    cursor: pointer
+                    background: transparent 
+                    border: none
+
+                    &:hover 
+                        svg 
+                            transform: rotateZ(90deg)
+
+                    svg 
+                        transition: .2s all ease
+                        width: 20px 
+                        height: 20px
+                        fill: var(--color)
+
+            .Navigator_body
+
+                .Navigator_link
+                    display: block
+                    padding: 1rem
+                    transition: .2s all ease 
+                    font-family: 'Roobert'
+                    color: var(--color)
+                    text-decoration: none
+
+                    &:hover 
+                        background: var(--navigator-link-bg)
+
+    &.Active
+        visibility: visible
 .Navbar_navigator 
     width: 100%
     color: var(--color)
@@ -98,6 +229,7 @@
         transform: translateY(0)
 
 
+
 .Navbar
     z-index: 11 
     width: 100%
@@ -122,6 +254,21 @@
             .Name 
                 font-weight: 400
                 font-size: 20px
+
+        .Opts 
+            .Route 
+                opacity: 1
+
+                &:hover
+                    opacity: 1
+                .Amber_logo 
+                    width: 50px 
+                    transition: .2s all ease 
+                    opacity: .7
+                    cursor: pointer
+
+                    &:hover 
+                        opacity: 1
 
         .Opts 
             display: flex
@@ -165,11 +312,29 @@
                     color: var(--bg)
 
 
-        .Profile 
-            display: flex
-    
-            .Icon 
-                border-radius: 50%
+        .Burger_container 
+            cursor: pointer
+            position: relative
+            display: grid
+            background: transparent
+            gap: 4px
+            border: none
+            transition: .2s all ease
+
+            &:hover 
+                .Line 
+                    transform: translateX(-5px)
+
+                    &.Middle
+                        transform: translateX(5px)
+
+            .Line 
+                transition: .2s all ease
+                width: 30px 
+                height: 3px 
+                background: var(--color)
+                border-radius: 3px
+
 
 @media(max-width: 1100px)
     .Return_btn 
@@ -182,3 +347,14 @@
 
             .Opts 
                 display: none
+    .Navigator_container
+
+        .Navigator_content
+            width: 50%
+
+@media(max-width: 800px)
+
+    .Navigator_container
+
+        .Navigator_content
+            width: 100%

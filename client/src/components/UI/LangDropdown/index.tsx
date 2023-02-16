@@ -37,40 +37,16 @@ const LangDropdown: FC<ILangDropdown> =  ({...props}) => {
         setInnerWidth(width)
     })
 
-    if(innerWidth <= 1100) {
-        return (
-            <div className={cl.Dropdown_oriented}>
-                {fLangs.map((lang: any) => {
-                    const _lang = decodeLangPackByName(lang.name)
-                    return (
-                        <div className={cl.Lang} key={lang.name}>
-                            <img className={`${lang.active ? cl.Active : ""}`} onClick={() => setLanguage(lang.name)} src={_lang.img}/>
-                        </div>
-                    )
-                })}
-            </div>
-        )
-    }
-
     return (
-        <div className={cl.Dropdown_container}>
-            <div className={cl.Lang_curr}>
-                <div className={cl.Lang_inner}>
-                    <div> 
-                        <img src={currLang.img}/>
+        <div className={cl.Dropdown_oriented}>
+            {fLangs.map((lang: any) => {
+                const _lang = decodeLangPackByName(lang.name)
+                return (
+                    <div className={cl.Lang} key={lang.name}>
+                        <img className={`${lang.active ? cl.Active : ""}`} onClick={() => setLanguage(lang.name)} src={_lang.img}/>
                     </div>
-                    <div className={`${cl.Select_container} `}>
-                        {fAvailableLangs.map(lang => {
-                            const _lang = decodeLangPackByName(lang.name)
-                            return (
-                                <div className={cl.Select_el} key={lang.name}>
-                                    <img onClick={() => setLanguage(lang.name)} src={_lang.img}/>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-            </div>
+                )
+            })}
         </div>
     )
 }

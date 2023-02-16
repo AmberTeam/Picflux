@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom"
 import { useTranslation } from '../../../../hooks/translator.hook'
 import AllowAuth from '../../../AllowAuth'
 import UserService from '../../../../services/UserService'
+import LoaderMini from '../../../UI/LoaderMini'
 
 const FilmComponent: FC<IFilm> = (props: IFilm) => {
  
@@ -35,20 +36,23 @@ const FilmComponent: FC<IFilm> = (props: IFilm) => {
             console.log(e) 
         } finally {
             setIsWLLoading(false)
+            if(props.wlChangeCb) props.wlChangeCb()
         }
     }
 
     useEffect(() => {
-        console.log(props)
         var inFlag = false 
         if(props && props.watchLater !== undefined) {
             for(var i=0;i < props.watchLater.length;i++) {
-                console.log(props.watchLater[i])
                 if(isObject(props.watchLater[i])) {
                     if(props.watchLater[i].id == String(props.id)) {
                         setIsInWL(true)
                         inFlag = true
-                        console.log(props.watchLater[i].id + " " + String(props.id))
+                    }
+                } else {
+                    if(props.watchLater[i] == String(props.id)) {
+                        setIsInWL(true)
+                        inFlag = true 
                     }
                 }
             }
@@ -94,10 +98,21 @@ const FilmComponent: FC<IFilm> = (props: IFilm) => {
                 }}> {translate("home.actions.new_tab")} </button>
                 <AllowAuth>
                     {
-                        !isInWatchLater &&
-                            <button className={cl.NT_btn} onClick={() => {
-                                changeWatchLater()
-                            }}> watch later </button>
+                        <button className={cl.NT_btn} onClick={() => {
+                            changeWatchLater()
+                        }}> 
+                            {
+                                isWLLoading
+                                    ?
+                                        <LoaderMini variant="extra-small"/>
+                                    :
+                                    isInWatchLater 
+                                        ? 
+                                        "Remove"
+                                        :
+                                        "Watch later"
+                            }
+                        </button>
                     }
                 </AllowAuth>
             </div>

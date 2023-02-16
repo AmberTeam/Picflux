@@ -37,7 +37,7 @@ const LogModal: FC = () => {
         setTimeout(() => {
             store.closeLogModal()
             setActive(false)
-        }, 10000)
+        }, store.logModalConfig.duration ? store.logModalConfig.duration : 10000)
     }
 
     useEffect(() => {

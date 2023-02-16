@@ -8,31 +8,21 @@ class DBAgent {
     static __getByIdMethod = "SELECT * FROM films WHERE id = ?"
     static __getAllMethod = "SELECT * from films"
 
-    static formatSearchMethodStr(str, offset, limit, filters, fltype) {
+    static formatSearchMethodStr(str, offset, limit, filters, fltype, datesrt) {
         var flt_construct = ''
-        console.log(fltype) 
         if(fltype !== 'without') {
             filters.forEach((filter, i) => {
                 if(i == 0) flt_construct = ` AND genres${fltype == 'solely' ? " NOT" : ""} LIKE '%${filter}%'`
                 else flt_construct = flt_construct + ` AND genres${fltype == 'solely' ? " NOT" : ""} LIKE '%${filter}%'`
             })
-
+            console.log(datesrt)
+            if(datesrt && datesrt !== "any") flt_construct = flt_construct + `AND year LIKE '%${datesrt}%'`
             return `SELECT * FROM films WHERE lowerName LIKE '%${str}%' ${flt_construct} LIMIT ${offset}, ${limit}`
-        } else return `SELECT * FROM films WHERE lowerName LIKE '%${str}%' LIMIT ${offset}, ${limit}`
+        } else {
+            if(datesrt && datesrt !== "any") return `SELECT * FROM films WHERE lowerName LIKE '%${str}%' AND year LIKE '%${datesrt}%' LIMIT ${offset}, ${limit}`
+            else return `SELECT * FROM films WHERE lowerName LIKE '%${str}%' LIMIT ${offset}, ${limit}`
+        }
     }
 }
-
-/* 
-        DBAgent.db.all(`SELECT * from films WHERE genres LIKE '%"аниме"%' AND genres LIKE '%"приключения"%'`, [], (err, rows) => {
-            console.log(rows)
-            if(!rows) return res.json([])
-            const arr = []
-            rows.map((row) => {
-                row.players = JSON.parse(row.players)
-                row.genres = JSON.parse(row.genres)
-            })
-            return res.json(rows)
-        })
-*/
  
 module.exports = DBAgent

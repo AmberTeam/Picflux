@@ -10,7 +10,7 @@ class FilmController {
         DBAgent.db.all(DBAgent.__paginateMethod, [offset, limit], (err, rows) => { 
             return res.json(rows)
         })
-    }
+    } 
      
     async getById(req, res) {
         const {id} = req.params
@@ -36,12 +36,12 @@ class FilmController {
     }
 
     search(req, res) {
-        const {fl, flt} = req.query
+        const {fl, flt, datesrt} = req.query
         const {limit, offset, query} = req.body
         const fl_arr = fl.split(" ").filter((fle) => fle !== "")
-        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit, fl_arr, flt), [], async (err, rows) => {
+        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit, fl_arr, flt, datesrt), [], async (err, rows) => {
             if(!rows) return res.json([])
-            const arr = []
+            const arr = [] 
             var req_owner
             if(req.user) {
                 req_owner = await UserModel.findById(req.user.id)
@@ -52,7 +52,7 @@ class FilmController {
                 row.genres = JSON.parse(row.genres)
             })
             return res.json(rows)
-        })
+        }) 
     }
 
     async getWillReadFilms(req, res) {

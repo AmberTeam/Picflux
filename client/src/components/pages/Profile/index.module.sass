@@ -27,7 +27,7 @@
     .Profile_content
         background: var(--fg)
         min-height: 100vh
-        padding: 64px 1.5rem 1.5rem 1.5rem
+        padding: 64px 5rem 5rem 5rem
 
         .Content 
             .Profile_username 
@@ -58,17 +58,46 @@
                         background: linear-gradient(90deg, rgb(240, 168, 50) 0%, rgb(255, 144, 93) 100%)
 
         .Content_body 
-            display: grid 
-            grid-template-columns: 50% 50%
+            display: grid
 
-            .WL_section 
-                .WL_header
-                    padding: 3rem 0
+            .Opts_container
+                display: flex
 
-                .WL_container 
-                    display: grid 
-                    grid-template-columns: 33.33% 33.33% 33.33%
-                    gap: 1rem
+                .Border_spacer 
+                    width: 45px
+                    border-bottom: 2px solid #707a8394
+                    margin-bottom: 10px
+
+                .Opt 
+                    color: #707a83
+                    background: transparent
+                    border: none
+                    font-family: 'Roobert'
+                    font-size: 16px
+                    font-weight: bold
+                    padding: .7
+                    transition: .2s all ease
+                    cursor: pointer
+
+                    &.Last 
+                        margin-top: 9px
+                        width: 100%
+
+                    .Border 
+                        transition: .2s all ease
+                        margin-top: 10px
+                        border-bottom: 2px solid #707a8394
+
+                    &.Active 
+                        color: var(--color-a)
+
+                        .Border 
+                            border-bottom: 2px solid var(--color-a)
+                    &.Default
+                        padding: 0rem 0px 10px 0px
+
+            .Tab_content 
+                margin-top: 3rem
 
 @media(max-width: 1500px)
     .Profile_section 
@@ -84,8 +113,8 @@
     .Profile_section 
 
         .Profile_content
+            padding: 64px 1rem 1rem 1rem
             .Content_body 
-                .WL_section
-                    .WL_container 
-                        grid-template-columns: 100%
+                .Tab_content 
+                    margin-top: 1rem
 

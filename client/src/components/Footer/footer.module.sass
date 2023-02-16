@@ -1,7 +1,6 @@
 
 .Footer_container 
     background: var(--footer-bg)
-    padding: 2rem
     display: grid
     
     &.Primary
@@ -13,10 +12,30 @@
         grid-template-columns: 33.33% 33.33% 33.33%
         justify-items: center
 
+        .Amber_logo 
+            .Logo 
+                width: 100px
+
+        .Online 
+            display: flex
+            align-items: center
+            gap: 5px
+
+            .Online_dot 
+                width: 10px 
+                height: 10px 
+                background: #00fe00
+                border-radius: 100px
+
+            .Online_text 
+                font-family: 'Roobert'
+                font-size: 14px
+
     .Footer_inners
         margin-top: 1.5rem
         display: grid 
         grid-template-columns: 33.33% 33.33% 33.33%
+        padding: 0 1rem
 
         .Footer_inner 
             width: 100%
@@ -39,6 +58,7 @@
                             color: var(--color-a)
     
     .Footer_bottom 
+        padding: 0rem 2rem 2rem 2rem
         margin-top: 1.5rem
         display: flex
         font-size: 10px
@@ -47,8 +67,9 @@
 
         .Team
             width: 100%
-            display: flex
-            justify-content: center
+            display: grid
+            gap: 1rem
+            justify-items: center
 
         .Logout 
             width: 100%
@@ -72,15 +93,18 @@
     .Footer_container 
         .Footer_header 
             width: 100% 
-            display: flex 
-            justify-content: center 
-            align-items: center
+            grid-template-columns: auto
 
         .Footer_inners
             margin-top: 1.5rem
             display: grid 
-            grid-template-columns: auto
-            grid-gap: 1rem
+            grid-template-columns: calc(50% - .25rem) calc(50% - .25rem)
+            grid-gap: .5rem
+
+            .Footer_inner 
+                .Content 
+                    font-size: 10px
+
 
         .Footer_bottom 
             flex-direction: column-reverse
@@ -93,3 +117,6 @@
             .Logout
                 text-align: center
                 margin-left: 0
+
+
+

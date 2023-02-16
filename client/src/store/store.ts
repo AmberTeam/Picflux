@@ -17,10 +17,12 @@ export interface ILogModal {
     code: string,
     alt: string,
     status?: number,
+    duration?: number
 }
 
 export default class Store {
-    user = {} as IUser;
+    user = {} as IUser
+    online = [] as any
 
     lang = this.predefineLang(lconfig.lang_defaut);
 
@@ -36,6 +38,19 @@ export default class Store {
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    //ONLINE 
+    changeOnline(sckts: string[]) {
+        console.log(sckts)
+        this.online = sckts
+    }
+    addOnlineUser(uid: string) {
+        this.online.push(uid)
+    }
+
+    removeOnlineUser(uid: string) {
+        this.online = this.online.filter((_uid: string) => _uid !== uid)
     }
 
     //LOG MODAL

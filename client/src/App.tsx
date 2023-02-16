@@ -16,13 +16,19 @@ import Footer from './components/Footer'
 import LogoutModal from './components/LogoutModal'
 import "./sass/index.sass"
 
-const client = new WebSocket('ws://127.0.0.1:5001');
 
 const App: FC = () => {
     const {store} = useContext(Context)
     const [users, setUsers] = useState<IUser[]>([])
 
     useEffect(() => {
+        const client = new WebSocket('ws://127.0.0.1:5001')
+
+        client.addEventListener('message', (message: any) => {
+            const t = JSON.parse(message.data)
+            store.changeOnline(t.data.sckts)
+        })
+
         if (localStorage.getItem('token')) store.checkAuth()
         if(localStorage.getItem('lang')) store.checkLang()
         else store.setDefaultLang()

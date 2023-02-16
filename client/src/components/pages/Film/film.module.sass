@@ -144,12 +144,24 @@
                     display: grid
                     gap: 1px
 
-                    .Selected_span
-                        position: absolute
-                        left: -5px
+                    .Tab
 
-                    &.Players_container
-                        display: flex
+                        &.Pl_tab 
+                            .Tab_content 
+                                justify-content: start
+
+                        .Tab_content 
+                            display: flex
+                            justify-content: center
+                            align-items: center 
+                            gap: .5rem
+
+                        .Selected_span
+                            position: absolute
+                            left: -5px
+
+                        &.Players_container
+                            display: flex
 
 
             .Frame
@@ -177,6 +189,7 @@
     font-size: 12px
     text-align: center
     text-decoration: none
+    
 
     .Ad_prefix
         font-size: 10px

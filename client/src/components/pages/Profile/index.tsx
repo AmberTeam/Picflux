@@ -8,6 +8,7 @@ import { IUser } from '../../../models/IUser'
 import UserService from '../../../services/UserService'
 import Film from "../Home/Film"
 import { IFilm } from '../../../models/IFilm'
+import FilmList from '../../FilmList'
 
 const ProfilePage = () => {
 
@@ -17,6 +18,16 @@ const ProfilePage = () => {
 
     const [user, setUser] = useState<IUser | null>(null)
     const [err, setErr] = useState<boolean>(false)
+    const [tab, setTab] = useState<number>(0)
+    
+    const reloadWL = async() => {
+        try {
+            const response = await UserService.getUserBId(id as string, true)
+            setUser({...response.data})
+        } catch(e) {
+            setErr(true)
+        }
+    }
 
     const fetchUser = async (current: boolean) => {
         try {
@@ -66,19 +77,43 @@ const ProfilePage = () => {
                         </div>
                     </div>
                     <div className={cl.Content_body}>
-                        <section className={cl.WL_section}>
-                            <div className={cl.WL_header}>
-                                <h1>Watch Later</h1>
-                            </div>
+                        <div className={cl.Opts_container}>
+                            <button className={`${cl.Opt} ${cl.Default} ${tab == 0 && cl.Active}`} onClick={() => setTab(0)}>
+                                <span>WatchLater</span>
+                                <div className={cl.Border}></div>
+                            </button>
+                            <div className={cl.Border_spacer}></div>
+                            <button className={`${cl.Opt} ${cl.Default} ${tab == 1 && cl.Active}`} onClick={() => setTab(1)}>
+                                <span>Activity</span>
+                                <div className={cl.Border}></div>
+                            </button>
+                            <div className={cl.Border_spacer}></div>
+                            <button className={`${cl.Opt} ${cl.Default} ${tab == 2 && cl.Active}`} onClick={() => setTab(2)}>
+                                <span>Friends</span>
+                                <div className={cl.Border}></div>
+                            </button>
+                            <div className={cl.Border_spacer}></div>
+                            <button className={`${cl.Opt} ${cl.Last}`}>
+                                <div className={cl.Border}></div>
+                            </button>
+                        </div>
+                        <section className={cl.Tab_content}>
                             {
-                                user.watchLater &&
-                                    <div className={cl.WL_container}>
-                                        {
-                                            user.watchLater.map((film: IFilm) => 
-                                                <Film {...{...film, watchLater: user.watchLater} as IFilm} key={film.id}/>
-                                            )
-                                        }
-                                    </div>
+                                tab == 0 && user.watchLater
+                                    &&
+                                    <FilmList observerElem={undefined} notfound={false} films={user.watchLater.map((wlf) => {
+                                        return {...{...wlf, watchLater: user.watchLater, wlChangeCb: reloadWL} as IFilm}
+                                    })}/>
+                            }
+                            {
+                                tab == 1 && user.watchLater
+                                    &&
+                                    <h1>Activity</h1>
+                            }
+                            {
+                                tab == 2 && user.watchLater
+                                    &&
+                                    <h1>Friends</h1>
                             }
                         </section>
                     </div>

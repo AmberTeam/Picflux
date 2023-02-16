@@ -15,4 +15,5 @@ export interface IFilm {
     language: number
     players: IPlayer[]
     watchLater?: any[]
+    wlChangeCb?: () => void
 }

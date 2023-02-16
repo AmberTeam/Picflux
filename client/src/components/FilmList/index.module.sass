@@ -1,0 +1,47 @@
+
+.Dropper 
+    position: absolute
+    top: 50%
+    opacity: 0
+
+
+.Content_content 
+    display: grid 
+    grid-template-columns: calc(16.666% - 2.5rem) calc(16.666% - 2.5rem) calc(16.666% - 2.5rem)  calc(16.666% - 2.5rem) calc(16.666% - 2.5rem) calc(16.666% - 2.5rem)
+    grid-gap: 3rem
+
+    &.Not_Found
+        grid-template-columns: auto 
+        min-height: 60vh
+        align-content: center 
+        justify-content: center
+
+    .NotFound
+        display: flex 
+        justify-content: center 
+        align-items: center
+        svg 
+            width: 50px
+
+@media(max-width: 1600px) 
+    .Content_content 
+        grid-template-columns: calc(20% - 2.5rem) calc(20% - 2.5rem) calc(20% - 2.5rem)  calc(20% - 2.5rem) calc(20% - 2.5rem) 
+
+@media(max-width: 1600px) 
+    .Content_content 
+        grid-template-columns: calc(25% - 2.2rem) calc(25% - 2.2rem) calc(25% - 2.2rem)  calc(25% - 2.2rem)
+
+@media(max-width: 1300px) 
+    .Content_content 
+        grid-template-columns: calc(33.3333% - 2rem) calc(33.3333% - 2rem) calc(33.3333% - 2rem)
+
+@media(max-width: 1100px) 
+    .Content_content 
+        grid-template-columns: calc(50% - 1.5rem) calc(50% - 1.5rem)
+
+@media(max-width: 650px)
+    .Content_content 
+        grid-gap: 1rem
+        grid-template-columns: calc(50% - .5rem) calc(50% - .5rem)
+
+        

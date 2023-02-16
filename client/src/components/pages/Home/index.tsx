@@ -1,4 +1,4 @@
-import {FC, useEffect, useState, useRef, useContext } from 'react'
+import {FC, useEffect, useState, useRef, useContext, HTMLInputTypeAttribute } from 'react'
 import { useTranslation } from '../../../hooks/translator.hook'
 import { useResizeHandler } from '../../../hooks/resizehandler.hook'
 import { useObserver } from '../../../hooks/observer.hook'
@@ -12,10 +12,13 @@ import cl from "./home.module.sass"
 import { ISQueue } from '../../../models/ISQueue'
 import ContentModal from '../../ContentModal'
 import BSelector from '../../UI/BrickSelector'
+import LoaderMini from '../../UI/LoaderMini'
+import FilmList from '../../FilmList'
 
 export interface IDLC {
     filtering: string[],
-    filtering_type: string
+    filtering_type: string,
+    datesrt?: string
 }
 
 const HomePage: FC = () => {
@@ -38,6 +41,7 @@ const HomePage: FC = () => {
 	const [canLoad, setCanLoad] = useState<boolean>(true)
     const [paginateMethod, setPaginateMethod] = useState<string | undefined>(undefined)
     const [filteringConfig, setFConfig] = useState<any[] | undefined>(undefined)
+    const [dateSrt, setDateSrt] = useState<string | undefined>(undefined)
     const [filteringType, setFType] = useState<string | undefined>(undefined)
     const [lanceCReady, setLanceCReady] = useState<boolean>(false)
     const [dynamicLanceConfig, setDLC] = useState<IDLC>({filtering: [] as any, filtering_type: 'without'} as IDLC)
@@ -54,7 +58,6 @@ const HomePage: FC = () => {
     }
     
 	const fetchPosts = async (limit: number, _page: number, arg: number) => {
-        console.log(dynamicLanceConfig)
 		setLoading(true)
 		try {
             let curr_page
@@ -69,7 +72,6 @@ const HomePage: FC = () => {
                     setFilms([])
                     if(page == 0) {
                         setNotFound(true)
-                        setCanLoad(false)
                     }
                 }
                 if(page != 0) {
@@ -92,21 +94,45 @@ const HomePage: FC = () => {
         store.setDefaultQueueConfig({page: 0, query: searchQuery})
     }
 
+    const writeLanceConfig = (act_type: string, data: any, cb: (arg: any) => void, custom_cb_arg: any = null) => {
+        try {
+            if(act_type === 'filtr_t') {
+                switch(data) {
+                    case 'solely': 
+                        var filtr_c_s = JSON.parse(localStorage.getItem('filtr_c_s') as string)
+                        if(!filtr_c_s) {
+                            localStorage.setItem("filtr_c_s", JSON.stringify([]))
+                            filtr_c_s = []
+                        }
+                        setFConfig(filtr_c_s)
+                        break
+                    case 'inclusive':
+                        var filtr_c_i = JSON.parse(localStorage.getItem('filtr_c_i') as string)
+                        if(!filtr_c_i) {
+                            localStorage.setItem("filtr_c_i", JSON.stringify([]))
+                            filtr_c_i = []
+                        }
+                        setFConfig(filtr_c_i)
+                        break
+                }
+            }
+            if(custom_cb_arg) cb(custom_cb_arg)
+            else cb(data)
+            localStorage.setItem(act_type, data)
+        } catch(e) { 
+            console.log(e)
+        }
+    }
+
     const prepareLanceConfig = () => {
         try {
             //Pagination method
             const pmth = localStorage.getItem("pg_mthd")
-            if(pmth) setPaginateMethod(pmth)
-            else setPaginateMethod('click')
-
-            //Filtering
-            var filtrc = localStorage.getItem("filtr_c")
-            if(filtrc) {
-                setFConfig(JSON.parse(filtrc))
+            if(pmth) { 
+                setPaginateMethod(pmth)
             } else {
-                localStorage.setItem('filtr_c', JSON.stringify([]))
-                filtrc = [] as any
-                setFConfig([])
+                localStorage.setItem('pg_mthd', 'auto')
+                setPaginateMethod('auto')
             }
 
             //FType 
@@ -119,7 +145,43 @@ const HomePage: FC = () => {
                 setFType('without')
             }
             
-            setDLC({filtering: JSON.parse(filtrc as string) as string[], filtering_type: filtrt as string})
+            //Filtering
+            var filtrc = localStorage.getItem('filtr_c')
+            if(filtrc) { 
+                setFConfig(JSON.parse(filtrc))
+            } else {
+                localStorage.setItem('filtr_c', JSON.stringify([]))
+                filtrc = [] as any
+                setFConfig([])
+            }
+
+            switch(filtrt) {
+                case "without": 
+                    filtrc = "[]"
+                    setFConfig([])
+                    break
+                case "solely":
+                    filtrc = localStorage.getItem("filtr_c_s")
+                    if(filtrc) setFConfig(JSON.parse(filtrc))
+                    break 
+                case "inclusive": 
+                    filtrc = localStorage.getItem("filtr_c_i")
+                    if(filtrc) setFConfig(JSON.parse(filtrc))
+                    break
+            }
+
+            //Date sorting 
+            var datesrt = localStorage.getItem('datesrt')
+            if(datesrt) {
+                setDateSrt(datesrt)
+            } else {
+                localStorage.setItem('datesrt', 'any')
+                datesrt = 'any'
+                setDateSrt('any')
+            }
+
+            setFConfig(JSON.parse(filtrc as string))
+            setDLC({filtering: JSON.parse(filtrc as string) as string[], filtering_type: filtrt as string, datesrt})
         } catch(e) {
             setLanceCReady(true)
         } finally {
@@ -136,7 +198,6 @@ const HomePage: FC = () => {
     }
 
     const restoreSearchQueue = async (qConfig: any) => {
-        console.log(dynamicLanceConfig)
         const returns = [] as any
         for(let i = 0; i < qConfig.length; i++) {
             const t = await userService.search(qConfig[i].query.toLowerCase(), limit, i * limit, dynamicLanceConfig)
@@ -148,7 +209,6 @@ const HomePage: FC = () => {
                 setSearchQuery(qConfig[i].query)
             }
         }
-        console.log(returns)
         setFilms([...returns] as any)
         setTimeout(() => {
             if(contentElement && contentElement.current) contentElement.current.scrollIntoView({behavior: 'auto', block: 'center'})
@@ -176,11 +236,12 @@ const HomePage: FC = () => {
     }, [page])
 
     useEffect(() => {
-        console.log(dynamicLanceConfig)
+        console.log(filteringConfig)
+    }, [filteringConfig])
+
+    useEffect(() => {
         const searchQueue = store.checkSearchQueue()
-        console.log(searchQuery)
         if(searchQueue) {
-            console.log('her')
             restoreSearchQueue(searchQueue)
             setPage(searchQueue.length -1)
         } else {
@@ -210,9 +271,8 @@ const HomePage: FC = () => {
                                     ]
                                 } 
                                 action_c={(value: any) => {
-                                    if(value[0].value == undefined) return 
-                                    setPaginateMethod(value[0].value)
-                                    localStorage.setItem("pg_mthd", value[0].value)
+                                    console.log(value[0].value)
+                                    if(value[0].value !== undefined) writeLanceConfig("pg_mthd", value[0].value, setPaginateMethod)
                                 }}
                             >
                                 Метод подгрузки:
@@ -220,7 +280,8 @@ const HomePage: FC = () => {
                         </div>
                         <div className={cl.Pagination_mtd}>
                             <BSelector 
-                                selectors_required={27} 
+                                selectors_required={28} 
+                                disabled={dynamicLanceConfig.filtering_type === 'without' ? true : false}
                                 actions={
                                     [
                                         {content: "Ужасы", value: "ужасы"}, 
@@ -250,18 +311,37 @@ const HomePage: FC = () => {
                                         {content: "Детектив", value: "детектив"},
                                         {content: "Фантастика", value: "фантастика"},
                                         {content: "Катастрофа", value: "катастрофа"},
-                                        {content: "Музыка", value: "музыка"}
+                                        {content: "Музыка", value: "музыка"},
+                                        {content: "Научная фантастика", value: "музыка"}
                                     ]
                                 } 
                                 action_c={(value: any) => {
-                                    if(value == undefined || value == null || !value.length) return 
-                                    localStorage.setItem("filtr_c", JSON.stringify(value))
-                                    setDLC({...dynamicLanceConfig, filtering: value})
-                                    resetSearchQueue()
+                                    console.log(value)
+                                    if(value !== undefined && value !== null && value.length) writeLanceConfig(dynamicLanceConfig.filtering_type === 'solely' ? "filtr_c_s" : "filtr_c_i", JSON.stringify(value), (data: any) => {
+                                        setDLC({...dynamicLanceConfig, filtering: data})
+                                        
+                                    }, value)
                                 }}
-                                restoreConfig={[...filteringConfig]}
+                                restoreConfig={filteringConfig}
                             >
                                 Filtration:
+                            </BSelector>
+                        </div>
+                        <div className={cl.Pagination_mtd}>
+                            <BSelector 
+                                selectors_required={1} 
+                                variant='input'
+                                default={dynamicLanceConfig.datesrt === 'any' ? 1 : 0}
+                                actions={
+                                    [
+                                        {content: 'Halo', value: 'vale', variant: 'input', default_val: dateSrt !== 'any' ? dateSrt : localStorage.getItem('_datesrt') as string, handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data})})},
+                                        {content: 'Неограничено', value: 'un', handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {dynamicLanceConfig.datesrt && localStorage.setItem("_datesrt", dynamicLanceConfig.datesrt); setDLC({...dynamicLanceConfig, datesrt: data})})}
+                                    ]
+                                }
+                                action_c={() => {
+                                }}
+                            >
+                                test
                             </BSelector>
                         </div>
                         <div className={cl.Pagination_mtd}>
@@ -276,10 +356,12 @@ const HomePage: FC = () => {
                                     ]
                                 } 
                                 action_c={(value: any) => {
-                                    if(value == undefined || value == null || !value.length) return 
-                                    localStorage.setItem("filtr_t", value[0].value)
-                                    setDLC({...dynamicLanceConfig, filtering_type: value[0].value})
-                                    resetSearchQueue()
+                                    if(value !== undefined && value !== null && value.length) writeLanceConfig("filtr_t", value[0].value, (data: any) => {
+                                        var filtering = []
+                                        if(data !== 'without') filtering = JSON.parse(localStorage.getItem(data === 'solely' ? 'filtr_c_s' : 'filtr_c_i') as string)
+                                        if(!filtering) filtering = []
+                                        setDLC({...dynamicLanceConfig, filtering_type: data, filtering})
+                                    })
                                 }}
                             >
                                 Тип фильтрации:
@@ -301,10 +383,9 @@ const HomePage: FC = () => {
                     <div className={cl.Search_field}>
                         <div className={`${cl.Tool_container} ${cl.Search_ints}`}>
                             <button className={cl.Tool} onClick={() => resetSearchQueue()}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                    <path fillRule="evenodd" d="M6.146 6.146a.5.5 0 0 1 .708 0L8 7.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 8l1.147 1.146a.5.5 0 0 1-.708.708L8 8.707 6.854 9.854a.5.5 0 0 1-.708-.708L7.293 8 6.146 6.854a.5.5 0 0 1 0-.708z"/>
-                                    <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
-                                    <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
                                 </svg>
                             </button> 
                         </div>
@@ -336,36 +417,7 @@ const HomePage: FC = () => {
                     </div>
                 </div>
                 <div className={cl.Section_content}>
-                    <div className={`${cl.Content_content} ${notFound == true ? cl.Not_Found : ""}`}>
-                        {
-                            films.length ? films.map((film: IFilm) => {
-                                const last_seen = localStorage.getItem('last_seen')
-                                if(film.id == Number(last_seen)) return (
-                                    <span style={{position: 'relative', display: 'flex'}} key={film.id}>
-                                        <Film key={film.id} {...film}/>
-                                        <div ref={contentElement} className={cl.Dropper}></div>
-                                    </span>
-                                )
-                                return (
-                                    <Film key={film.id} {...film}/>
-                                )
-                            }
-                            )
-                            :
-                            <>
-                                <div className={cl.NotFound}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                        <linearGradient id="gradient">
-                                            <stop className="main-stop" offset="0%" />
-                                            <stop className="alt-stop" offset="100%" />
-                                        </linearGradient>
-                                        <path fill="url(#gradient)" d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM5.495 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
-                                    </svg>
-                                </div>
-                                <p> {translate("home.throws.not_found")} </p>
-                            </>
-                        }
-                    </div>
+                    <FilmList notfound={false} observerElem={contentElement} films={films}/>
                     {
                         <div 
                             ref={obsElement} 

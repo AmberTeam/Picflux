@@ -1,6 +1,17 @@
 .BrickSelector
     display: grid
     gap: .7rem
+    transition: .2s all ease
+
+    &.Disabled 
+        opacity: 0.2
+
+        .Selector_body 
+
+            .Selector_action 
+                cursor: default
+                pointer-events: none
+
 
     .Selector_body 
         display: flex
@@ -16,6 +27,20 @@
             transition: .2s all ease
             cursor: pointer
             opacity: .7
+
+            &.Input_type 
+                cursor: auto
+                outline: none
+
+                &.Selected
+                    &::placeholder
+                        color: red
+                        opacity: 1
+
+                &.Selected_required_all
+                    &::placeholder
+                        color: var(--color-a)
+                        opacity: 1              
 
             &.Default
                 &:hover 

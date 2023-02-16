@@ -4,6 +4,9 @@ import cl from './index.module.sass'
 interface IBrickAction {
     content: string 
     value: string
+    variant?: string
+    handler?: (e: string) => void
+    default_val?: string
 }
 
 interface IBSelectorProps {
@@ -13,13 +16,18 @@ interface IBSelectorProps {
     selectors_required: number
     default?: number
     restoreConfig?: IBrickAction[]
+    disabled?: boolean
+    variant?: string
 }
 
 const BSelector: FC<IBSelectorProps> = ({...props}) => {
     
     const [selected, setSelected] = useState<IBrickAction[]>([])
+    const [variant, setVariant] = useState<string>("")
 
     const selectHandler = (selector: IBrickAction) => {
+        if(props.disabled) return 
+
         if(props.selectors_required <= 2) {
             if(selected.length >= props.selectors_required && props.selectors_required <= 2) {
                 props.action_c([selector])
@@ -50,11 +58,20 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
         } else {
             setSelected((props.default !== null || props.default !== undefined) && props.actions[props.default as number] !== undefined ? [props.actions[props.default as number]] : [])
         }
+    }, [props.restoreConfig])
+
+    useEffect(() => {
+        if(props.variant) switch(props.variant) {
+            case 'input': 
+                setVariant('input')
+                break
+            default:
+                setVariant('default')
+        }
     }, [])
 
-
     return (
-        <div className={cl.BrickSelector}>
+        <div className={`${cl.BrickSelector} ${props.disabled ? cl.Disabled : cl.Enabled}`}>
             <div className={cl.Selector_header}>
                 {props.children}
             </div>
@@ -67,8 +84,25 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
                             if(selected[i].content == action.content) d_flag = true
                             if(selected.length == 1 && selected[0].content == action.content) last_flag = true
                         }
+                        if(variant == 'input' && action.variant == 'input') return <input 
+                            key={action.content} className={`${cl.Selector_action} ${cl.Input_type} ${d_flag ? props.selectors_required > 2 ? last_flag ? cl.Selected_required_all : cl.Selected : cl.Selected_required_all : cl.Default}`}
+                            onClick={() => {if(!last_flag) {
+                                selectHandler(action)
+                                if(action.handler) action.handler(localStorage.getItem("_datesrt") as string)
+                            }}}
+                            defaultValue={action.default_val ? action.default_val : ""}
+                            placeholder="Введите дату выпуска"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => action.handler && action.handler(e.target.value)}
+                        />
                         return (
-                            <button key={action.content} className={`${cl.Selector_action} ${d_flag ? props.selectors_required > 2 ? last_flag ? cl.Selected_required_all : cl.Selected : cl.Selected_required_all : cl.Default}`} onClick={() => {if(!last_flag) selectHandler(action)}}>{action.content}</button>
+                            <button
+                                key={action.content} 
+                                className={`${cl.Selector_action} ${d_flag ? props.selectors_required > 2 ? last_flag ? cl.Selected_required_all : cl.Selected : cl.Selected_required_all : cl.Default}`} 
+                                onClick={() => {if(!last_flag) {
+                                    selectHandler(action)
+                                    if(variant === "input" && action.handler) action.handler("any")
+                                }}}
+                            >{action.content}</button>
                         )
                     })
                 }
@@ -77,4 +111,4 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
     )
 }
 
-export default BSelector
+export default BSelector 

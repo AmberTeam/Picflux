@@ -11,6 +11,7 @@ import { config } from 'process'
 import { useResizeHandler } from '../../../hooks/resizehandler.hook'
 import { Context } from '../../..'
 import LoaderMini from '../../UI/LoaderMini'
+import FlagDetector from '../../UI/FlagDetector'
 
 const FilmPage = () => {
     const {store} = useContext(Context)
@@ -24,6 +25,8 @@ const FilmPage = () => {
     const [rPlayer, setRPlayer] = useState<any>()
     const [isInWatchLater, setIsInWL] = useState<boolean | null>(null)
     const [isWLLoading, setIsWLLoading] = useState<boolean>(false)
+    const [adsMode, setAdsMode] = useState<boolean>(true)
+    const [plLoading, setPlLoading] = useState<number | null>(null)
 
     useResizeHandler((w: number) => {
         if(w > 1000) setMobileOriented(false)
@@ -32,22 +35,35 @@ const FilmPage = () => {
     
     const {id} = useParams()
 
+    const definePlayerGeo = (purl: string) => {
+        const {hostname} = new URL(purl)
+        switch(hostname) {
+            case "ashdi.vip":
+                return "ukr"
+            default: 
+                return "ru"
+        }
+    }
+
     const reparseFilmConfig = (config: IFilm) => {
         const deartefacted_plrs = config.players.map((player, i) => {
-            const durl = FCRService.deartefactUrl(player as any)
-            return {
-                url: durl,
-                index: i + 1,
-                ps_index: i + 1,
-                variant: 0
+            try {
+                const durl = FCRService.deartefactUrl(player as any)
+                const geo = definePlayerGeo(durl)
+                return {
+                    url: durl,
+                    geo,
+                    index: i + 1,
+                    ps_index: i + 1
+                }
+            } catch(e) {
+                return {
+                    url: undefined,
+                    geo: undefined,
+                    index: i + 1,
+                    ps_index: i + 1
+                }
             }
-        })
-        deartefacted_plrs.map(dplr => {
-            deartefacted_plrs.push({
-                ...dplr,
-                index: deartefacted_plrs.length + 1,
-                variant: 1
-            })
         })
         return {
             ...config, 
@@ -57,17 +73,17 @@ const FilmPage = () => {
         } as IFilm
     }
 
-    const rewriteFilmDomByEmbeedUrl = async(playerConf: any) => {
+    const rewriteFilmDomByEmbeedUrl = async(plConf0: any) => {
         if(originalPlayerFlag) setOriginalPlayerFlag(false)
-        const rewriteddom = await FCRService.rewriteByHostname(playerConf.url)
-        setRPlayer({content: rewriteddom, config: playerConf})
+        const rewriteddom = await FCRService.rewriteByHostname(plConf0.url)
+        setRPlayer({content: rewriteddom, config: plConf0})
     }
 
-    const initOriginalPlayer = (playerConf: any) => {
+    const initOriginalPlayer = (plConf: any) => {
         setOriginalPlayerFlag(true)
         setRPlayer({
-            content: playerConf.url,
-            config: playerConf
+            content: plConf.url,
+            config: plConf
         })
     }
 
@@ -86,7 +102,6 @@ const FilmPage = () => {
         if(isInWatchLater == null) return  
         try {
             if(isInWatchLater == true) {
-                console.log(isInWatchLater)
                 setIsWLLoading(true)
                 await UserService.removeWLFilm(film!.id)
                 setIsInWL(false)
@@ -102,13 +117,26 @@ const FilmPage = () => {
         }
     }
 
-    const changeActivePSelector = () => {
+    const changeActivePSelector = (state: boolean) => {
         if(!mobileOriented)
-            setActivePSelector(activePSelector ? false : true)
+            setActivePSelector(state)
+    }
+
+    const preparePlSelect = async (_adsMode: boolean, plConf: any, changeAdsMode: boolean = false) => {
+        try {
+            setPlLoading(plConf.index)
+            if(changeAdsMode) setAdsMode(_adsMode)
+            if(_adsMode) initOriginalPlayer(plConf)
+            else await rewriteFilmDomByEmbeedUrl(plConf)
+        } catch(e) {
+            initOriginalPlayer(plConf)
+        } finally {
+            setPlLoading(null)
+        }
     }
 
     useEffect(() => {
-        store.callLogModal({code: "ad_ts_wrn", status: 1, alt: "test"})
+        store.callLogModal({code: "ad_ts_wrn", status: 1, alt: "test", duration: 2000})
     }, [])
 
     useEffect(() => {
@@ -235,13 +263,21 @@ const FilmPage = () => {
                             {
                                 fAvailablePTabs.map((pl, i) => {
                                     return (
-                                        <button key={pl.index} className={`${cl.Tab} ${i === 0 && cl.First} ${pl.index == rPlayer.config.index && cl.Active}`} onClick={() => {
-                                            if(pl.variant === 0) rewriteFilmDomByEmbeedUrl(pl)
-                                            else initOriginalPlayer(pl)
-                                        }}>
-                                            <span className={cl.Tab_content}>
-                                                {translate("film.player.tab.player")} {pl.ps_index} {pl.variant === 1 ? <span className={cl.Ad_prefix}> (With ads) </span> : <span className={cl.NoAd_prefix}> (No Ads) </span>}
-                                            </span>
+                                        <button key={pl.index} className={`${cl.Tab} ${i === 0 && cl.First} ${pl.index == rPlayer.config.index && cl.Active} ${cl.Pl_tab}`} onClick={() => preparePlSelect(adsMode, pl)}>
+                                            {
+                                                plLoading == pl.index
+                                                    ?
+                                                    <LoaderMini/>
+                                                    :
+                                                    <span className={cl.Tab_content}>
+                                                        <span className={cl.Pl_geo}>
+                                                            <FlagDetector lang={pl.geo} variant="1"/>
+                                                        </span>
+                                                        <span className={cl.Pl_title}>
+                                                            {translate("film.player.tab.player")} {pl.ps_index}
+                                                        </span>
+                                                    </span>  
+                                            }
                                         </button>
                                     )
                                 })
@@ -258,6 +294,11 @@ const FilmPage = () => {
                                     {translate("film.player.tab.opts.issue")}
                                 </span>
                             </a>
+                            <button className={cl.Tab} onClick={() => preparePlSelect(!adsMode, rPlayer.config, true)}>
+                                <span className={cl.Tab_content}>
+                                    Ads Mode: {adsMode ? "on" : "off"}
+                                </span>
+                            </button>
                         </div>
                     </div>
                     {
@@ -266,16 +307,16 @@ const FilmPage = () => {
                             <iframe 
                                 className={`${cl.Frame} ${!activePSelector && !mobileOriented && cl.Active}`} 
                                 src={rPlayer.content} 
-                                onMouseEnter={() => changeActivePSelector()} 
-                                onMouseLeave={() => changeActivePSelector()}
+                                onMouseEnter={() => changeActivePSelector(false)} 
+                                onMouseLeave={() => changeActivePSelector(true)}
                                 allowFullScreen
                             />
                             :
                             <iframe 
                                 className={`${cl.Frame} ${!activePSelector && !mobileOriented && cl.Active}`} 
                                 srcDoc={rPlayer.content} 
-                                onMouseEnter={() => changeActivePSelector()} 
-                                onMouseLeave={() => changeActivePSelector()}
+                                onMouseEnter={() => changeActivePSelector(false)} 
+                                onMouseLeave={() => changeActivePSelector(true)}
                                 allowFullScreen
                             />
                     }

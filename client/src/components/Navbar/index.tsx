@@ -53,9 +53,6 @@ const Navbar: FC = () => {
                         <span className={cl.Name}> imber </span>
                     </div>
                     <div className={cl.Opts}>
-                        <a className={cl.Route} href="/" title="На главную">
-                            <img className={cl.Amber_logo} src={Amber}/>
-                        </a>
                     </div>
                     <button className={cl.Burger_container} onClick={() => setNavigatorActive(!navigatorActive)}>
                         <span className={`${cl.Line} ${cl.Top}`}></span>
@@ -107,7 +104,7 @@ const Navbar: FC = () => {
                                 </a>
                             </AllowNotAuth>
                             <AllowAuth>
-                                <a className={cl.Navigator_link} href={`/profile/${store.user.id}`}>
+                                <a className={cl.Navigator_link} href={`/profile/${store.user.id}/preview`}>
                                     Профиль
                                 </a>
                                 <a className={cl.Navigator_link} href={`/profile/${store.user.id}/settings`}>

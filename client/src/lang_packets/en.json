@@ -9,7 +9,8 @@
             "x5": "Outdated or corrupted activation link."
         },
         "message": {
-            "ad_ts_wrn": "Attention, the technology for removing ads is in test mode, which may cause errors!"
+            "ad_ts_wrn": "Attention, the technology for removing ads is in test mode, which may cause errors!",
+            "imdb_trns_att": "Attention: The translation of the movie data was made using the imdb search, and this does not guarantee a 100% correct translation for this movie"
         },
         "success": {
             "x1": "Yop"
@@ -104,7 +105,7 @@
             "new_tab": "Open in a new tab"
         },
         "throws": {
-            "not_found": "Movies with similar title not found."
+            "not_found": "Looks like there is nothing here :("
         }
     },
     "film": {

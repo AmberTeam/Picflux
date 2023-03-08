@@ -9,6 +9,8 @@ import UserService from '../../../services/UserService'
 import Film from "../Home/Film"
 import { IFilm } from '../../../models/IFilm'
 import FilmList from '../../FilmList'
+import LoaderMini from '../../UI/LoaderMini'
+import UndefinedRoutePage from '../UndefRoute'
 
 const ProfilePage = () => {
 
@@ -32,7 +34,8 @@ const ProfilePage = () => {
     const fetchUser = async (current: boolean) => {
         try {
             const response = await UserService.getUserBId(id as string, current)
-            setUser({...response.data})
+            if(!response.data) setErr(true)
+            else setUser({...response.data})
         } catch(e) {
             return setErr(true)
         }
@@ -42,7 +45,12 @@ const ProfilePage = () => {
         fetchUser(id === store.user.id ? true : false)
     }, [id])
 
-    if(!user) return <h1>loading</h1>
+    if(err) return <UndefinedRoutePage/>
+
+    if(!user) return <div className={cl.Loading_container}>
+        <LoaderMini variant="loading-large"/>
+        <span>Loading user data...</span>
+    </div>
     
     return (
         <section className={`section_cls ${cl.Profile_section}`}>

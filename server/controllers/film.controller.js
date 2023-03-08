@@ -14,18 +14,71 @@ class FilmController {
      
     async getById(req, res) {
         const {id} = req.params
+
         DBAgent.db.get(DBAgent.__getByIdMethod, [id], async (err, row) => {
-            row.players = JSON.parse(row.players)
-            if(req.user) {
-                const req_owner = await UserModel.findById(req.user.id)
+            try {
+                row.players = JSON.parse(row.players)
+                var res_model = {...row}
+    
+                if(req.user) {
+                    const req_owner = await UserModel.findById(req.user.id)
+                    
+                    res_model = {
+                        ...res_model,
+                        watchLater: req_owner.watchLater
+                    }
+                }
                 
+                await fetch(`https://www.imdb.com/find/?q=${row.lowerName}`, {
+                    headers: {
+                        cookie: "lc-main=en_US"
+                    }
+                }).then(res => {
+                    return res.text()
+                }).then(async res_txt => {
+                    var imdb_q_subst = res_txt.substring(
+                        res_txt.indexOf('{"results":[{'), 
+                        res_txt.indexOf('"companyResults":{') - 1, 
+                    ) 
+                    var imdb_q_parsed
+                    if(imdb_q_subst) imdb_q_parsed = JSON.parse(imdb_q_subst)
+                    else throw new Error("JSON parse fatal error")
+
+                    if(!imdb_q_parsed.results.length) throw new Error("Imdb film not found")
+                
+                    console.log(`[IMDB_TRNS]: Sending title request with id [${imdb_q_parsed.results[0].id}]`)
+                    await fetch(`https://www.imdb.com/title/${imdb_q_parsed.results[0].id}`).then(res => {
+                        return res.text()
+                    }).then(res_txt => {
+                        var imdb_t_plottxt_subst = res_txt.substring(
+                            res_txt.indexOf('"plotText":{'), 
+                            res_txt.indexOf('"language":{') - 1, 
+                        )
+                        var imdb_t_plottxt_parsed
+                        if(imdb_t_plottxt_subst) imdb_t_plottxt_parsed = JSON.parse(imdb_t_plottxt_subst.replace('"plotText":', ""))
+
+                        res_model = {
+                            ...res_model,
+                            imdb_cfg: {
+                                name: imdb_q_parsed.results[0].titleNameText,
+                                description: imdb_t_plottxt_parsed.plainText,
+                                poster: imdb_q_parsed.results[0].titlePosterImageModel.url
+                            }
+                        }
+                    })
+                })
+    
                 return res.json({
-                    ...row,
-                    watchLater: req_owner.watchLater
+                    ...res_model,
+                    imdb_translate_status: "ok"
+                })
+            } catch(e) {
+                console.log(e)
+                return res.json({
+                    ...res_model,
+                    imdb_translate_status: "err"
                 })
             }
-
-            return res.json({...row})
         }) 
     }
 

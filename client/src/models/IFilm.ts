@@ -1,6 +1,16 @@
-interface IPlayer {
+export interface IPlayer {
     url: string
     variant: number
+    geo: string 
+    err?: boolean 
+    index: number 
+    ps_index: number 
+}
+
+interface IImdbCfg {
+    description: string 
+    poster: string
+    name: string 
 }
 
 export interface IFilm {
@@ -16,4 +26,6 @@ export interface IFilm {
     players: IPlayer[]
     watchLater?: any[]
     wlChangeCb?: () => void
+    imdb_cfg: IImdbCfg | undefined | null
+    imdb_translate_status: string
 }

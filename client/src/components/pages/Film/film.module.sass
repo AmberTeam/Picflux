@@ -1,3 +1,10 @@
+.Loader_container 
+    height: 100vh
+    display: grid 
+    justify-items: center
+    align-content: center
+    gap: 1rem 
+    font-size: 12px
 
 .FilmPage_container 
     display: grid
@@ -11,6 +18,9 @@
         gap: 3rem
 
         .Poster
+
+            .Poster_imdb
+                max-width: 30vh
             img 
                 border-radius: 16px
                 width: auto
@@ -112,6 +122,27 @@
                             .Inf_row 
                                 opacity: .5
 
+        .Msg 
+            margin-left: auto
+
+            .Msg_btn
+                background: transparent 
+                border: none 
+                cursor: pointer
+
+                &:hover 
+                    svg 
+                        transform: scale(1.1)
+                        fill: var(--color-a)
+                        opacity: 1
+
+                svg 
+                    transition: .2s all ease
+                    height: 20px
+                    width: 20px
+                    fill: var(--color)
+                    opacity: .6
+
     .Bottom_inner 
         display: grid
         gap: 2rem
@@ -144,7 +175,37 @@
                     display: grid
                     gap: 1px
 
+                    &.Pl_section
+                        align-content: start
+                        height: calc(50vh - 120.80px)
+                        overflow-y: auto
+                        overflow-x: hidden
+
+                        &::-webkit-scrollbar 
+                            width: 2px
+
+                        &::-webkit-scrollbar-track 
+                            background: transparent
+                        
+                        &::-webkit-scrollbar-thumb 
+                            background: var(--color-a)
+                        
+                        
+                        .Tab
+                            border-right: none
+                            
+                            
+
                     .Tab
+
+                        &.Err 
+                            background: #ED4337
+
+                            &:hover 
+                                opacity: #ed4337e0
+
+                            &.Active
+                                background: #ed4337c7
 
                         &.Pl_tab 
                             .Tab_content 
@@ -163,6 +224,46 @@
                         &.Players_container
                             display: flex
 
+            .PlLoading_container
+                height: 50vh
+                background: #000
+                border-left: 1px solid var(--bg)
+                width: 100% 
+                display: grid 
+                align-content: center
+                gap: 1rem
+                justify-items: center
+                border-radius: 0px 16px 16px 0px
+
+                .RE_img 
+                    fill: var(--bg)
+                    width: 75px 
+                    height: 75px
+
+                .RE_text 
+                    color: var(--bg)
+                    font-family: 'Roobert'
+                    font-weight: bold
+
+            .RewriteErr_container 
+                height: 50vh
+                background: #ED4337
+                width: 100% 
+                display: grid 
+                align-content: center
+                gap: 1rem
+                justify-items: center
+                border-radius: 0px 16px 16px 0px
+
+                .RE_img 
+                    fill: var(--bg)
+                    width: 75px 
+                    height: 75px
+
+                .RE_text 
+                    color: var(--bg)
+                    font-family: 'Roobert'
+                    font-weight: bold
 
             .Frame
                 width: 100%
@@ -185,7 +286,6 @@
     border-left: 0 
     border-top: 0
     border-bottom: 0
-    border-right: 2px solid var(--color-a)
     font-size: 12px
     text-align: center
     text-decoration: none
@@ -229,12 +329,10 @@
 
             .Content
                 .Btns 
-
-                    .Add_wread 
-                        display: none
+                    display: grid
+                    gap: 1rem
 
                     .Watch 
-                        margin: 1rem 0 
 
                 .Pager
 
@@ -260,6 +358,9 @@
                 .PlayerTabs_container 
                     width: 100%!important
                     border-radius: 0px 0px 16px 16px
+
+                .RewriteErr_container 
+                    border-radius: 16px 16px 0px 0px
 
                 .Frame
                     border-radius: 16px 16px 0px 0px

@@ -16,7 +16,7 @@ const FilmList: FC<IFilmList> = ({...props}) => {
     const {translate} = useTranslation()
     
     return (
-        <div className={`${cl.Content_content} ${props.notfound == true ? cl.Not_Found : ""}`}>
+        <div className={`${cl.Content_content} ${(props.notfound == true || !props.films.length) ? cl.Not_Found : ""}`}>
             {
                 props.films.length ? props.films.map((film: IFilm) => {
                     const last_seen = localStorage.getItem('last_seen')
@@ -32,7 +32,7 @@ const FilmList: FC<IFilmList> = ({...props}) => {
                 }
                 )
                 :
-                <>
+                <div className={cl.NotFound_container}>
                     <div className={cl.NotFound}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                             <linearGradient id="gradient">
@@ -43,7 +43,7 @@ const FilmList: FC<IFilmList> = ({...props}) => {
                         </svg>
                     </div>
                     <p> {translate("home.throws.not_found")} </p>
-                </>
+                </div>
             }
         </div>
     )

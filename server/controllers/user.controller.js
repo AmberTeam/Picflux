@@ -22,7 +22,6 @@ class UserController {
         try {
             const {txt, password} = req.body
             const {avatar} = req.files
-            console.log(req.user)
             await userService.update(req.user.id, txt, password, avatar)
         } catch(e) {
             console.log(e)

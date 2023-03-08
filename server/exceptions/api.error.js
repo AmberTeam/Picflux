@@ -4,7 +4,7 @@ module.exports = class ApiError {
     config;
 
     constructor(status, config, errors = []) {
-        this.config = config
+        this.config = config;
         this.status = status;
         this.errors = errors;
     }
@@ -16,6 +16,7 @@ module.exports = class ApiError {
         user_already_created: {code: "x4", alt: "A user with similar data is already registered in the system."},
         incorrect_alink: {code: "x5", alt: "Outdated or corrupted activation link."}
     }
+
 
     static UnauthorizedError() {
         return new ApiError(401, 'Пользователь не авторизован')

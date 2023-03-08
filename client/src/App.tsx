@@ -22,7 +22,7 @@ const App: FC = () => {
     const [users, setUsers] = useState<IUser[]>([])
 
     useEffect(() => {
-        const client = new WebSocket('ws://127.0.0.1:5001')
+        const client = new WebSocket('ws://localhost:5001')
 
         client.addEventListener('message', (message: any) => {
             const t = JSON.parse(message.data)

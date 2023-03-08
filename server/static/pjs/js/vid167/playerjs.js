@@ -1541,6 +1541,7 @@ function HDVBPlayer(options) {
     v.playlist.dontplay = 1,
     v.yamtr = 1,
     "p2p"in options && (v.p2p = options.p2p),
+    "timestoredontuse"in options && (v.timestoredontuse = options.timestoredontuse),
     v.lang = "ru";
     var VastLoader = function(preload) {
         var vast = [], vastType = "", vastUrl, partner, _x = "", _preload = 1 == preload, _preloaded = [], _status = "", _ltime = -1, _nocred = !1, die_error = !1;
@@ -2259,6 +2260,7 @@ function HDVBPlayer(options) {
         var e = this;
         "closeFlag"in this || (this.closeFlag = !0),
         "timeoutFlag"in this || (this.timeoutFlag = !1),
+        "timeoutCloseBtnFlag"in this || (this.timeoutCloseBtnFlag = !1),
         "pushbannerRegInputFocus"in this || (this.pushbannerRegInputFocus = !1);
         let i = function() {
             "pushbannercontainer"in o && (v.pushbannerstatus = !1,
@@ -2286,15 +2288,18 @@ function HDVBPlayer(options) {
             pushCSS("#close_button_pb{width:25px;height:25px;border-radius:50%;right:10px;position:absolute;float:right;z-index:999;top:10px;clear:both}#close_button_pb:after,#close_button_pb:before,#close_button_pb:hover{background:#fff;cursor:pointer}#close_button_pb,#close_button_pb:hover::after,#close_button_pb:hover::before{background:#000}#close_button_pb:after,#close_button_pb:before{content:'';position:absolute;height:1px;width:15px;top:13px;text-align:center;left:5px}#close_button_pb:before{transform:rotate(45deg)}#close_button_pb:after{transform:rotate(-45deg)}"),
             o.addEventListener("click", i)
         }
-          , n = function(t) {
+          , n = function(t, e) {
             o.pushbannerRegText.style.opacity = 0,
             o.pushbannerRegInput.style.opacity = 0,
             o.pushbannerRegButton.style.opacity = 0,
             o.pushbannerRegAlert.innerText = t,
             setTimeout((function() {
-                o.pushbannerRegAlert.innerText = ""
+                o.pushbannerRegAlert.innerText = "",
+                e && (o.pushbannerRegText.style.opacity = 1,
+                o.pushbannerRegInput.style.opacity = 1,
+                o.pushbannerRegButton.style.opacity = 1)
             }
-            ), 4e3)
+            ), e ? 2e3 : 4e3)
         };
         this.registrationAlert = n;
         let a = function(t) {
@@ -2397,15 +2402,19 @@ function HDVBPlayer(options) {
                 }("/reg", (t=>{
                     if (t.responseText && (t = JSON.parse(t.responseText)),
                     t.success) {
-                        let i = t.main;
-                        e.registrationAlert("Смотри новую вкладку и вперед к победам!"),
+                        let s = t.main;
+                        e.registrationAlert("Смотри новую вкладку и вперед к победам!", !1),
                         gif(`//stat.${o.p.href}/?event=3&eventID=${o.p.uniq_hash}&host=${o.p.host}&id=${o.p.kp}&service=form`),
                         o.pushbannerRegInput.value = "",
-                        setTimeout((()=>a(i)), 4500)
+                        setTimeout((()=>{
+                            a(s),
+                            i()
+                        }
+                        ), 4500)
                     } else
-                        t.message && e.registrationAlert(t.message)
+                        t.message && e.registrationAlert(t.message, !0)
                 }
-                ), `input=${t}`) : n("Введите электронную почту или номер телефона")
+                ), `input=${t}`) : n("Введите электронную почту или номер телефона", !0)
             }
             )),
             pushCSS(".pushbanner_registration_text {padding: 0 0 20px;font-weight: 600;font-style: italic;}.pushbanner_registration_alert {position: absolute;width: 50%;text-align: center;top: 70px;font-size: 19px;line-height: 19px;}"),
@@ -2458,43 +2467,53 @@ function HDVBPlayer(options) {
             if ("pushbanner"in o.u) {
                 if (!1 === o.u.pushbanner.status)
                     return;
-                "pushbannercontainer"in o ? null !== o.pushbannercontainer.querySelector("img") && "conf"in o.u.pushbanner && o.pushbannercontainer.querySelector("img").complete && (e.timeoutFlag || (e.timeoutFlag = setTimeout((()=>{
-                    i()
-                }
-                ), 1e3 * o.u.pushbanner.conf.timer)),
-                "conf"in o.u.pushbanner && "close_button"in o.u.pushbanner.conf && !0 === o.u.pushbanner.conf.close_button && setTimeout((()=>{
-                    void 0 !== o.pushbannercontainer && null === o.pushbannercontainer.querySelector("#close_button_pb") && (s(o.pushbannercontainer, ""),
-                    s(o.pushbannerRegContainer, "js" == o.u.pushbanner.type ? " hidden" : ""))
-                }
-                ), 1e3 * o.u.pushbanner.conf.close_timer)) : !1 === v.pushbannerstatus ? function(t) {
-                    if (o.u.pushbanner.url && !socket)
-                        (socket = new WebSocket("wss://push.vb17121coramclean.pw:8007/json")).timeoutInterval = 5400,
-                        socket.onopen = function(t) {
-                            socket.send("start")
+                if ("pushbannercontainer"in o) {
+                    if ((null !== o.pushbannercontainer.querySelector("img") || "pushbannerRegContainer"in o) && "conf"in o.u.pushbanner) {
+                        let t = !1;
+                        null !== o.pushbannercontainer.querySelector("img") ? o.pushbannercontainer.querySelector("img").complete && (t = 1) : "pushbannerRegContainer"in o && (t = 2),
+                        t && (e.timeoutFlag || (e.timeoutFlag = setTimeout((()=>{
+                            i()
                         }
-                        ,
-                        socket.onmessage = function(e) {
-                            if (e.data) {
-                                let o = JSON.parse(e.data);
-                                !1 === o.module_status && (socket.close(),
-                                v.pushbannerstatus = !0),
-                                !0 === o.module_status && !0 === o.status && t(o)
+                        ), 1e3 * o.u.pushbanner.conf.timer)),
+                        "conf"in o.u.pushbanner && "close_button"in o.u.pushbanner.conf && !0 === o.u.pushbanner.conf.close_button && (e.timeoutCloseBtnFlag || (e.timeoutCloseBtnFlag = setTimeout((()=>{
+                            void 0 !== o.pushbannercontainer && (null === o.pushbannercontainer.querySelector("#close_button_pb") && null !== o.pushbannercontainer.querySelector("img") && s(o.pushbannercontainer, ""),
+                            null === o.pushbannercontainer.querySelector(".img_banner_close_button_reg") && s(o.pushbannerRegContainer, "js" == o.u.pushbanner.type ? " img_banner_close_button_reg hidden" : ""))
+                        }
+                        ), 1e3 * o.u.pushbanner.conf.close_timer))))
+                    }
+                } else
+                    !1 === v.pushbannerstatus ? function(t) {
+                        if (o.u.pushbanner.url && !socket) {
+                            let e = [8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008, 8009, 8010]
+                              , o = Math.floor(Math.random() * e.length);
+                            (socket = new WebSocket(`wss://push.vb17123filippaaniketos.pw:${e[o]}/json`)).timeoutInterval = 5400,
+                            socket.onopen = function(t) {
+                                socket.send("start")
                             }
+                            ,
+                            socket.onmessage = function(e) {
+                                if (e.data) {
+                                    let o = JSON.parse(e.data);
+                                    !1 === o.module_status && (socket.close(),
+                                    v.pushbannerstatus = !0),
+                                    !0 === o.module_status && !0 === o.status && t(o)
+                                }
+                            }
+                            ,
+                            socket.onclose = function(t) {
+                                t.wasClean && (socket = !1)
+                            }
+                            ,
+                            socket.onerror = function(t) {}
                         }
-                        ,
-                        socket.onclose = function(t) {
-                            t.wasClean && (socket = !1)
-                        }
-                        ,
-                        socket.onerror = function(t) {}
-                }((function(t) {
-                    v.pushbannerstate.includes(t.state) ? i() : !0 === t.status ? (o.u.pushbanner.conf = t,
-                    socket.send("stop"),
-                    l(),
-                    clearTimeout(e.timeoutFlag),
-                    e.timeoutFlag = !1) : i()
-                }
-                )) : v.pushbannerrequesttimer < o.u.pushbanner.interval && v.pushbannerrequesttimer++
+                    }((function(t) {
+                        v.pushbannerstate.includes(t.state) ? i() : !0 === t.status ? (o.u.pushbanner.conf = t,
+                        socket.send("stop"),
+                        l(),
+                        clearTimeout(e.timeoutFlag),
+                        e.timeoutFlag = !1) : i()
+                    }
+                    )) : v.pushbannerrequesttimer < o.u.pushbanner.interval && v.pushbannerrequesttimer++
             }
         }()
     }
@@ -10487,59 +10506,6 @@ function HDVBPlayer(options) {
         function m() {
             (t = d[h]).indexOf(o.pltxt) > 0 && (t = t.replace(o.pltxt, ""),
             v.file = t);
-            
-            /*let e;
-            console.log(`Sending: https://vid1671125149.vb17121coramclean.pw${t}`)
-            await fetch(`https://vid1671125149.vb17121coramclean.pw${t}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRF-TOKEN': o.p.key
-                }
-            }).then((response) => { 
-                console.log(`Response: ${response}`)
-                return response.text() 
-            }).then(function (data) { 
-                console.log(`Response text: ${data}`)
-                (!function(e) {
-                    var i = data;
-                    if (0 == i.indexOf("#" + v.enc2) && (i = o[o.fd[0]](i)),
-                    0 == i.indexOf("#" + v.enc3) && i.indexOf(v.file3_separator) > 0 && (i = o[o.fd[1]](i)),
-                    t.indexOf(".m3u") == t.length - 4) {
-                        var s = i.split(/(\r\n\t|\n|\r\t)/gm);
-                        t = [];
-                        for (var n = 1, a = "", r = 0; r < s.length; r++) {
-                            if (s[r].indexOf("#EXTINF") > -1 && s[r].indexOf(" - ") > -1) {
-                                var l = s[r].split(" - ");
-                                a = l[l.length - 1]
-                            }
-                            s[r].indexOf("http") > -1 && (t.push({
-                                title: "" + ("" != a ? a : n),
-                                file: s[r]
-                            }),
-                            n++,
-                            a = "")
-                        }
-                    } else {
-                        i = i.replace(/(\r\n\t|\n|\r\t)/gm, "");
-                        try {
-                            t = JSON.parse(i)
-                        } catch (t) {
-                            b(2)
-                        }
-                    }
-                    exist(t.items) && (t = YoutubePlaylist(t)),
-                    o.controls && 1 == v.playlist.openplaylistbefore && (o.controls.PlaylistVisible() || o.controls.PlaylistShow()),
-                    y(),
-                    MainResize(),
-                    setTimeout((function() {
-                        js("playlist")
-                    }
-                    ), 1)
-                }(this),
-                o.controls.NewPl())
-            }) */
-
             let e = new XMLHttpRequest;
             e.open("POST", `https://vid1671125149.vb17121coramclean.pw${t}`, !0),
             e.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
@@ -10590,8 +10556,8 @@ function HDVBPlayer(options) {
                 b(1)
             }
             ,
-            e.send(null), 
-            l = !0 
+            e.send(null),
+            l = !0
         }
         function b(t) {
             h + 1 < d.length && (h++,
@@ -10722,21 +10688,16 @@ function HDVBPlayer(options) {
                 t.indexOf("~") > -1 || t.indexOf("#") > -1) {
                     var h = !1;
                     new Promise((function(e) {
-                        let i = {readyState: null}
-                        fetch(`__hostreplace__${v.file_path}${t.substr(1)}.txt`, {
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/x-www-form-urlencoded",
-                                "X-CSRF-TOKEN": o.p.key
-                            }
-                        }).then((response) => { 
-                            return response.text() 
-                          }).then((data) => { 
-                            console.log(data)
-                            i.readyState = data
-                            e(data)
-                          })
-                        return i
+                        let i = new XMLHttpRequest
+                          , s = `${v.file_path}${t.substr(1)}.txt`;
+                        i.open("POST", `__hostreplace__${v.file_path}${t.substr(1)}.txt`, !1),
+                        i.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
+                        i.setRequestHeader("X-CSRF-TOKEN", o.p.key),
+                        i.onreadystatechange = function() {
+                            i.readyState == XMLHttpRequest.DONE && 200 == i.status && e(i.response)
+                        }
+                        ,
+                        i.send(null)
                     }
                     )).then((function(t) {
                         !p && "x" != n && a && o.file_type == u && ("native" == u || "vimeo" == u && !o.system.mobile || "youtube" == u && o.start && !f || "dm" == u || "hls" == u || "dash" == u) ? (a.src(t),
@@ -11511,7 +11472,7 @@ function HDVBPlayer(options) {
             !o.system.tv && v.p2p && "undefined" != typeof p2pml) {
                 let t = {
                     loader: {
-                        trackerAnnounce: ["wss://awt.vb17121coramclean.pw:8433"],
+                        trackerAnnounce: ["wss://awt.vb17123filippaaniketos.pw:8433"],
                         cachedSegmentExpiration: 864e5,
                         cachedSegmentsCount: 1e3,
                         requiredSegmentsPriority: 3,

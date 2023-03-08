@@ -7,7 +7,6 @@ import { IDLC } from "../components/pages/Home";
 
 export default class UserService {
     static async search(query: string, limit: number, page: number, fconfig: IDLC): Promise<AxiosResponse<IFilm[]>> {
-        console.log(fconfig)
         var req_queried = '/film/search'
         if(fconfig !== undefined || fconfig !== null) {
             if(fconfig.filtering !== null) {
@@ -30,8 +29,8 @@ export default class UserService {
         return $api.post<IFilm[]>(req_queried, {query, limit, offset: page})
     }
 
-    static async getById(id: any): Promise<AxiosResponse<IFilm>> {
-        return $api.get<IFilm>(`/film/get/${id}`)
+    static async getById(id: any, lng: string): Promise<AxiosResponse<IFilm>> {
+        return $api.get<IFilm>(`/film/get/${id}?lng=${lng}`)
     }
 
     static async addWLFilm(id: number): Promise<AxiosResponse<IFilm>> {

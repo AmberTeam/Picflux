@@ -53,16 +53,14 @@ const Footer: FC = () => {
                             </div>
                             <div className={cl.Footer_inner}>
                                 <div className={cl.Content}> 
-                                    <div> <a href="/I">{translate("footer.inner.2.I")}</a> </div> 
-                                    <div> <a href="/AU">{translate("footer.inner.2.AU")}</a> </div>
-                                    <div> <a href="/WIS">{translate("footer.inner.2.WIS")}</a> </div>         
+                                    <div> <a href="/AU">{translate("footer.inner.2.AU")}</a> </div>      
+                                    <div> <a href="/CP">{translate("footer.inner.3.CP")}</a></div>
                                 </div>
                             </div>
                             <div className={cl.Footer_inner}>
                                 <div className={cl.Content}>
                                     <div> <a href="/account">{translate("footer.inner.3.account")}</a> </div>
                                     <div> <a href="/privacy">{translate("footer.inner.3.privacy")}</a></div>
-                                    <div> <a href="/CP">{translate("footer.inner.3.CP")}</a></div>
                                 </div>
                             </div>
                         </>
@@ -73,15 +71,13 @@ const Footer: FC = () => {
                                     <div> <a href="/FAQ">{translate("footer.inner.1.FAQ")}</a></div>
                                     <div> <a href="/MC">{translate("footer.inner.1.MC")}</a> </div>
                                     <div> <a href="/account">{translate("footer.inner.3.account")}</a> </div>
-                                    <div> <a href="/privacy">{translate("footer.inner.3.privacy")}</a></div>
                                 </div>
                             </div>
                             <div className={cl.Footer_inner}>
                                 <div className={cl.Content}> 
-                                    <div> <a href="/I">{translate("footer.inner.2.I")}</a> </div> 
-                                    <div> <a href="/AU">{translate("footer.inner.2.AU")}</a> </div>
-                                    <div> <a href="/WIS">{translate("footer.inner.2.WIS")}</a> </div>  
-                                    <div> <a href="/CP">{translate("footer.inner.3.CP")}</a></div>       
+                                    <div> <a href="/AU">{translate("footer.inner.2.AU")}</a> </div>  
+                                    <div> <a href="/CP">{translate("footer.inner.3.CP")}</a></div>     
+                                    <div> <a href="/privacy">{translate("footer.inner.3.privacy")}</a></div>  
                                 </div>
                             </div>
                         </>

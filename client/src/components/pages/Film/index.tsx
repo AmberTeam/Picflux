@@ -1,32 +1,36 @@
-import {useEffect, useState, useRef, useContext} from 'react'
-import { IFilm } from '../../../models/IFilm'
+import {useEffect, useState, useRef, useContext, FC} from 'react'
+import { IFilm, IPlayer } from '../../../models/IFilm'
 import {useParams} from 'react-router-dom'
 import cl from "./film.module.sass"
 import UserService from "../../../services/UserService"
 import AllowAuth from '../../AllowAuth'
 import { useTranslation } from '../../../hooks/translator.hook'
 import { observer } from 'mobx-react-lite'
-import FCRService from '../../../services/FCRService'
-import { config } from 'process'
+import FCRService, { IRWFC } from '../../../services/FCRService'
 import { useResizeHandler } from '../../../hooks/resizehandler.hook'
 import { Context } from '../../..'
 import LoaderMini from '../../UI/LoaderMini'
 import FlagDetector from '../../UI/FlagDetector'
+import {Helmet} from "react-helmet"
+import { toJS } from 'mobx'
 
-const FilmPage = () => {
+const FilmPage: FC = () => {
     const {store} = useContext(Context)
     const {translate} = useTranslation()
     const [descTab, setDescTab] = useState<number>(1)
     const [film, setFilm] = useState<IFilm | null>(null)
-    const [fAvailablePTabs, setFAvailablePTabs] = useState<[any]>([null])
+    const [fAvailablePTabs, setFAvailablePTabs] = useState<any[]>([null])
     const [activePSelector, setActivePSelector] = useState<boolean>(true)
     const [originalPlayerFlag, setOriginalPlayerFlag] = useState<boolean>(false)
     const [mobileOriented, setMobileOriented] = useState<boolean>(false)
     const [rPlayer, setRPlayer] = useState<any>()
     const [isInWatchLater, setIsInWL] = useState<boolean | null>(null)
     const [isWLLoading, setIsWLLoading] = useState<boolean>(false)
-    const [adsMode, setAdsMode] = useState<boolean>(true)
+    const [adsMode, setAdsMode] = useState<boolean>(false) 
     const [plLoading, setPlLoading] = useState<number | null>(null)
+    const [plLStatus, setPlLStatus] = useState<number>(0)
+    const [rewriteErr, setRewriteErr] = useState<boolean>(false)
+    const [imdbErr, setImdbErr] = useState<boolean>(false)
 
     useResizeHandler((w: number) => {
         if(w > 1000) setMobileOriented(false)
@@ -35,7 +39,7 @@ const FilmPage = () => {
     
     const {id} = useParams()
 
-    const definePlayerGeo = (purl: string) => {
+    const definePlayerGeo = (purl: string): string => {
         const {hostname} = new URL(purl)
         switch(hostname) {
             case "ashdi.vip":
@@ -45,41 +49,36 @@ const FilmPage = () => {
         }
     }
 
-    const reparseFilmConfig = (config: IFilm) => {
-        const deartefacted_plrs = config.players.map((player, i) => {
+    const reparseFilmConfig = (config: IFilm): IFilm => {
+        const deartefacted_plrs: IPlayer[] = config.players.map((pl, i): IPlayer => {
             try {
-                const durl = FCRService.deartefactUrl(player as any)
-                const geo = definePlayerGeo(durl)
+                const durl:string = FCRService.deartefactUrl(pl as any)
+                const geo:string = definePlayerGeo(durl)
                 return {
                     url: durl,
                     geo,
                     index: i + 1,
                     ps_index: i + 1
-                }
+                } as IPlayer
             } catch(e) {
+                console.error(e)
                 return {
-                    url: undefined,
-                    geo: undefined,
+                    url: "",
+                    geo: "",
                     index: i + 1,
                     ps_index: i + 1
-                }
+                } as IPlayer
             }
         })
         return {
             ...config, 
-            players: deartefacted_plrs as any,
+            players: deartefacted_plrs as IPlayer[],
             genres: JSON.parse(config?.genres as any),
             countries: JSON.parse(config?.countries as any)
         } as IFilm
     }
 
-    const rewriteFilmDomByEmbeedUrl = async(plConf0: any) => {
-        if(originalPlayerFlag) setOriginalPlayerFlag(false)
-        const rewriteddom = await FCRService.rewriteByHostname(plConf0.url)
-        setRPlayer({content: rewriteddom, config: plConf0})
-    }
-
-    const initOriginalPlayer = (plConf: any) => {
+    const initOriginalPlayer = (plConf: any): void => {
         setOriginalPlayerFlag(true)
         setRPlayer({
             content: plConf.url,
@@ -87,18 +86,42 @@ const FilmPage = () => {
         })
     }
 
-    const getFilmData = async () => {
-        const response = await UserService.getById(id)
+    const rewriteFilmDomByEmbeedUrl = async(plConf: any, forceFAPT?: any[]): Promise<void> => {
+        if(originalPlayerFlag) setOriginalPlayerFlag(false)
+        const rewrited_cfg = await FCRService.rewriteByHostname(plConf.url, setPlLStatus)
+        setPlLStatus(0)
+        if(rewrited_cfg.status !== "err") {
+            setRPlayer({content: rewrited_cfg.data, config: plConf})
+            setRewriteErr(false)
+        } else {
+            setRPlayer({content: plConf.url, config: plConf})
+            setRewriteErr(true)
+        }
+        setPlLoading(null)
+    }
+
+    const checkForPlErrs = async(pls: IPlayer[]): Promise<IPlayer[]> => {
+        var results: IPlayer[] = await Promise.all(pls.map(async (pl: IPlayer): Promise<IPlayer> => {
+            var pl_rw:IRWFC = await FCRService.rewriteByHostname(pl.url ? pl.url : "https://yoububr.com", () => null)
+            return {...pl, err: pl_rw.status == "err" ? true : false}
+        }))
+        return results
+    }
+
+    const getFilmData = async (): Promise<void> => {
+        const response = await UserService.getById(id, store.getStoredLang())
+        if(response.data.imdb_translate_status == 'err') setImdbErr(true)
         localStorage.setItem('last_seen', String(response.data.id))
-        const filmConfig = reparseFilmConfig(response.data)
-        setFAvailablePTabs(filmConfig.players as any)
+        const filmConfig:IFilm = reparseFilmConfig(response.data)
         setFilm(filmConfig)
-        rewriteFilmDomByEmbeedUrl(filmConfig.players[0])
+        const pls_errs = await checkForPlErrs(filmConfig.players)
+        setFAvailablePTabs(pls_errs)
+        rewriteFilmDomByEmbeedUrl(filmConfig.players[0], filmConfig.players)
         if(filmConfig.watchLater?.includes(String(filmConfig.id))) setIsInWL(true)
         else setIsInWL(false)
     }
 
-    const changeWatchLater = async () => {
+    const changeWatchLater = async (): Promise<void> => {
         if(isInWatchLater == null) return  
         try {
             if(isInWatchLater == true) {
@@ -117,21 +140,19 @@ const FilmPage = () => {
         }
     }
 
-    const changeActivePSelector = (state: boolean) => {
+    const changeActivePSelector = (state: boolean): void => {
         if(!mobileOriented)
             setActivePSelector(state)
     }
 
-    const preparePlSelect = async (_adsMode: boolean, plConf: any, changeAdsMode: boolean = false) => {
+    const preparePlSelect = async (_adsMode: boolean, plConf: any, changeAdsMode: boolean = false): Promise<void> => {
         try {
             setPlLoading(plConf.index)
             if(changeAdsMode) setAdsMode(_adsMode)
-            if(_adsMode) initOriginalPlayer(plConf)
+            if(_adsMode) {initOriginalPlayer(plConf);setRewriteErr(false)}
             else await rewriteFilmDomByEmbeedUrl(plConf)
         } catch(e) {
             initOriginalPlayer(plConf)
-        } finally {
-            setPlLoading(null)
         }
     }
 
@@ -151,17 +172,52 @@ const FilmPage = () => {
         }, false);
     }, [id])
 
-    if(!film || !rPlayer) return <div className={cl.Loader_container}>Loading film configuration</div>
+    if(!film || !rPlayer) return <div className={cl.Loader_container}>
+        <LoaderMini variant="loading-large"/>
+        <div className={cl.Loading_txt}>
+            {plLStatus == 0 && "Preparing a player hyperlink for a request..."}
+            {plLStatus == 1 && "Sending a request for player configuration to the server..."}
+            {plLStatus == 2 && "Editing the player configuration to exclude advertising pre-rolls..."}
+        </div>
+    </div>
 
     return (
         <div className={cl.FilmPage_container}>
+            <Helmet>
+                <title>Смотреть на Cimber: {film.name}</title>
+                <meta name="viewport" content="width=1000"/>
+                <meta http-equiv="X-UA-Compatible" content="chrome=IE8"/>
+                <meta property="og:type" content="video.tv_series"/>
+                <meta property="og:video:height" content="430"/>
+                <meta property="og:video:width" content="600"/>
+                <meta property="og:duration" content="2700"/>
+                <meta property="og:video:type" content="application/x-shockwave-flash"/>
+                <meta property="og:site_name" content="rezka.ag"/>
+                <meta property="og:title" content="Ветреный дворец / Ветреное место / Встреча с собой (2023)"/>
+                <meta property="og:image" content={film.poster}/>
+            </Helmet>
             <div className={cl.Top_inner}>
                 <div className={cl.Poster}>
-                    <img src={film.poster}/>
+                    {
+                        store.lang_ready && store.lang.packet_name == "en" && !imdbErr
+                            ?
+                            <img className={cl.Poster_imdb} src={film.imdb_cfg?.poster}/>
+                            :
+                            <img src={film.poster}/>
+                    }
                 </div>
                 <div className={cl.Content}>
                     <div className={cl.Header}>
-                        <h1>{film.name} ({film.year})</h1>
+                        <h1>
+                        {
+                            store.lang_ready && store.lang.packet_name == "en" && !imdbErr
+                                ?
+                                film.imdb_cfg?.name
+                                :
+                                film.name
+                            }
+                            ({film.year})
+                        </h1>
                         <div className={cl.Btns}>
                             <AllowAuth>
                                 <button className={`${cl.Add_wread} ${isWLLoading ? cl.Loading : ""}`} onClick={() => changeWatchLater()}>
@@ -251,19 +307,35 @@ const FilmPage = () => {
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
+                {
+                    store.lang_ready && store.lang.packet_name == "en" && film.imdb_translate_status == "ok" &&
+                        <div className={cl.Msg}>
+                            <button className={cl.Msg_btn}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" onClick={() => store.callLogModal({code: "imdb_trns_att", alt: "Attention: The translation of the movie data was made using the imdb search, and this does not guarantee a 100% correct translation for this movie", status: 1, duration: 10000})}>
+                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                </svg>
+                            </button>
+                        </div> 
+                }
             </div>
             <div className={cl.Bottom_inner}>
                 <div className={cl.Description}>
-                    {film.description.replace("© ГидОнлайн", "")}
+                    {
+                        store.lang_ready && store.lang.packet_name == "en" && !imdbErr
+                            ?
+                            film.imdb_cfg?.description
+                            :
+                            film.description.replace("© ГидОнлайн", "")
+                    }
                 </div>
                 <div className={cl.Frame_container} id="frame">
                     <div className={`${cl.PlayerTabs_container} ${activePSelector && cl.Active}`}>
-                        <div className={cl.Tabs_inner}>
+                        <div className={`${cl.Tabs_inner} ${cl.Pl_section}`}>
                             {
                                 fAvailablePTabs.map((pl, i) => {
                                     return (
-                                        <button key={pl.index} className={`${cl.Tab} ${i === 0 && cl.First} ${pl.index == rPlayer.config.index && cl.Active} ${cl.Pl_tab}`} onClick={() => preparePlSelect(adsMode, pl)}>
+                                        <button key={pl.index} className={`${cl.Tab} ${i === 0 && cl.First} ${pl.index == rPlayer.config.index && cl.Active} ${cl.Pl_tab} ${pl.err ? cl.Err : ""}`} onClick={() => preparePlSelect(adsMode, pl)}>
                                             {
                                                 plLoading == pl.index
                                                     ?
@@ -301,24 +373,51 @@ const FilmPage = () => {
                             </button>
                         </div>
                     </div>
+                    {plLoading &&
+                        <div className={cl.PlLoading_container}>
+                                {
+                                    adsMode
+                                        ? 
+                                            "Loading..."
+                                        :
+                                            <>
+                                                {plLStatus == 0 && "Preparing a player hyperlink for a request..."}
+                                                {plLStatus == 1 && "Sending a request for player configuration to the server..."}
+                                                {plLStatus == 2 && "Editing the player configuration to exclude advertising pre-rolls..."}
+                                            </>
+                                }
+                        </div>}
                     {
-                        originalPlayerFlag 
+                        rewriteErr
                             ?
-                            <iframe 
-                                className={`${cl.Frame} ${!activePSelector && !mobileOriented && cl.Active}`} 
-                                src={rPlayer.content} 
-                                onMouseEnter={() => changeActivePSelector(false)} 
-                                onMouseLeave={() => changeActivePSelector(true)}
-                                allowFullScreen
-                            />
+                            !plLoading 
+                                &&
+                                <div className={cl.RewriteErr_container}>
+                                    <svg className={cl.RE_img} clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-1.5c-4.69 0-8.497-3.808-8.497-8.498s3.807-8.497 8.497-8.497 8.498 3.807 8.498 8.497-3.808 8.498-8.498 8.498zm0-6.5c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z" fillRule="nonzero"/></svg>
+                                    <span className={cl.RE_text}>An unexpected error has occurred</span>
+                                </div>
                             :
-                            <iframe 
-                                className={`${cl.Frame} ${!activePSelector && !mobileOriented && cl.Active}`} 
-                                srcDoc={rPlayer.content} 
-                                onMouseEnter={() => changeActivePSelector(false)} 
-                                onMouseLeave={() => changeActivePSelector(true)}
-                                allowFullScreen
-                            />
+                            originalPlayerFlag 
+                                ?
+                                <iframe 
+                                    style={{display: `${plLoading ? "none": "block"}`}}
+                                    className={`${cl.Frame} ${!activePSelector && !mobileOriented && cl.Active}`} 
+                                    src={rPlayer.content} 
+                                    onMouseEnter={() => changeActivePSelector(false)} 
+                                    onMouseLeave={() => changeActivePSelector(true)}
+                                    onLoad={() => plLoading && setPlLoading(null)}
+                                    allowFullScreen
+                                />
+                                :
+                                <iframe 
+                                    style={{display: `${plLoading ? "none": "block"}`}}
+                                    className={`${cl.Frame} ${!activePSelector && !mobileOriented && cl.Active}`} 
+                                    srcDoc={rPlayer.content} 
+                                    onMouseEnter={() => changeActivePSelector(false)} 
+                                    onMouseLeave={() => changeActivePSelector(true)}
+                                    onLoad={() => plLoading && setPlLoading(null)}
+                                    allowFullScreen
+                                />
                     }
                 </div>
             </div>

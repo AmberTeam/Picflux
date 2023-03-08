@@ -22,7 +22,18 @@ app.use(cors({
 }))
 app.use('/api', routes)  
 app.use(errorMiddleware)
-  
+
+app.post("/api/dev/rewrite/2embeed", (req, res) => {
+  const rw_str = String(req.body.rewrited)
+  .replace("//waufooke.com/5/4697299", "https://whoursie.com/5/4697299")
+  .replace("/js/app.min.js", "/static/pjs/js/embed/app.min.js")
+  //.replace("/js/app.min.js", "https://www.2embed.to/js/app.min.js")
+  .replace("/js/player.min.js", "/static/pjs/js/embed/player.min.js") 
+  //.replace('<script data-cfasync="false" type="text/javascript">', '<script src="/static/pjs/js/embed/tstscr.js"></script><susufar data-cfasync="false" type="text/javascript" src="https://youtube.com">')
+    
+  return res.json(rw_str)
+})
+
 if (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'psprod') {
   const dbg = new Debugger()
   app.use('/', express.static(path.join(__dirname, "..", 'client', 'build')))

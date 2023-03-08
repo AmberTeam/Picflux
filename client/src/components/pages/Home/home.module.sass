@@ -150,66 +150,11 @@ $width: 100px
 $height: 100px
 
 .Loader
+    margin-top: 4rem
     display: flex 
     justify-content: center 
     align-items: center
 
-    .Loader_container
-        //background: #eaeaea
-        width: $width*2
-        height: $height*2
-
-
-    .line
-        height: 3px
-        width: 100%
-        background: #fff
-        margin-top: 30%
-    
-    .inner
-        width: 100%
-        height: inherit
-        background: linear-gradient(90deg, rgba(240,168,50,1) 0%, rgba(255,144,93,1) 100%)
-        animation: slide 4s ease-in-out infinite
-    
-
-
-    @keyframes slide
-        0%
-            transform-origin: left
-            transform: scalex(0.3)
-        
-        //12.5%
-            //transform-origin: left
-            //transform: scalex(0.2)
-        //
-        25%
-            transform-origin: left
-            transform: scalex(1)
-        
-        26%
-            transform-origin: right
-            transform: scalex(1)
-        
-        50%
-            transform-origin: right
-            transform: scalex(0.3)
-        
-        //62.5%
-            //transform-origin: right
-            //transform: scalex(0.2)
-        //
-        75%
-            transform-origin: right
-            transform: scalex(1)
-        
-        76%
-            transform-origin: left
-            transform: scalex(1)
-        
-        100%
-            transform-origin: left
-            transform: scalex(0.3)
 
 .Click_container
     display: flex

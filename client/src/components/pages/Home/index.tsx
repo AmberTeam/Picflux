@@ -324,7 +324,7 @@ const HomePage: FC = () => {
                                 }}
                                 restoreConfig={filteringConfig}
                             >
-                                Filtration:
+                                Фильтрация по жанру:
                             </BSelector>
                         </div>
                         <div className={cl.Pagination_mtd}>
@@ -341,7 +341,7 @@ const HomePage: FC = () => {
                                 action_c={() => {
                                 }}
                             >
-                                test
+                                Фильтрация по году выпуска:
                             </BSelector>
                         </div>
                         <div className={cl.Pagination_mtd}>
@@ -438,11 +438,7 @@ const HomePage: FC = () => {
                                         {display: 'none'}
                             }
                         >
-                            <div className={cl.Loader_container}>
-                                <div className={cl.line}>
-                                    <div className={cl.inner}></div>
-                                </div>
-                            </div>
+                            <LoaderMini/>
                         </div>
                     }
                     {

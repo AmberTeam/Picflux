@@ -31,6 +31,7 @@ const FilmPage: FC = () => {
     const [plLStatus, setPlLStatus] = useState<number>(0)
     const [rewriteErr, setRewriteErr] = useState<boolean>(false)
     const [imdbErr, setImdbErr] = useState<boolean>(false)
+    const [pinPSelector, setPPS] = useState<boolean>(false)
 
     useResizeHandler((w: number) => {
         if(w > 1000) setMobileOriented(false)
@@ -141,7 +142,7 @@ const FilmPage: FC = () => {
     }
 
     const changeActivePSelector = (state: boolean): void => {
-        if(!mobileOriented)
+        if(!mobileOriented && !pinPSelector)
             setActivePSelector(state)
     }
 
@@ -184,7 +185,7 @@ const FilmPage: FC = () => {
     return (
         <div className={cl.FilmPage_container}>
             <Helmet>
-                <title>Смотреть на Cimber: {film.name}</title>
+                <title>Cimber: {film.name}</title>
                 <meta name="viewport" content="width=1000"/>
                 <meta http-equiv="X-UA-Compatible" content="chrome=IE8"/>
                 <meta property="og:type" content="video.tv_series"/>
@@ -335,7 +336,7 @@ const FilmPage: FC = () => {
                             {
                                 fAvailablePTabs.map((pl, i) => {
                                     return (
-                                        <button key={pl.index} className={`${cl.Tab} ${i === 0 && cl.First} ${pl.index == rPlayer.config.index && cl.Active} ${cl.Pl_tab} ${pl.err ? cl.Err : ""}`} onClick={() => preparePlSelect(adsMode, pl)}>
+                                        <button key={pl.index} className={`${cl.Tab} ${i === 0 && cl.First} ${pl.index == rPlayer.config.index && cl.Active} ${cl.Pl_tab}`} onClick={() => preparePlSelect(adsMode, pl)}>
                                             {
                                                 plLoading == pl.index
                                                     ?
@@ -347,6 +348,15 @@ const FilmPage: FC = () => {
                                                         </span>
                                                         <span className={cl.Pl_title}>
                                                             {translate("film.player.tab.player")} {pl.ps_index}
+                                                        </span>
+                                                        <span className={cl.Pl_info}>
+                                                            {
+                                                                pl.err && 
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" className={cl.Err_inf} viewBox="0 0 16 16">
+                                                                        <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+                                                                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                                                    </svg>
+                                                            }
                                                         </span>
                                                     </span>  
                                             }
@@ -366,11 +376,6 @@ const FilmPage: FC = () => {
                                     {translate("film.player.tab.opts.issue")}
                                 </span>
                             </a>
-                            <button className={cl.Tab} onClick={() => preparePlSelect(!adsMode, rPlayer.config, true)}>
-                                <span className={cl.Tab_content}>
-                                    Ads Mode: {adsMode ? "on" : "off"}
-                                </span>
-                            </button>
                         </div>
                     </div>
                     {plLoading &&
@@ -419,6 +424,20 @@ const FilmPage: FC = () => {
                                     allowFullScreen
                                 />
                     }
+                    <div className={`${cl.Controlls_container} ${activePSelector && cl.Active}`}>
+                        <div onClick={() => setPPS(!pinPSelector)} className={`${cl.Controller} ${cl.Pin} ${pinPSelector ? cl.Active : cl.Inactive}`}>
+                            <svg className={pinPSelector ? cl.Active : cl.Inactive} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a5.927 5.927 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707-.195-.195.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a5.922 5.922 0 0 1 1.013.16l3.134-3.133a2.772 2.772 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146z"/>
+                            </svg>
+                        </div>
+                        
+                        <div onClick={() => preparePlSelect(!adsMode, rPlayer.config, true)} className={`${cl.Controller} ${adsMode && cl.Active}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path d="M11.35 8.337c0-.699-.42-1.138-1.001-1.138-.584 0-.954.444-.954 1.239v.453c0 .8.374 1.248.972 1.248.588 0 .984-.44.984-1.2v-.602zm-5.413.237-.734-2.426H5.15l-.734 2.426h1.52z"/>
+                                <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm6.209 6.32c0-1.28.694-2.044 1.753-2.044.655 0 1.156.294 1.336.769h.053v-2.36h1.16V11h-1.138v-.747h-.057c-.145.474-.69.804-1.367.804-1.055 0-1.74-.764-1.74-2.043v-.695zm-4.04 1.138L3.7 11H2.5l2.013-5.999H5.9L7.905 11H6.644l-.47-1.542H4.17z"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

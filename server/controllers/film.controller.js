@@ -34,6 +34,7 @@ class FilmController {
                         cookie: "lc-main=en_US"
                     }
                 }).then(res => {
+                    console.log(res)
                     return res.text()
                 }).then(async res_txt => {
                     var imdb_q_subst = res_txt.substring(
@@ -89,10 +90,11 @@ class FilmController {
     }
 
     search(req, res) {
-        const {fl, flt, datesrt} = req.query
+        const {fl, flt, datesrt, psrt, psrt_t} = req.query
         const {limit, offset, query} = req.body
         const fl_arr = fl.split(" ").filter((fle) => fle !== "")
-        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit, fl_arr, flt, datesrt), [], async (err, rows) => {
+        const psrt_frm = psrt.replaceAll('"', '').split(' ')
+        DBAgent.db.all(DBAgent.formatSearchMethodStr(query, offset, limit, fl_arr, flt, datesrt, psrt_frm, psrt_t), [], async (err, rows) => {
             if(!rows) return res.json([])
             const arr = [] 
             var req_owner

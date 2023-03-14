@@ -19,6 +19,8 @@ export interface IDLC {
     filtering: string[],
     filtering_type: string,
     datesrt?: string
+    psrt?: string
+    psrt_t?: string
 }
 
 const HomePage: FC = () => {
@@ -43,6 +45,8 @@ const HomePage: FC = () => {
     const [filteringConfig, setFConfig] = useState<any[] | undefined>(undefined)
     const [dateSrt, setDateSrt] = useState<string | undefined>(undefined)
     const [filteringType, setFType] = useState<string | undefined>(undefined)
+    const [psrt, setPSrt] = useState<string | undefined>(undefined)
+    const [psrtt, setPSrtT] = useState<string | undefined>(undefined)
     const [lanceCReady, setLanceCReady] = useState<boolean>(false)
     const [dynamicLanceConfig, setDLC] = useState<IDLC>({filtering: [] as any, filtering_type: 'without'} as IDLC)
     const [adaptInterface, setAdaptInterface] = useState<boolean>(false)
@@ -180,8 +184,29 @@ const HomePage: FC = () => {
                 setDateSrt('any')
             }
 
+            //Property sorting
+            var psrt = localStorage.getItem('psrt')
+            console.log(psrt)
+            if(psrt) {
+                setPSrt(psrt)
+            } else {
+                localStorage.setItem('psrt', 'without')
+                psrt = 'without'
+                setPSrt('without')
+            }
+
+            //Property sorting type
+            var psrt_t = localStorage.getItem("psrt_t")
+            console.log(psrt_t)
+            if(psrt_t) {
+                setPSrtT(psrt_t)
+            } else {
+                localStorage.setItem('psrt_t', 'desc')
+                psrt_t = 'desc'
+                setPSrtT('desc')
+            }
             setFConfig(JSON.parse(filtrc as string))
-            setDLC({filtering: JSON.parse(filtrc as string) as string[], filtering_type: filtrt as string, datesrt})
+            setDLC({filtering: JSON.parse(filtrc as string) as string[], filtering_type: filtrt as string, datesrt, psrt, psrt_t})
         } catch(e) {
             setLanceCReady(true)
         } finally {
@@ -192,7 +217,7 @@ const HomePage: FC = () => {
     const resetSearchQueue = async () => {
         reset()
         setFilms([])
-        setSearchQuery("")
+        setSearchQuery(" ")
         restoreSearchQueue([{page: 0, query: ""}])
         store.setDefaultQueueConfig({page: 0, query: ""})
     }
@@ -210,9 +235,9 @@ const HomePage: FC = () => {
             }
         }
         setFilms([...returns] as any)
-        setTimeout(() => {
-            if(contentElement && contentElement.current) contentElement.current.scrollIntoView({behavior: 'auto', block: 'center'})
-        }, 0)
+        /*setTimeout(() => {
+            if(contentElement && contentElement.current) contentElement.current.scrollIntoView({behavior: 'auto', block: 'end'})
+        }, 10)*/
     }
 
     useObserver(obsElement, canLoad, loading, () => {
@@ -236,10 +261,6 @@ const HomePage: FC = () => {
     }, [page])
 
     useEffect(() => {
-        console.log(filteringConfig)
-    }, [filteringConfig])
-
-    useEffect(() => {
         const searchQueue = store.checkSearchQueue()
         if(searchQueue) {
             restoreSearchQueue(searchQueue)
@@ -256,7 +277,7 @@ const HomePage: FC = () => {
     
     return (
         <>
-            <ContentModal title="Parse settings" active={lanceSettingsModalActive} exec={() => setLanceSettingsModalActive(false)}>
+            <ContentModal title={translate("home.actions.fl_settings.title")} active={lanceSettingsModalActive} exec={() => setLanceSettingsModalActive(false)}>
                 {
                     lanceCReady && filteringConfig &&
                     <>
@@ -264,10 +285,12 @@ const HomePage: FC = () => {
                             <BSelector
                                 default={paginateMethod && paginateMethod == 'click' ? 0 : 1}
                                 selectors_required={1} 
+                                dropdown={true}
+                                deletable={false}
                                 actions={
                                     [
-                                        {content: "По нажатию", value: "click"},
-                                        {content: "Автоматически", value: "auto"}
+                                        {content: translate("home.actions.fl_settings.pag_mtd.onclick"), value: "click"},
+                                        {content: translate("home.actions.fl_settings.pag_mtd.auto"), value: "auto"}
                                     ]
                                 } 
                                 action_c={(value: any) => {
@@ -275,84 +298,68 @@ const HomePage: FC = () => {
                                     if(value[0].value !== undefined) writeLanceConfig("pg_mthd", value[0].value, setPaginateMethod)
                                 }}
                             >
-                                Метод подгрузки:
+                                {translate("home.actions.fl_settings.pag_mtd.title")}
                             </BSelector>
                         </div>
                         <div className={cl.Pagination_mtd}>
                             <BSelector 
-                                selectors_required={28} 
+                                selectors_required={27} 
+                                dropdown={true}
+                                deletable={true}
                                 disabled={dynamicLanceConfig.filtering_type === 'without' ? true : false}
                                 actions={
                                     [
-                                        {content: "Ужасы", value: "ужасы"}, 
-                                        {content: "Драма", value: "драма"}, 
-                                        {content: "Комедия", value: "комедия"}, 
-                                        {content: "Триллер", value: "триллер"}, 
-                                        {content: "Криминал", value: "криминал"}, 
-                                        {content: "Боевик", value: "боевик"}, 
-                                        {content: "Фэнтези", value: "фэнтези"}, 
-                                        {content: "Наука", value: "наука"}, 
-                                        {content: "Мультфильм", value: "мультфильм"}, 
-                                        {content: "Биография", value: "биография"}, 
-                                        {content: "Спорт", value: "спорт"}, 
-                                        {content: "Семейный", value: "семейный"}, 
-                                        {content: "Сериал", value: "сериал"}, 
-                                        {content: "Короткометражка", value: "короткометражка"}, 
-                                        {content: "Артхаус", value: "артхаус"}, 
-                                        {content: "Новогодний", value: "новогодний"}, 
-                                        {content: "Приключения", value: "приключения"},
-                                        {content: "Мелодрама", value: "мелодрама"},
-                                        {content: "Вестерн", value: "вестерн"},
-                                        {content: "Военный", value: "военный"},
-                                        {content: "Документальный", value: "документальный"}, 
-                                        {content: "История", value: "история"},
-                                        {content: "Аниме", value: "аниме"},
-                                        {content: "Мюзикл", value: "мюзикл"},
-                                        {content: "Детектив", value: "детектив"},
-                                        {content: "Фантастика", value: "фантастика"},
-                                        {content: "Катастрофа", value: "катастрофа"},
-                                        {content: "Музыка", value: "музыка"},
-                                        {content: "Научная фантастика", value: "музыка"}
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.horror"), value: "ужасы"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.drama"), value: "драма"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.comedy"), value: "комедия"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.thriller"), value: "триллер"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.crime"), value: "криминал"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.action"), value: "боевик"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.fantasy"), value: "фэнтези"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.science"), value: "наука"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.cartoon"), value: "мультфильм"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.biography"), value: "биография"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.sport"), value: "спорт"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.family"), value: "семейный"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.serial"), value: "сериал"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.short_film"), value: "короткометражка"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.arthouse"), value: "артхаус"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.new_year"), value: "новогодний"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.adventures"), value: "приключения"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.melodrama"), value: "мелодрама"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.western"), value: "вестерн"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.military"), value: "военный"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.documentary"), value: "документальный"}, 
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.historical"), value: "история"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.anime"), value: "аниме"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.musical"), value: "мюзикл"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.detective"), value: "детектив"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.fantastic"), value: "фантастика"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.catastrophe"), value: "катастрофа"},
+                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.music"), value: "музыка"},
                                     ]
                                 } 
                                 action_c={(value: any) => {
-                                    console.log(value)
                                     if(value !== undefined && value !== null && value.length) writeLanceConfig(dynamicLanceConfig.filtering_type === 'solely' ? "filtr_c_s" : "filtr_c_i", JSON.stringify(value), (data: any) => {
                                         setDLC({...dynamicLanceConfig, filtering: data})
-                                        
                                     }, value)
                                 }}
                                 restoreConfig={filteringConfig}
                             >
-                                Фильтрация по жанру:
-                            </BSelector>
-                        </div>
-                        <div className={cl.Pagination_mtd}>
-                            <BSelector 
-                                selectors_required={1} 
-                                variant='input'
-                                default={dynamicLanceConfig.datesrt === 'any' ? 1 : 0}
-                                actions={
-                                    [
-                                        {content: 'Halo', value: 'vale', variant: 'input', default_val: dateSrt !== 'any' ? dateSrt : localStorage.getItem('_datesrt') as string, handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data})})},
-                                        {content: 'Неограничено', value: 'un', handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {dynamicLanceConfig.datesrt && localStorage.setItem("_datesrt", dynamicLanceConfig.datesrt); setDLC({...dynamicLanceConfig, datesrt: data})})}
-                                    ]
-                                }
-                                action_c={() => {
-                                }}
-                            >
-                                Фильтрация по году выпуска:
+                                {translate("home.actions.fl_settings.fl_bgenre.title")}
                             </BSelector>
                         </div>
                         <div className={cl.Pagination_mtd}>
                             <BSelector 
                                 default={filteringType === 'solely' ? 0 : filteringType == 'without' ? 2 : 1}
+                                dropdown={true}
                                 selectors_required={1} 
+                                deletable={false}
                                 actions={
                                     [
-                                        {content: "Исключительно", value: "solely"},
-                                        {content: "Включительно", value: "inclusive"},
-                                        {content: "Без фильтрации", value: "without"}
+                                        {content: translate("home.actions.fl_settings.fl_type.types.solely"), value: "solely"},
+                                        {content: translate("home.actions.fl_settings.fl_type.types.inclusive"), value: "inclusive"},
+                                        {content: translate("home.actions.fl_settings.fl_type.types.without"), value: "without"}
                                     ]
                                 } 
                                 action_c={(value: any) => {
@@ -364,7 +371,63 @@ const HomePage: FC = () => {
                                     })
                                 }}
                             >
-                                Тип фильтрации:
+                                {translate("home.actions.fl_settings.fl_type.title")}
+                            </BSelector>
+                        </div>
+                        <div className={cl.Pagination_mtd}>
+                            <BSelector 
+                                selectors_required={1} 
+                                disabled={dynamicLanceConfig.psrt !== 'without'}
+                                dropdown={true}
+                                variant='input'
+                                deletable={false}
+                                default={dynamicLanceConfig.datesrt === 'any' ? 1 : 0}
+                                actions={
+                                    [
+                                        {content: translate("home.actions.fl_settings.fl_byear.actions.input_placeholder"), value: 'vale', variant: 'addition_init', addition_initvalue: dateSrt !== 'any' ? dateSrt : localStorage.getItem('_datesrt') as string, handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data})})},
+                                        {content: translate("home.actions.fl_settings.fl_byear.actions.without"), value: 'un', handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {dynamicLanceConfig.datesrt && localStorage.setItem("_datesrt", dynamicLanceConfig.datesrt); setDLC({...dynamicLanceConfig, datesrt: data})})}
+                                    ]
+                                }
+                                action_c={(e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data})})}
+                            >
+                                {translate("home.actions.fl_settings.fl_byear.title")}
+                            </BSelector>
+                        </div>
+                        <div className={cl.Sorting}>
+                            <BSelector 
+                                selectors_required={1} 
+                                dropdown={true}
+                                deletable={true}
+                                default={dynamicLanceConfig.psrt == 'without' ? 1 : 0}
+                                exclude_value="without"
+                                variant='select'
+                                actions={
+                                    [
+                                        {content: translate("home.actions.fl_settings.psrt.actions.byd"), value: 'date', variant: 'addition_init'},
+                                        {content: translate("home.actions.fl_settings.psrt.actions.without"), value: "without"}
+                                    ]
+                                }
+                                default_additions={localStorage.getItem("psrt_t") == 'asc' ? 1 : 2}
+                                additions={
+                                    [
+                                        {content: translate("home.actions.fl_settings.psrt.actions.asc"), value: 'asc'},
+                                        {content: translate("home.actions.fl_settings.psrt.actions.desc"), value: 'desc'}
+                                    ]
+                                }
+                                action_c_add={(value:any) => {
+                                    writeLanceConfig("psrt_t", value.map((val:any) => val.value), (data: any) => {
+                                        setPSrt(data.map((val:any) => val.value).join(" "))
+                                        setDLC({...dynamicLanceConfig, psrt_t: data.map((val:any) => val.value).join(" ")})
+                                    }, value)
+                                }}
+                                action_c={(value: any) => {
+                                    writeLanceConfig("psrt", value.map((val:any) => val.value).join(" "), (data: any) => {
+                                        setPSrt(data.map((val:any) => val.value).join(" "))
+                                        setDLC({...dynamicLanceConfig, psrt: data.map((val:any) => val.value).join(" ")})
+                                    }, value)
+                                }}
+                            >
+                                {translate("home.actions.fl_settings.psrt.title")}
                             </BSelector>
                         </div>
                     </>
@@ -400,7 +463,7 @@ const HomePage: FC = () => {
                                 onBlur={() => {
                                     setFocused(false)
                                 }}
-                                defaultValue={searchQuery}
+                                value={searchQuery}
                                 onChange={e => setSearchQuery(e.target.value)}
                             />
                             <button className={cl.Search_loop} onClick={() => handleCustomSearchReq()} type="submit">

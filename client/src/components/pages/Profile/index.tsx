@@ -87,17 +87,23 @@ const ProfilePage = () => {
                     <div className={cl.Content_body}>
                         <div className={cl.Opts_container}>
                             <button className={`${cl.Opt} ${cl.Default} ${tab == 0 && cl.Active}`} onClick={() => setTab(0)}>
-                                <span>WatchLater</span>
+                                <span>
+                                    {translate("profile.tabs.wl")}
+                                </span>
                                 <div className={cl.Border}></div>
                             </button>
                             <div className={cl.Border_spacer}></div>
                             <button className={`${cl.Opt} ${cl.Default} ${tab == 1 && cl.Active}`} onClick={() => setTab(1)}>
-                                <span>Activity</span>
+                                <span>
+                                    {translate("profile.tabs.act")}
+                                </span>
                                 <div className={cl.Border}></div>
                             </button>
                             <div className={cl.Border_spacer}></div>
                             <button className={`${cl.Opt} ${cl.Default} ${tab == 2 && cl.Active}`} onClick={() => setTab(2)}>
-                                <span>Friends</span>
+                                <span>
+                                    {translate("profile.tabs.friends")}
+                                </span>
                                 <div className={cl.Border}></div>
                             </button>
                             <div className={cl.Border_spacer}></div>

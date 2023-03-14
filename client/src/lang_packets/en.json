@@ -96,13 +96,74 @@
             "small": "And discover our world with satisfaction"
         },
         "actions": {
-            "dropdown": {
-                "placeholder": "Pagination method",
-                "auto": "Automatically",
-                "onclick": "On click"
+            "fl_settings": {
+                "title": "Filtering settings",
+                "pag_mtd": {
+                    "title": "Load method",
+                    "auto": "Auto",
+                    "onclick": "On click"
+                },
+                "fl_bgenre": {
+                    "title": "Filtering by genre",
+                    "genres": {
+                        "horror": "Horror",
+                        "drama": "Drama",
+                        "comedy": "Comedy",
+                        "thriller": "Thriller",
+                        "crime": "Crime",
+                        "action": "Action",
+                        "fantasy": "Fantasy",
+                        "science": "Science",
+                        "cartoon": "Cartoon", 
+                        "biography": "Biography",
+                        "sport": "Sport",
+                        "family": "Family",
+                        "serial": "Serial",
+                        "short_film": "Short film",
+                        "arthouse": "Arthouse",
+                        "new_year": "New Year",
+                        "adventures": "Adventures",
+                        "melodrama": "Melodrama",
+                        "western": "Western",
+                        "military": "Military",
+                        "documentary": "Documentary",
+                        "historical": "Historical",
+                        "anime": "Anime",
+                        "musical": "Musical",
+                        "detective": "Detective",
+                        "fantastic": "Fantastic",
+                        "catastrophe": "Catastrophe",
+                        "music": "Music",
+                        "science_fiction": "Science fiction"
+                    }
+                },
+                "fl_type": {
+                    "title": "Filtering type",
+                    "types": {
+                        "solely": "Solely",
+                        "inclusive": "Inclusive",
+                        "without": "Without filtering"
+                    }
+                },
+                "fl_byear": {
+                    "title": "Filtration by relese date",
+                    "actions": {
+                        "input_placeholder": "Select date",
+                        "without": "Unlimited"
+                    }
+                },
+                "psrt": {
+                    "title": "Sort by properties",
+                    "actions": {
+                        "byd": "By release date",
+                        "without": "No sort",
+                        "asc": "Ascending",
+                        "desc": "Descending"
+                    }
+                }
             },
             "load_more": "Load more",
-            "new_tab": "Open in a new tab"
+            "new_tab": "In a new tab"
         },
         "throws": {
             "not_found": "Looks like there is nothing here :("
@@ -140,6 +201,13 @@
                     "issue": "Report an issue"
                 }
             }
+        }
+    },
+    "profile": {
+        "tabs": {
+            "wl": "Saves",
+            "act": "Activity",
+            "friends": "Friends"
         }
     },
     "footer": { 

@@ -36,7 +36,7 @@ const App: FC = () => {
         else store.setDefaultLang()
     }, [])
 
-    if (store.isLoading) {
+    if (store.isLoading || !store.lang_ready) {
         return <div>Загрузка...</div>
     }
 

@@ -256,31 +256,25 @@
                 font-size: 20px
 
         .Opts 
-            .Route 
-                opacity: 1
+            position: relative
+            display: flex
+            justify-content: center 
+            height: 100% 
+            width: 100%
 
-                &:hover
-                    opacity: 1
+            a
+                
                 .Amber_logo 
-                    width: 50px 
+                    width: 40px 
                     transition: .2s all ease 
                     opacity: .7
                     cursor: pointer
+                    position: absolute
+                    bottom: -.3rem
 
                     &:hover 
-                        opacity: 1
-
-        .Opts 
-            display: flex
-            gap: 1rem
-
-            a
-                color: var(--color)
-                text-decoration: none
-                transition: .2s all ease 
-
-                &:hover
-                    opacity: 0.5
+                        opacity: 1 
+                        filter: drop-shadow(0 0.7rem 1.25rem #fce38991) 
 
         .Btns_container 
             display: flex

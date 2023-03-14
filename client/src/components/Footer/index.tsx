@@ -87,7 +87,7 @@ const Footer: FC = () => {
                 <div className={cl.Logout}>
                 </div>
                 <div className={cl.Team}>
-                    <span> Amber Team 2023. </span> <span> Cimber v1.0.1 </span>
+                    <span> Amber Team 2023. </span> <span> Cimber v1.0.3 </span>
                 </div>
                 <div className={cl.Lang}>
                 </div>

@@ -66,7 +66,7 @@ router.get("/:hs/:s/:d/:w/:a/:p/:ts", proxy((req, res) => {
             if(userReq.url.includes('.m3u8')) proxyResData = proxyResData.toString('utf-8').replaceAll(".ts", `.ts?nrw=${userReq.query.nrw}`)
             return proxyResData
         }
-    })
+    }) 
 )
 
 router.get("/subs/:q/:w/:e/:r/:t/index.php", proxy((req, res) => {
@@ -78,15 +78,76 @@ router.get("/subs/:q/:w/:e/:r/:t/index.php", proxy((req, res) => {
 router.get("/vid167/playerjs", async (req, res) => {
     fs.readFile(`${path.join(__dirname, "..")}/static/pjs/js/vid167/playerjs.js`, (err, data) => {
         res.contentType('text/javascript')
-        const data_str = String(data)
+        const data_str = String(data).replaceAll("00abcd", "f0a832")
         return res.send(data_str.replace("__hostreplace__", req.query.curl.replace("pw2", "pw")))
     })
 })
 
-router.get("/annacdn/playerjs", async (req, res) => {
-    await fetch("https://47.annacdn.cc/Assets/pj_films.js?v=" + req.query.v_v).then(res => res.text()).then(res_txt => {
+router.get("/vcdn/script", async (req, res) => {
+    await fetch(`https://vcdn.icdn.ws${req.query.url}?v=${req.query.v}`).then(res => res.text()).then(res_txt => {
         res.contentType('text/javascript')
-        res.send(res_txt)
+        var data_str = String(res_txt)
+        
+        switch(req.query.name) {
+            case 'pj_serials':
+                data_str = data_str
+                            .replaceAll('00adef', 'f0a832')
+                            .replaceAll('00ADEF', 'f0a832')
+                            .replaceAll('2aa1c2', 'f0a832')
+
+            case 'pj_films': 
+                data_str = data_str
+                            .replaceAll('00adef', 'f0a832')
+                            .replaceAll('00ADEF', 'f0a832')
+                            .replaceAll('2aa1c2', 'f0a832')
+        }
+
+        data_str = data_str
+            .replace('&& Advertising("preroll")', '&& Advertising("__undefined__")')
+            .replace('|| Advertising("intro")', '|| Advertising("__undefined__")')
+            .replace('|| Advertising("pausebannerinit")', '|| Advertising("__undefined__")')
+            .replace('|| Advertising("endtaginit")', '|| Advertising("__undefined__")')
+            .replace('|| Advertising("starttaginit")', '|| Advertising("__undefined__")')
+
+        return res.send(data_str)
+    })
+})
+
+router.get("/annacdn/script", async (req, res) => {
+    await fetch(`https://47.annacdn.cc${req.query.url}?v=${req.query.v}`).then(res => res.text()).then(res_txt => {
+        res.contentType('text/javascript')
+        var data_str = String(res_txt)
+        
+        switch(req.query.name) {
+            case 'pj_serials':
+                data_str = data_str
+                            .replaceAll('00adef', 'f0a832')
+                            .replaceAll('00ADEF', 'f0a832')
+                            .replaceAll('2aa1c2', 'f0a832')
+
+            case 'pj_films': 
+                data_str = data_str
+                            .replaceAll('00adef', 'f0a832')
+                            .replaceAll('00ADEF', 'f0a832')
+                            .replaceAll('2aa1c2', 'f0a832')
+        }
+
+        data_str = data_str
+            .replace('&& Advertising("preroll")', '&& Advertising("__undefined__")')
+            .replace('|| Advertising("intro")', '|| Advertising("__undefined__")')
+            .replace('|| Advertising("pausebannerinit")', '|| Advertising("__undefined__")')
+            .replace('|| Advertising("endtaginit")', '|| Advertising("__undefined__")')
+            .replace('|| Advertising("starttaginit")', '|| Advertising("__undefined__")')
+
+        return res.send(data_str)
+    })
+})
+
+router.get("/voidboost/playerjs", async (req, res) => {
+    var rewrited = ""
+    await fetch(req.query.url).then(res => res.text()).then(res_txt => {
+        res.contentType('text/javascript')
+        res.send(res_txt.replace("return p", 'const pr = String(p); return pr'))
     })
 })
 

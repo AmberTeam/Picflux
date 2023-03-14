@@ -26,6 +26,10 @@ export default class UserService {
         }
         if(fconfig.datesrt) req_queried = req_queried + '&datesrt=' + fconfig.datesrt
         else req_queried = req_queried + '&datesrt=any'
+        if(fconfig.psrt) req_queried = req_queried + '&psrt="' + fconfig.psrt + '"'
+        else req_queried = req_queried + '&psrt="without"'
+        if(fconfig.psrt_t) req_queried = req_queried + '&psrt_t=' + fconfig.psrt_t
+        else req_queried = req_queried + '&psrt_t=desc'
         return $api.post<IFilm[]>(req_queried, {query, limit, offset: page})
     }
 

@@ -11,7 +11,7 @@ import { useScrollDirection } from '../../hooks/sd.hook'
 import { ScrollDirection } from '../../hooks/sd.hook'
 import LangDropdown from '../UI/LangDropdown'
 import ThemeTumbler from '../UI/ThemeTumbler'
-import Amber from "../../img/amber_png_top.png"
+import amber_down from "../../img/amber_png_down_cropped.png"
 
 const Navbar: FC = () => {
     
@@ -53,6 +53,9 @@ const Navbar: FC = () => {
                         <span className={cl.Name}> imber </span>
                     </div>
                     <div className={cl.Opts}>
+                        <a href='/' title={translate("navbar.opts.home")}>
+                            <img className={cl.Amber_logo} src={amber_down}/>
+                        </a>
                     </div>
                     <button className={cl.Burger_container} onClick={() => setNavigatorActive(!navigatorActive)}>
                         <span className={`${cl.Line} ${cl.Top}`}></span>
@@ -92,23 +95,17 @@ const Navbar: FC = () => {
                         </div>
                         <div className={cl.HR}></div>
                         <div className={cl.Navigator_body}>
-                            <a className={cl.Navigator_link} href="/" title="На главную">
-                                Домой
+                            <a className={cl.Navigator_link} href="/">
+                                {translate("navbar.opts.home")}
                             </a>
                             <AllowNotAuth>
                                 <a className={cl.Navigator_link} href="/login">
-                                    Профиль
-                                </a>
-                                <a className={cl.Navigator_link} href="/login">
-                                    Настройки
+                                    {translate("navbar.opts.profile")}
                                 </a>
                             </AllowNotAuth>
                             <AllowAuth>
                                 <a className={cl.Navigator_link} href={`/profile/${store.user.id}/preview`}>
-                                    Профиль
-                                </a>
-                                <a className={cl.Navigator_link} href={`/profile/${store.user.id}/settings`}>
-                                    Настройки
+                                    {translate("navbar.opts.profile")}
                                 </a>
                             </AllowAuth>
                         </div>

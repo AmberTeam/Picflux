@@ -8,7 +8,7 @@ import cl from "./index.module.sass"
 interface IFilmList {
     notfound: boolean
     films: IFilm[]
-    observerElem: any
+    observerElem?: React.Ref<HTMLDivElement> | undefined;
 }
 
 const FilmList: FC<IFilmList> = ({...props}) => {
@@ -16,21 +16,9 @@ const FilmList: FC<IFilmList> = ({...props}) => {
     const {translate} = useTranslation()
     
     return (
-        <div className={`${cl.Content_content} ${(props.notfound == true || !props.films.length) ? cl.Not_Found : ""}`}>
+        <div className={`${cl.Content_content} ${(props.notfound == true || !props.films.length) ? cl.Not_Found : ""}`} ref={props.observerElem}>
             {
-                props.films.length ? props.films.map((film: IFilm) => {
-                    const last_seen = localStorage.getItem('last_seen')
-                    if(film.id == Number(last_seen)) return (
-                        <span style={{position: 'relative', display: 'flex'}} key={film.id}>
-                            <Film key={film.id} {...film}/>
-                            <div ref={undefined} className={cl.Dropper}></div>
-                        </span>
-                    )
-                    return (
-                        <Film key={film.id} {...film}/>
-                    )
-                }
-                )
+                props.films.length ? props.films.map((film: IFilm) => <Film key={film.id} {...film}/>)
                 :
                 <div className={cl.NotFound_container}>
                     <div className={cl.NotFound}>

@@ -4,63 +4,114 @@
     transition: .2s all ease
 
     &.Disabled 
-        opacity: 0.2
 
         .Selector_body 
+            opacity: .2
 
             .Selector_action 
                 cursor: default
                 pointer-events: none
+    &.Dropdown_type
+        
+        .Selector_header 
+            display: flex 
+            align-items: center
+            cursor: pointer
+
+            span 
+                user-select: none
+            
+            .Dropdown_caret
+                background: transparent
+                border: none 
+                cursor: pointer 
+
+                &.Active 
+
+                    svg 
+                        transform: rotateZ(90deg)
+
+                svg 
+                    transition: .2s all ease
+                    width: 21px
+                    height: 21px 
+                    fill: var(--color)
+
+    .Selector_header 
 
 
     .Selector_body 
-        display: flex
-        gap: .5rem
-        flex-wrap: wrap
+        overflow: hidden
+        max-height: 0
+        transition: .2s linear
 
-        .Selector_action 
-            padding: .4rem 
-            border: 1px solid var(--mtd-col)
-            border-radius: 6px
-            background: transparent
-            color: var(--mtd-col)
-            transition: .2s all ease
-            cursor: pointer
-            opacity: .7
+        &.Active 
+            max-height: 500px
 
-            &.Input_type 
-                cursor: auto
+        .Body_content
+            display: flex
+            gap: .5rem
+            flex-wrap: wrap
+            
+
+    
+
+        .Body_addition 
+            display: flex 
+            gap: .5rem
+            margin-top: .5rem
+            .Addition_input 
+                padding: .4rem 
+                border: 1px solid var(--color-a)
+                border-radius: 6px
+                background: rgba(240, 168, 50, .3)
+                color: var(--color-a)
+                transition: .2s all ease
+                opacity: .7
                 outline: none
+.Selector_action 
+    padding: .4rem 
+    border: 1px solid var(--mtd-col)
+    border-radius: 6px
+    background: transparent
+    color: var(--mtd-col)
+    transition: .2s all ease
+    cursor: pointer
+    opacity: .7
 
-                &.Selected
-                    &::placeholder
-                        color: red
-                        opacity: 1
+    &.Input_type 
+        cursor: auto
+        outline: none
 
-                &.Selected_required_all
-                    &::placeholder
-                        color: var(--color-a)
-                        opacity: 1              
-
-            &.Default
-                &:hover 
-                    border-color: var(--color-a)
-                    color: var(--color-a)
-            
-            &.Selected 
-                border-color: var(--color-a)
-                background: rgba(240, 168, 50, .3)
-                color: var(--color-a)
+        &.Selected
+            &::placeholder
+                color: red
                 opacity: 1
-            
-                &:hover 
-                    border-color: #ED4337
-                    color: #ED4337
-                    background: rgba(237, 67, 55, .3)
 
-            &.Selected_required_all
-                border-color: var(--color-a)
+        &.Selected_required_all
+            &::placeholder
                 color: var(--color-a)
-                background: rgba(240, 168, 50, .3)
-                opacity: 1
+                opacity: 1              
+
+    &.Default
+        &:hover 
+            border-color: var(--color-a)
+            color: var(--color-a)
+
+    &.Selected 
+        border-color: var(--color-a)
+        background: rgba(240, 168, 50, .3)
+        color: var(--color-a)
+        opacity: 1
+
+        &:hover 
+            border-color: #ED4337
+            color: #ED4337
+            background: rgba(237, 67, 55, .3)
+
+    &.Selected_required_all
+        border-color: var(--color-a)
+        color: var(--color-a)
+        background: rgba(240, 168, 50, .3)
+        opacity: 1
             

@@ -1,5 +1,5 @@
 import {useEffect, useState, useRef, useContext, FC} from 'react'
-import { IFilm, IPlayer } from '../../../models/IFilm'
+import { IFilm, IFilmComment, IPlayer } from '../../../models/IFilm'
 import {useParams} from 'react-router-dom'
 import cl from "./film.module.sass"
 import UserService from "../../../services/UserService"
@@ -12,7 +12,7 @@ import { Context } from '../../..'
 import LoaderMini from '../../UI/LoaderMini'
 import FlagDetector from '../../UI/FlagDetector'
 import {Helmet} from "react-helmet"
-import { toJS } from 'mobx'
+import FilmService from '../../../services/FilmService'
 
 const FilmPage: FC = () => {
     const {store} = useContext(Context)
@@ -28,10 +28,12 @@ const FilmPage: FC = () => {
     const [isWLLoading, setIsWLLoading] = useState<boolean>(false)
     const [adsMode, setAdsMode] = useState<boolean>(false) 
     const [plLoading, setPlLoading] = useState<number | null>(null)
-    const [plLStatus, setPlLStatus] = useState<number>(0)
+    const [plLStatus, setPlLStatus] = useState<number>(-1)
     const [rewriteErr, setRewriteErr] = useState<boolean>(false)
     const [imdbErr, setImdbErr] = useState<boolean>(false)
     const [pinPSelector, setPPS] = useState<boolean>(false)
+    const [commentLoading, setCommentLoading] = useState<boolean>(false)
+    const [comment, setComment] = useState<string>("")
 
     useResizeHandler((w: number) => {
         if(w > 1000) setMobileOriented(false)
@@ -110,6 +112,7 @@ const FilmPage: FC = () => {
     }
 
     const getFilmData = async (): Promise<void> => {
+        setPlLStatus(-1)
         const response = await UserService.getById(id, store.getStoredLang())
         if(response.data.imdb_translate_status == 'err') setImdbErr(true)
         localStorage.setItem('last_seen', String(response.data.id))
@@ -157,6 +160,18 @@ const FilmPage: FC = () => {
         }
     }
 
+    const addComment = async() => {
+        setCommentLoading(true)
+        const response:any = await FilmService.addComment(Number(id), comment)
+        if(response.data && film) {
+            var film_prev:IFilm = film 
+            film_prev.comments = [response.data, ...film_prev.comments]
+            setFilm({...film_prev} as IFilm)
+        }
+        setComment("")
+        setCommentLoading(false)
+    }
+
     useEffect(() => {
         store.callLogModal({code: "ad_ts_wrn", status: 1, alt: "test", duration: 2000})
     }, [])
@@ -168,7 +183,7 @@ const FilmPage: FC = () => {
             if(!event.data) return
             if(typeof event.data === 'string')
             if(event.data && event.data.includes('voidboost')) {
-                rewriteFilmDomByEmbeedUrl(event.data)
+                rewriteFilmDomByEmbeedUrl({url: event.data})
             }
         }, false);
     }, [id])
@@ -176,6 +191,7 @@ const FilmPage: FC = () => {
     if(!film || !rPlayer) return <div className={cl.Loader_container}>
         <LoaderMini variant="loading-large"/>
         <div className={cl.Loading_txt}>
+            {plLStatus == -1 && "Loading & translating film..."}
             {plLStatus == 0 && "Preparing a player hyperlink for a request..."}
             {plLStatus == 1 && "Sending a request for player configuration to the server..."}
             {plLStatus == 2 && "Editing the player configuration to exclude advertising pre-rolls..."}
@@ -301,8 +317,52 @@ const FilmPage: FC = () => {
                                 }
                                 {
                                     descTab == 2 && 
-                                    <div>
-                                        Comming soon!
+                                    <div className={cl.Comments_container}>
+                                        <div className={cl.Comments}>
+                                            {
+                                                film.comments.length 
+                                                    ?
+                                                    film.comments.map((comment:IFilmComment, i) => {
+                                                        return <div className={cl.Comment} key={i}>
+                                                            <div className={cl.Comment_owner}>
+                                                                <div className={cl.Owner_promo}>
+                                                                    <a href={`/profile/${comment.user.id}/preview`}>
+                                                                        <img className={cl.Owner_avatar} src={comment.user.avatar}/>
+                                                                    </a>
+                                                                    <span className={cl.Owner_username}>
+                                                                        {comment.user.username}
+                                                                    </span>
+                                                                </div>
+                                                                <div className={cl.Comment_time}>
+                                                                    {comment.datef_v}
+                                                                </div>
+                                                            </div>
+                                                            <div className={cl.Comment_body}>
+                                                                {comment.data}
+                                                            </div>
+                                                        </div>
+                                                    })
+                                                    :
+                                                    <div className={cl.NoComments_container}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={cl.NC_ic}><linearGradient id="gradient"><stop className="main-stop" offset="0%"></stop><stop className="alt-stop" offset="100%"></stop></linearGradient><path fill="url(#gradient)" d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM5.495 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"></path></svg>
+                                                        <span>No comments yet :/</span>
+                                                    </div>
+                                            }
+                                        </div>
+                                        <AllowAuth>
+                                            <div className={cl.Comments_actions}>
+                                                <form className={`${cl.Comments_form} ${commentLoading ? cl.Loading : ""}`} method='PUT' onSubmit={e => {
+                                                    e.preventDefault()
+                                                    addComment()
+                                                }}>
+                                                    <input className={cl.Comments_inp} value={comment} onChange={e => setComment(e.target.value)} placeholder="Enter your comment"/>
+                                                    <button className={cl.Add_wread}>Send</button>
+                                                    <span className={cl.Loader}>
+                                                        <LoaderMini/>
+                                                    </span>
+                                                </form>
+                                            </div>
+                                        </AllowAuth>
                                     </div>  
                                 }
                             </div>

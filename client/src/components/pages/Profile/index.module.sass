@@ -1,4 +1,100 @@
+.SaveBtn 
+    border: 2px solid var(--color)
+    background: var(--color)
+    padding: .3rem .75rem .3rem .75rem
+    font-family: 'Roobert'
+    border-radius: 100px
+    font-size: 12px
+    cursor: pointer
+    transition: .2s all ease 
+    font-weight: bold
+    color: var(--bg)
 
+    &.Disabled 
+        opacity: .6
+        pointer-events: none
+
+    &:hover 
+        background: var(--bg)
+        color: var(--color)
+
+
+.ProfileEdit_container 
+    display: grid 
+    gap: 1rem 
+
+    .ProfileEdit_avatar 
+        .Avatar_changer
+            background: transparent 
+            border-radius: 100px
+            width: 64px 
+            height: 64px
+            position: relative
+            border: none
+            cursor: pointer
+            display: block
+
+            &:hover 
+                .Blurer 
+                    opacity: 1
+            
+            .Avatar_img
+                width: 64px 
+                height: 64px
+                border-radius: 100px
+
+            .Blurer
+                transition: .2s all ease
+                display: flex 
+                justify-content: center 
+                align-items: center
+                position: absolute 
+                top: 0 
+                left: 0 
+                width: 100% 
+                height: 100% 
+                border-radius: 100px
+                opacity: 0
+                background: rgba(0, 0,0,.6)
+
+                .Changer_ic 
+                    svg 
+                        width: 24px 
+                        height: 24px 
+                        fill: var(--color)
+
+    .Data_edit 
+        display: grid
+        gap: .8rem
+        .DataEdit_header 
+            font-weight: bold 
+            
+
+        .DataEdit_body 
+            display: grid
+
+            .Err_txt
+                margin-top: .5rem
+                color: #ED4337
+                font-size: 11px 
+                    
+            input
+                min-width: 30vh
+                background: transparent 
+                border: 2px solid var(--auth-pre-space-col)
+                color: var(--color) 
+                padding: .8rem 1.2rem .8rem 1.2rem
+                border-radius: 16px
+                outline: none
+                font-family: 'Roobert'
+                transition: .2s all ease
+
+                &.Err
+                    border-color: #ED4337
+
+                &.Default
+                    &:focus 
+                        border-color: var(--color)
 .Profile_section 
     height: auto !important
     .Profile_header 
@@ -21,9 +117,13 @@
                 background: var(--fg)
             
             .Avatar 
-                display: block
-                border-radius: 50%
-                max-width: 128px
+                width: 128px 
+                height: 128px 
+
+                img 
+                    width: 128px 
+                    height: 128px
+                    border-radius: 50%
 
     .Profile_content
         background: var(--fg)
@@ -57,7 +157,45 @@
                         width: 2px 
                         height: 100%
                         background: linear-gradient(90deg, rgb(240, 168, 50) 0%, rgb(255, 144, 93) 100%)
+            .Profile_bio
+                text-align: center
+                margin-bottom: 2rem
+            
+            .Profile_actions 
+                display: flex 
+                gap: .5rem
+                justify-content: center
 
+                .Subscribe_btn 
+                    display: flex
+                    gap: .3rem
+                    border: 2px solid var(--color)
+                    background: var(--color)
+                    padding: .6rem 1.5rem .6rem 1.5rem
+                    font-family: 'Roobert'
+                    border-radius: 100px
+                    font-size: 12px
+                    cursor: pointer
+                    transition: .2s all ease 
+                    font-weight: bold
+                    color: var(--bg)
+
+                    svg 
+                        fill: var(--bg)
+                        transition: .2s all ease
+                    
+                    &.Loading 
+                        background: var(--bg)
+                        color: var(--color)
+
+
+                    &:hover 
+                        background: var(--bg)
+                        color: var(--color)
+
+                        svg 
+                            fill: var(--color)
+                    
         .Content_body 
             display: grid
 
@@ -66,11 +204,11 @@
 
                 .Border_spacer 
                     width: 45px
-                    border-bottom: 2px solid #707a8394
+                    border-bottom: 2px solid var(--profile-tabs-border)
                     margin-bottom: 10px
 
                 .Opt 
-                    color: #707a83
+                    color: var(--profile-tabs-tab)
                     background: transparent
                     border: none
                     font-family: 'Roobert'
@@ -87,7 +225,7 @@
                     .Border 
                         transition: .2s all ease
                         margin-top: 10px
-                        border-bottom: 2px solid #707a8394
+                        border-bottom: 2px solid var(--profile-tabs-border)
 
                     &.Active 
                         color: var(--color-a)

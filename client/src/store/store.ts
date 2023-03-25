@@ -11,8 +11,8 @@ import en from '../lang_packets/en.json'
 import en_img from "../img/lang_ic/en.png"
 import ru_img from "../img/lang_ic/ru.png"
 import ukr_img from "../img/lang_ic/ukr.png"
-import { ISQueue } from "../models/ISQueue";
 import { TUser } from "react-telegram-auth";
+import { IRQDTO, RQDTA } from "../models/IRQueue";
 
 export interface ILogModal {
     code: string,
@@ -106,37 +106,8 @@ export default class Store {
         this.lang_ready = true 
     }
 
-    //SEARCH QUEUE
-    checkSearchQueue(): any {
-        const SQ = localStorage.getItem("sqp") 
-        if(SQ) {
-            return JSON.parse(SQ)
-        }
-    }
-    
-    setDefaultQueueConfig(config: ISQueue): void {
-        localStorage.setItem("sqp", JSON.stringify([config]))
-    }
+    //RESTORE QUEUE
 
-    setSearchQueuePage(config: ISQueue, flag: number = 0): any {
-        switch(flag) {
-            case 0:
-                let SQ = this.checkSearchQueue()
-                if(Array.isArray(SQ)) {
-                    SQ.push({...config, page: SQ.length})
-                } else {
-                    console.log(config)
-                    SQ = [config]
-                }
-                
-                localStorage.setItem("sqp", JSON.stringify(SQ))
-
-                return SQ
-            case 1: 
-                localStorage.setItem("sqp", JSON.stringify([]))
-                return
-        }
-    }
 
     //THEME 
     setDefaultTheme(): void {

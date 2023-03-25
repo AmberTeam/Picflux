@@ -15,19 +15,27 @@ import UndefinedRoutePage from './components/pages/UndefRoute'
 import Footer from './components/Footer'
 import LogoutModal from './components/LogoutModal'
 import "./sass/index.sass"
+import $api from './http' 
 
 
 const App: FC = () => {
-    const {store} = useContext(Context)
+    const {store, wsc} = useContext(Context)
     const [users, setUsers] = useState<IUser[]>([])
 
-    useEffect(() => {
-        const client = new WebSocket('ws://localhost:5001')
+    const setTilestamp = async (): Promise<void> => {
+        await $api.get('/user/tsp')
+    }
 
-        client.addEventListener('message', (message: any) => {
-            const t = JSON.parse(message.data)
-            store.changeOnline(t.data.sckts)
-        })
+    const initSocketConnection = async (): Promise<void> => {
+        const conn:Event = await wsc.init('ws://localhost:5001')
+        if(conn.isTrusted) {
+            await wsc.send({halo: "sus"})
+        }
+    }
+
+    useEffect(() => {
+        initSocketConnection()
+        setTilestamp()
 
         if (localStorage.getItem('token')) store.checkAuth()
         if(localStorage.getItem('lang')) store.checkLang()

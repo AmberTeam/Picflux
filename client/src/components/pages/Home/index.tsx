@@ -1,4 +1,4 @@
-import {FC, useEffect, useState, useRef, useContext, HTMLInputTypeAttribute } from 'react'
+import {FC, useEffect, useState, useRef, useContext} from 'react'
 import { useTranslation } from '../../../hooks/translator.hook'
 import { useResizeHandler } from '../../../hooks/resizehandler.hook'
 import { useObserver } from '../../../hooks/observer.hook'
@@ -6,14 +6,14 @@ import { IFilm } from "../../../models/IFilm"
 import { Context } from '../../..'
 import { observer } from 'mobx-react-lite'
 import userService from "../../../services/UserService"
-import Film from './Film/'
-import Dropdown from '../../UI/Dropdown'
 import cl from "./home.module.sass"
-import { ISQueue } from '../../../models/ISQueue'
 import ContentModal from '../../ContentModal'
 import BSelector from '../../UI/BrickSelector'
 import LoaderMini from '../../UI/LoaderMini'
 import FilmList from '../../FilmList'
+import { AxiosResponse } from 'axios'
+import { RQDTA } from '../../../models/IRQueue'
+import { compress, decompress } from 'compress-json'
 
 export interface IDLC {
     filtering: string[],
@@ -21,6 +21,7 @@ export interface IDLC {
     datesrt?: string
     psrt?: string
     psrt_t?: string
+    action?: string
 }
 
 const HomePage: FC = () => {
@@ -31,12 +32,10 @@ const HomePage: FC = () => {
     const {translate} = useTranslation()
 
     const [films, setFilms] = useState<IFilm[] | [any]>([])
-
     const [focused, setFocused] = useState<boolean>(false)
-
     const [notFound, setNotFound] = useState<boolean>(false)
     const [_searchQuery, _setSearchQuery] = useState<string>('')
-	const [searchQuery, setSearchQuery] = useState<string>('')
+	const [searchQuery, setSearchQuery] = useState<string>(localStorage.getItem('sq') ? localStorage.getItem('sq')! : '')
 	const [page, setPage] = useState<number>(0)
 	const [limit, setLimit] = useState<number>(12)
 	const [loading, setLoading] = useState<boolean>(false)
@@ -47,44 +46,54 @@ const HomePage: FC = () => {
     const [filteringType, setFType] = useState<string | undefined>(undefined)
     const [psrt, setPSrt] = useState<string | undefined>(undefined)
     const [psrtt, setPSrtT] = useState<string | undefined>(undefined)
+    const [visualReady, setVReady] = useState<boolean>(false)
     const [lanceCReady, setLanceCReady] = useState<boolean>(false)
     const [dynamicLanceConfig, setDLC] = useState<IDLC>({filtering: [] as any, filtering_type: 'without'} as IDLC)
+    const [debugMode, setDebugMode] = useState<number>(1)
+    const [DLCReady, setDLCReady] = useState<boolean>(false)
     const [adaptInterface, setAdaptInterface] = useState<boolean>(false)
     const [lanceSettingsModalActive, setLanceSettingsModalActive] = useState<boolean>(false)
+    const [intersectionAvail, setIA] = useState<boolean>(false)
 
-    const {store} = useContext(Context)
-
-    function reset() {
+    function reset(incSQ:boolean = false, type:number=3): number {
+        if(incSQ) writeLanceConfig("sq", "", () => setSearchQuery(""))
+        writeLanceConfig("lance_h", JSON.stringify(compress([])), () => setFilms([]))
         setNotFound(false)
-        setCanLoad(true)
-        setPage(0)
+        writeLanceConfig("cload", "1", () =>  setCanLoad(true))
+        setVReady(false)
+        setPage(1)
+        fetchPosts(0, type)
         return 0
     }
     
-	const fetchPosts = async (limit: number, _page: number, arg: number) => {
+	const fetchPosts = async (_page: number, arg: number): Promise<void> => {
 		setLoading(true)
 		try {
             let curr_page
             curr_page = _page
             _setSearchQuery(searchQuery)
             if(arg == 2) curr_page = reset()
-            
-			const response = await userService.search(searchQuery.toLowerCase(), limit, curr_page * limit, dynamicLanceConfig)
+			const response = await userService.search(arg == 3 ? "" : `"${searchQuery}"`, limit, curr_page * limit, dynamicLanceConfig)
 
-			if(!response.data.length) {
+			/* if(!response.data.can_load) { 
                 if(arg==2) {
                     setFilms([])
-                    if(page == 0) {
-                        setNotFound(true)
-                    }
+                    if(page == 0) setNotFound(true)
                 }
-                if(page != 0) {
-                    setCanLoad(false)
-                }
-			} else {
-                if(arg == 2 && films.length) return setFilms([...response.data])
-				setFilms([...films, ...response.data])
-			}
+                if(page != 0) setCanLoad(false)
+			*/
+            if(!response.data.can_load) writeLanceConfig("cload", "0", () => setCanLoad(false))
+            if(arg == 2 && films.length) {
+                writeLanceConfig("lance_h", JSON.stringify(compress([...response.data.films])), () => null)
+                return setFilms([...response.data.films])
+            }
+            if((arg == 3 || arg == 4) && films.length) {
+                writeLanceConfig("lance_h", JSON.stringify(compress([...response.data.films])), () => null)
+                return setFilms([...response.data.films])
+            }
+            writeLanceConfig("lance_h", JSON.stringify(compress([...films, ...response.data.films])), () => null)
+            setFilms([...films, ...response.data.films])
+        
 		} catch(e) {
 			console.log(e)
 		} finally {
@@ -92,27 +101,25 @@ const HomePage: FC = () => {
 		}
 	}
 
-    const handleCustomSearchReq = () => {
-        if(searchQuery == _searchQuery) return
-        fetchPosts(limit, page, 2)
-        store.setDefaultQueueConfig({page: 0, query: searchQuery})
+    const handleCustomSearchReq = (): void => {
+        reset(false, 4)
     }
 
-    const writeLanceConfig = (act_type: string, data: any, cb: (arg: any) => void, custom_cb_arg: any = null) => {
+    const writeLanceConfig = (act_type: string, data: any, cb: (arg: any) => void, custom_cb_arg: any = null): void => {
         try {
             if(act_type === 'filtr_t') {
                 switch(data) {
                     case 'solely': 
-                        var filtr_c_s = JSON.parse(localStorage.getItem('filtr_c_s') as string)
-                        if(!filtr_c_s) {
+                        var filtr_c_s:string[] = JSON.parse(localStorage.getItem('filtr_c_s') as string)
+                        if(!filtr_c_s.length || !filtr_c_s) {
                             localStorage.setItem("filtr_c_s", JSON.stringify([]))
                             filtr_c_s = []
                         }
                         setFConfig(filtr_c_s)
                         break
                     case 'inclusive':
-                        var filtr_c_i = JSON.parse(localStorage.getItem('filtr_c_i') as string)
-                        if(!filtr_c_i) {
+                        var filtr_c_i:string[] = JSON.parse(localStorage.getItem('filtr_c_i') as string)
+                        if(!filtr_c_i.length || !filtr_c_i) {
                             localStorage.setItem("filtr_c_i", JSON.stringify([]))
                             filtr_c_i = []
                         }
@@ -128,10 +135,20 @@ const HomePage: FC = () => {
         }
     }
 
-    const prepareLanceConfig = () => {
+    const prepareLanceConfig = (): void => {
         try {
-            //Pagination method
-            const pmth = localStorage.getItem("pg_mthd")
+            const sq:string = localStorage.getItem("sq")!
+            if(sq) {
+                setSearchQuery(sq)
+            } else {
+                localStorage.setItem("sq", '')
+                setSearchQuery("")
+            }
+
+            const cload:number = Number(localStorage.getItem('cload')!)
+            if(cload == 0) setCanLoad(false)
+
+            const pmth:string = localStorage.getItem("pg_mthd")!
             if(pmth) { 
                 setPaginateMethod(pmth)
             } else {
@@ -139,8 +156,7 @@ const HomePage: FC = () => {
                 setPaginateMethod('auto')
             }
 
-            //FType 
-            var filtrt = localStorage.getItem("filtr_t")
+            var filtrt:string = localStorage.getItem("filtr_t")!
             if(filtrt) {
                 setFType(filtrt)
             } else {
@@ -149,8 +165,7 @@ const HomePage: FC = () => {
                 setFType('without')
             }
             
-            //Filtering
-            var filtrc = localStorage.getItem('filtr_c')
+            var filtrc:string = localStorage.getItem('filtr_c')!
             if(filtrc) { 
                 setFConfig(JSON.parse(filtrc))
             } else {
@@ -165,17 +180,16 @@ const HomePage: FC = () => {
                     setFConfig([])
                     break
                 case "solely":
-                    filtrc = localStorage.getItem("filtr_c_s")
+                    filtrc = localStorage.getItem("filtr_c_s")!
                     if(filtrc) setFConfig(JSON.parse(filtrc))
                     break 
                 case "inclusive": 
-                    filtrc = localStorage.getItem("filtr_c_i")
+                    filtrc = localStorage.getItem("filtr_c_i")!
                     if(filtrc) setFConfig(JSON.parse(filtrc))
                     break
             }
 
-            //Date sorting 
-            var datesrt = localStorage.getItem('datesrt')
+            var datesrt:string = localStorage.getItem('datesrt')!
             if(datesrt) {
                 setDateSrt(datesrt)
             } else {
@@ -184,9 +198,7 @@ const HomePage: FC = () => {
                 setDateSrt('any')
             }
 
-            //Property sorting
-            var psrt = localStorage.getItem('psrt')
-            console.log(psrt)
+            var psrt:string = localStorage.getItem('psrt')!
             if(psrt) {
                 setPSrt(psrt)
             } else {
@@ -195,9 +207,7 @@ const HomePage: FC = () => {
                 setPSrt('without')
             }
 
-            //Property sorting type
-            var psrt_t = localStorage.getItem("psrt_t")
-            console.log(psrt_t)
+            var psrt_t:string = localStorage.getItem("psrt_t")!
             if(psrt_t) {
                 setPSrtT(psrt_t)
             } else {
@@ -205,71 +215,63 @@ const HomePage: FC = () => {
                 psrt_t = 'desc'
                 setPSrtT('desc')
             }
-            setFConfig(JSON.parse(filtrc as string))
-            setDLC({filtering: JSON.parse(filtrc as string) as string[], filtering_type: filtrt as string, datesrt, psrt, psrt_t})
+
+            const debugMode:number = parseInt(localStorage.getItem("debug_m")!)
+            if(!Number.isNaN(debugMode)) {
+                setDebugMode(debugMode)
+            } else {
+                localStorage.setItem("debug_m", "1")
+                setDebugMode(1)
+            }
+
+            var lance_history:IFilm[]
+            if(localStorage.getItem("lance_h")) lance_history = decompress(JSON.parse(localStorage.getItem("lance_h")!))
+            else lance_history = []
+            if(lance_history.length) {
+                setFilms(lance_history)
+                var math_page = lance_history.length/12
+                if(Number(lance_history.length/12) === lance_history.length/12 && lance_history.length/12 % 1 !== 0) math_page = Math.round(math_page)
+                setPage(math_page == 0 ? 1 : math_page)
+            } else {
+                setPage(1)
+                fetchPosts(0, 1)
+            }
+
+            setFConfig(JSON.parse(filtrc))
+            setDLC({filtering: JSON.parse(filtrc), filtering_type: filtrt, datesrt, psrt, psrt_t, action: "init"})
         } catch(e) {
+            console.log(e)
             setLanceCReady(true)
         } finally {
             setLanceCReady(true)
+            setDLCReady(true)
         }
     }
 
-    const resetSearchQueue = async () => {
-        reset()
-        setFilms([])
-        setSearchQuery(" ")
-        restoreSearchQueue([{page: 0, query: ""}])
-        store.setDefaultQueueConfig({page: 0, query: ""})
-    }
-
-    const restoreSearchQueue = async (qConfig: any) => {
-        const returns = [] as any
-        for(let i = 0; i < qConfig.length; i++) {
-            const t = await userService.search(qConfig[i].query.toLowerCase(), limit, i * limit, dynamicLanceConfig)
-            if(!t.data.length) setCanLoad(false)
-            t.data.map(film => {
-                returns.push(film)
-            })
-            if(i === qConfig.length - 1) {
-                setSearchQuery(qConfig[i].query)
-            }
+    useObserver(obsElement, canLoad, [visualReady], loading, () => {
+        if(visualReady) {
+            setPage(page + 1) 
+            fetchPosts(page, 1)
         }
-        setFilms([...returns] as any)
-        /*setTimeout(() => {
-            if(contentElement && contentElement.current) contentElement.current.scrollIntoView({behavior: 'auto', block: 'end'})
-        }, 10)*/
-    }
-
-    useObserver(obsElement, canLoad, loading, () => {
-		setPage(page + 1)
 	})
 
-    useResizeHandler((width) => {
+    useResizeHandler((width:number) => {
         if(width <= 1100) !adaptInterface && setAdaptInterface(true)
         if(width > 1100) setAdaptInterface(false)
     })
 
     useEffect(() => {
-        if(page !== 0) {
-            const q = store.checkSearchQueue()
-            if(q && page === q.length -1) return
-            fetchPosts(limit, page, 1)
-            store.setSearchQueuePage({page, query: searchQuery})
-        } else {
-            restoreSearchQueue({page: 0, query: ""})
-        }
-    }, [page])
-
-    useEffect(() => {
-        const searchQueue = store.checkSearchQueue()
-        if(searchQueue) {
-            restoreSearchQueue(searchQueue)
-            setPage(searchQueue.length -1)
-        } else {
-            setPage(0)
-            fetchPosts(limit, 0, 2)
+        switch(dynamicLanceConfig.action) {
+            case 'init': 
+                break 
+            case 'lch': 
+                reset(false, 4)
         }
     }, [dynamicLanceConfig])
+
+    useEffect(() => {
+        if(!visualReady && films.length) setVReady(true)
+    }, [films])
 
     useEffect(() => {
         prepareLanceConfig()
@@ -277,6 +279,167 @@ const HomePage: FC = () => {
     
     return (
         <>
+            {
+                debugMode == 0
+                    &&
+                    <div className={cl.SD_container}>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                sq
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {searchQuery === "" ? "null" : searchQuery}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                films
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {films.length}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                page
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {page}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                load
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {loading ? "1" : "0"}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                cl
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {canLoad ? "1" : "0"}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                nf
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {notFound ? "1" : "0"}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                pm
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {paginateMethod}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                ft
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {dynamicLanceConfig.filtering_type}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                fl
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {dynamicLanceConfig.filtering.length}
+                            </div>
+                        </div>
+
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                dsrt
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {dynamicLanceConfig.datesrt}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                psrt_t
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {dynamicLanceConfig.psrt_t}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                psrt
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {dynamicLanceConfig.psrt}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                dlcrd
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {DLCReady ? "1" : "0"}
+                            </div>
+                        </div>
+                        <div className={cl.SD_data}>
+                            <div className={cl.SD_dataname}>
+                                vrd
+                            </div>
+                            <div className={cl.SD_separator}>
+                            |
+                            </div>
+                            <div className={cl.SD_datavalue}>
+                                {visualReady ? "1" : "0"}
+                            </div>
+                        </div>
+                    </div>
+            }
             <ContentModal title={translate("home.actions.fl_settings.title")} active={lanceSettingsModalActive} exec={() => setLanceSettingsModalActive(false)}>
                 {
                     lanceCReady && filteringConfig &&
@@ -294,7 +457,6 @@ const HomePage: FC = () => {
                                     ]
                                 } 
                                 action_c={(value: any) => {
-                                    console.log(value[0].value)
                                     if(value[0].value !== undefined) writeLanceConfig("pg_mthd", value[0].value, setPaginateMethod)
                                 }}
                             >
@@ -341,7 +503,7 @@ const HomePage: FC = () => {
                                 } 
                                 action_c={(value: any) => {
                                     if(value !== undefined && value !== null && value.length) writeLanceConfig(dynamicLanceConfig.filtering_type === 'solely' ? "filtr_c_s" : "filtr_c_i", JSON.stringify(value), (data: any) => {
-                                        setDLC({...dynamicLanceConfig, filtering: data})
+                                        setDLC({...dynamicLanceConfig, filtering: data, action: 'lch'})
                                     }, value)
                                 }}
                                 restoreConfig={filteringConfig}
@@ -367,7 +529,7 @@ const HomePage: FC = () => {
                                         var filtering = []
                                         if(data !== 'without') filtering = JSON.parse(localStorage.getItem(data === 'solely' ? 'filtr_c_s' : 'filtr_c_i') as string)
                                         if(!filtering) filtering = []
-                                        setDLC({...dynamicLanceConfig, filtering_type: data, filtering})
+                                        setDLC({...dynamicLanceConfig, filtering_type: data, filtering, action: 'lch'})
                                     })
                                 }}
                             >
@@ -384,11 +546,11 @@ const HomePage: FC = () => {
                                 default={dynamicLanceConfig.datesrt === 'any' ? 1 : 0}
                                 actions={
                                     [
-                                        {content: translate("home.actions.fl_settings.fl_byear.actions.input_placeholder"), value: 'vale', variant: 'addition_init', addition_initvalue: dateSrt !== 'any' ? dateSrt : localStorage.getItem('_datesrt') as string, handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data})})},
-                                        {content: translate("home.actions.fl_settings.fl_byear.actions.without"), value: 'un', handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {dynamicLanceConfig.datesrt && localStorage.setItem("_datesrt", dynamicLanceConfig.datesrt); setDLC({...dynamicLanceConfig, datesrt: data})})}
+                                        {content: translate("home.actions.fl_settings.fl_byear.actions.input_placeholder"), value: 'vale', variant: 'addition_init', addition_initvalue: dateSrt !== 'any' ? dateSrt : localStorage.getItem('_datesrt') as string, handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'})})},
+                                        {content: translate("home.actions.fl_settings.fl_byear.actions.without"), value: 'un', handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {dynamicLanceConfig.datesrt && localStorage.setItem("_datesrt", dynamicLanceConfig.datesrt); setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'})})}
                                     ]
                                 }
-                                action_c={(e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data})})}
+                                action_c={(e: string) => writeLanceConfig('datesrt', e, (data: string) => setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'}))}
                             >
                                 {translate("home.actions.fl_settings.fl_byear.title")}
                             </BSelector>
@@ -417,17 +579,36 @@ const HomePage: FC = () => {
                                 action_c_add={(value:any) => {
                                     writeLanceConfig("psrt_t", value.map((val:any) => val.value), (data: any) => {
                                         setPSrt(data.map((val:any) => val.value).join(" "))
-                                        setDLC({...dynamicLanceConfig, psrt_t: data.map((val:any) => val.value).join(" ")})
+                                        setDLC({...dynamicLanceConfig, psrt_t: data.map((val:any) => val.value).join(" "), action: 'lch'})
                                     }, value)
                                 }}
                                 action_c={(value: any) => {
                                     writeLanceConfig("psrt", value.map((val:any) => val.value).join(" "), (data: any) => {
                                         setPSrt(data.map((val:any) => val.value).join(" "))
-                                        setDLC({...dynamicLanceConfig, psrt: data.map((val:any) => val.value).join(" ")})
+                                        setDLC({...dynamicLanceConfig, psrt: data.map((val:any) => val.value).join(" "), action: 'lch'})
                                     }, value)
                                 }}
                             >
                                 {translate("home.actions.fl_settings.psrt.title")}
+                            </BSelector>
+                        </div>
+                        <div className={cl.Sorting}>
+                            <BSelector 
+                                selectors_required={1} 
+                                dropdown={true}
+                                deletable={false}
+                                default={debugMode}
+                                actions={
+                                    [
+                                        {content: 'On', value: '0'},
+                                        {content: 'Off', value: "1"}
+                                    ]
+                                }
+                                action_c={(value: any) => {
+                                    writeLanceConfig("debug_m", value[0].value, () => setDebugMode(value[0].value))
+                                }}
+                            >
+                                Debug mode
                             </BSelector>
                         </div>
                     </>
@@ -445,7 +626,7 @@ const HomePage: FC = () => {
                 <div className={cl.Search_section}>
                     <div className={cl.Search_field}>
                         <div className={`${cl.Tool_container} ${cl.Search_ints}`}>
-                            <button className={cl.Tool} onClick={() => resetSearchQueue()}>
+                            <button className={cl.Tool} onClick={() => reset(true)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
                                     <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                     <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
@@ -464,9 +645,9 @@ const HomePage: FC = () => {
                                     setFocused(false)
                                 }}
                                 value={searchQuery}
-                                onChange={e => setSearchQuery(e.target.value)}
+                                onChange={e => writeLanceConfig("sq", e.target.value, (data:string) => setSearchQuery(data))}
                             />
-                            <button className={cl.Search_loop} onClick={() => handleCustomSearchReq()} type="submit">
+                            <button className={cl.Search_loop} type="submit">
                                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14.6311" cy="11.5653" r="6.79336" transform="rotate(47 14.6311 11.5653)" stroke="#BAB4C2"></circle><path d="M9.48543 16.3638L4.33989 21.1621" stroke="#BAB4C2"></path></svg>
                             </button>
                         </form>
@@ -480,25 +661,18 @@ const HomePage: FC = () => {
                     </div>
                 </div>
                 <div className={cl.Section_content}>
-                    <FilmList notfound={false} observerElem={contentElement} films={films}/>
+                    <FilmList notfound={notFound} observerElem={contentElement} films={films} ready={DLCReady && visualReady ? true : false}/>
                     {
+
                         <div 
                             ref={obsElement} 
                             className={cl.Loader} 
                             style={
-                                paginateMethod === 'auto' 
+                                paginateMethod === 'auto' && DLCReady && !loading && canLoad
                                     ?
-                                        loading 
-                                            ?  
-                                                {display: "none"} 
-                                            : 
-                                                canLoad 
-                                                    ?
-                                                        {display: "flex"} 
-                                                    : 
-                                                        {display: "none"} 
+                                        {display: "flex"}
                                     : 
-                                        {display: 'none'}
+                                        {display: "none"}
                             }
                         >
                             <LoaderMini/>
@@ -509,8 +683,14 @@ const HomePage: FC = () => {
                             &&
                                 canLoad 
                                 &&
+                                    visualReady
+                                    &&
                             <div className={cl.Click_container}>
-                                <button className={`button ${cl.Load_more}`} onClick={() => setPage(page + 1)}>
+                                <button className={`button ${cl.Load_more}`} onClick={() => {
+                                    console.log(DLCReady)
+                                    setPage(page + 1)
+                                    if(DLCReady) fetchPosts(page, 1)
+                                }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                                     </svg>

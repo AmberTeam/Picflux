@@ -20,8 +20,8 @@ app.use(cors({
   credentials: true,  
   origin: process.env.CLIENT   
 }))
-app.use('/api', routes)  
-app.use(errorMiddleware)
+app.use('/api', routes)   
+app.use(errorMiddleware) 
 
 app.post("/api/dev/rewrite/2embeed", (req, res) => {
   const rw_str = String(req.body.rewrited)

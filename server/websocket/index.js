@@ -39,6 +39,10 @@ WSS.on("connection", (socket) => {
         removeSocket(socket)
     })
 
+    socket.on("message", (data) => {
+        console.log(data.toString("utf8"))
+    })
+
     emit({action: "connection", data: {
         sckts: CLIENTS_IDS
     }})

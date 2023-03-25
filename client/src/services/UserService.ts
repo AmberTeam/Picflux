@@ -1,12 +1,12 @@
 import $api from "../http";
 import {AxiosResponse} from 'axios';
 import {AuthResponse} from "../models/response/AuthResponse";
-import {IUser} from "../models/IUser";
-import {IFilm} from "../models/IFilm"
+import {IUser, IUserAuthority, IUserAuthorityResponse} from "../models/IUser";
+import {IFilm, IFilmSearchResponse} from "../models/IFilm"
 import { IDLC } from "../components/pages/Home";
 
 export default class UserService {
-    static async search(query: string, limit: number, page: number, fconfig: IDLC): Promise<AxiosResponse<IFilm[]>> {
+    static async search(query: string, limit: number, page: number, fconfig: IDLC): Promise<AxiosResponse<IFilmSearchResponse>> {
         var req_queried = '/film/search'
         if(fconfig !== undefined || fconfig !== null) {
             if(fconfig.filtering !== null) {
@@ -30,7 +30,7 @@ export default class UserService {
         else req_queried = req_queried + '&psrt="without"'
         if(fconfig.psrt_t) req_queried = req_queried + '&psrt_t=' + fconfig.psrt_t
         else req_queried = req_queried + '&psrt_t=desc'
-        return $api.post<IFilm[]>(req_queried, {query, limit, offset: page})
+        return $api.post<IFilmSearchResponse>(req_queried, {query, limit, offset: page})
     }
 
     static async getById(id: any, lng: string): Promise<AxiosResponse<IFilm>> {
@@ -47,6 +47,28 @@ export default class UserService {
 
     static async getUserBId(id: string, current: boolean): Promise<AxiosResponse<IUser>> {
         return $api.get<IUser>(`/user/get/${id}${current ? "?crr=true" : ""}`)
+    }
+
+    static async subscribeUser(id: string): Promise<AxiosResponse<any>> {
+        return $api.put<any>(`/user/${id}/friendship/init`)
+    }
+
+    static async describeUser(id: string): Promise<AxiosResponse<any>> {
+        return $api.put<any>(`/user/${id}/friendship/destroy`)
+    }
+
+    static async verifyDataAuthority(data:IUserAuthority): Promise<AxiosResponse<IUserAuthorityResponse>> {
+        return $api.get<IUserAuthorityResponse>(`/user/verify`, {
+            params: data
+        })
+    }
+
+    static async update(data:any): Promise<AxiosResponse<any>> {
+        return $api.post<any>('/user/update', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     }
 }
 

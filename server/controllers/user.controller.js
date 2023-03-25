@@ -3,28 +3,26 @@ const {validationResult} = require('express-validator');
 const ApiError = require('../exceptions/api.error');
 
 class UserController {
-    async registration(req, res, next) {
+    
+    async setTimestamp(req, res, next) {
         try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest(ApiError.econfig.validation_err, errors.array()))
-            }
-            const {email, password} = req.body;
-            const userData = await userService.registration(email, password);
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
-        } catch (e) {
-            next(e);
+            const data = await userService.setTimestamp(req.user.id, Date.now())
+            return res.status(200).json(data)
+        } catch(e) {
+            console.log(e)
         }
     }
 
-    async update(req, res, next) {
+    async registration(req, res, next) {
         try {
-            const {txt, password} = req.body
-            const {avatar} = req.files
-            await userService.update(req.user.id, txt, password, avatar)
-        } catch(e) {
-            console.log(e)
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) return next(ApiError.BadRequest(ApiError.econfig.validation_err, errors.array()))
+            const {email, password} = req.body;
+            const userData = await userService.registration(email, password);
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.status(200).json(userData);
+        } catch (e) {
+            next(e);
         }
     }
 
@@ -33,7 +31,7 @@ class UserController {
             const {email, password} = req.body;
             const userData = await userService.login(email, password);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+            return res.status(200).json(userData);
         } catch (e) {
             next(e);
         }
@@ -66,7 +64,7 @@ class UserController {
             const {refreshToken} = req.cookies;
             const userData = await userService.refresh(refreshToken);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+            return res.status(200).json(userData);
         } catch (e) {
             next(e);
         }
@@ -75,8 +73,48 @@ class UserController {
     async getUserBId(req, res, next) {
         try {
             const {id} = req.params
-            const user = await userService.getUserBId(id, req.user.id === id && req.query.crr ? true : false )
-            return res.json(user)
+            const user = await userService.getUserBId(id, (req.user && req.user.id === id) && req.query.crr ? true : false, req.user.id)
+            return res.status(200).json(user)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async subscribe(req, res, next) {
+        try {
+            const {id} = req.params 
+            const data = await userService.subscribe(id, req.user.id)
+            return res.status(200).json(data)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async describe(req, res, next) {
+        try {
+            const {id} = req.params 
+            const data = await userService.describe(id, req.user.id)
+            return res.status(200).json(data)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async verify(req, res, next) {
+        try {
+            if(req.query.username === req.user.username) return res.json({username:0})
+            const data = await userService.verify(req.query)
+            return res.json(data)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async update(req, res, next) {
+        try {
+            const {username, biography} = req.body
+            const data = await userService.update(req.user.id, {username, biography, avatar: req.files ? req.files.avatar : null})
+            return res.status(200).json(data)
         } catch(e) {
             next(e)
         }

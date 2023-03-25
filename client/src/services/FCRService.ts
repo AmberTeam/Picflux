@@ -15,6 +15,7 @@ export interface IMULTIDOMAINCH {
 export default class FCRService {
 
     static deartefactUrl(url: string): string {
+        console.log(url)
         if(url.includes("vcdn.icdn.ws")) return url.replace("https/", "https:/")
         if(url.includes("&#58;")) {
             return url.replace("&#58;", ":")
@@ -46,8 +47,8 @@ export default class FCRService {
 
     static async rewriteByHostname(frameurl: string, lChainCb: (arg: number) => void): Promise<IRWFC> {
         try {
+            console.log(frameurl)
             const deartefacted: string = this.deartefactUrl(frameurl)
-            console.log(deartefacted)
             const url_deconstructed: URL = new URL(deartefacted)
             const isVid167: IMULTIDOMAINCH = await this.checkForVid167(deartefacted, url_deconstructed.origin, lChainCb)
             const isTobacoWs: IMULTIDOMAINCH = await this.checkForApiTobacoWs(deartefacted, lChainCb)
@@ -124,6 +125,7 @@ export default class FCRService {
     static async rewriteVoidboost(embeedurl: string, lChainCb: (arg: number) => void): Promise<IRWFC> {
         let rewrited: string = ""
         try {
+            console.log(embeedurl)
             lChainCb(1)
             await fetch(embeedurl, 
                 {
@@ -138,7 +140,7 @@ export default class FCRService {
                 lChainCb(2)
                 rewrited = await res_txt.replace("'preroll':",  "'__undefined__':")
                                     .replaceAll("#00adef", "#f0a832")
-                                    .replace(`${res_txt.substring(res_txt.indexOf("https://unpkg.com"), res_txt.indexOf("index.js") + 8)}`, `/voidboost/playerjs?url=${res_txt.substring(res_txt.indexOf("https://unpkg.com"), res_txt.indexOf("index.js") + 8)}`)
+                                    .replace(`${res_txt.substring(res_txt.indexOf("https://unpkg.com"), res_txt.indexOf("index.js") + 8)}`, `http://localhost:5000/voidboost/playerjs?url=${res_txt.substring(res_txt.indexOf("https://unpkg.com"), res_txt.indexOf("index.js") + 8)}`)
                                     .replace('/thumbnails/', 'https://voidboost.net/thumbnails/')
                                     .replace("'?s='", `'${embeedurl}?s='`)
                                     .replace(`_url_params = ''`, `_url_params = ''; parent.postMessage('https://voidboost.net/embed/${embeedurl}?s='+ _season +'&e='+ _episode +'&h='+ cdn.player.getVBR() + _url_params, "*");`)

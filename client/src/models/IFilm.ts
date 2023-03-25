@@ -1,3 +1,5 @@
+import { IUserMin } from "./IUser"
+
 export interface IPlayer {
     url: string
     variant: number
@@ -11,6 +13,13 @@ interface IImdbCfg {
     description: string 
     poster: string
     name: string 
+}
+
+export interface IFilmComment {
+    data:string 
+    user: IUserMin
+    datef_ms: string 
+    datef_v: string
 }
 
 export interface IFilm {
@@ -28,4 +37,10 @@ export interface IFilm {
     wlChangeCb?: () => void
     imdb_cfg: IImdbCfg | undefined | null
     imdb_translate_status: string
+    comments: IFilmComment[]
+}
+
+export interface IFilmSearchResponse {
+    films: IFilm[]
+    can_load: boolean
 }

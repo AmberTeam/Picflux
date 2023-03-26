@@ -5,11 +5,8 @@ const tokenService = require('./token.service');
 const UserDto = require('../dtos/user.dto');
 const ApiError = require('../exceptions/api.error');
 const rid = require("random-id");
-const sqlite = require('sqlite3');
-const { default: mongoose } = require('mongoose');
 const DBAgent = require('../utils/db');
 const UserMinDto = require('../dtos/user.min.dto');
-const reparseArrExcludeMultipleCalls = require('../utils/logic');
 const fileService = require('./file.service');
 
 class UserService {
@@ -40,7 +37,6 @@ class UserService {
         const tokens = tokenService.generateTokens({...userDto});
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-        console.log("received")
         return {...tokens, user: userDto}
     }
 
@@ -95,7 +91,6 @@ class UserService {
         const friends_parsed=[]
         const subscribed = userData.friends.includes(uid)
         for(var i=0;i < userData.friends.length;i++) {
-            reparseArrExcludeMultipleCalls(userData.friends)
             const follower = await UserModel.findById(userData.friends[i])
             if(!follower) return 
             friends_parsed.push(new UserMinDto(follower))

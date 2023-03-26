@@ -1,10 +1,9 @@
-import React, {FC, useContext, useEffect, useState} from 'react'
+import {FC, useContext, useEffect} from 'react'
 import RegistrationPage from './components/pages/Auth/Registration'
 import LoginPage from './components/pages/Auth/Login'
 import HomePage from './components/pages/Home'
 import {Context} from "./index"
 import {observer} from "mobx-react-lite"
-import {IUser} from "./models/IUser"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Navbar from './components/Navbar'
 import LogModal from './components/LogModal'
@@ -20,7 +19,6 @@ import $api from './http'
 
 const App: FC = () => {
     const {store, wsc} = useContext(Context)
-    const [users, setUsers] = useState<IUser[]>([])
 
     const setTilestamp = async (): Promise<void> => {
         await $api.get('/user/tsp')
@@ -29,20 +27,23 @@ const App: FC = () => {
     const initSocketConnection = async (): Promise<void> => {
         const conn:Event = await wsc.init('ws://localhost:5001')
         if(conn.isTrusted) {
-            await wsc.send({halo: "sus"})
+            wsc.initListeners()
         }
     }
 
     useEffect(() => {
-        initSocketConnection()
-        setTilestamp()
-
         if (localStorage.getItem('token')) store.checkAuth()
         if(localStorage.getItem('lang')) store.checkLang()
         else store.setDefaultLang()
         if(localStorage.getItem('theme')) store.checkTheme()
         else store.setDefaultLang()
+        initSocketConnection()
+        setTilestamp()
     }, [])
+
+    useEffect(() => {
+        if(store.isAuth) wsc.send('authorize', {uid: store.user.id})
+    }, [store.isAuth])
 
     if (store.isLoading || !store.lang_ready) {
         return <div>Загрузка...</div>

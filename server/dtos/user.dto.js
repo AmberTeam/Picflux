@@ -8,7 +8,6 @@ module.exports = class UserDto {
     biography
 
     constructor(model) {
-        console.log(model.friends)
         this.avatar = `${process.env.API_URL}/static/${model.avatar}`
         this.id = model._id;
         this.username = model.username

@@ -19,7 +19,6 @@ class FilmService {
             const ownerDto = new UserMinDto(candidate)
             return ownerDto
         } else {
-            console.log('undefiend')
             return undefined 
         }
     }
@@ -29,7 +28,7 @@ class FilmService {
             DBAgent.db.get(DBAgent.__getByIdMethod, [id], async (err, row) => {
                 
                 const comments_parsed=[]
-                const test = await new Promise((resolve, reject) => {
+                await new Promise((resolve, reject) => {
                     DBAgent.db.all(`SELECT * FROM comments WHERE fid LIKE '${id}'`, async (e, data) => {
                         if(e) reject(e)
                         if(!data || !data.length) return resolve(null)
@@ -153,7 +152,7 @@ class FilmService {
     async removeWillReadFilm(userid, fid) {
         try {
             const user = await UserModel.findById(userid)
-            await user.watchLater.remove(fid)
+            user.watchLater.remove(fid)
             await user.save() 
             return {status: "ok"}    
         } catch(e) {
@@ -165,7 +164,7 @@ class FilmService {
     async addWillReadFilm(userid, fid) {
         try {
             const user = await UserModel.findById(userid)
-            await user.watchLater.push(fid)
+            user.watchLater.push(fid)
             await user.save() 
             return {status: "ok"}
         } catch(e) {
@@ -175,9 +174,6 @@ class FilmService {
     }
 
     async addComment(fid, uid, data) { 
-        console.log("fid: " + fid) 
-        console.log("uid: " + uid)
-        console.log("data: " + data)
         return new Promise((resolve, reject) => {
             const date = new Date()
             let day = date.getDate()
@@ -186,7 +182,6 @@ class FilmService {
             const datef_v = `${day}-${month}-${year}`
             const datef_ms = Date.now()
             DBAgent.db.run(`INSERT INTO comments(fid, uid, data, datef_ms, datef_v) VALUES('${fid}', '${uid}', '${data}', '${datef_ms}', '${datef_v}')`, [], async (e, rows) => {
-                console.log(e)
                 if(e) reject(ApiError.BadRequest())
                 const user = await UserModel.findById(uid)
                 const userDto = new UserMinDto(user)

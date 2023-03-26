@@ -3,49 +3,91 @@ const rid = require('random-id')
 
 const WSS = new ws.Server({port: process.env.WSS_PORT})
 
-//Env
+// Constants
 const CLIENTS = []
-var CLIENTS_IDS = [] 
+const SESSIONS = []
 
-function prepareSocket(scfg, scfg_id) {
-    CLIENTS.push(scfg)
-    CLIENTS_IDS.push(scfg_id)
+// Serving sockets
+function prepareSocket(soc) {
+    CLIENTS.push(soc)
+    broadcast({event: "connection", data: {
+        sckts: CLIENTS.map(client => client.id)
+    }})
 }
- 
 
-function removeSocket(scfg) {
-    CLIENTS_IDS.map((sckt, i) => {
-        if(sckt == scfg.id) {
-            if(CLIENTS[i].id == sckt.id) CLIENTS = CLIENTS.filter((client) => client.id !== scfg.id)
-            CLIENTS_IDS = CLIENTS_IDS.filter((client) => client !== scfg.id)
-            emit({action: "disconnect", data: {
-                sckts: CLIENTS_IDS
+function destroySocket(sid) {
+    CLIENTS.map((soc, i) => {
+        if(soc.id == sid) {
+            CLIENTS.map((soc, i) => {
+                if(soc.id === sid) delete CLIENTS[i]
+            })
+            SESSIONS.map((session, i) => {
+                if(session.ownid === sid.id) delete SESSIONS[i]
+            })
+            broadcast({event: "close", data: {
+                sckts: CLIENTS.map(soc => soc.id)
             }})
         }
     })
 }
 
-function emit(content) {
-    CLIENTS.map((client) => {
-        client.send(JSON.stringify(content))
+// Standard functionality
+function broadcast(data) { 
+    CLIENTS.map((soc) => {
+        soc.send(JSON.stringify(data))
     })
 }
 
-WSS.on("connection", (socket) => {
-    socket.id = rid(8, 'aA0')
-    prepareSocket(socket, socket.id)
+const emit = (sockid, data) => {
+    CLIENTS.map((soc) => {
+        if(soc.id === sockid) soc.send(JSON.stringify(data))
+    })
+}
 
-    socket.on("close", () => {
-        removeSocket(socket)
+// Business logic
+function initSession(session) {
+    SESSIONS.push(session);
+} 
+
+const destroyUserSessions = (sid) => {
+    SESSIONS.map((session, i) => {
+        if(session.ownid === sid) delete SESSIONS[i]
+    })
+}
+
+const emitListeners = (uid) => {
+    SESSIONS.map((session) => {
+        if(session.uid === uid) {
+            CLIENTS.map((soc, i) => {
+                if(soc.id === session.ownid) emit(soc.id, {event: "update-status", data: {
+                    uid,
+                    status: 1
+                }})
+            })
+        }
+    })
+}
+
+WSS.on("connection", (soc) => {
+    soc.id = rid(8, 'aA0')
+    prepareSocket(soc)
+
+    soc.on("close", () => {
+        destroyUserSessions(soc.id)
+        destroySocket(soc)
     })
 
-    socket.on("message", (data) => {
-        console.log(data.toString("utf8"))
+    soc.on("message", (e) => {
+        const data_p = JSON.parse(e)
+        switch(data_p.event) {
+            case "authorize":
+                emitListeners(data_p.data.uid)
+                break
+            case "session-init":
+                initSession({ownid:soc.id,uid:data_p.data.uid})
+                break
+        }
     })
-
-    emit({action: "connection", data: {
-        sckts: CLIENTS_IDS
-    }})
 })
 
  

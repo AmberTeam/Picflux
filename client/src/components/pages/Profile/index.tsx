@@ -19,7 +19,7 @@ import ContentModal from '../../ContentModal'
 const ProfilePage = () => {
 
     const {translate} = useTranslation()
-    const {store} = useContext(Context)
+    const {store, wsc} = useContext(Context)
     const { id } = useParams()
 
     const [user, setUser] = useState<IUser | null>(null)
@@ -37,7 +37,7 @@ const ProfilePage = () => {
             const response = await UserService.getUserBId(id as string, true)
             setUser({...response.data})
         } catch(e) {
-            setErr(true)
+            setErr(true) 
         }
     }
 
@@ -124,7 +124,14 @@ const ProfilePage = () => {
 
     useEffect(() => {
         fetchUser(id === store.user.id ? true : false)
+        wsc.send('session-init', {uid:id})
     }, [id])
+
+    useEffect(() => {
+        wsc.addListener('update-status', (e:any) => {
+            if(user) setUser({...user, status: e.data.status})
+        })
+    }, [user])
 
     if(err) return <UndefinedRoutePage/>
 

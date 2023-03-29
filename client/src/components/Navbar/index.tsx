@@ -95,18 +95,18 @@ const Navbar: FC = () => {
                         </div>
                         <div className={cl.HR}></div>
                         <div className={cl.Navigator_body}>
-                            <a className={cl.Navigator_link} href="/">
-                                {translate("navbar.opts.home")}
-                            </a>
-                            <AllowNotAuth>
-                                <a className={cl.Navigator_link} href="/login">
-                                    {translate("navbar.opts.profile")}
-                                </a>
-                            </AllowNotAuth>
                             <AllowAuth>
-                                <a className={cl.Navigator_link} href={`/profile/${store.user.id}/preview`}>
-                                    {translate("navbar.opts.profile")}
-                                </a>
+                                <>
+                                    <a className={cl.Navigator_link} href="/">
+                                        {translate("navbar.opts.home")}
+                                    </a>
+                                    <a className={cl.Navigator_link} href={`/profile/${store.user.id}/preview`}>
+                                        {translate("navbar.opts.profile")}
+                                    </a>
+                                    <a className={cl.Navigator_link} href="/inbox/overview">
+                                        Chat
+                                    </a>
+                                </>
                             </AllowAuth>
                         </div>
                     </div>

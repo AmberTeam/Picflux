@@ -22,7 +22,7 @@ const ProfilePage = () => {
     const {store, wsc} = useContext(Context)
     const { id } = useParams()
 
-    const [user, setUser] = useState<IUser | null>(null)
+    const [user, setUser] = useState<IUser>()
     const [err, setErr] = useState<boolean>(false)
     const [tab, setTab] = useState<number>(0)
     const [followActionLoading, setFAL] = useState<boolean>(false)
@@ -31,6 +31,7 @@ const ProfilePage = () => {
     const [profileEditErrs, setPEE] = useState<string[]>([])
     const [profileEditModalLoading, setPEML] = useState<boolean>(false)
     const [previewFile, setPreviewFile] = useState<File | null>(null)
+    const [onlineStatus, setOnlineStatus] = useState<boolean>(false)
     
     const reloadWL = async(): Promise<void> => {
         try {
@@ -44,8 +45,12 @@ const ProfilePage = () => {
     const fetchUser = async (current: boolean): Promise<void> => {
         try {
             const response = await UserService.getUserBId(id as string, current)
-            if(!response.data) setErr(true)
-            else setUser({...response.data})
+            if(!response.data) {
+                setErr(true)
+            } else {
+                setUser({...response.data})
+                setOnlineStatus(response.data.status === 1 ? true : false)
+            }
         } catch(e) {
             return setErr(true)
         }
@@ -124,14 +129,16 @@ const ProfilePage = () => {
 
     useEffect(() => {
         fetchUser(id === store.user.id ? true : false)
-        wsc.send('session-init', {uid:id})
     }, [id])
 
     useEffect(() => {
-        wsc.addListener('update-status', (e:any) => {
-            if(user) setUser({...user, status: e.data.status})
-        })
-    }, [user])
+        if(store.isSocketAuth) {
+            wsc.addListener('update-status', (e:any) => {
+                setOnlineStatus(true)
+            })
+            wsc.send('session-init', {uid:id})
+        }
+    }, [store.isSocketAuth])
 
     if(err) return <UndefinedRoutePage/>
 
@@ -228,7 +235,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div className={cl.Stat_separator}></div>
                                 <div className={`${cl.Stat_status} ${cl.Stat}`}>
-                                    <h3>{user.status ? "Online" : 'Offline'}</h3>
+                                    <h3>{onlineStatus ? "Online" : 'Offline'}</h3>
                                     <span>status</span>
                                 </div>
                             </div>

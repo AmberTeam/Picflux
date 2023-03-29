@@ -38,8 +38,15 @@ export default class Store {
     isLoading:boolean = false;
     isAuth:boolean = false;
 
+    isSocketAuth:boolean = false
+
     constructor() {
         makeAutoObservable(this);
+    }
+
+    //SOCKETS 
+    setSocketAuth(bool:boolean) {
+        this.isSocketAuth = bool
     }
 
     //ONLINE 

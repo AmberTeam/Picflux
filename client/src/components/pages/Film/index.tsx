@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef, useContext, FC} from 'react'
+import {useEffect, useState, useRef, useContext, FC, useCallback} from 'react'
 import { IFilm, IFilmComment, IPlayer } from '../../../models/IFilm'
 import {useParams} from 'react-router-dom'
 import cl from "./film.module.sass"
@@ -111,7 +111,7 @@ const FilmPage: FC = () => {
         return results
     }
 
-    const getFilmData = async (): Promise<void> => {
+    const getFilmData = useCallback(async (): Promise<void> => {
         setPlLStatus(-1)
         const response = await UserService.getById(id, store.getStoredLang())
         if(response.data.imdb_translate_status == 'err') setImdbErr(true)
@@ -123,7 +123,7 @@ const FilmPage: FC = () => {
         rewriteFilmDomByEmbeedUrl(filmConfig.players[0], filmConfig.players)
         if(filmConfig.watchLater?.includes(String(filmConfig.id))) setIsInWL(true)
         else setIsInWL(false)
-    }
+    }, [id])
 
     const changeWatchLater = async (): Promise<void> => {
         if(isInWatchLater == null) return  

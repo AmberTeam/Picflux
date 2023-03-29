@@ -23,7 +23,7 @@ export default class WebSocketController {
             const data = JSON.parse(e.data)
             const _e = data.event
             for(const listener of this.listeners) {
-                if(listener.event === _e) listener.handler(data)
+                if(listener.event === _e) listener.handler({...data, payload: JSON.parse(data.payload)})
             }
         })
     }

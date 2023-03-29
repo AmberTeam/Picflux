@@ -13,6 +13,7 @@ import SettingsPage from './components/pages/Settings'
 import UndefinedRoutePage from './components/pages/UndefRoute'
 import Footer from './components/Footer'
 import LogoutModal from './components/LogoutModal'
+import InboxPage from "./components/pages/Inbox"
 import "./sass/index.sass"
 import $api from './http' 
 
@@ -42,7 +43,11 @@ const App: FC = () => {
     }, [])
 
     useEffect(() => {
-        if(store.isAuth) wsc.send('authorize', {uid: store.user.id})
+        if(store.isAuth) {
+            wsc.send('authorize', {uid: store.user.id})
+            console.log("authorized")
+            store.setSocketAuth(true)
+        }
     }, [store.isAuth])
 
     if (store.isLoading || !store.lang_ready) {
@@ -72,6 +77,9 @@ const App: FC = () => {
                                 <Route path=":id/preview" element={<ProfilePage/>}/>
                                 <Route path="settings" element={<SettingsPage/>}/>
                                 <Route path="*" element={<UndefinedRoutePage/>}/>
+                            </Route>
+                            <Route path="/inbox">
+                                <Route path=":id" element={<InboxPage/>}/>
                             </Route>
                         </>
                     } 

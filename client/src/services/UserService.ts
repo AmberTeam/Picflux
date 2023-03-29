@@ -4,6 +4,7 @@ import {AuthResponse} from "../models/response/AuthResponse";
 import {IUser, IUserAuthority, IUserAuthorityResponse} from "../models/IUser";
 import {IFilm, IFilmSearchResponse} from "../models/IFilm"
 import { IDLC } from "../components/pages/Home";
+import { IInbox } from "../models/IDirect";
 
 export default class UserService {
     static async search(query: string, limit: number, page: number, fconfig: IDLC): Promise<AxiosResponse<IFilmSearchResponse>> {

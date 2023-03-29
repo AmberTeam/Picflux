@@ -4,6 +4,7 @@ export interface IUserMin {
     id:string 
     username:string 
     avatar:string
+    status?: number
 }
 
 export interface IUserAuthority {

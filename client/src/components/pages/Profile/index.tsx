@@ -15,6 +15,7 @@ import { AxiosResponse } from 'axios'
 import AllowAuth from '../../AllowAuth'
 import AllowOwner from '../../AllowOwner'
 import ContentModal from '../../ContentModal'
+import { RENDER_INTERVAL } from '../../../websocket/websocket'
 
 const ProfilePage = () => {
 
@@ -49,7 +50,7 @@ const ProfilePage = () => {
                 setErr(true)
             } else {
                 setUser({...response.data})
-                setOnlineStatus(response.data.status === 1 ? true : false)
+                if(response.data.status) setOnlineStatus(true)
             }
         } catch(e) {
             return setErr(true)
@@ -128,17 +129,23 @@ const ProfilePage = () => {
     }, [profileEditConfig])
 
     useEffect(() => {
+        console.log("loaded cause SIR = 1")
         fetchUser(id === store.user.id ? true : false)
     }, [id])
 
     useEffect(() => {
         if(store.isSocketAuth) {
             wsc.addListener('update-status', (e:any) => {
-                setOnlineStatus(true)
+                setOnlineStatus(e.payload.status === 0 ? false : true)
             })
             wsc.send('session-init', {uid:id})
         }
     }, [store.isSocketAuth])
+    
+
+    useEffect(() => {
+        console.log(onlineStatus)
+    }, [onlineStatus])
 
     if(err) return <UndefinedRoutePage/>
 

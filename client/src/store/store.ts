@@ -13,12 +13,37 @@ import ru_img from "../img/lang_ic/ru.png"
 import ukr_img from "../img/lang_ic/ukr.png"
 import { TUser } from "react-telegram-auth";
 import { IRQDTO, RQDTA } from "../models/IRQueue";
+import { IChat } from "../models/IDirect";
+import { IMessage } from "../models/IMessage";
+import {toJS} from "mobx"
 
 export interface ILogModal {
     code: string,
     alt: string,
     status?: number,
     duration?: number
+}
+
+export interface KeyMemoInterface {
+    payload: any
+    key: any
+    tag?: string
+}
+
+export interface IAlert { 
+    data: any,
+    tag: string
+}
+
+export interface IChatFragment {
+    id:number
+    messages:IMessage[]
+}
+
+export interface IChatConfig {
+    chatcfg: IChat
+    fragments: IChatFragment[]
+    notseen: boolean
 }
 
 export default class Store {
@@ -40,8 +65,59 @@ export default class Store {
 
     isSocketAuth:boolean = false
 
+    alert:IAlert | null = null
+    chatfragments:IChatConfig[] = []
+
     constructor() {
         makeAutoObservable(this);
+    }
+
+    //ALERTS 
+    pushAlert(payload:any) {
+        this.alert = payload
+    }
+
+    //CHAT FRAGMENTS
+    verifyFragmentExists(chatindex:number, indexEl: IMessage): number {
+        for(var i=0;i < this.chatfragments[chatindex].fragments.length;i++) {
+            const js = toJS(this.chatfragments[chatindex].fragments[i])
+            for(var _i=0;_i < js.messages.length;_i++) {
+                const checkEl = js.messages[_i]
+                if(checkEl.id === indexEl.id && checkEl.data === indexEl.data && checkEl.owner === indexEl.owner) return 1
+            }
+        }
+        return 0
+    }
+
+    storeChatFragment(chatcfg:IChat, fragment:IMessage[]): number {
+        for(var i=0;i < this.chatfragments.length;i++) {
+            if(this.chatfragments[i].chatcfg.chatid === chatcfg.chatid) {
+                const fragexists:number = this.verifyFragmentExists(i, fragment[0])
+                if(fragexists===0) {
+                    this.chatfragments[i].fragments.push({
+                        id: this.chatfragments[i].fragments.length,
+                        messages: fragment
+                    })
+                }
+                return 1
+            }
+        }
+        this.chatfragments.push({
+            chatcfg,
+            fragments: [{id:0, messages:fragment}],
+            notseen: false
+        } as IChatConfig)
+        return 0
+    }
+
+    getChatFragments(chatid:string): IChatConfig | null {
+        for(var i=0;i < this.chatfragments.length;i++) {
+            if(this.chatfragments[i].chatcfg.chatid === chatid) {
+                return this.chatfragments[i]
+            }
+        }
+
+        return null
     }
 
     //SOCKETS 
@@ -51,7 +127,6 @@ export default class Store {
 
     //ONLINE 
     changeOnline(sckts: string[]): void {
-        console.log(sckts)
         this.online = sckts
     }
     addOnlineUser(uid: string): void {
@@ -112,9 +187,6 @@ export default class Store {
         this.setLang(lang)
         this.lang_ready = true 
     }
-
-    //RESTORE QUEUE
-
 
     //THEME 
     setDefaultTheme(): void {

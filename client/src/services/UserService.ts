@@ -5,6 +5,7 @@ import {IUser, IUserAuthority, IUserAuthorityResponse} from "../models/IUser";
 import {IFilm, IFilmSearchResponse} from "../models/IFilm"
 import { IDLC } from "../components/pages/Home";
 import { IInbox } from "../models/IDirect";
+import { IAlert } from "../components/Navbar";
 
 export default class UserService {
     static async search(query: string, limit: number, page: number, fconfig: IDLC): Promise<AxiosResponse<IFilmSearchResponse>> {
@@ -70,6 +71,10 @@ export default class UserService {
                 'Content-Type': 'multipart/form-data'
             }
         })
+    }
+
+    static async getAlerts(): Promise<AxiosResponse<IAlert[]>> {
+        return $api.get<IAlert[]>('/user/alerts/incoming')
     }
 }
 

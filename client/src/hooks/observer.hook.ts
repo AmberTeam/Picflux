@@ -4,6 +4,7 @@ export const useObserver = (ref: any, canLoad: boolean, deps: any[], isLoading: 
     const observer = useRef<any>(null);
 
     useEffect(() => {
+        if(isLoading) return 
         if(observer.current) observer.current.disconnect();
 
         var cb = function(entries: any, observer: any) {

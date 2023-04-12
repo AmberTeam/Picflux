@@ -22,7 +22,7 @@ const Footer: FC = () => {
     const {store} = useContext(Context)
 
     useEffect(() => {
-        if(location.pathname.includes('film') || location.pathname.includes('login') || location.pathname.includes('registration'))
+        if(location.pathname.includes('film') || location.pathname.includes('login') || location.pathname.includes('registration') || location.pathname.includes('inbox'))
             setPrimary(true)
         else 
             setPrimary(false)

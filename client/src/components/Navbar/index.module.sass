@@ -154,9 +154,97 @@
                     font-family: 'Roobert'
                     color: var(--color)
                     text-decoration: none
+                    overflow: hidden
 
                     &:hover 
                         background: var(--navigator-link-bg)
+
+                    &.Inactive 
+                        height: 0
+                        padding: 0
+                        font-size: 0
+
+                    
+                    .Navigator_ex_header
+                        .Navigator_ex_exec
+                            overflow: hidden
+                            transition: .2s all ease
+                            border: none 
+
+                            svg 
+                                height: 0 
+                                width: 0
+
+                    .Navigator_ex_body 
+                        width: 0 
+                        height: 0 
+                        transition: .2s all ease 
+                        overflow: hidden
+
+
+                    &.Navigator_link_ex
+                        .Navigator_ex_header
+                            display: flex
+                            justify-content: space-between
+
+                    &.Active 
+                        &:hover 
+                            background: transparent
+
+                            .Navigator_ex_header
+
+                                .Navigator_ex_title 
+                                    .Underline 
+                                        width: 100%
+
+
+                        .Navigator_ex_header
+
+                            .Navigator_ex_title 
+                                font-size: 18px
+                                font-style: italic
+                                display: grid
+
+                                .Underline 
+                                    transition: .2s all ease
+                                    width: 40%
+                                    height: 1px 
+                                    background: var(--color-a)
+                            .Navigator_ex_exec
+                                overflow: visible
+                                cursor: pointer
+                                background: transparent 
+                                border: none
+
+                                &:hover 
+                                    svg 
+                                        transform: rotateZ(90deg)
+
+                                svg 
+                                    transition: .2s all ease
+                                    width: 14px 
+                                    height: 14px
+                                    fill: var(--color)
+
+                        .Navigator_ex_body 
+                            margin-top: 1.5rem
+                            font-size: 12px
+                            width: 100%
+                            height: 100%
+                            transition: .2s all ease 
+                            overflow: auto 
+                            max-height: calc(100vh - 62px - 23px - 6rem - 32px)
+                            display: grid 
+
+                            &::-webkit-scrollbar 
+                                width: 3px
+
+                            &::-webkit-scrollbar-track 
+                                background: transparent
+                            
+                            &::-webkit-scrollbar-thumb 
+                                background: var(--color-a)
+                                border-radius: 3px
 
     &.Active
         visibility: visible

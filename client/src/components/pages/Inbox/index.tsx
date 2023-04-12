@@ -6,10 +6,12 @@ import { IChat } from "../../../models/IDirect"
 import InboxService from "../../../services/InboxService"
 import Chat from "./Chat"
 import ChatListItem from "./ChatListItem"
+import cl from './index.module.sass'
 
 
-const InboxPage = () => {
+const InboxPage: FC = () => {
     const {id} = useParams()
+    const {wsc, store} = useContext(Context)
     const [inboxChats, setInboxChats] = useState<IChat[]>([])
     const [userId, setUserId] = useState<string>("")
     const [activeChat, setActiveChat] = useState<IChat | null>(null)
@@ -31,11 +33,13 @@ const InboxPage = () => {
     }, [userId])
 
     const onChatSelect = (chatid:string): void => {
+        wsc.send('chatroom-destroy', {chatid: activeChat?.chatid, uid: store.user.id})
         setActiveChat(inboxChats.find((chat:IChat) => chat.chatid === chatid) as IChat)
         window.history.pushState({}, 'onchatselect', '/inbox/' + chatid)
     }
 
     const onPopState = useCallback((chatid:string): void => {
+        wsc.send('chatroom-destroy', {chatid: activeChat?.chatid, uid: store.user.id})
         setActiveChat(inboxChats.find((chat:IChat) => chat.chatid === chatid) as IChat)
     }, [inboxChats])
 
@@ -61,30 +65,22 @@ const InboxPage = () => {
     }, [])
 
     return (
-        <div>
-            <h1>INBOX</h1>
-            <br/>
-            <div style={{display: "flex"}}>
-                <div>
-                    {
-                        inboxChats.map((chat: IChat) => 
-                            <ChatListItem chat={chat} key={chat.chatid} handler={(chatid:string) => onChatSelect(chatid)}/>
-                        )
-                    }
-                    <button onClick={() => createChat()}>
-                        create a new chat
-                    </button>
-                    <input onChange={e => setUserId(e.target.value)}/>
-                </div>
-                <div>
-                    {
-                        activeChat
-                            ?
-                            <Chat config={activeChat}/>
-                            :
-                            <h1> Select user and start messaging!</h1>
-                    }
-                </div>
+        <div className={cl.InboxPage_container}>
+            <div className={cl.InboxPage_chatlist}>
+                {
+                    inboxChats.map((chat: IChat) => 
+                        <ChatListItem chat={chat} key={chat.chatid} handler={(chatid:string) => onChatSelect(chatid)} active={chat.chatid === activeChat?.chatid}/>
+                    )
+                }
+            </div>
+            <div className={cl.Chat_container}>
+                {
+                    activeChat
+                        ?
+                        <Chat config={activeChat}/>
+                        :
+                        <h1> Select user and start messaging!</h1>
+                }
             </div>
         </div>
     )

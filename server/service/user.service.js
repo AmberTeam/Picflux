@@ -8,6 +8,7 @@ const rid = require("random-id");
 const DBAgent = require('../utils/db');
 const UserMinDto = require('../dtos/user.min.dto');
 const fileService = require('./file.service');
+const WSC = require("../websocket/index")
 
 class UserService {
     async setTimestamp(uid, data) { 
@@ -116,17 +117,26 @@ class UserService {
             return {
                 ...userDto,
                 watchLater
-            }
+            } 
         }
         return userDto
     }
 
-    async subscribe(uid, foid) {
+    async subscribe(uid, f) {
         try {
             const candidate = await UserModel.findById(uid)
             if(!candidate) throw ApiError.BadRequest(ApiError.econfig.bad_request)
-            candidate.friends.push(foid)
+            candidate.friends.push(f.id)
             await candidate.save()
+            this.storeAlert(f.id, uid, 'sub_inc')
+            const fDto = new UserMinDto({...f, status: false, avatar: f.avatar.replace(process.env.API_URL + '/static/', '')})
+            WSC.syncGlobalEvent(uid, {
+                owner: fDto, 
+                recipient: uid, 
+                tag: 'sub_inc',
+                timestamp: Date.now(),
+                id: rid(12, 'aA0')
+            })
             return {status: "ok"}
         } catch(e) {
             console.error(e)
@@ -134,7 +144,7 @@ class UserService {
         }
     }
 
-    async describe(uid, foid) {
+    async unsubscribe(uid, foid) {
         try {
             const candidate = await UserModel.findById(uid)
             if(!candidate) throw ApiError.BadRequest(ApiError.econfig.bad_request)
@@ -173,6 +183,46 @@ class UserService {
         }), biography: data.biography}
         return {data: userDto,status:"ok"}
     }
+
+    async getAlertsIncoming(uid) {
+        return new Promise(async (resolve, reject) => {
+
+            await DBAgent.db.all(`SELECT * FROM alerts WHERE recipient = "${uid}" AND tag NOT LIKE "msg"`, async (err, data) => {
+                if(err) {
+                    console.error(err)
+                    return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                }
+
+                for(var i=0;i < data.length;i++) {
+                    const owner = await UserModel.findById(data[i].owner)
+                    const ownerDto = new UserMinDto(owner)
+                    data[i].owner = ownerDto
+                }
+                
+                const reverse = data.reverse()
+                
+                resolve({
+                    status: "ok",
+                    alerts: reverse
+                })
+            })
+        })
+    }
+
+    async storeAlert(uid, rid, tag) {
+        return new Promise(async (resolve, reject) => {
+            await DBAgent.db.run(`INSERT INTO alerts (owner, recipient, tag, timestamp) VALUES (
+                "${uid}",
+                "${rid}",
+                "${tag}",
+                "${Date.now()}"
+            )`, )
+            resolve({
+                status: "ok"
+            })
+        })
+    }
+
 }
 
 module.exports = new UserService();

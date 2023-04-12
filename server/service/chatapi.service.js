@@ -2,7 +2,7 @@ const ApiError = require("../exceptions/api.error")
 const DBAgent = require("../utils/db")
 const uuid = require("uuid")
 const UserModel = require("../models/user.model")
-const UserMinDto = require("../dtos/user.min.dto")
+const UserMinDto = require("../dtos/user.min.dto") 
  
 class ChatApiService {
     async getUserInbox(uid) {
@@ -11,8 +11,8 @@ class ChatApiService {
                 if(err) {
                     console.error(err)
                     return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
-                } 
-
+                }  
+ 
                 const chats_p = [] 
 
                 for(var i=0;i<data.length;i++) {
@@ -48,12 +48,41 @@ class ChatApiService {
         })
     }
 
+    async getChatHistory(uid, chatid, offset, limit) {
+        return new Promise((resolve, reject) => {
+            DBAgent.db.all(`SELECT * FROM messages WHERE chatid LIKE '${chatid}' ORDER BY id DESC LIMIT ${offset}, ${limit}`, (err, data) => {
+                if(err) console.log(err)
+                resolve({
+                    status: "ok",
+                    chatid,
+                    history: data.reverse()
+                })
+            })
+        })
+    }
+
     async createChat(members) {
         return new Promise((resolve, reject) => {
             const chatid = uuid.v4()
             const members_str = JSON.stringify(members)
             DBAgent.db.run(`INSERT INTO chats(chatid, members) VALUES("${chatid}", '${members_str}')`, (err, data) => {
+                if(err) throw reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+            })
+        })
+    }
 
+    async storeMsg(owner, chatid, data) {
+        return new Promise((resolve, reject) => {
+            const date = new Date()
+            let day = date.getDate()
+            let month = date.getMonth()
+            let year = date.getFullYear()
+            const datef_v = `${day}-${month}-${year}`
+            DBAgent.db.run(`INSERT INTO messages(chatid, owner, data, date) VALUES("${chatid}", "${owner}", "${data}", "${datef_v}")`, (err, data) => {
+                if(err) console.log(err)
+                resolve({
+                    status: "ok"
+                })
             })
         })
     }

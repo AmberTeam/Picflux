@@ -1,0 +1,191 @@
+.InboxPage_container 
+    display: grid
+    gap: 3rem
+    height: 85vh
+    padding: 0 3rem
+    grid-template-columns: 40% calc(60% - 3rem)
+    margin-bottom: 3rem
+
+    .InboxPage_chatlist
+        padding: .5rem 0
+        width: 100%
+        background: var(--fg)
+        border-radius: 16px
+        overflow: hidden
+        display: grid
+        align-content: start
+
+        .ChatListItem_container
+            transition: .2s all ease
+            padding: .5rem 1rem .5rem 1rem
+            background: transparent
+            border: none 
+            outline: none
+            color: var(--color)
+            width: 100%
+            cursor: pointer
+            font-family: 'Roobert'
+            display: flex
+            justify-content: space-between
+            align-items: center
+
+            .ChatListItem_alerts
+                background: #ED4337 
+                width: 20px
+                height: 20px 
+                display: flex
+                justify-content: center 
+                align-items: center
+                border-radius: 20px
+                font-size: 11px
+
+            &.Active 
+                background: var(--bg)
+                pointer-events: none
+            
+            &:hover 
+                background: var(--bg)
+
+            .ChatListItem_profile 
+                display: flex
+                gap: .5rem
+            
+                .Avatar
+                    .Profile_avatar
+                        width: 44px
+                        height: 44px 
+                        border-radius: 44px
+                
+                .Content 
+                    display: grid
+                    justify-items: start
+                    align-items: center
+                    align-content: center
+
+                    .Profile_username 
+                        font-style: italic
+                    
+                    .Profile_status 
+                        color: rgba(255, 255, 255, .2)
+                        font-size: 12px
+                        
+                        &.Active 
+                            color: #78de45
+                            font-weight: bold
+
+    .Chat_container 
+        background: var(--fg)
+        border-radius: 16px
+        max-height: 85vh
+
+        .Chat_inner 
+            padding: 1rem
+            display: grid
+            gap: 1rem
+            width: 100%
+
+            .Chat_info 
+                display: flex
+                gap: .5rem
+                align-items: center
+
+                .Chat_avatar
+                    width: 32px
+                    height: 32px
+                    border-radius: 32px
+
+                .Chat_username
+                    font-size: 12px
+        
+            .Chat_messages 
+                height: calc(85vh - 5rem)
+                display: grid
+                gap: 1rem
+                align-content: space-between
+
+                .Messages_container
+                    overflow: auto
+                    height: 100%
+                    display: grid
+                    gap: 1rem
+                    //justify-content: start
+                    
+                    .Loading_container 
+                        height: 72vh
+                        display: grid
+                        justify-content: center
+                        align-items: center
+                        justify-items: center
+                        align-content: center
+                        gap: 1rem
+                        font-size: 12px
+
+                    .Message_container 
+                        background: var(--color)
+                        color: var(--fg)
+                        max-width: 40%
+                        word-break: break-word
+                        padding: .5rem
+
+                        &.Default 
+                            //margin-right: auto
+                            border-top-left-radius: 16px 
+                            border-top-right-radius: 16px 
+                            border-bottom-left-radius: 6px 
+                            border-bottom-right-radius: 16px
+                            background: var(--color)
+
+                        &.Current 
+                            //margin-left: auto 
+                            border-top-left-radius: 16px 
+                            border-top-right-radius: 16px 
+                            border-bottom-left-radius: 16px 
+                            border-bottom-right-radius: 6px
+                            background: var(--color)
+                        
+
+                    &::-webkit-scrollbar 
+                        width: 3px
+
+                    &::-webkit-scrollbar-track 
+                        background: transparent
+                    
+                    &::-webkit-scrollbar-thumb 
+                        background: var(--color-a)
+                        border-radius: 3px
+                
+                .Messages_form
+                    display: flex 
+                    gap: .5rem
+                    width: 100%
+
+                    .Messages_input 
+                        background: transparent 
+                        border: 2px solid var(--color)
+                        border-radius: 100px
+                        width: 100%
+                        outline: none
+                        padding: 0 1rem
+                        color: var(--navigator-border)
+                        font-family: 'Roobert'
+
+                        &:focus 
+                            color: var(--color)
+
+                    .Messages_submit
+                        display: flex
+                        background: var(--color)
+                        border: none
+                        outline: none 
+                        padding: .7rem 1rem
+                        border-radius: 100px
+                        color: var(--fg)
+                        font-weight: bold
+                        font-family: 'Roobert'
+                        cursor: pointer
+
+                        .Ic 
+                            
+
+                    
+                    

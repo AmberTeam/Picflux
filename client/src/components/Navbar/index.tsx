@@ -12,6 +12,20 @@ import { ScrollDirection } from '../../hooks/sd.hook'
 import LangDropdown from '../UI/LangDropdown'
 import ThemeTumbler from '../UI/ThemeTumbler'
 import amber_down from "../../img/amber_png_down_cropped.png"
+import {toJS} from "mobx"
+import { IUserMin } from '../../models/IUser'
+import UserService from '../../services/UserService'
+import InboxAlert from './InboxAlert'
+import { AxiosResponse } from 'axios'
+import LoaderMini from '../UI/LoaderMini'
+
+export interface IAlert {
+    id: string
+    owner: IUserMin
+    tag: string 
+    timestamp: string
+    recipient: string
+}
 
 const Navbar: FC = () => {
     
@@ -23,18 +37,42 @@ const Navbar: FC = () => {
 
     const [isAuth, setIsAuth] = useState<boolean>(false)
     const [navigatorActive, setNavigatorActive] = useState<boolean>(false)
+    const [alertsInbox, setAlertsInbox] = useState<number>(0)
+    const [alerts, setAlerts] = useState<IAlert[]>([])
+    const [chapterActive, setChapterActive] = useState<string | null>(null)
+    const [chapterLoading, setChapterLoading] = useState<boolean>(false)
 
     const location = useLocation()
 
+    const fetchAlerts = async () => {
+        setChapterLoading(true) 
+        const alerts:AxiosResponse<any> = await UserService.getAlerts()
+        setAlerts(alerts.data.alerts)
+        setChapterLoading(false)
+    }
+
     useEffect(() => {
-        if(location.pathname == '/login' || location.pathname == '/registration') setIsAuth(true)
+        if(location.pathname === '/login' || location.pathname === '/registration') setIsAuth(true)
         else setIsAuth(false)
     }, [location])
 
+    useEffect(() => {
+        if(store.alert) {
+            const alert_js = toJS(store.alert)
+            switch(alert_js.tag) {
+                case "msg": 
+                    setAlertsInbox(alertsInbox + 1)
+                    break
+                default: 
+                    setAlerts([alert_js, ...alerts] as IAlert[])
+            }
+        }
+    }, [store.alert])
 
     useEffect(() => {
-
-    }, [navigatorActive])
+        if(chapterActive) fetchAlerts()
+        if(!chapterActive) setAlerts([])
+    }, [chapterActive])
 
     if(isAuth) return <a href="/" className={cl.Return_btn}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -97,17 +135,60 @@ const Navbar: FC = () => {
                         <div className={cl.Navigator_body}>
                             <AllowAuth>
                                 <>
-                                    <a className={cl.Navigator_link} href="/">
+                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/">
                                         {translate("navbar.opts.home")}
                                     </a>
-                                    <a className={cl.Navigator_link} href={`/profile/${store.user.id}/preview`}>
+                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href={`/profile/${store.user.id}/preview`}>
                                         {translate("navbar.opts.profile")}
                                     </a>
-                                    <a className={cl.Navigator_link} href="/inbox/overview">
-                                        Chat
+                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/inbox/overview">
+                                        Chat {alertsInbox > 0 ? alertsInbox : null}
+                                    </a>
+                                    <div className={`${cl.Navigator_link} ${cl.Navigator_link_ex} ${cl.Chapter} ${chapterActive === 'inbox' ? cl.Active : cl.Passive}`} onClick={() => chapterActive !== "inbox" && setChapterActive('inbox')}>
+                                        <div className={cl.Navigator_ex_header}>
+                                            <div className={cl.Navigator_ex_title}>
+                                                <span>Inbox</span>
+                                                <span className={cl.Underline}></span>
+                                            </div>
+                                            <button className={cl.Navigator_ex_exec} onClick={() => setChapterActive(null)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div className={cl.Navigator_ex_body}>
+                                            {
+                                                chapterLoading
+                                                    ?
+                                                        <LoaderMini/>
+                                                    :
+                                                        alerts.length 
+                                                            ?
+                                                                alerts.map((alert:IAlert) => 
+                                                                    <InboxAlert {...alert} key={alert.id}/>
+                                                                )
+                                                            : 
+                                                                <div className={cl.Null_container}>
+                                                                    Looks like here is nothing to see :/
+                                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/inbox/overview">
+                                        Ctest
                                     </a>
                                 </>
                             </AllowAuth>
+                            <AllowNotAuth>
+                                <>
+                                    <a className={cl.Navigator_link} href="/">
+                                        {translate("navbar.opts.home")}
+                                    </a>
+                                    <a className={cl.Navigator_link} href="/login">
+                                        {translate("navbar.opts.profile")}
+                                    </a>
+                                </>
+                            </AllowNotAuth>
                         </div>
                     </div>
                     <div className={cl.Navigator_bottom}>

@@ -7,9 +7,10 @@ const cookieParser = require("cookie-parser")
 const mongoose = require("mongoose") 
 const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
-const proxyRouter = require("./routes/proxy.router")
+const proxyRouter = require("./routes/proxy.router") 
 const Debugger = require("./utils/debugger")
-const app = express()     
+const app = express() 
+const WSC = require("./websocket/index")   
 
 app.use(proxyRouter)
 app.use('/static', express.static(path.join(__dirname, '/static')))
@@ -52,7 +53,7 @@ async function bootstrap() {
   
         app.listen(process.env.PORT, () => console.log(`\n[server] Listening on ${process.env.PORT} \n`))
         //Init WebSocketServer
-        require("./websocket/index")
+        WSC.initialize()
         console.log(`[WSS] Listening on ${process.env.WSS_PORT}`) 
 
     } catch(e) {

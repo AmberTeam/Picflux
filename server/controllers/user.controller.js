@@ -83,17 +83,17 @@ class UserController {
     async subscribe(req, res, next) {
         try {
             const {id} = req.params 
-            const data = await userService.subscribe(id, req.user.id)
+            const data = await userService.subscribe(id, req.user)
             return res.status(200).json(data)
         } catch(e) {
             next(e)
         }
     }
 
-    async describe(req, res, next) {
+    async unsubscribe(req, res, next) {
         try {
             const {id} = req.params 
-            const data = await userService.describe(id, req.user.id)
+            const data = await userService.unsubscribe(id, req.user.id)
             return res.status(200).json(data)
         } catch(e) {
             next(e)
@@ -116,6 +116,25 @@ class UserController {
             const data = await userService.update(req.user.id, {username, biography, avatar: req.files ? req.files.avatar : null})
             return res.status(200).json(data)
         } catch(e) {
+            next(e)
+        }
+    }
+
+    async getAlertsIncoming(req, res, next) {
+        try {
+            const alerts = await userService.getAlertsIncoming(req.user.id)
+            return res.status(200).json(alerts)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async storeAlert(req, res, next) {
+        try { 
+            const {rid, tag} = req.body
+            const alerts = await userService.storeAlert(req.user.id, rid, tag)
+            return res.status(200).json(alerts)
+        } catch(e) { 
             next(e)
         }
     }

@@ -47,7 +47,7 @@ eval(function(p, a, c, k, e, d) {
         //.replace(`if(is_sleep==1){hls.loadSource(url)}`, `console.log("hlsr: " + url);hls.loadSource(url);`)
         //.replace(`hls.loadSource(url)`, `console.log("hlsr: " + url);hls.loadSource(url);`)
         //.replace(`var MediaVideo=function(url,container,pip){`, `var MediaVideo=function(url,container,pip){console.log("NEW MEDIA VIDEO");`)
-        .replace(`media=new MediaVideo(x,o.mediacontainer,false)`, `console.log(o);const xr = new URL(x);media=new MediaVideo(x.replace(xr.origin, "http://192.168.2.74") + "?nrw=" + xr.origin,o.mediacontainer,false);`)
+        .replace(`media=new MediaVideo(x,o.mediacontainer,false)`, `console.log(o);const xr = new URL(x);media=new MediaVideo(x.replace(xr.origin, "http://localhost:5000") + "?nrw=" + xr.origin,o.mediacontainer,false);`)
         
     console.log("CIMBER_ADREM: SUCCESSFULLY CONFIGURED SCRIPT FOR PROXYING")
     return pr

@@ -15,7 +15,7 @@ class ChatRoom {
     }
 
     destroyActiveMember(sid) {
-        this.members_a.splice(sid, 1)
+        this.members_a = this.members_a.filter(el => el.sid !== sid)
     }
 }
 

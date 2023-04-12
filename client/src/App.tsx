@@ -26,7 +26,7 @@ const App: FC = () => {
     }
 
     const initSocketConnection = async (): Promise<void> => {
-        const conn:Event = await wsc.init('ws://localhost:5001')
+        const conn:Event = await wsc.init(`ws://localhost:5001?token=${localStorage.getItem('token')}`)
         if(conn.isTrusted) {
             wsc.initListeners()
         }
@@ -45,8 +45,12 @@ const App: FC = () => {
     useEffect(() => {
         if(store.isAuth) {
             wsc.send('authorize', {uid: store.user.id})
-            console.log("authorized")
             store.setSocketAuth(true)
+            console.log("setted a push alert")
+            wsc.addListener('push-alert', (e:any) => {
+                console.log(e)
+                store.pushAlert(e.payload)
+            })
         }
     }, [store.isAuth])
 

@@ -1,28 +1,69 @@
 const rid = require('random-id')
 const StatusSession = require('./obj/session')
 const ChatRoom = require("./obj/chatroom")
+const jwt = require('jsonwebtoken');
 
 class WebSocketController {
     ws
     clients
     status_sessions
-    chatrooms
+    chatrooms 
 
     constructor(ws) {
         this.ws = ws
         this.clients=[]
         this.status_sessions=[]
         this.chatrooms=[]
+    } 
+
+    emit_proaccess(expression, ex_val, event, data) {
+        for(var i=0;i < this.clients.length;i++) {
+            if(this.clients[i][expression] === ex_val) {
+                var data_c = data
+                if(data && {}.toString.call(data) === '[object Function]') data_c = data(this.clients[i])
+                console.log(this.clients[i].uid)
+                this.clients[i].send(JSON.stringify({
+                    event, 
+                    payload: JSON.stringify(data_c),
+                    timestamp: Date.now()
+                }))
+                return 1
+            }
+        }
+        return 0
     }
 
     emit(sid, event,  data) {
         for(var i=0;i < this.clients.length;i++) {
             if(this.clients[i].id === sid) {
-                this.clients[i].send(JSON.stringify({event, payload: JSON.stringify(data)}))
+                this.clients[i].send(JSON.stringify({
+                    event, 
+                    payload: JSON.stringify(data),
+                    timestamp: Date.now()
+                }))
                 return 1
             }
         }
         return 0
+    }
+
+    broadcast_arrtype_proaccess(arr, expression, event, data) {
+        if(arr.length === 1) return this.emit_proaccess(expression, arr[0], event, data)
+        if(arr.length > 1) for(var i=0;i < arr.length - 1;i++) this.emit_proaccess(expression, arr[i], event, data)
+    }
+
+    broadcast_arrtype(arr, event, data) {
+        for(var i=0;i < arr.length;i++) this.emit(arr[i], event, data)
+    }
+ 
+    chatroom_broadcast(chatid, event, payload) {
+        for(var i=0;i<this.chatrooms.length;i++) { 
+            if(this.chatrooms[i].chatid === chatid) {
+                for(var _i=0;_i<this.chatrooms[i].members_a.length;_i++) {
+                    this.emit(this.chatrooms[i].members_a[_i].sid, event, payload)
+                }
+            }
+        }
     }
 
     broadcast(event, data) {
@@ -46,7 +87,6 @@ class WebSocketController {
         return 0
     }
     
-
     authorizeClient(sid, uid) {
         for(var i=0;i<this.clients.length;i++) {
             if(this.clients[i].id === sid) {
@@ -58,8 +98,11 @@ class WebSocketController {
     }
 
     emitStatusListeners(token) {
-        for(var i=0;i < this.status_sessions.length;i++) if(this.status_sessions[i].uid === token) 
-            this.emit(this.status_sessions[i].ownid, 'update-status', {uid: this.status_sessions[i].uid, status: 1})
+        for(var i=0;i < this.status_sessions.length;i++) {
+            if(this.status_sessions[i].uid === token) {
+                this.emit(this.status_sessions[i].ownid, 'update-status', {uid: this.status_sessions[i].uid, status: 1})
+            }
+        }
     }
 
     destroyClientSessions(sid) {
@@ -71,7 +114,7 @@ class WebSocketController {
     initStatusSession(cfg) {
         const statusSession = new StatusSession(cfg)
         this.status_sessions.push(statusSession)
-     
+
         for(var i=0;i < this.clients.length;i++) {
             if(this.clients[i].uid === statusSession.uid) {
                 this.emit(statusSession.ownid, "update-status", {
@@ -89,51 +132,73 @@ class WebSocketController {
         return null
     }
 
-    initChatRoom(sid, cfg) {
+    initChatRoom(sid, uid, cfg) {
         const ex = this.checkActiveChatRoom(cfg.chatid)
         if(ex === null) {
-            const chatroom = new ChatRoom({...cfg, members_a: [sid]})
+            const chatroom = new ChatRoom({...cfg, members_a: [{sid, uid}]})
             return this.chatrooms.push(chatroom)
         }
 
-        this.chatrooms[ex].pushActiveMember(sid)
+        this.chatrooms[ex].pushActiveMember({sid, uid})
     }
 
     emitChatroomMessage(sid, chatid, msg) {
-        for(var i=0;i<this.chatrooms.length;i++) {
-            if(this.chatrooms[i].chatid === chatid) {
-                for(var _i=0;_i<this.chatrooms[i].members_a.length;_i++) {
-                    this.emit(this.chatrooms[i].members_a[_i], "chatroom-message", {
-                        owner: sid,
-                        data: msg
-                    })
-                }
-            }
-        }
+        this.chatroom_broadcast(chatid, 'chatroom-message', {
+            chatid,
+            owner: sid, 
+            data: msg
+        })
     }
 
     destroyClientChatRooms(sid) {
         for(var i=0;i < this.chatrooms.length;i++) {
             for(var _i=0;_i < this.chatrooms[i].members_a.length;_i++) {
-                if(this.chatrooms[i].members_a[_i] === sid) {
+                if(this.chatrooms[i].members_a[_i].sid === sid) {
                     this.chatrooms[i].destroyActiveMember(sid)
                 }
             }
         }
     }
 
-    initialize() {
-        this.ws.on('connection', (soc) => {
-            const client = this.initClientConection(soc)
+    destroyClientChatRoom(chatid, sid) {
+        for(var i=0;i < this.chatrooms.length;i++) {
+            if(this.chatrooms[i].chatid === chatid) {
+                this.chatrooms[i].destroyActiveMember(sid)
+            }
+        }
+    }
+
+    alertChatroomMessage(chatid, event, payload) {
+        for(var i=0;i < this.chatrooms.length;i++) {  
+            if(this.chatrooms[i].chatid === chatid) {
+                var members_ofl = this.chatrooms[i].members
+                for(var _i=0;_i < this.chatrooms[i].members_a.length;_i++) {
+                    members_ofl = members_ofl.filter(el => el !== this.chatrooms[i].members_a[_i].uid)
+                }
+                this.broadcast_arrtype_proaccess(members_ofl, 'uid', event, payload)
+            } 
+        }
+    }
+
+    syncGlobalEvent(uid, payload) {
+        this.emit_proaccess('uid', uid, 'push-alert', payload)
+    }
+
+    initialize() { 
+        this.ws.on('connection', (soc, req) => {
+            var token = req
+        
+            
+            const client = this.initClientConection(soc) 
 
             client.on('close', () => {
                 this.destroyClientSessions(client.id)
-                this.destroyClientChatRooms(client.id)
+                this.destroyClientChatRooms(client.id) 
                 this.destroyClientConnection(client.id)
-            })
+            }) 
  
             client.on("message", (e) => {
-                const data_p = JSON.parse(e)
+                const data_p = JSON.parse(e)  
                 switch(data_p.event) {
                     case "authorize":
                         this.authorizeClient(client.id, data_p.data.uid)
@@ -144,14 +209,26 @@ class WebSocketController {
                         this.initStatusSession({ownid:soc.id,uid:data_p.data.uid})
                         break
                     case "chatroom-init":
-                        this.initChatRoom(client.id, data_p.data)
+                        this.initChatRoom(client.id, client.uid, data_p.data)    
+                        break
+                    case "chatroom-destroy": 
+                        console.log(data_p.data)
+                        this.destroyClientChatRoom(data_p.data.chatid, client.id)
+                        break
                     case "chatroom-message": 
-                        console.log(this.chatrooms)
+                        if(data_p.data.msg === "" || !data_p.data.msg) return 
                         this.emitChatroomMessage(client.uid, data_p.data.chatid, data_p.data.msg)
+                        console.log(client.id)
+                        this.alertChatroomMessage(data_p.data.chatid, 'push-alert', {
+                            owner: client.uid,
+                            chatid: data_p.data.chatid, 
+                            tag: 'msg'
+                        })
+                        break
                 }
             })
         })
-    }
+    } 
 
 }
 

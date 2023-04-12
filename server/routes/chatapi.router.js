@@ -4,6 +4,8 @@ const authMiddleware = require('../middlewares/auth.middleware')
 const router = new Router()
 
 router.get("/user/inbox", authMiddleware, chatapiController.getUserInbox) 
-router.post("/create", authMiddleware, chatapiController.createChat)
+router.post("/create/chatroom", authMiddleware, chatapiController.createChat)
+router.post("/create/msg", authMiddleware, chatapiController.storeMsg)
+router.get("/history", authMiddleware, chatapiController.getChatHistory)
 
 module.exports = router

@@ -21,6 +21,27 @@ class ChatApiController {
             next(e) 
         }
     }
+
+    async getChatHistory(req, res, next) {
+        try {
+            const {chatid} = req.query
+            const {offset, limit} = req.query
+            const history = await chatapiService.getChatHistory(req.user.id, chatid, offset, limit)
+            return res.status(200).json(history)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async storeMsg(req, res, next) {
+        try {
+            const {chatid, data} = req.body
+            const response = await chatapiService.storeMsg(req.user.id, chatid, data)
+            return res.status(200).json(response)
+        } catch(e) {
+            next(e)
+        }
+    }
 }
 
 module.exports = new ChatApiController()

@@ -21,14 +21,9 @@ namespace Cimber.Scraper
             _connection = new NpgsqlConnection(connectionString);
             _connection.Open();
 
-            using (var cmd = new NpgsqlCommand("SET lc_messages TO 'en_US.UTF-8';", _connection))
-            {
-                cmd.ExecuteNonQuery();
-            }
-
             try
             {
-                var commandString = "CREATE TABLE IF NOT EXISTS Film (Id SERIAL PRIMARY KEY,_Id UUID,DateAdded TIMESTAMP,DateUpdated TIMESTAMP,Language TEXT,Title TEXT,LowercaseTitleWithSpacesAndSymbols TEXT,LowercaseTitleWithSpaces TEXT,LowercaseTitleWithSymbols TEXT,LowercaseTitle TEXT,OriginalTitle TEXT,EnglishTitle TEXT,UkrainianTitle TEXT,RussianTitle TEXT,Description TEXT,OriginalDescription TEXT,EnglishDescription TEXT,UkrainianDescription TEXT,RussianDescription TEXT,Year INT,Countries TEXT[],EnglishCountries TEXT[],UkrainianCountries TEXT[],RussianCountries TEXT[],Duration INTERVAL,Genres TEXT[],EnglishGenres TEXT[],UkrainianGenres TEXT[],RussianGenres TEXT[],Poster TEXT NOT NULL,Players TEXT[] NOT NULL);";
+                var commandString = "CREATE TABLE IF NOT EXISTS Film (Id SERIAL PRIMARY KEY,_Id UUID,DateAdded TIMESTAMP,DateUpdated TIMESTAMP,Language INT,Title TEXT UNIQUE,LowercaseTitleWithSpacesAndSymbols TEXT,LowercaseTitleWithSpaces TEXT,LowercaseTitleWithSymbols TEXT,LowercaseTitle TEXT,OriginalTitle TEXT,EnglishTitle TEXT,UkrainianTitle TEXT,RussianTitle TEXT,Description TEXT,OriginalDescription TEXT,EnglishDescription TEXT,UkrainianDescription TEXT,RussianDescription TEXT,Year INT,Countries TEXT[],EnglishCountries TEXT[],UkrainianCountries TEXT[],RussianCountries TEXT[],Duration INTERVAL,Genres TEXT[],EnglishGenres TEXT[],UkrainianGenres TEXT[],RussianGenres TEXT[],Poster TEXT NOT NULL,Players TEXT[] NOT NULL);";
                 var command = new NpgsqlCommand(commandString, _connection);
                 command.ExecuteNonQuery();
             }
@@ -135,7 +130,7 @@ namespace Cimber.Scraper
                 }
                 catch (Exception ex)
                 {
-                    if (ex.Message.ToLower().Contains("unique"))
+                    if (ex.Message.ToLower().Contains("film_title_key"))
                     {
                         try
                         {

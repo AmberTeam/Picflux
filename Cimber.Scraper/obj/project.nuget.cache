@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "09Cd7c6996gSKaGbOV5Dt/+SuiYZTcuiU4IgiS6zu/K8FSWy8eZ4X02SvF5edcHKTxmdUzY6sTchTe3BoBqR7w==",
+  "dgSpecHash": "8Xko9XzUCMU0hkDdp1pClLH3/KhoDqEbo93yQq1jNtohbnGliRYtQUGxbqoj0iIJd3lF+fOPmo6E70BiOkyYXA==",
   "success": true,
   "projectFilePath": "D:\\Dev\\Amber\\Cimber\\Cimber.Scraper\\Cimber.Scraper\\Cimber.Scraper.csproj",
   "expectedPackageFiles": [
@@ -32,7 +32,9 @@
     "C:\\Users\\uaquax\\.nuget\\packages\\nlog\\5.1.3\\nlog.5.1.3.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\npgsql\\7.0.2\\npgsql.7.0.2.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.3\\npgsql.entityframeworkcore.postgresql.7.0.3.nupkg.sha512",
+    "C:\\Users\\uaquax\\.nuget\\packages\\spectre.console\\0.46.0\\spectre.console.0.46.0.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
+    "C:\\Users\\uaquax\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
   ],

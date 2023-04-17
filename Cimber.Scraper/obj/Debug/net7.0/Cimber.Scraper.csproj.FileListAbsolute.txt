@@ -42,3 +42,5 @@ D:\Dev\Amber\Cimber\Cimber.Scraper\Cimber.Scraper\obj\Debug\net7.0\Cimber.Scrape
 D:\Dev\Amber\Cimber\Cimber.Scraper\Cimber.Scraper\obj\Debug\net7.0\ref\Cimber.Scraper.dll
 D:\Dev\Amber\Cimber\Cimber.Scraper\Cimber.Scraper\bin\Debug\net7.0\appsettings.json
 D:\Dev\Amber\Cimber\Cimber.Scraper\Cimber.Scraper\bin\Debug\net7.0\nlog.config
+D:\Dev\Amber\Cimber\Cimber.Scraper\Cimber.Scraper\bin\Debug\net7.0\HtmlAgilityPack.dll
+D:\Dev\Amber\Cimber\Cimber.Scraper\Cimber.Scraper\bin\Debug\net7.0\Spectre.Console.dll

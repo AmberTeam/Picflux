@@ -36,5 +36,7 @@ namespace Cimber.Scraper.Scrapers
         protected virtual void getFilms(string url) { throw new NotImplementedException(); }
 
         protected virtual Film? getFilm(string url) { throw new NotImplementedException(); }
+
+        protected virtual TimeSpan? getDuration(string stringDuration) { throw new NotImplementedException(); }
     }
 }

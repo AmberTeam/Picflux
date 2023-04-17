@@ -3,12 +3,16 @@
     public class Film
     {
         public int Id { get; set; }
+        public Guid _Id { get; set; } = Guid.NewGuid();
         public DateTime DateAdded { get; set; }
         public DateTime DateUpdated { get; set; }
 
         public Language Language { get; set; }
 
         public string? Title { get; set; }
+        public string? LowercaseTitleWithSpacesAndSymbols { get; set; }
+        public string? LowercaseTitleWithSpaces { get; set; }
+        public string? LowercaseTitleWithSymbols { get; set; }
         public string? LowercaseTitle { get; set; }
         public string? OriginalTitle { get; set; }
         public string? EnglishTitle { get; set; }

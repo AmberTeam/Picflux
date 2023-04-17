@@ -1,51 +1,88 @@
-﻿using Cimber.Scraper;
-using Cimber.Scraper.Models;
+﻿using Cimber.Scraper.Scrapers;
+using Cimber.Scraper;
+using Spectre.Console;
 
-#region Test
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+Logger.InitLogger();
 
-//var database = new DatabaseService();
-//var film = new Film()
-//{
-//    Language = Language.English,
-//    Title = "Королевы ринга",
-//    LowercaseTitle = "королевы ринга",
-//    Description = "Главные героини комедийного фильма «Королевы ринга» — самые обычные женщины —  Колетт, Джесика, Вивьен и Роза работают кассиршами в супермаркете небольшого городка на Севере Франции. Монотонная, не интересная работа и серые будни совершенно не добавляют радости в жизни, но однажды Роза решает изменить свою жизнь. Она решает заняться столь популярным видом спорта, как рестлинг. Подругам приходится такая идея по душе, ведь они так же жаждут приключений, которые разбавят скучные будни.",
-//    Year = 2013,
-//    Countries = new List<string?>() { "Франция" },
-//    EnglishCountries = new List<string?>() { "France" },
-//    Duration = new TimeSpan(1, 37, 0),
-//    Genres = new List<string?>() { "Комедия" },
-//    Poster = "https://gidonline.io/img/db14c3598_200x300.jpg",
-//    Players = new List<string>()
-//    {
-//        "https://spinning.allohalive.com/?kp=543373&token=b51bdfc8af17dee996d3eae53726df",
-//        "https://47.annacdn.cc/bPc1TBx1jCZH?kp_id=543373",
-//        "https://voidboost.net/embed/543373"
-//    }
-//};
-//database.AddFilm(film);
+AnsiConsole.Markup("[purple][bold]Cimber Scraper v3.0.0[/][/]\n");
 
-//Thread.Sleep(1000);
-//var film2 = new Film()
-//{
-//    Language = Language.English,
-//    Title = "Королевы ринга",
-//    LowercaseTitle = "королевы ринга",
-//    Description = "Главные героини комедийного фильма «Королевы ринга» — самые обычные женщины —  Колетт, Джесика, Вивьен и Роза работают кассиршами в супермаркете небольшого городка на Севере Франции. Монотонная, не интересная работа и серые будни совершенно не добавляют радости в жизни, но однажды Роза решает изменить свою жизнь. Она решает заняться столь популярным видом спорта, как рестлинг. Подругам приходится такая идея по душе, ведь они так же жаждут приключений, которые разбавят скучные будни.",
-//    Year = 2013,
-//    Countries = new List<string?>() { "Франция" },
-//    EnglishCountries = new List<string?>() { "France" },
-//    Duration = new TimeSpan(1, 37, 0),
-//    Genres = new List<string?>() { "Комедия" },
-//    Poster = "https://gidonline.io/img/db14c3598_200x300.jpg",
-//    Players = new List<string>()
-//    {
-//        "https://spinning.allohalive.com/?kp=543373&token=b51bdfc8af17dee996d3eae53726df",
-//        "https://43247.annacdn.cc/bPc1TBx1jCZH?kp_id=543373",
-//        "https://234234voidboost.net/embed/543373"
-//    }
-//};
-//database.AddFilm(film2);
+var table = new Table();
 
-#endregion
+table.AddColumn("Id");
+table.AddColumn("[red]Name[/]");
+table.AddColumn("[green]Url[/]");
+table.AddColumn("[blue]Language[/]");
 
+table.AddRow("1", "Gidonline", Website.GIDONLINE, "Russian");
+table.AddRow("2", "Kinokrad", Website.KINOKRAD, "Russian");
+table.AddRow("3", "Kinoprofi", Website.KINOPROFI, "Russian");
+table.AddRow("4", "Kinogo", Website.KINOGO, "Russian");
+table.AddRow("5", "Kinogoua", Website.KINOGOUA, "Ukrainian");
+table.AddRow("6", "Uakino", Website.UAKINO, "Ukrainian");
+table.AddRow("7", "123Movies", Website._123Movies, "English");
+
+AnsiConsole.Write(table);
+var website = AnsiConsole.Prompt(
+    new SelectionPrompt<string>()
+        .PageSize(8)
+        .Title("What website do you want to parse?")
+        .AddChoices(new[]
+        {
+        "1 - (Gidonline)", "2 - (Kinokrad)", "3 - (Kinoprofi)", "4 - (Kinogo)", "5 - (Kinogoua)", "6 - (Uakino)", "7 - (123Movies)", "[green]All[/]"
+        }));
+AnsiConsole.Markup($"You chose -> {website}\n");
+
+if (website!.StartsWith("1"))
+{
+    var scraper = new GidonlineScraper();
+    scraper.Start();
+}
+else if (website!.StartsWith("2"))
+{
+    var scraper = new KinokradScraper();
+    scraper.Start();
+}
+else if (website!.StartsWith("3"))
+{
+    var scraper = new KinoprofiScraper();
+    scraper.Start();
+}
+else if (website!.StartsWith("4"))
+{
+    var scraper = new KinogoScraper();
+    scraper.Start();
+}
+else if (website!.StartsWith("5"))
+{
+    var scraper = new KinogouaScraper();
+    scraper.Start();
+}
+else if (website!.StartsWith("6"))
+{
+    var scraper = new UakinoScraper();
+    scraper.Start();
+}
+else if (website!.StartsWith("7"))
+{
+    var scraper = new _123MoviesScraper();
+    scraper.Start();
+}
+else if (website!.Contains("All"))
+{
+    var gidonlineScraper = new GidonlineScraper();
+    var kinokradScraper = new KinokradScraper();
+    var kinoprofiScraper = new KinoprofiScraper();
+    var kinogoScraper = new KinogoScraper();
+    var kinogouaScraper = new KinogouaScraper();
+    var uakinoScraper = new UakinoScraper();
+    var _123MoviesScraper = new _123MoviesScraper();
+
+    gidonlineScraper.Start();
+    kinokradScraper.Start();
+    kinoprofiScraper.Start();
+    kinogoScraper.Start();
+    kinogouaScraper.Start();
+    uakinoScraper.Start();
+    _123MoviesScraper.Start();
+}

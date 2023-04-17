@@ -25,3 +25,1525 @@
 2023-04-17 19:03:17.8960|Debug|Added Королевы ринга | 
 2023-04-17 19:06:17.6026|Debug|Added Королевы ринга | 
 2023-04-17 19:06:18.6627|Debug|Updated Королевы ринга | 
+2023-04-17 20:00:53.0721|Error|[0] [System.Private.CoreLib]
+	The input string '56 мин' was not in a correct format. | 
+2023-04-17 20:07:32.0816|Error|[154] [Cimber.Scraper]
+	Index was outside the bounds of the array. | 
+2023-04-17 20:09:54.4763|Error|[154] [Cimber.Scraper]
+	Index was outside the bounds of the array. | 
+2023-04-17 20:13:31.6316|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:32.1189|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:32.5691|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:33.0288|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:33.4417|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:33.8680|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:34.2656|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:34.6519|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:35.0452|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:35.4565|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:35.8791|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:36.2711|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:39.1463|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:39.5409|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:39.9401|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:40.3374|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:40.7357|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:41.1187|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:41.5273|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:41.9112|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:13:42.3104|Error|[0] [Npgsql]
+	Parameter 'Id' must have either its NpgsqlDbType or its DataTypeName or its Value set | 
+2023-04-17 20:16:02.2410|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 20:18:10.8032|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 20:18:11.4588|Debug|Added Хороший человек | 
+2023-04-17 20:18:11.8898|Debug|Added Революция Иисуса | 
+2023-04-17 20:18:12.3482|Debug|Added Человек из Флориды | 
+2023-04-17 20:18:12.7887|Debug|Added Её правда | 
+2023-04-17 20:18:13.2852|Debug|Added Месть | 
+2023-04-17 20:18:13.7115|Debug|Added Джоши | 
+2023-04-17 20:18:14.1585|Debug|Added Люби меня | 
+2023-04-17 20:18:14.6453|Debug|Added Генри Фул | 
+2023-04-17 20:18:15.0727|Debug|Added Школа монстров: Фильм | 
+2023-04-17 20:18:15.5100|Debug|Added Невероятная правда | 
+2023-04-17 20:18:15.9263|Debug|Added Огонь на поражение | 
+2023-04-17 20:18:18.7605|Debug|Added 65 | 
+2023-04-17 20:18:19.1697|Debug|Added Простые люди | 
+2023-04-17 20:18:19.5964|Debug|Added Дилетанты | 
+2023-04-17 20:18:20.0429|Debug|Added Фэй Грим | 
+2023-04-17 20:18:20.4884|Debug|Added Человек-муравей и Оса: Квантомания | 
+2023-04-17 20:18:20.9032|Debug|Added Как братья | 
+2023-04-17 20:18:21.3409|Debug|Added Бюро магических услуг | 
+2023-04-17 20:18:21.7820|Debug|Added Слабый герой | 
+2023-04-17 20:18:22.2000|Debug|Added Последний сын | 
+2023-04-17 20:18:22.6553|Debug|Added Дочки-матери | 
+2023-04-17 20:18:23.0728|Debug|Added Портрет убийцы | 
+2023-04-17 20:18:23.4954|Debug|Added Внутри | 
+2023-04-17 20:18:25.1868|Debug|Added Нигде | 
+2023-04-17 20:18:25.6160|Debug|Added Шазам! Ярость богов | 
+2023-04-17 20:18:26.0323|Debug|Added Грызня | 
+2023-04-17 20:18:26.5054|Debug|Added Не стучи | 
+2023-04-17 20:18:26.9298|Debug|Added Вестсайдская история | 
+2023-04-17 20:18:27.3579|Debug|Added Неровная земля | 
+2023-04-17 20:18:27.7896|Debug|Added Расти-механик | 
+2023-04-17 20:18:28.2201|Debug|Added Тетрис | 
+2023-04-17 20:18:28.6608|Debug|Added Пердита Дуранго | 
+2023-04-17 20:18:29.0821|Debug|Added 44 котёнка | 
+2023-04-17 20:18:29.6715|Debug|Added Мумиёшки | 
+2023-04-17 20:18:30.1123|Debug|Added Друг семьи | 
+2023-04-17 20:18:32.0136|Debug|Added Удивительная Ви | 
+2023-04-17 20:18:32.3560|Debug|Added Красавица и чудовище | 
+2023-04-17 20:18:32.6893|Debug|Added Коммуналка | 
+2023-04-17 20:18:33.1263|Debug|Added Джерри и Мардж играют по-крупному | 
+2023-04-17 20:18:33.5617|Debug|Added Предсказание | 
+2023-04-17 20:18:33.9955|Debug|Added Идеальные незнакомцы | 
+2023-04-17 20:18:34.4215|Debug|Added Соник Бум | 
+2023-04-17 20:18:34.8587|Debug|Added Убить Пок-сун | 
+2023-04-17 20:18:35.2927|Debug|Added Супергиганты братья-роботы | 
+2023-04-17 20:18:35.8701|Debug|Added Заклятие Абизу | 
+2023-04-17 20:18:36.3203|Debug|Added Убийство в Париже | 
+2023-04-17 20:18:36.6736|Debug|Added Потерянный север | 
+2023-04-17 20:18:38.6773|Debug|Added Чемпионы | 
+2023-04-17 20:18:39.0614|Debug|Added Крид 3 | 
+2023-04-17 20:18:39.4016|Debug|Added Слепой горизонт | 
+2023-04-17 20:18:39.7596|Debug|Added День дурака | 
+2023-04-17 20:18:40.0860|Debug|Added Три жизни | 
+2023-04-17 20:18:40.4216|Debug|Added Венецияфрения | 
+2023-04-17 20:18:40.8713|Debug|Added Ночной агент | 
+2023-04-17 20:18:41.2095|Debug|Added Новые боги: Ян Цзянь | 
+2023-04-17 20:18:41.5713|Debug|Added Новые боги: Возрождение Нэчжи | 
+2023-04-17 20:18:42.0003|Debug|Added Кроличья нора | 
+2023-04-17 20:18:42.4293|Debug|Added Бэтмен: Карающий рок над Готэмом | 
+2023-04-17 20:18:42.8539|Debug|Added Торжество мести / Триумф / Слава | 
+2023-04-17 20:18:44.5110|Debug|Added Любовники | 
+2023-04-17 20:18:44.8489|Debug|Added Четвёртый пассажир | 
+2023-04-17 20:18:45.1828|Debug|Added Патхан | 
+2023-04-17 20:18:45.5254|Debug|Added Агент Элвис | 
+2023-04-17 20:18:45.9518|Debug|Added Аватар: Путь воды | 
+2023-04-17 20:18:46.2984|Debug|Added Начать с нуля! | 
+2023-04-17 20:18:46.6295|Debug|Added Воздержание | 
+2023-04-17 20:18:46.9668|Debug|Added Трансформация ума | 
+2023-04-17 20:18:47.3191|Debug|Added Игла | 
+2023-04-17 20:18:47.7412|Debug|Added Тайны Салфер-Спрингс | 
+2023-04-17 20:18:48.0784|Debug|Added Человек, который продал свою кожу | 
+2023-04-17 20:18:48.4958|Debug|Added Шоу мистера Пибоди и Шермана | 
+2023-04-17 20:18:49.9280|Debug|Added Семь дней в мае | 
+2023-04-17 20:18:50.2781|Debug|Added Мой папа — охотник за инопланетянами | 
+2023-04-17 20:18:50.6030|Debug|Added Одиноки вместе | 
+2023-04-17 20:18:51.0100|Debug|Added Кокаиновый медведь | 
+2023-04-17 20:18:51.3470|Debug|Added Пальмы и линии | 
+2023-04-17 20:18:51.7910|Debug|Added Шеф под прикрытием | 
+2023-04-17 20:18:52.2160|Debug|Added Как слониха упала с неба | 
+2023-04-17 20:18:52.6423|Debug|Added Экстраполяции | 
+2023-04-17 20:18:52.9862|Debug|Added Маскарад | 
+2023-04-17 20:18:53.4346|Debug|Added Лютер: Павшее солнце | 
+2023-04-17 20:18:53.7682|Debug|Added После Янга | 
+2023-04-17 20:18:54.1990|Debug|Added Бостонский душитель | 
+2023-04-17 20:18:56.8181|Debug|Added Эллиот и волшебный амулет | 
+2023-04-17 20:18:57.2287|Debug|Added Возвращение в Бургундию | 
+2023-04-17 20:18:57.6434|Debug|Added В ад и обратно | 
+2023-04-17 20:18:58.1530|Debug|Added Операция «Фортуна»: Искусство побеждать | 
+2023-04-17 20:18:58.5603|Debug|Added Ночная тусовка | 
+2023-04-17 20:18:58.9665|Debug|Added Марлоу | 
+2023-04-17 20:18:59.3872|Debug|Added Победители шоу | 
+2023-04-17 20:18:59.7915|Debug|Added Очаровывая мужские сердца | 
+2023-04-17 20:19:00.2035|Debug|Added Дерзкий Лос-Анджелес | 
+2023-04-17 20:19:00.6044|Debug|Added В зимней спячке | 
+2023-04-17 20:19:01.0418|Debug|Added Засада | 
+2023-04-17 20:19:01.4692|Debug|Added Страсть, любовь и стволы | 
+2023-04-17 20:19:03.4179|Debug|Added Будет больно | 
+2023-04-17 20:19:03.8297|Debug|Added Один на один | 
+2023-04-17 20:19:04.2345|Debug|Added Увиденное и услышанное | 
+2023-04-17 20:19:04.6904|Debug|Added Жить | 
+2023-04-17 20:19:05.1061|Debug|Added Гарет Джонс | 
+2023-04-17 20:19:05.4970|Debug|Added Однажды в Техасе | 
+2023-04-17 20:19:05.9106|Debug|Added Безумный девичник | 
+2023-04-17 20:19:06.3093|Debug|Added Они: Легенда о Боге грома | 
+2023-04-17 20:19:06.7906|Debug|Added Супер Майк: Последний танец | 
+2023-04-17 20:19:07.2956|Debug|Added Бэйтаун вне закона | 
+2023-04-17 20:19:07.7726|Debug|Added Мой ужасный сосед | 
+2023-04-17 20:19:08.1910|Debug|Added Хранитель тайн | 
+2023-04-17 20:19:10.0301|Debug|Added Уитни Хьюстон. Потанцуйте со мной | 
+2023-04-17 20:19:10.4770|Debug|Added ТрипТанк | 
+2023-04-17 20:19:10.9029|Debug|Added Мой тигр | 
+2023-04-17 20:19:11.3147|Debug|Added Горячий отпуск | 
+2023-04-17 20:19:11.7386|Debug|Added Битлз: Вернись | 
+2023-04-17 20:19:12.1372|Debug|Added Хародим | 
+2023-04-17 20:19:12.5515|Debug|Added Заговор в Каире | 
+2023-04-17 20:19:12.9541|Debug|Added Джеймс Мэй: Наш человек в Японии | 
+2023-04-17 20:19:13.3603|Debug|Added Памела: История любви | 
+2023-04-17 20:19:13.7543|Debug|Added Чёрный снег | 
+2023-04-17 20:19:14.1518|Debug|Added Заговор в Голливуде | 
+2023-04-17 20:19:14.5641|Debug|Added Тихий лес | 
+2023-04-17 20:19:16.3281|Debug|Added Джеймс Мэй: Наш человек в Италии | 
+2023-04-17 20:19:16.7433|Debug|Added Добро пожаловать в Рим. Новые приключения | 
+2023-04-17 20:19:17.1363|Debug|Added Посредник | 
+2023-04-17 20:19:17.5336|Debug|Added У нас привидение! | 
+2023-04-17 20:19:17.9330|Debug|Added Консультант | 
+2023-04-17 20:19:18.3223|Debug|Added Связь | 
+2023-04-17 20:19:18.7125|Debug|Added Стук в хижине | 
+2023-04-17 20:19:19.1185|Debug|Added 911: Одинокая звезда | 
+2023-04-17 20:19:19.5148|Debug|Added Пятеро | 
+2023-04-17 20:19:19.9029|Debug|Added Украденная личность | 
+2023-04-17 20:19:20.2887|Debug|Added Твоя компания | 
+2023-04-17 20:19:20.8295|Debug|Added Я — женщина | 
+2023-04-17 20:19:22.5694|Debug|Added Сторож брату своему | 
+2023-04-17 20:19:23.0087|Debug|Added Втайне от родителей | 
+2023-04-17 20:19:23.5607|Debug|Added Младенец | 
+2023-04-17 20:19:23.9599|Debug|Added Черный ящик | 
+2023-04-17 20:19:24.3629|Debug|Added На краю | 
+2023-04-17 20:19:24.7523|Debug|Added Как говорит Джинджер | 
+2023-04-17 20:19:25.1418|Debug|Added Парень с того света | 
+2023-04-17 20:19:25.5614|Debug|Added Сделай мой день | 
+2023-04-17 20:19:26.0025|Debug|Added Знакомство родителей | 
+2023-04-17 20:19:26.4024|Debug|Added Здравствуй, будущее! | 
+2023-04-17 20:19:26.8489|Debug|Added Бескрайний бассейн | 
+2023-04-17 20:19:27.3005|Debug|Added Сын | 
+2023-04-17 20:19:29.1430|Debug|Added Аферисты | 
+2023-04-17 20:19:29.5750|Debug|Added Говорящий с призраками | 
+2023-04-17 20:19:30.0969|Debug|Added Пригород | 
+2023-04-17 20:19:30.5056|Debug|Added Наполеон Динамит | 
+2023-04-17 20:19:30.9041|Debug|Added Самый счастливый сезон | 
+2023-04-17 20:19:31.3207|Debug|Added Завтра | 
+2023-04-17 20:19:31.7077|Debug|Added Кто-то, кого я знал | 
+2023-04-17 20:19:32.1115|Debug|Added Нед Райфл | 
+2023-04-17 20:19:32.5422|Debug|Added Лебединая песня | 
+2023-04-17 20:19:32.9657|Error|[0] [System.Linq]
+	Value cannot be null. (Parameter 'source') | 
+2023-04-17 20:19:33.3807|Debug|Added Прощайте, месье Хаффманн | 
+2023-04-17 20:22:13.1457|Info|Logger has been initialized | 
+2023-04-17 20:22:22.1936|Info|Logger has been initialized | 
+2023-04-17 20:22:31.0371|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 20:22:31.3320|Debug|Added Хороший человек | 
+2023-04-17 20:22:31.6368|Debug|Added Революция Иисуса | 
+2023-04-17 20:22:32.0200|Debug|Added Человек из Флориды | 
+2023-04-17 20:22:32.3793|Debug|Added Её правда | 
+2023-04-17 20:22:32.7256|Debug|Added Месть | 
+2023-04-17 20:22:33.0281|Debug|Added Джоши | 
+2023-04-17 20:22:33.3877|Debug|Added Люби меня | 
+2023-04-17 20:22:33.7480|Debug|Added Генри Фул | 
+2023-04-17 20:22:34.0817|Debug|Added Школа монстров: Фильм | 
+2023-04-17 20:22:34.3721|Debug|Added Невероятная правда | 
+2023-04-17 20:22:34.6622|Debug|Added Огонь на поражение | 
+2023-04-17 20:22:36.4406|Debug|Added 65 | 
+2023-04-17 20:22:36.7418|Debug|Added Простые люди | 
+2023-04-17 20:22:37.0615|Debug|Added Дилетанты | 
+2023-04-17 20:22:37.3605|Debug|Added Фэй Грим | 
+2023-04-17 20:22:37.7282|Debug|Added Человек-муравей и Оса: Квантомания | 
+2023-04-17 20:22:38.0171|Debug|Added Как братья | 
+2023-04-17 20:22:38.3778|Debug|Added Бюро магических услуг | 
+2023-04-17 20:22:38.7285|Debug|Added Слабый герой | 
+2023-04-17 20:22:39.0274|Debug|Added Последний сын | 
+2023-04-17 20:22:39.3214|Debug|Added Дочки-матери | 
+2023-04-17 20:22:39.6769|Debug|Added Портрет убийцы | 
+2023-04-17 20:22:40.0343|Debug|Added Внутри | 
+2023-04-17 20:23:03.0996|Info|Logger has been initialized | 
+2023-04-17 20:23:14.8258|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 20:23:15.1300|Debug|Added Хороший человек | 
+2023-04-17 20:23:15.4447|Debug|Added Революция Иисуса | 
+2023-04-17 20:23:15.8257|Debug|Added Человек из Флориды | 
+2023-04-17 20:23:16.1935|Debug|Added Её правда | 
+2023-04-17 20:23:16.8586|Debug|Added Месть | 
+2023-04-17 20:23:17.2679|Debug|Added Джоши | 
+2023-04-17 20:23:18.0554|Debug|Added Люби меня | 
+2023-04-17 20:23:18.6321|Debug|Added Генри Фул | 
+2023-04-17 20:23:19.1581|Debug|Added Школа монстров: Фильм | 
+2023-04-17 20:23:19.8578|Debug|Added Невероятная правда | 
+2023-04-17 20:23:20.3915|Debug|Added Огонь на поражение | 
+2023-04-17 20:23:25.7388|Debug|Added 65 | 
+2023-04-17 20:23:26.1818|Debug|Added Простые люди | 
+2023-04-17 20:23:27.2286|Debug|Added Дилетанты | 
+2023-04-17 20:23:27.7691|Debug|Added Фэй Грим | 
+2023-04-17 20:23:28.4642|Debug|Added Человек-муравей и Оса: Квантомания | 
+2023-04-17 20:23:29.2606|Debug|Added Как братья | 
+2023-04-17 20:23:29.9712|Debug|Added Бюро магических услуг | 
+2023-04-17 20:23:30.7503|Debug|Added Слабый герой | 
+2023-04-17 20:23:31.5872|Debug|Added Последний сын | 
+2023-04-17 20:23:32.1399|Debug|Added Дочки-матери | 
+2023-04-17 20:23:33.0354|Debug|Added Портрет убийцы | 
+2023-04-17 20:23:33.6672|Debug|Added Внутри | 
+2023-04-17 20:23:35.8277|Debug|Added Нигде | 
+2023-04-17 20:23:36.2568|Debug|Added Шазам! Ярость богов | 
+2023-04-17 20:23:36.6472|Debug|Added Грызня | 
+2023-04-17 20:23:37.0161|Debug|Added Не стучи | 
+2023-04-17 20:23:37.4016|Debug|Added Вестсайдская история | 
+2023-04-17 20:23:37.7699|Debug|Added Неровная земля | 
+2023-04-17 20:23:38.1482|Debug|Added Расти-механик | 
+2023-04-17 20:23:38.5902|Debug|Added Тетрис | 
+2023-04-17 20:23:38.9577|Debug|Added Пердита Дуранго | 
+2023-04-17 20:23:39.3374|Debug|Added 44 котёнка | 
+2023-04-17 20:23:39.7002|Debug|Added Мумиёшки | 
+2023-04-17 20:23:40.1032|Debug|Added Друг семьи | 
+2023-04-17 20:28:49.9726|Info|Logger has been initialized | 
+2023-04-17 20:29:07.4423|Info|Logger has been initialized | 
+2023-04-17 20:29:13.4863|Error|[118] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:29:14.5081|Error|[118] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:29:15.4875|Error|[118] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:29:16.5146|Error|[118] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:29:17.4793|Error|[118] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:29:19.6927|Info|Logger has been initialized | 
+2023-04-17 20:32:17.1291|Info|Logger has been initialized | 
+2023-04-17 20:33:03.1489|Info|Logger has been initialized | 
+2023-04-17 20:33:08.4647|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:33:09.4413|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:33:10.3564|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:33:11.3439|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:33:12.2583|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:33:13.4490|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:35:46.8172|Info|Logger has been initialized | 
+2023-04-17 20:35:53.0564|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:35:54.0832|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:35:55.0374|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:36:00.5982|Info|Logger has been initialized | 
+2023-04-17 20:42:00.7078|Info|Logger has been initialized | 
+2023-04-17 20:42:06.1442|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:42:07.1639|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:42:08.1840|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:42:09.2296|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:42:10.2449|Error|[124] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 20:42:15.6650|Info|Logger has been initialized | 
+2023-04-17 20:42:31.5525|Info|Logger has been initialized | 
+2023-04-17 20:42:36.7325|Debug|Added Ренфилд | 
+2023-04-17 20:42:37.7153|Debug|Added Последнее королевство: Семь королей должны умереть | 
+2023-04-17 20:42:38.6215|Debug|Added Таксисты | 
+2023-04-17 20:42:39.5605|Debug|Added Вознеси хвалу | 
+2023-04-17 20:42:40.5320|Debug|Added Почти любовь с диджеем Мохаббатом | 
+2023-04-17 20:42:41.7580|Debug|Added Тетрис | 
+2023-04-17 20:42:42.8585|Debug|Added Человек-муравей и Оса: Квантомания | 
+2023-04-17 20:42:43.6554|Debug|Added Тропа смерти | 
+2023-04-17 20:42:44.4460|Debug|Added Хоккей — навсегда! | 
+2023-04-17 20:42:45.4332|Debug|Added Доктор Свисток | 
+2023-04-17 20:42:46.2214|Debug|Added Безумная свадьба 3 | 
+2023-04-17 20:42:46.9841|Debug|Added Авантюристки | 
+2023-04-17 20:42:49.9890|Debug|Added Ряд 19 | 
+2023-04-17 20:42:50.8255|Debug|Added Учености плоды | 
+2023-04-17 20:42:51.6379|Debug|Added Идеальная жена | 
+2023-04-17 20:42:52.6191|Debug|Added Хороший человек | 
+2023-04-17 20:42:53.6144|Debug|Added Волчий сад | 
+2023-04-17 20:42:54.5981|Debug|Added Черные чемоданы | 
+2023-04-17 20:42:55.4204|Debug|Added Банды Парижа | 
+2023-04-17 20:42:56.3722|Debug|Added Репетитор | 
+2023-04-17 20:42:57.3595|Debug|Added Бункер | 
+2023-04-17 20:42:58.1984|Debug|Added При чем тут любовь? | 
+2023-04-17 20:42:59.2290|Debug|Added Супербратья Марио. Фильм | 
+2023-04-17 20:43:00.0605|Debug|Added Подмена | 
+2023-04-17 20:43:01.9074|Debug|Added Ах, Белинда | 
+2023-04-17 20:43:02.8972|Debug|Added Малум | 
+2023-04-17 20:43:03.8984|Debug|Added Голод | 
+2023-04-17 20:43:04.7461|Debug|Added Один день в шкуре льва | 
+2023-04-17 20:43:05.5785|Debug|Added Гарсия и Гарсия 2: переполох в отеле | 
+2023-04-17 20:43:06.5462|Debug|Added Сына своего единородного | 
+2023-04-17 20:43:07.5484|Debug|Added Мумиёшки | 
+2023-04-17 20:43:08.3765|Debug|Added Несчастливые навсегда | 
+2023-04-17 20:43:09.1924|Debug|Added Эта любовь | 
+2023-04-17 20:43:10.1804|Debug|Added Кольцевая линия | 
+2023-04-17 20:43:11.1646|Debug|Added Быть | 
+2023-04-17 20:43:12.3247|Debug|Added Убийство в Париже | 
+2023-04-17 20:43:14.1906|Debug|Added Миссия ассасина | 
+2023-04-17 20:43:15.2094|Debug|Added Бюро магических услуг | 
+2023-04-17 20:43:16.0203|Debug|Added Здоровый человек | 
+2023-04-17 20:43:17.0239|Debug|Added Три мушкетёра | 
+2023-04-17 20:43:17.8552|Debug|Added Простые вещи | 
+2023-04-17 20:43:18.8706|Debug|Added Экзорцист Ватикана | 
+2023-04-17 20:43:19.9270|Debug|Added Крид 3 | 
+2023-04-17 20:43:20.7938|Debug|Added Чемпионы | 
+2023-04-17 20:43:22.2750|Debug|Added Аватар 2: Путь воды | 
+2023-04-17 20:43:23.0339|Debug|Added Чупа | 
+2023-04-17 20:43:23.8967|Debug|Added Нераскрытые дела Мистери Лейн | 
+2023-04-17 20:43:24.7515|Debug|Added Томас против Томаса | 
+2023-04-17 20:43:26.6467|Debug|Added На одном крыле | 
+2023-04-17 20:43:27.4802|Debug|Added Три мушкетёра: Д’Артаньян | 
+2023-04-17 20:43:28.3193|Debug|Added По следу хакера | 
+2023-04-17 20:43:29.1716|Debug|Added Нежданная благодать | 
+2023-04-17 20:43:30.0102|Debug|Added Майор | 
+2023-04-17 20:43:30.8300|Debug|Added Южное Евангелие | 
+2023-04-17 20:43:31.8452|Debug|Added Детектор | 
+2023-04-17 20:43:32.8600|Debug|Added Не стучи | 
+2023-04-17 20:43:33.7113|Debug|Added Стражи времени | 
+2023-04-17 20:43:34.4754|Debug|Added Соглашение на выпускной | 
+2023-04-17 20:43:35.3459|Debug|Added Игра в любовь | 
+2023-04-17 20:43:36.3390|Debug|Added Беспринципные в деревне | 
+2023-04-17 20:43:38.3657|Debug|Added Одержимость спасателя | 
+2023-04-17 20:43:39.8033|Debug|Added 65 | 
+2023-04-17 20:43:40.8637|Debug|Added Шазам! Ярость богов | 
+2023-04-17 20:43:41.7444|Debug|Added За гранью времени | 
+2023-04-17 20:43:42.5702|Debug|Added Крайняя мера | 
+2023-04-17 20:43:43.3298|Debug|Added Невеста из Америки | 
+2023-04-17 20:43:44.3112|Debug|Added Маленькие победы | 
+2023-04-17 20:43:45.4319|Debug|Added Бешенство | 
+2023-04-17 20:43:46.2506|Debug|Added Любовь-морковь: Восстание машин | 
+2023-04-17 20:43:47.2275|Debug|Added Внутри | 
+2023-04-17 20:43:48.0304|Debug|Added Ещё есть время | 
+2023-04-17 20:43:49.0251|Debug|Added Четвёртый пассажир | 
+2023-04-17 20:43:52.4594|Debug|Added Игра в ложь | 
+2023-04-17 20:43:54.1318|Debug|Added Эскортница | 
+2023-04-17 20:43:55.5154|Debug|Added Кукольник | 
+2023-04-17 20:43:56.9624|Debug|Added Идеальный брат | 
+2023-04-17 20:43:59.0237|Debug|Added Фурии | 
+2023-04-17 20:44:00.6021|Debug|Added Преступный квест | 
+2023-04-17 20:44:01.9821|Debug|Added Буран | 
+2023-04-17 20:44:03.2766|Debug|Added Миллионер на три дня | 
+2023-04-17 20:44:04.9425|Debug|Added Свингеры | 
+2023-04-17 20:44:06.2381|Debug|Added Идеальная зависимость | 
+2023-04-17 20:44:07.5360|Debug|Added Жар-птица | 
+2023-04-17 20:44:08.5986|Debug|Added Встань! | 
+2023-04-17 20:44:11.2497|Debug|Added Брак по ошибке | 
+2023-04-17 20:44:12.2401|Debug|Added Созданы друг для друга | 
+2023-04-17 20:44:13.3159|Debug|Added Виртуоз | 
+2023-04-17 20:44:14.2229|Debug|Added Друзья: Воссоединение | 
+2023-04-17 20:44:15.2345|Debug|Added Убить Пок-сун | 
+2023-04-17 20:44:16.1169|Debug|Added Улица ржи | 
+2023-04-17 20:44:17.1773|Debug|Added Гениальное ограбление | 
+2023-04-17 20:44:18.0824|Debug|Added Родители строгого режима | 
+2023-04-17 20:44:19.1099|Debug|Added Часовой | 
+2023-04-17 20:44:20.0081|Debug|Added Я «любила» мужа. Фильм | 
+2023-04-17 20:44:21.1425|Debug|Added Пинбол: Человек, который спас игру | 
+2023-04-17 20:44:22.3183|Debug|Added 1941. Крылья над Берлином | 
+2023-04-17 20:44:24.5181|Debug|Added Нападение на Рио Браво | 
+2023-04-17 20:48:26.8032|Info|Logger has been initialized | 
+2023-04-17 20:48:40.1293|Info|Logger has been initialized | 
+2023-04-17 20:49:42.1280|Error|[0] [System.Private.CoreLib]
+	The input string '' was not in a correct format. | 
+2023-04-17 20:50:29.5559|Info|Logger has been initialized | 
+2023-04-17 20:53:39.5106|Info|Logger has been initialized | 
+2023-04-17 20:55:34.0517|Info|Logger has been initialized | 
+2023-04-17 20:55:42.2646|Debug|Updated Таксисты | 
+2023-04-17 20:55:43.1642|Debug|Updated Ренфилд | 
+2023-04-17 20:55:44.2476|Debug|Updated Последнее королевство: Семь королей должны умереть | 
+2023-04-17 20:55:45.1514|Debug|Updated Почти любовь с диджеем Мохаббатом | 
+2023-04-17 20:55:46.0065|Debug|Updated Вознеси хвалу | 
+2023-04-17 20:55:47.0594|Debug|Updated Три мушкетёра: Д’Артаньян | 
+2023-04-17 20:55:47.9663|Debug|Updated Несчастливые навсегда | 
+2023-04-17 20:55:48.7945|Debug|Updated Голод | 
+2023-04-17 20:55:49.6905|Debug|Updated Бункер | 
+2023-04-17 20:55:50.6095|Debug|Updated Банды Парижа | 
+2023-04-17 20:55:51.5780|Debug|Updated Хороший человек | 
+2023-04-17 20:55:52.4244|Debug|Updated Репетитор | 
+2023-04-17 20:55:57.5768|Debug|Updated Черные чемоданы | 
+2023-04-17 20:55:58.6828|Debug|Updated Волчий сад | 
+2023-04-17 20:55:59.6335|Debug|Added При чём тут любовь? | 
+2023-04-17 20:56:00.5407|Debug|Updated Ах, Белинда | 
+2023-04-17 20:56:01.3694|Debug|Updated Подмена | 
+2023-04-17 20:56:02.2671|Debug|Added Братья Супер Марио в кино | 
+2023-04-17 20:56:03.3803|Debug|Updated Один день в шкуре льва | 
+2023-04-17 20:56:04.2280|Debug|Updated Малум | 
+2023-04-17 20:56:05.3301|Debug|Updated Сына своего единородного | 
+2023-04-17 20:56:06.1922|Debug|Updated Гарсия и Гарсия 2: переполох в отеле | 
+2023-04-17 20:56:07.0230|Debug|Updated Кольцевая линия | 
+2023-04-17 20:56:07.8695|Debug|Updated Быть | 
+2023-04-17 20:56:10.7418|Debug|Updated Эта любовь | 
+2023-04-17 20:56:11.8014|Debug|Updated Миссия ассасина | 
+2023-04-17 20:56:12.8595|Debug|Updated Убийство в Париже | 
+2023-04-17 20:56:13.7631|Debug|Updated Простые вещи | 
+2023-04-17 20:56:14.8136|Debug|Updated Три мушкетёра | 
+2023-04-17 21:04:13.7105|Info|Logger has been initialized | 
+2023-04-17 21:04:20.1474|Error|[65] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 21:04:38.5683|Info|Logger has been initialized | 
+2023-04-17 21:05:14.1606|Info|Logger has been initialized | 
+2023-04-17 21:05:19.1802|Error|[0] [System.Private.CoreLib]
+	The input string 'Продолжительность: 30 мин' was not in a correct format. | 
+2023-04-17 21:05:19.2005|Debug|Added Барри | 
+2023-04-17 21:05:19.6899|Error|[0] [System.Private.CoreLib]
+	The input string 'Продолжительность: —' was not in a correct format. | 
+2023-04-17 21:05:19.6926|Debug|Added Грязные игры | 
+2023-04-17 21:05:20.1958|Error|[0] [System.Private.CoreLib]
+	The input string 'Продолжительность: 43 мин' was not in a correct format. | 
+2023-04-17 21:05:20.1958|Debug|Added Морская полиция: Лос-Анджелес | 
+2023-04-17 21:05:20.7305|Error|[0] [System.Private.CoreLib]
+	The input string 'Продолжительность: 60 мин' was not in a correct format. | 
+2023-04-17 21:05:20.7305|Debug|Added Наследники | 
+2023-04-17 21:05:21.2486|Error|[0] [System.Private.CoreLib]
+	The input string 'Продолжительность: 108' was not in a correct format. | 
+2023-04-17 21:05:21.2828|Debug|Updated Бункер | 
+2023-04-17 21:05:34.5978|Info|Logger has been initialized | 
+2023-04-17 21:06:38.8946|Info|Logger has been initialized | 
+2023-04-17 21:06:44.4448|Error|[0] [System.Private.CoreLib]
+	The input string '30 мин' was not in a correct format. | 
+2023-04-17 21:06:44.4649|Debug|Added Барри | 
+2023-04-17 21:06:45.1504|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:06:45.1504|Debug|Added Грязные игры | 
+2023-04-17 21:06:45.7938|Error|[0] [System.Private.CoreLib]
+	The input string '43 мин' was not in a correct format. | 
+2023-04-17 21:06:45.7938|Debug|Added Морская полиция: Лос-Анджелес | 
+2023-04-17 21:06:46.4479|Error|[0] [System.Private.CoreLib]
+	The input string '60 мин' was not in a correct format. | 
+2023-04-17 21:06:46.4479|Debug|Added Наследники | 
+2023-04-17 21:06:53.3855|Info|Logger has been initialized | 
+2023-04-17 21:07:09.3044|Info|Logger has been initialized | 
+2023-04-17 21:07:17.8821|Info|Logger has been initialized | 
+2023-04-17 21:07:29.7034|Debug|Added Барри | 
+2023-04-17 21:07:30.4018|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:30.4018|Debug|Added Грязные игры | 
+2023-04-17 21:07:31.0825|Debug|Added Морская полиция: Лос-Анджелес | 
+2023-04-17 21:07:31.7474|Debug|Added Наследники | 
+2023-04-17 21:07:32.2675|Debug|Added Бункер | 
+2023-04-17 21:07:34.8429|Debug|Added Звёзды в Африке | 
+2023-04-17 21:07:35.3890|Debug|Added Дом совы | 
+2023-04-17 21:07:36.2296|Debug|Added Концерты | 
+2023-04-17 21:07:38.5142|Debug|Added Кроличья нора | 
+2023-04-17 21:07:39.1876|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:39.1876|Debug|Added Я и есть Джелаладдин | 
+2023-04-17 21:07:41.4113|Debug|Added Рокко Скьявоне | 
+2023-04-17 21:07:42.0660|Debug|Added Музыкальная интуиция | 
+2023-04-17 21:07:42.7011|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:42.7011|Debug|Added Большие надежды | 
+2023-04-17 21:07:43.3326|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:43.3326|Debug|Added Уравнитель | 
+2023-04-17 21:07:43.9711|Debug|Added Таксист | 
+2023-04-17 21:07:44.6161|Debug|Added Рядом со мной | 
+2023-04-17 21:07:45.2532|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:45.2532|Debug|Added Пропавшие без вести | 
+2023-04-17 21:07:45.7765|Debug|Added Серьёзная игра | 
+2023-04-17 21:07:46.2103|Debug|Added Новый парень для моей девушки | 
+2023-04-17 21:07:46.6396|Debug|Added Плохой гений | 
+2023-04-17 21:07:48.0807|Debug|Added Убойный ланч Пола Дуда | 
+2023-04-17 21:07:48.7117|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:48.7117|Debug|Added Родня | 
+2023-04-17 21:07:49.3929|Debug|Added Охота. Монте-Пердидо | 
+2023-04-17 21:07:50.0217|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:50.0217|Debug|Added Крутые меры | 
+2023-04-17 21:07:50.6901|Debug|Added Дом на глубине | 
+2023-04-17 21:07:51.1324|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:51.1324|Debug|Added Air: Большой прыжок | 
+2023-04-17 21:07:51.6094|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:51.6094|Debug|Added Ренфилд | 
+2023-04-17 21:07:52.2546|Error|[110] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 21:07:52.8926|Debug|Added Импровизаторы | 
+2023-04-17 21:07:53.5347|Debug|Added Comedy Club | 
+2023-04-17 21:07:55.1436|Debug|Added Училки в законе | 
+2023-04-17 21:07:55.7963|Debug|Added Однажды в России | 
+2023-04-17 21:07:56.2356|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:56.2356|Debug|Added Реинкарнация: Сбой системы | 
+2023-04-17 21:07:56.8650|Debug|Added Хадсон и Рекс | 
+2023-04-17 21:07:57.3090|Debug|Added Шехзада | 
+2023-04-17 21:07:57.9557|Debug|Added Китайский пинг-понг | 
+2023-04-17 21:07:58.3931|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:58.3962|Debug|Added Битва каверов | 
+2023-04-17 21:07:58.8413|Debug|Added Восставший | 
+2023-04-17 21:07:59.3111|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:07:59.3111|Debug|Added Во все глаза | 
+2023-04-17 21:07:59.9363|Debug|Added Невский | 
+2023-04-17 21:08:01.3832|Debug|Added Приятные хлопоты | 
+2023-04-17 21:08:01.8448|Debug|Added Последнее королевство: Семь королей должны умереть | 
+2023-04-17 21:08:02.5184|Debug|Added Власть в ночном городе. Книга вторая: Призрак | 
+2023-04-17 21:08:03.1959|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:08:03.1959|Debug|Added Шершни | 
+2023-04-17 21:08:04.1280|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:08:04.1310|Debug|Added Призраки | 
+2023-04-17 21:08:04.7557|Debug|Added Пожарная часть 19 | 
+2023-04-17 21:08:05.2175|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:08:05.2175|Debug|Added CSI: Вегас | 
+2023-04-17 21:08:05.8522|Debug|Added Анатомия страсти | 
+2023-04-17 21:08:06.3013|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:08:06.3013|Debug|Added Монтекристо | 
+2023-04-17 21:08:06.7392|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:08:06.7392|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 21:08:08.2110|Debug|Added Удивительная миссис Мейзел | 
+2023-04-17 21:08:08.8521|Debug|Added Детство Шелдона | 
+2023-04-17 21:08:09.3062|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:08:09.3062|Debug|Added Закрытый уровень | 
+2023-04-17 21:08:09.7690|Debug|Added Мерзлая земля | 
+2023-04-17 21:08:10.1377|Debug|Added Её правда | 
+2023-04-17 21:09:06.0359|Info|Logger has been initialized | 
+2023-04-17 21:09:10.5474|Debug|Added Барри | 
+2023-04-17 21:09:11.2746|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:09:11.2746|Debug|Added Грязные игры | 
+2023-04-17 21:09:11.9856|Debug|Added Морская полиция: Лос-Анджелес | 
+2023-04-17 21:09:12.6485|Debug|Added Наследники | 
+2023-04-17 21:09:13.1709|Debug|Added Бункер | 
+2023-04-17 21:09:16.5602|Debug|Added Звёзды в Африке | 
+2023-04-17 21:09:17.2410|Debug|Added Дом совы | 
+2023-04-17 21:09:17.7957|Debug|Added Концерты | 
+2023-04-17 21:09:18.4039|Debug|Added Кроличья нора | 
+2023-04-17 21:09:18.9526|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:09:18.9526|Debug|Added Я и есть Джелаладдин | 
+2023-04-17 21:09:21.0531|Debug|Added Рокко Скьявоне | 
+2023-04-17 21:09:21.6531|Debug|Added Музыкальная интуиция | 
+2023-04-17 21:09:22.2748|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:09:22.2748|Debug|Added Большие надежды | 
+2023-04-17 21:09:26.4763|Info|Logger has been initialized | 
+2023-04-17 21:09:41.0977|Info|Logger has been initialized | 
+2023-04-17 21:10:09.6211|Info|Logger has been initialized | 
+2023-04-17 21:10:14.5943|Debug|Added Барри | 
+2023-04-17 21:10:15.2700|Error|[0] [System.Private.CoreLib]
+	The input string '—' was not in a correct format. | 
+2023-04-17 21:10:15.2700|Debug|Added Грязные игры | 
+2023-04-17 21:10:16.0156|Debug|Added Морская полиция: Лос-Анджелес | 
+2023-04-17 21:10:16.7034|Debug|Added Наследники | 
+2023-04-17 21:10:17.2054|Debug|Added Бункер | 
+2023-04-17 21:10:20.2245|Debug|Added Звёзды в Африке | 
+2023-04-17 21:10:20.8716|Debug|Added Дом совы | 
+2023-04-17 21:10:21.3793|Debug|Added Концерты | 
+2023-04-17 21:10:22.0082|Debug|Added Кроличья нора | 
+2023-04-17 21:12:11.6444|Info|Logger has been initialized | 
+2023-04-17 21:12:23.9006|Debug|Added Барри | 
+2023-04-17 21:12:24.5575|Debug|Added Грязные игры | 
+2023-04-17 21:12:25.2870|Debug|Added Морская полиция: Лос-Анджелес | 
+2023-04-17 21:12:25.9454|Debug|Added Наследники | 
+2023-04-17 21:12:26.4530|Debug|Added Бункер | 
+2023-04-17 21:12:29.2752|Debug|Added Звёзды в Африке | 
+2023-04-17 21:12:29.9335|Debug|Added Дом совы | 
+2023-04-17 21:12:30.4648|Debug|Added Концерты | 
+2023-04-17 21:12:31.0987|Debug|Added Кроличья нора | 
+2023-04-17 21:12:31.6084|Debug|Added Я и есть Джелаладдин | 
+2023-04-17 21:12:33.8153|Debug|Added Рокко Скьявоне | 
+2023-04-17 21:12:34.3576|Debug|Added Музыкальная интуиция | 
+2023-04-17 21:12:35.0269|Debug|Added Большие надежды | 
+2023-04-17 21:12:35.6160|Debug|Added Уравнитель | 
+2023-04-17 21:12:36.2697|Debug|Added Таксист | 
+2023-04-17 21:12:36.7514|Debug|Added Рядом со мной | 
+2023-04-17 21:12:37.3870|Debug|Added Пропавшие без вести | 
+2023-04-17 21:12:37.8207|Debug|Added Серьёзная игра | 
+2023-04-17 21:12:38.2804|Debug|Added Новый парень для моей девушки | 
+2023-04-17 21:12:38.7621|Debug|Added Плохой гений | 
+2023-04-17 21:12:40.2011|Debug|Added Убойный ланч Пола Дуда | 
+2023-04-17 21:12:40.6653|Debug|Added Родня | 
+2023-04-17 21:12:41.1535|Debug|Added Охота. Монте-Пердидо | 
+2023-04-17 21:12:41.8121|Debug|Added Крутые меры | 
+2023-04-17 21:12:42.2976|Debug|Added Дом на глубине | 
+2023-04-17 21:12:42.7809|Debug|Added Air: Большой прыжок | 
+2023-04-17 21:12:43.7010|Debug|Added Ренфилд | 
+2023-04-17 21:12:44.1765|Error|[110] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 21:12:44.8277|Debug|Added Импровизаторы | 
+2023-04-17 21:12:45.4686|Debug|Added Comedy Club | 
+2023-04-17 21:12:47.0144|Debug|Added Училки в законе | 
+2023-04-17 21:12:47.6724|Debug|Added Однажды в России | 
+2023-04-17 21:12:48.1510|Debug|Added Реинкарнация: Сбой системы | 
+2023-04-17 21:12:48.6035|Debug|Added Хадсон и Рекс | 
+2023-04-17 21:12:49.1629|Debug|Added Шехзада | 
+2023-04-17 21:12:49.5810|Debug|Added Китайский пинг-понг | 
+2023-04-17 21:12:50.0295|Debug|Added Битва каверов | 
+2023-04-17 21:12:50.4754|Debug|Added Восставший | 
+2023-04-17 21:12:50.9038|Debug|Added Во все глаза | 
+2023-04-17 21:12:57.6872|Debug|Added Невский | 
+2023-04-17 21:12:59.1820|Debug|Added Приятные хлопоты | 
+2023-04-17 21:12:59.8375|Debug|Added Последнее королевство: Семь королей должны умереть | 
+2023-04-17 21:13:00.3035|Debug|Added Власть в ночном городе. Книга вторая: Призрак | 
+2023-04-17 21:13:01.2648|Debug|Added Шершни | 
+2023-04-17 21:13:01.9119|Debug|Added Призраки | 
+2023-04-17 21:13:02.3938|Debug|Added Пожарная часть 19 | 
+2023-04-17 21:13:03.1006|Debug|Added CSI: Вегас | 
+2023-04-17 21:13:03.5700|Debug|Added Анатомия страсти | 
+2023-04-17 21:13:03.9998|Debug|Added Монтекристо | 
+2023-04-17 21:13:04.4671|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 21:13:06.0074|Debug|Added Удивительная миссис Мейзел | 
+2023-04-17 21:13:06.6465|Debug|Added Детство Шелдона | 
+2023-04-17 21:13:07.1337|Debug|Added Закрытый уровень | 
+2023-04-17 21:13:07.6194|Debug|Added Мерзлая земля | 
+2023-04-17 21:13:08.0404|Debug|Added Её правда | 
+2023-04-17 21:13:08.5569|Debug|Added Счастливчик Хэнк | 
+2023-04-17 21:13:09.2346|Debug|Added Семейка Крудс: Семейное древо | 
+2023-04-17 21:13:09.6955|Debug|Added Блуждающая Земля 2 | 
+2023-04-17 21:13:10.1660|Debug|Added Худшие | 
+2023-04-17 21:13:10.6347|Debug|Added Экстраполяции | 
+2023-04-17 21:13:12.1473|Debug|Added Люби меня | 
+2023-04-17 21:13:12.8081|Debug|Added Основание: Осман | 
+2023-04-17 21:13:13.2914|Debug|Added Сила | 
+2023-04-17 21:13:13.9403|Debug|Added За полчаса до весны | 
+2023-04-17 21:13:14.3869|Debug|Added Похититель: Хранитель сокровищ | 
+2023-04-17 21:13:14.8423|Debug|Added Еще не мертва | 
+2023-04-17 21:13:15.3294|Debug|Added Титаны | 
+2023-04-17 21:13:15.9984|Debug|Added Звёздный путь: Пикар | 
+2023-04-17 21:13:16.4543|Debug|Added Снегопад | 
+2023-04-17 21:13:16.8924|Debug|Added Человек из Флориды | 
+2023-04-17 21:13:18.5504|Debug|Added Ривердэйл | 
+2023-04-17 21:56:29.3645|Info|Logger has been initialized | 
+2023-04-17 21:56:33.8467|Debug|Added Облака | 
+2023-04-17 21:56:34.2212|Debug|Added Закон Лидии Поэт | 
+2023-04-17 21:56:34.6074|Debug|Added Последнее королевство: Семь королей должны умереть | 
+2023-04-17 21:56:35.0169|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 21:56:35.4187|Debug|Added Хороший человек | 
+2023-04-17 21:56:35.7965|Debug|Added Революция Иисуса | 
+2023-04-17 21:56:36.1861|Debug|Added Человек из Флориды | 
+2023-04-17 21:56:36.5684|Debug|Added Её правда | 
+2023-04-17 21:56:36.9443|Debug|Added Месть | 
+2023-04-17 21:56:37.3453|Debug|Added Джоши | 
+2023-04-17 21:56:37.7230|Debug|Added Люби меня | 
+2023-04-17 21:56:38.0996|Debug|Added Генри Фул | 
+2023-04-17 21:56:40.4262|Debug|Added Школа монстров: Фильм | 
+2023-04-17 21:56:40.8217|Debug|Added Невероятная правда | 
+2023-04-17 21:56:41.2608|Debug|Added Огонь на поражение | 
+2023-04-17 21:56:41.7106|Debug|Added 65 | 
+2023-04-17 21:56:42.1063|Debug|Added Простые люди | 
+2023-04-17 21:56:42.4830|Debug|Added Дилетанты | 
+2023-04-17 21:56:42.8494|Debug|Added Фэй Грим | 
+2023-04-17 21:56:43.2816|Debug|Added Человек-муравей и Оса: Квантомания | 
+2023-04-17 21:56:43.6733|Debug|Added Как братья | 
+2023-04-17 21:56:44.0713|Debug|Added Бюро магических услуг | 
+2023-04-17 21:56:44.4500|Debug|Added Слабый герой | 
+2023-04-17 21:56:44.8273|Debug|Added Последний сын | 
+2023-04-17 21:56:46.4713|Debug|Added Дочки-матери | 
+2023-04-17 21:56:46.8426|Debug|Added Портрет убийцы | 
+2023-04-17 21:56:47.2454|Debug|Added Внутри | 
+2023-04-17 21:56:47.6368|Debug|Added Нигде | 
+2023-04-17 21:56:48.0294|Debug|Added Шазам! Ярость богов | 
+2023-04-17 21:56:48.4090|Debug|Added Грызня | 
+2023-04-17 21:56:48.8063|Debug|Added Не стучи | 
+2023-04-17 21:56:49.2071|Debug|Added Вестсайдская история | 
+2023-04-17 21:56:49.5845|Debug|Added Неровная земля | 
+2023-04-17 21:56:49.9679|Debug|Added Расти-механик | 
+2023-04-17 21:56:50.3432|Debug|Added Тетрис | 
+2023-04-17 21:56:50.7213|Debug|Added Пердита Дуранго | 
+2023-04-17 21:56:52.2801|Debug|Added 44 котёнка | 
+2023-04-17 21:56:52.6631|Debug|Added Мумиёшки | 
+2023-04-17 21:56:53.1780|Debug|Added Друг семьи | 
+2023-04-17 21:56:53.5794|Debug|Added Удивительная Ви | 
+2023-04-17 21:56:53.9763|Debug|Added Красавица и чудовище | 
+2023-04-17 21:56:54.3902|Debug|Added Коммуналка | 
+2023-04-17 21:56:54.7636|Debug|Added Джерри и Мардж играют по-крупному | 
+2023-04-17 21:56:55.1333|Debug|Added Предсказание | 
+2023-04-17 21:56:55.5132|Debug|Added Идеальные незнакомцы | 
+2023-04-17 21:56:55.8955|Debug|Added Соник Бум | 
+2023-04-17 21:56:56.2773|Debug|Added Убить Пок-сун | 
+2023-04-17 21:56:56.6663|Debug|Added Супергиганты братья-роботы | 
+2023-04-17 21:56:58.4343|Debug|Added Заклятие Абизу | 
+2023-04-17 21:56:58.8268|Debug|Added Убийство в Париже | 
+2023-04-17 21:56:59.3333|Debug|Added Потерянный север | 
+2023-04-17 21:56:59.7245|Debug|Added Чемпионы | 
+2023-04-17 21:57:00.1156|Debug|Added Крид 3 | 
+2023-04-17 21:57:00.5215|Debug|Added Слепой горизонт | 
+2023-04-17 21:57:00.9243|Debug|Added День дурака | 
+2023-04-17 21:57:01.2925|Debug|Added Три жизни | 
+2023-04-17 21:57:01.6658|Debug|Added Венецияфрения | 
+2023-04-17 21:57:02.0468|Debug|Added Ночной агент | 
+2023-04-17 21:57:02.4229|Debug|Added Новые боги: Ян Цзянь | 
+2023-04-17 21:57:02.8133|Debug|Added Новые боги: Возрождение Нэчжи | 
+2023-04-17 21:57:04.4982|Debug|Added Кроличья нора | 
+2023-04-17 21:57:04.8740|Debug|Added Бэтмен: Карающий рок над Готэмом | 
+2023-04-17 21:57:05.2458|Debug|Added Торжество мести / Триумф / Слава | 
+2023-04-17 21:57:05.6162|Debug|Added Любовники | 
+2023-04-17 21:57:06.0037|Debug|Added Четвёртый пассажир | 
+2023-04-17 21:57:06.3879|Debug|Added Патхан | 
+2023-04-17 21:57:06.7938|Debug|Added Агент Элвис | 
+2023-04-17 21:57:07.1915|Debug|Added Аватар: Путь воды | 
+2023-04-17 21:57:07.5696|Debug|Added Начать с нуля! | 
+2023-04-17 21:57:07.9582|Debug|Added Воздержание | 
+2023-04-17 21:57:08.3434|Debug|Added Трансформация ума | 
+2023-04-17 21:57:08.7451|Debug|Added Игла | 
+2023-04-17 21:57:10.1938|Debug|Added Тайны Салфер-Спрингс | 
+2023-04-17 21:57:10.5274|Debug|Added Человек, который продал свою кожу | 
+2023-04-17 21:57:10.9053|Debug|Added Шоу мистера Пибоди и Шермана | 
+2023-04-17 21:57:11.2214|Debug|Added Семь дней в мае | 
+2023-04-17 21:57:11.6031|Debug|Added Мой папа — охотник за инопланетянами | 
+2023-04-17 21:57:11.9790|Debug|Added Одиноки вместе | 
+2023-04-17 21:57:12.3610|Debug|Added Кокаиновый медведь | 
+2023-04-17 21:57:12.8790|Debug|Added Пальмы и линии | 
+2023-04-17 21:57:13.2650|Debug|Added Шеф под прикрытием | 
+2023-04-17 21:57:13.6652|Debug|Added Как слониха упала с неба | 
+2023-04-17 21:57:14.0614|Debug|Added Экстраполяции | 
+2023-04-17 21:57:14.4411|Debug|Added Маскарад | 
+2023-04-17 21:57:17.3480|Debug|Added Лютер: Павшее солнце | 
+2023-04-17 21:57:17.7964|Debug|Added После Янга | 
+2023-04-17 21:57:18.3195|Debug|Added Бостонский душитель | 
+2023-04-17 21:57:18.7811|Debug|Added Эллиот и волшебный амулет | 
+2023-04-17 21:57:19.2188|Debug|Added Возвращение в Бургундию | 
+2023-04-17 21:57:19.6659|Debug|Added В ад и обратно | 
+2023-04-17 21:57:20.1988|Debug|Added Операция «Фортуна»: Искусство побеждать | 
+2023-04-17 21:57:20.6323|Debug|Added Ночная тусовка | 
+2023-04-17 21:57:21.0670|Debug|Added Марлоу | 
+2023-04-17 21:57:21.6220|Debug|Added Победители шоу | 
+2023-04-17 21:57:22.0638|Debug|Added Очаровывая мужские сердца | 
+2023-04-17 21:57:22.6426|Debug|Added Дерзкий Лос-Анджелес | 
+2023-04-17 21:57:24.8902|Debug|Added В зимней спячке | 
+2023-04-17 21:57:25.3118|Debug|Added Засада | 
+2023-04-17 21:57:25.8954|Debug|Added Страсть, любовь и стволы | 
+2023-04-17 21:57:26.3282|Debug|Added Будет больно | 
+2023-04-17 21:57:26.7589|Debug|Added Один на один | 
+2023-04-17 21:57:27.1990|Debug|Added Увиденное и услышанное | 
+2023-04-17 21:57:27.7671|Debug|Added Жить | 
+2023-04-17 21:57:28.2145|Debug|Added Гарет Джонс | 
+2023-04-17 21:57:28.7645|Debug|Added Однажды в Техасе | 
+2023-04-17 21:57:29.2093|Debug|Added Безумный девичник | 
+2023-04-17 21:57:29.6352|Debug|Added Они: Легенда о Боге грома | 
+2023-04-17 21:57:30.1457|Debug|Added Супер Майк: Последний танец | 
+2023-04-17 21:57:32.2084|Debug|Added Бэйтаун вне закона | 
+2023-04-17 21:57:32.6634|Debug|Added Мой ужасный сосед | 
+2023-04-17 21:57:33.1105|Debug|Added Хранитель тайн | 
+2023-04-17 21:57:33.6944|Debug|Added Уитни Хьюстон. Потанцуйте со мной | 
+2023-04-17 21:57:34.1303|Debug|Added ТрипТанк | 
+2023-04-17 21:57:34.6916|Debug|Added Мой тигр | 
+2023-04-17 21:57:35.1152|Debug|Added Горячий отпуск | 
+2023-04-17 21:57:36.0914|Debug|Added Битлз: Вернись | 
+2023-04-17 21:57:36.6695|Debug|Added Хародим | 
+2023-04-17 21:57:37.1824|Debug|Added Заговор в Каире | 
+2023-04-17 21:57:37.7704|Debug|Added Джеймс Мэй: Наш человек в Японии | 
+2023-04-17 21:57:38.2945|Debug|Added Памела: История любви | 
+2023-04-17 21:57:40.4332|Debug|Added Чёрный снег | 
+2023-04-17 21:57:40.8622|Debug|Added Заговор в Голливуде | 
+2023-04-17 21:57:41.4528|Debug|Added Тихий лес | 
+2023-04-17 21:57:41.9062|Debug|Added Джеймс Мэй: Наш человек в Италии | 
+2023-04-17 21:57:42.3973|Debug|Added Добро пожаловать в Рим. Новые приключения | 
+2023-04-17 21:57:42.8300|Debug|Added Посредник | 
+2023-04-17 21:57:43.3597|Debug|Added У нас привидение! | 
+2023-04-17 21:57:43.7902|Debug|Added Консультант | 
+2023-04-17 21:57:44.2317|Debug|Added Связь | 
+2023-04-17 21:57:44.6494|Debug|Added Стук в хижине | 
+2023-04-17 21:57:45.0707|Debug|Added 911: Одинокая звезда | 
+2023-04-17 21:57:45.6232|Debug|Added Пятеро | 
+2023-04-17 21:57:47.6705|Debug|Added Украденная личность | 
+2023-04-17 21:57:48.0946|Debug|Added Твоя компания | 
+2023-04-17 21:57:48.5318|Debug|Added Я — женщина | 
+2023-04-17 21:57:48.9713|Debug|Added Сторож брату своему | 
+2023-04-17 21:57:49.4003|Debug|Added Втайне от родителей | 
+2023-04-17 21:57:49.8245|Debug|Added Младенец | 
+2023-04-17 21:57:50.2518|Debug|Added Черный ящик | 
+2023-04-17 21:57:50.6827|Debug|Added На краю | 
+2023-04-17 21:57:51.1099|Debug|Added Как говорит Джинджер | 
+2023-04-17 21:57:51.5346|Debug|Added Парень с того света | 
+2023-04-17 21:57:51.9837|Debug|Added Сделай мой день | 
+2023-04-17 21:57:52.5411|Debug|Added Знакомство родителей | 
+2023-04-17 21:57:54.3859|Debug|Added Здравствуй, будущее! | 
+2023-04-17 21:57:54.8211|Debug|Added Бескрайний бассейн | 
+2023-04-17 21:57:55.2528|Debug|Added Сын | 
+2023-04-17 21:57:55.7077|Debug|Added Аферисты | 
+2023-04-17 21:57:56.2010|Debug|Added Говорящий с призраками | 
+2023-04-17 21:57:56.6420|Debug|Added Пригород | 
+2023-04-17 21:57:57.0596|Debug|Added Наполеон Динамит | 
+2023-04-17 21:57:57.4830|Debug|Added Самый счастливый сезон | 
+2023-04-17 21:57:57.9700|Debug|Added Завтра | 
+2023-04-17 21:57:58.4106|Debug|Added Кто-то, кого я знал | 
+2023-04-17 21:57:58.8571|Debug|Added Нед Райфл | 
+2023-04-17 21:57:59.2812|Debug|Added Лебединая песня | 
+2023-04-17 21:58:01.1416|Error|[0] [System.Linq]
+	Value cannot be null. (Parameter 'source') | 
+2023-04-17 21:58:01.5838|Debug|Added Прощайте, месье Хаффманн | 
+2023-04-17 21:58:02.0478|Debug|Added Маленький Николя | 
+2023-04-17 21:58:02.4992|Debug|Added Тревожный звонок | 
+2023-04-17 21:58:03.0955|Debug|Added К тебе или ко мне? | 
+2023-04-17 21:58:03.5309|Debug|Added Кружи меня | 
+2023-04-17 21:58:04.1058|Debug|Added Нолли | 
+2023-04-17 21:58:04.5270|Debug|Added Лохматый спецназ | 
+2023-04-17 21:58:04.9666|Debug|Added Империя света | 
+2023-04-17 21:58:05.3877|Debug|Added Ферма Кларксона | 
+2023-04-17 21:58:05.9718|Debug|Added Человек из песка | 
+2023-04-17 21:58:06.5340|Debug|Added Земля Алькаррас | 
+2023-04-17 21:58:08.5437|Debug|Added Легион супергероев | 
+2023-04-17 21:58:09.1186|Debug|Added Время Армагеддона | 
+2023-04-17 21:58:10.4081|Debug|Added Взломщик | 
+2023-04-17 21:58:10.8681|Debug|Added Малышка Руби | 
+2023-04-17 21:58:11.2644|Debug|Added Легкие деньги | 
+2023-04-17 21:58:11.7553|Debug|Added Незавершённое дело | 
+2023-04-17 21:58:12.1617|Debug|Added Элис, дорогая | 
+2023-04-17 21:58:12.6901|Debug|Added Фрагменты женщины | 
+2023-04-17 21:58:13.1633|Debug|Added Крушение | 
+2023-04-17 21:58:13.6509|Debug|Added Вавилон | 
+2023-04-17 21:58:14.1854|Debug|Added Милый Эдвард | 
+2023-04-17 21:58:14.7079|Debug|Added Набережная туманов | 
+2023-04-17 21:58:16.8042|Debug|Added Ковчег | 
+2023-04-17 21:58:17.3700|Debug|Added Рука | 
+2023-04-17 21:58:17.7494|Debug|Added Жена анархиста | 
+2023-04-17 21:58:18.2041|Debug|Added Чёрная Пантера: Ваканда навеки | 
+2023-04-17 21:58:18.5833|Debug|Added Симон и дубы | 
+2023-04-17 21:58:18.9705|Debug|Added Дзюндзи Ито: Маньяк | 
+2023-04-17 21:58:19.6990|Debug|Added Когда ты закончишь спасать мир | 
+2023-04-17 21:58:20.2587|Debug|Added Шоу 90-х | 
+2023-04-17 21:58:20.6570|Debug|Added Моя пиратская свадьба | 
+2023-04-17 21:58:21.2036|Debug|Added Брейк-пойнт | 
+2023-04-17 21:58:21.6514|Debug|Added Оборотень: Фильм | 
+2023-04-17 21:58:22.0486|Debug|Added Покерфейс | 
+2023-04-17 21:58:23.9168|Debug|Added Что за люди | 
+2023-04-17 21:58:24.3106|Debug|Added Волчья стая | 
+2023-04-17 21:58:24.7315|Debug|Added Пурпурные сердца | 
+2023-04-17 21:58:25.1397|Debug|Added Терапия | 
+2023-04-17 21:58:25.6913|Debug|Added Последний из племени людей-псов | 
+2023-04-17 21:58:26.0814|Debug|Added Агентство «Локвуд и компания» | 
+2023-04-17 21:58:26.4825|Debug|Added Меня зовут Месть | 
+2023-04-17 21:58:26.8702|Debug|Added Передозировка | 
+2023-04-17 21:58:27.2784|Debug|Added М3ГАН / МЕГАН | 
+2023-04-17 21:58:27.8244|Debug|Added Поле | 
+2023-04-17 21:58:28.2213|Debug|Added Неуязвимый | 
+2023-04-17 21:58:28.6140|Debug|Added Обвиняемые | 
+2023-04-17 21:58:30.5852|Debug|Added Дэвид Боуи: Лунная мечта | 
+2023-04-17 21:58:31.1028|Debug|Added Геттисбург | 
+2023-04-17 21:58:31.4876|Debug|Added Пропала собака | 
+2023-04-17 21:58:31.8711|Debug|Added Сознавайтесь, Флетч | 
+2023-04-17 21:58:32.2960|Debug|Added С детьми что-то не так | 
+2023-04-17 21:58:32.6915|Debug|Added Чон-и | 
+2023-04-17 21:58:33.2199|Debug|Added Морские котики | 
+2023-04-17 21:58:33.7618|Debug|Added На всех парах! | 
+2023-04-17 21:58:34.1538|Debug|Added Тэд-путешественник и изумрудная скрижаль | 
+2023-04-17 21:58:34.5541|Debug|Added Атака титанов: Выбор без сожалений | 
+2023-04-17 21:58:34.9421|Debug|Added Борджиа | 
+2023-04-17 21:58:35.5215|Debug|Added Десять процентов | 
+2023-04-17 21:58:37.4155|Debug|Added Леди-ястреб | 
+2023-04-17 21:58:37.8625|Debug|Added Атлантида | 
+2023-04-17 21:58:38.2452|Debug|Added Лукас | 
+2023-04-17 21:58:38.6523|Debug|Added Постучись в мою дверь | 
+2023-04-17 21:58:39.1889|Debug|Added Летний призрак | 
+2023-04-17 21:58:39.5902|Debug|Added Буровая | 
+2023-04-17 21:58:40.1105|Debug|Added Вива, Сапата! | 
+2023-04-17 21:58:40.4894|Debug|Added Пропавшие девушки | 
+2023-04-17 21:58:40.8996|Debug|Added Одни из нас | 
+2023-04-17 21:58:41.3158|Debug|Added Отзвуки прошлого | 
+2023-04-17 21:58:41.7143|Error|[161] [Cimber.Scraper]
+	Index was outside the bounds of the array. | 
+2023-04-17 21:58:41.7143|Debug|Added Калейдоскоп | 
+2023-04-17 21:58:42.1214|Debug|Added Призраки прошлого | 
+2023-04-17 21:58:43.8235|Debug|Added Мэйфейрские ведьмы | 
+2023-04-17 21:58:44.3675|Debug|Added Мелисса: Интимный дневник | 
+2023-04-17 21:58:44.7654|Debug|Added Шервуд | 
+2023-04-17 21:58:45.2013|Debug|Added Паранормальные явления. Дом призраков | 
+2023-04-17 21:58:45.7453|Debug|Added Плата за подставу | 
+2023-04-17 21:58:46.1412|Debug|Added Таинственное убийство | 
+2023-04-17 21:58:46.5405|Debug|Added Зубастики 3 | 
+2023-04-17 21:58:47.0754|Debug|Added Зубастики 2: Основное блюдо | 
+2023-04-17 21:58:47.4856|Debug|Added Зубастики | 
+2023-04-17 21:58:48.0263|Debug|Added Бездна | 
+2023-04-17 21:58:48.5601|Debug|Added Людвиг | 
+2023-04-17 21:58:48.9396|Debug|Added Тот, кто меня бережет | 
+2023-04-17 21:58:51.0751|Debug|Added Леди Смерть | 
+2023-04-17 21:58:51.4571|Debug|Added Всевидящее око | 
+2023-04-17 21:58:51.8463|Debug|Added Двойная петля | 
+2023-04-17 21:58:52.2735|Debug|Added Лукизм | 
+2023-04-17 21:58:52.6721|Debug|Added Хищники | 
+2023-04-17 21:58:53.0563|Debug|Added Кот в сапогах 2: Последнее желание | 
+2023-04-17 21:58:53.4480|Debug|Added Остров | 
+2023-04-17 21:58:53.8415|Debug|Added Мирай из будущего | 
+2023-04-17 21:58:54.3487|Debug|Added Похищение Радена Салеха | 
+2023-04-17 21:58:54.7327|Debug|Added Пронзительно громко | 
+2023-04-17 21:58:55.1151|Debug|Added Смертельная охота | 
+2023-04-17 21:58:55.8486|Debug|Added Не дыши: Начало | 
+2023-04-17 21:58:59.9743|Info|Logger has been initialized | 
+2023-04-17 21:59:08.3895|Debug|Added Ренфилд | 
+2023-04-17 21:59:11.6332|Debug|Added Последнее королевство: Семь королей должны умереть | 
+2023-04-17 21:59:14.4062|Debug|Added Таксисты | 
+2023-04-17 21:59:16.8025|Debug|Added Вознеси хвалу | 
+2023-04-17 21:59:19.1929|Debug|Added Почти любовь с диджеем Мохаббатом | 
+2023-04-17 21:59:23.0142|Error|[0] [System.Net.Security]
+	 Received an unexpected EOF or 0 bytes from the transport stream. | 
+2023-04-17 21:59:23.0142|Error|[128] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 21:59:25.8394|Debug|Added Человек-муравей и Оса: Квантомания | 
+2023-04-17 21:59:26.8617|Debug|Added Тропа смерти | 
+2023-04-17 21:59:27.7865|Debug|Added Хоккей — навсегда! | 
+2023-04-17 21:59:28.7505|Debug|Added Доктор Свисток | 
+2023-04-17 21:59:29.6758|Debug|Added Безумная свадьба 3 | 
+2023-04-17 21:59:30.5990|Debug|Added Авантюристки | 
+2023-04-17 21:59:33.9453|Debug|Added Ряд 19 | 
+2023-04-17 21:59:34.8402|Debug|Added Учености плоды | 
+2023-04-17 21:59:35.6973|Debug|Added Идеальная жена | 
+2023-04-17 21:59:36.6583|Debug|Added Хороший человек | 
+2023-04-17 21:59:37.6045|Debug|Added Волчий сад | 
+2023-04-17 21:59:38.7541|Debug|Added Черные чемоданы | 
+2023-04-17 21:59:39.7472|Debug|Added Банды Парижа | 
+2023-04-17 21:59:40.7446|Debug|Added Репетитор | 
+2023-04-17 21:59:41.7412|Debug|Added Бункер | 
+2023-04-17 21:59:42.6473|Debug|Added При чем тут любовь? | 
+2023-04-17 21:59:43.6692|Debug|Added Супербратья Марио. Фильм | 
+2023-04-17 21:59:44.5841|Debug|Added Подмена | 
+2023-04-17 21:59:46.5728|Debug|Added Ах, Белинда | 
+2023-04-17 21:59:47.5760|Debug|Added Малум | 
+2023-04-17 21:59:48.5525|Debug|Added Голод | 
+2023-04-17 21:59:49.3902|Debug|Added Один день в шкуре льва | 
+2023-04-17 21:59:50.2457|Debug|Added Гарсия и Гарсия 2: переполох в отеле | 
+2023-04-17 21:59:51.2527|Debug|Added Сына своего единородного | 
+2023-04-17 21:59:52.2311|Debug|Added Мумиёшки | 
+2023-04-17 21:59:53.0740|Debug|Added Несчастливые навсегда | 
+2023-04-17 21:59:54.0703|Debug|Added Эта любовь | 
+2023-04-17 21:59:55.0733|Debug|Added Кольцевая линия | 
+2023-04-17 21:59:56.0676|Debug|Added Быть | 
+2023-04-17 21:59:57.3043|Debug|Added Убийство в Париже | 
+2023-04-17 21:59:59.2228|Debug|Added Миссия ассасина | 
+2023-04-17 22:00:00.2489|Debug|Added Бюро магических услуг | 
+2023-04-17 22:00:01.1026|Debug|Added Здоровый человек | 
+2023-04-17 22:00:02.6962|Debug|Added Три мушкетёра | 
+2023-04-17 22:00:03.7250|Debug|Added Простые вещи | 
+2023-04-17 22:00:04.8275|Debug|Added Экзорцист Ватикана | 
+2023-04-17 22:00:06.3933|Debug|Added Крид 3 | 
+2023-04-17 22:00:07.7042|Debug|Added Чемпионы | 
+2023-04-17 22:00:09.6067|Debug|Added Аватар 2: Путь воды | 
+2023-04-17 22:00:11.9021|Debug|Added Чупа | 
+2023-04-17 22:00:14.2004|Debug|Added Нераскрытые дела Мистери Лейн | 
+2023-04-17 22:00:16.7082|Debug|Added Томас против Томаса | 
+2023-04-17 22:00:19.9891|Debug|Added На одном крыле | 
+2023-04-17 22:00:20.9569|Debug|Added Три мушкетёра: Д’Артаньян | 
+2023-04-17 22:00:21.9514|Debug|Added По следу хакера | 
+2023-04-17 22:00:22.9357|Debug|Added Нежданная благодать | 
+2023-04-17 22:00:23.8460|Debug|Added Майор | 
+2023-04-17 22:00:24.7865|Debug|Added Южное Евангелие | 
+2023-04-17 22:00:25.8128|Debug|Added Детектор | 
+2023-04-17 22:00:26.8553|Debug|Added Не стучи | 
+2023-04-17 22:00:27.7647|Debug|Added Стражи времени | 
+2023-04-17 22:00:28.7121|Debug|Added Соглашение на выпускной | 
+2023-04-17 22:00:29.7140|Debug|Added Игра в любовь | 
+2023-04-17 22:00:30.7067|Debug|Added Беспринципные в деревне | 
+2023-04-17 22:00:32.8823|Debug|Added Одержимость спасателя | 
+2023-04-17 22:00:34.3966|Debug|Added 65 | 
+2023-04-17 22:00:35.4847|Debug|Added Шазам! Ярость богов | 
+2023-04-17 22:00:36.4497|Debug|Added За гранью времени | 
+2023-04-17 22:00:37.3584|Debug|Added Крайняя мера | 
+2023-04-17 22:00:38.5533|Debug|Added Невеста из Америки | 
+2023-04-17 22:00:39.5508|Debug|Added Маленькие победы | 
+2023-04-17 22:00:40.6762|Debug|Added Бешенство | 
+2023-04-17 22:00:41.6749|Debug|Added Любовь-морковь: Восстание машин | 
+2023-04-17 22:00:42.6529|Debug|Added Внутри | 
+2023-04-17 22:00:43.5402|Debug|Added Ещё есть время | 
+2023-04-17 22:00:44.5246|Debug|Added Четвёртый пассажир | 
+2023-04-17 22:00:46.6248|Debug|Added Игра в ложь | 
+2023-04-17 22:00:47.7003|Debug|Added Эскортница | 
+2023-04-17 22:00:48.5905|Debug|Added Кукольник | 
+2023-04-17 22:00:49.4203|Debug|Added Идеальный брат | 
+2023-04-17 22:00:50.4119|Debug|Added Фурии | 
+2023-04-17 22:00:51.4158|Debug|Added Преступный квест | 
+2023-04-17 22:00:52.2917|Debug|Added Буран | 
+2023-04-17 22:00:53.1304|Debug|Added Миллионер на три дня | 
+2023-04-17 22:00:54.1189|Debug|Added Свингеры | 
+2023-04-17 22:00:55.1343|Debug|Added Идеальная зависимость | 
+2023-04-17 22:00:56.1334|Debug|Added Жар-птица | 
+2023-04-17 22:00:57.0244|Debug|Added Встань! | 
+2023-04-17 22:00:59.3162|Debug|Added Брак по ошибке | 
+2023-04-17 22:01:00.1569|Debug|Added Созданы друг для друга | 
+2023-04-17 22:01:03.5977|Info|Logger has been initialized | 
+2023-04-17 22:01:11.9614|Debug|Added Таксисты | 
+2023-04-17 22:01:13.2432|Debug|Added Ренфилд | 
+2023-04-17 22:01:14.6436|Debug|Added Последнее королевство: Семь королей должны умереть | 
+2023-04-17 22:01:15.5904|Debug|Added Почти любовь с диджеем Мохаббатом | 
+2023-04-17 22:01:16.5915|Debug|Added Вознеси хвалу | 
+2023-04-17 22:01:17.6929|Debug|Added Три мушкетёра: Д’Артаньян | 
+2023-04-17 22:01:18.6389|Debug|Added Несчастливые навсегда | 
+2023-04-17 22:01:19.5533|Debug|Added Голод | 
+2023-04-17 22:01:20.4892|Debug|Added Бункер | 
+2023-04-17 22:01:21.4295|Debug|Added Банды Парижа | 
+2023-04-17 22:01:22.4201|Debug|Added Хороший человек | 
+2023-04-17 22:01:23.3473|Debug|Added Репетитор | 
+2023-04-17 22:01:30.5340|Debug|Added Черные чемоданы | 
+2023-04-17 22:01:31.4598|Debug|Added Волчий сад | 
+2023-04-17 22:01:32.4085|Debug|Added При чём тут любовь? | 
+2023-04-17 22:01:33.3524|Debug|Added Ах, Белинда | 
+2023-04-17 22:05:07.8793|Info|Logger has been initialized | 
+2023-04-17 22:05:13.8025|Debug|Added Шоу Біг Шоу | 
+2023-04-17 22:05:14.5174|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:05:15.4555|Debug|Added Плащ і Кинджал | 
+2023-04-17 22:05:16.3633|Debug|Added Нескромний погляд | 
+2023-04-17 22:05:17.4923|Debug|Added Останнє королівство: Сім королів мають померти / Смерть семи королів | 
+2023-04-17 22:05:18.3372|Debug|Added Чоловік із Флориди | 
+2023-04-17 22:05:19.6062|Debug|Added Вона спекла вбивство: Загадка шоколадного печива | 
+2023-04-17 22:05:24.7669|Debug|Added Віктор Лессар | 
+2023-04-17 22:05:26.3645|Debug|Added Усю ніч | 
+2023-04-17 22:05:27.1810|Debug|Added Вітні. Я хочу танцювати з кимось | 
+2023-04-17 22:05:28.4336|Debug|Added Між життям та смертю | 
+2023-04-17 22:05:29.1998|Debug|Added Дружина мандрівника у часі | 
+2023-04-17 22:05:29.8856|Debug|Added Останнє, що він сказав мені | 
+2023-04-17 22:05:31.8885|Debug|Added Сліпі плями | 
+2023-04-17 22:05:32.6527|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:05:32.6527|Debug|Added Супермен та Лоїс | 
+2023-04-17 22:05:34.9770|Debug|Added Великі сподівання | 
+2023-04-17 22:05:43.0527|Debug|Added Закохати Ямаду до 99 рівня / Моя Історія Кохання з Ямадою 999 рівня | 
+2023-04-17 22:05:43.7857|Debug|Added Пеклорай / Пекельний рай | 
+2023-04-17 22:05:48.7009|Debug|Added Моя незграбна фея | 
+2023-04-17 22:05:50.2852|Debug|Added Титани | 
+2023-04-17 22:05:51.3028|Debug|Added Зимова Бегонія | 
+2023-04-17 22:05:53.5899|Debug|Added Наруто: Ураганні хроніки | 
+2023-04-17 22:05:54.5127|Debug|Added Прибулець з казки | 
+2023-04-17 22:05:56.9844|Debug|Added Чорно-біле кохання | 
+2023-04-17 22:05:58.0683|Debug|Added Сипахи | 
+2023-04-17 22:05:59.0226|Debug|Added Его | 
+2023-04-17 22:06:00.7750|Debug|Added Я винний! / Доведіть мою провину / Визнайте мене винним | 
+2023-04-17 22:06:02.2010|Debug|Added Зачистка | 
+2023-04-17 22:06:03.0655|Debug|Added Зіркова хвороба | 
+2023-04-17 22:06:04.5937|Debug|Added Марлоу | 
+2023-04-17 22:06:05.6863|Debug|Added Край Землі | 
+2023-04-17 22:06:07.9621|Debug|Added Виготовлено у Фінляндії | 
+2023-04-17 22:06:08.8981|Debug|Added Столітнє диво | 
+2023-04-17 22:06:11.1842|Debug|Added Ґюльджемаль | 
+2023-04-17 22:06:12.1635|Debug|Added Люби мене | 
+2023-04-17 22:06:14.6368|Debug|Added Мене звуть Фарах | 
+2023-04-17 22:06:15.6495|Debug|Added Золота куля / Куля для генерала | 
+2023-04-17 22:06:17.3297|Debug|Added Музика з іншої кімнати | 
+2023-04-17 22:06:18.4188|Debug|Added Тримайся | 
+2023-04-17 22:06:20.5497|Debug|Added Рівердейл | 
+2023-04-17 22:06:21.3694|Debug|Added Бебі Бос: Назад до колиски | 
+2023-04-17 22:06:22.4411|Debug|Added Королева | 
+2023-04-17 22:06:23.3907|Debug|Added Родина | 
+2023-04-17 22:06:26.9836|Debug|Added Щасливчик Генк | 
+2023-04-17 22:06:28.7023|Debug|Added Там у лісі людина | 
+2023-04-17 22:06:29.5146|Debug|Added Прислуга | 
+2023-04-17 22:06:30.3100|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:06:30.3100|Debug|Added Спадкоємці | 
+2023-04-17 22:06:31.4343|Debug|Added Перрі Мейсон | 
+2023-04-17 22:06:32.2871|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:06:34.0187|Debug|Added Літні ігри | 
+2023-04-17 22:06:35.9976|Debug|Added Пережити своє життя | 
+2023-04-17 22:06:37.6133|Debug|Added Детектив Гурман | 
+2023-04-17 22:06:38.6425|Debug|Added Творці страхів | 
+2023-04-17 22:06:39.3828|Debug|Added Смерть у Техасі | 
+2023-04-17 22:06:40.2894|Debug|Added Фукусіма | 
+2023-04-17 22:06:41.0310|Debug|Added Кошмар Юрського періоду | 
+2023-04-17 22:06:42.3030|Debug|Added Авантюристки | 
+2023-04-17 22:06:43.3911|Debug|Added Імплант | 
+2023-04-17 22:06:44.1568|Debug|Added Операція «Фортуна»: Мистецтво перемоги | 
+2023-04-17 22:06:45.1292|Debug|Added Криваві квіти | 
+2023-04-17 22:06:47.3325|Debug|Added Можливо, одного дня ми знову зустрінемося | 
+2023-04-17 22:06:48.5910|Debug|Added Падіння Токіо | 
+2023-04-17 22:06:49.9254|Debug|Added Полонянка | 
+2023-04-17 22:06:50.8752|Debug|Added Шахмаран | 
+2023-04-17 22:06:52.2113|Debug|Added Мегре й таємнича дівчина | 
+2023-04-17 22:06:53.1010|Debug|Added Відлуння злочину | 
+2023-04-17 22:06:54.0530|Debug|Added Володар тіней | 
+2023-04-17 22:06:54.9951|Debug|Added Підстава | 
+2023-04-17 22:06:55.7452|Debug|Added Ще є час | 
+2023-04-17 22:07:00.7621|Debug|Added Таємниці ранкового шоу. Смертельні прикрощі | 
+2023-04-17 22:07:01.9924|Debug|Added Таємниці ранкового шоу: Убивство в меню | 
+2023-04-17 22:07:02.7211|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:02.7224|Debug|Added Чорний список | 
+2023-04-17 22:07:08.2913|Debug|Added Мандалорець / Мандалоріанець | 
+2023-04-17 22:07:09.2338|Debug|Added Союз душ | 
+2023-04-17 22:07:14.1604|Debug|Added Фарс | 
+2023-04-17 22:07:17.4986|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:30.3786|Debug|Added Клинок, який знищує демонів | 
+2023-04-17 22:07:32.9169|Debug|Added Віолета Еверґарден: Вічність і автозапам’ятовуюча лялька | 
+2023-04-17 22:07:36.0740|Debug|Added Новобранець: Федерали | 
+2023-04-17 22:07:42.1486|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:43.2626|Debug|Added Ксена - королева воїнів | 
+2023-04-17 22:07:44.4139|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:44.4139|Debug|Added Дивовижні мандрівки Геракла | 
+2023-04-17 22:07:45.1196|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:45.1196|Debug|Added Друзі | 
+2023-04-17 22:07:47.4995|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:47.4995|Debug|Added Доктор Хаус | 
+2023-04-17 22:07:49.6084|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:49.6084|Debug|Added Наруто | 
+2023-04-17 22:07:50.6607|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:52.3814|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:52.3814|Debug|Added Качині історії | 
+2023-04-17 22:07:53.2091|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:07:53.2091|Debug|Added Південний парк | 
+2023-04-17 22:07:54.7727|Debug|Added Рій | 
+2023-04-17 22:07:56.1594|Debug|Added Та, що говорить із Привидами | 
+2023-04-17 22:07:57.1928|Debug|Added Добрий лікар / Хороший лікар | 
+2023-04-17 22:07:57.9579|Debug|Added Маніфест | 
+2023-04-17 22:07:59.8684|Debug|Added Новобранець | 
+2023-04-17 22:08:00.6524|Debug|Added Величне століття. Роксолана | 
+2023-04-17 22:08:01.4715|Debug|Added Кремнієва Долина | 
+2023-04-17 22:08:02.6702|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:08:02.6702|Debug|Added Зоряні Війни: Війни клонів | 
+2023-04-17 22:08:03.5851|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:08:03.5851|Debug|Added Авеню 5 | 
+2023-04-17 22:08:05.5924|Debug|Added Таємниці Смолвіля | 
+2023-04-17 22:08:07.5920|Debug|Added Рання пташка | 
+2023-04-17 22:08:08.6102|Debug|Added Малкольм у центрі уваги | 
+2023-04-17 22:08:10.4134|Debug|Added CSI: Місце злочину - Нью-Йорк | 
+2023-04-17 22:08:16.4062|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:08:20.3842|Debug|Added Перемовини | 
+2023-04-17 22:08:21.2202|Debug|Added Слабкий Герой | 
+2023-04-17 22:08:23.7678|Debug|Added Немає виходу | 
+2023-04-17 22:08:25.5454|Debug|Added Дім брехні: трояндове помешкання | 
+2023-04-17 22:08:28.9302|Debug|Added Неймовірні пригоди Джоджо: незламний діамант - частина 1 | 
+2023-04-17 22:08:29.7471|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:08:29.7471|Debug|Added Детектив Рой Грейс / Ґрейс | 
+2023-04-17 22:08:32.1729|Debug|Added Жити | 
+2023-04-17 22:08:33.4825|Debug|Added Бекет | 
+2023-04-17 22:08:34.7979|Debug|Added Бріолін | 
+2023-04-17 22:08:36.1330|Debug|Added Гольф-клуб | 
+2023-04-17 22:08:36.9460|Debug|Added Зрада голубки | 
+2023-04-17 22:08:38.1469|Debug|Added Моральний Орел | 
+2023-04-17 22:08:38.8440|Debug|Added Зачароване королівство | 
+2023-04-17 22:08:40.0274|Debug|Added Четверта особа / Четверта людина | 
+2023-04-17 22:08:40.8007|Debug|Added Аномалія | 
+2023-04-17 22:08:41.6107|Debug|Added Детектив, що помирає | 
+2023-04-17 22:08:43.2356|Debug|Added Детективні королеви / Королеви таємниць | 
+2023-04-17 22:08:43.8466|Debug|Added План | 
+2023-04-17 22:08:44.6138|Debug|Added Шимпанзе під прикриттям | 
+2023-04-17 22:08:45.3978|Debug|Added Неідеальні попутники | 
+2023-04-17 22:08:48.6786|Debug|Added Вінскі та порошок-невидимка | 
+2023-04-17 22:08:49.4577|Debug|Added Розмови з убивцею: Записи Джеффрі Дамера | 
+2023-04-17 22:08:50.5893|Debug|Added My Little Pony: Залиш свою відзнаку | 
+2023-04-17 22:08:52.4417|Debug|Added Баррі | 
+2023-04-17 22:08:54.9765|Debug|Added Гріфіни / Сім&#039;янин | 
+2023-04-17 22:08:56.8846|Debug|Added Токійські месники | 
+2023-04-17 22:08:57.7783|Debug|Added Загублений смартфон / Вкрадена особа | 
+2023-04-17 22:08:58.6799|Debug|Added Кохання під домашнім арештом | 
+2023-04-17 22:08:59.5098|Debug|Added Дива Сонячної системи | 
+2023-04-17 22:09:01.6525|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:04.2289|Debug|Added Моя академія героїв: Місія світових героїв | 
+2023-04-17 22:09:06.8615|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:07.9188|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:08.8322|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:10.1966|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:11.1143|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:12.0194|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:13.0715|Debug|Added Один: Сезон сяйва | 
+2023-04-17 22:09:14.1607|Debug|Added Колекція Джюнджі Іто | 
+2023-04-17 22:09:15.6493|Debug|Added Темпл Ґрандін | 
+2023-04-17 22:09:20.5206|Debug|Added Ласкаво просимо на Космічне Шоу | 
+2023-04-17 22:09:21.3960|Debug|Added Сила принцес | 
+2023-04-17 22:09:22.6689|Debug|Added Зіткнення | 
+2023-04-17 22:09:24.0221|Debug|Added Буль і Білл | 
+2023-04-17 22:09:24.9767|Debug|Added Чудова ласка | 
+2023-04-17 22:09:26.7270|Debug|Added Єшильчам | 
+2023-04-17 22:09:27.6472|Debug|Added Еліс | 
+2023-04-17 22:09:28.5739|Debug|Added Полум&#039;яне Серце / Вогняне серце | 
+2023-04-17 22:09:30.3467|Debug|Added Тар | 
+2023-04-17 22:09:39.8996|Debug|Added Загадкове вбивство 2 | 
+2023-04-17 22:09:40.8358|Debug|Added Форсаж. Китайський дрифт | 
+2023-04-17 22:09:42.5597|Debug|Added Кабаре | 
+2023-04-17 22:09:44.5506|Debug|Added Техаська різанина бензопилою | 
+2023-04-17 22:09:46.2893|Debug|Added Вбивча краса | 
+2023-04-17 22:09:47.2356|Debug|Added Гордість та слава | 
+2023-04-17 22:09:48.3962|Debug|Added Супер Бріс | 
+2023-04-17 22:09:49.1930|Debug|Added Formula 1: Жени, щоб вижити | 
+2023-04-17 22:09:49.9543|Debug|Added Разом з кістками | 
+2023-04-17 22:09:50.9100|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:51.8301|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:54.1197|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:54.8806|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:55.7998|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:57.7590|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:09:58.7723|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:00.3981|Debug|Added Постукай в мої двері | 
+2023-04-17 22:10:01.1976|Debug|Added Маленька Одеса | 
+2023-04-17 22:10:01.9931|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:02.9912|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:04.5784|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:05.5040|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:07.7254|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:12.3611|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:13.5627|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:14.3486|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:16.1662|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:19.5408|Debug|Added Хрещений батько Гарлему | 
+2023-04-17 22:10:20.0541|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:20.8257|Debug|Added Обряд | 
+2023-04-17 22:10:23.7549|Debug|Added Справжній злочин | 
+2023-04-17 22:10:24.6573|Debug|Added Згуба до ваших послуг | 
+2023-04-17 22:10:27.3101|Debug|Added Кода | 
+2023-04-17 22:10:29.4873|Debug|Added У пошуках людини | 
+2023-04-17 22:10:30.6375|Debug|Added Я тебе пам&#039;ятаю / Привіт, монстр | 
+2023-04-17 22:10:32.2185|Debug|Added Собака Баскервілів | 
+2023-04-17 22:10:33.2134|Debug|Added Легенда про Піпі | 
+2023-04-17 22:10:33.9554|Debug|Added Острів | 
+2023-04-17 22:10:43.5855|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:10:44.6641|Debug|Added Перл | 
+2023-04-17 22:10:55.1143|Debug|Added Невже шукати дівчину в підземеллі - неправильно? | 
+2023-04-17 22:10:55.9933|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:11:00.0300|Debug|Added За що нам це? | 
+2023-04-17 22:11:05.2284|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:11:16.3686|Debug|Added Брокер | 
+2023-04-17 22:11:17.0607|Debug|Added 365: Один рік наперекір долі | 
+2023-04-17 22:11:18.0398|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:11:18.0398|Debug|Added Леді Баг та Супер-Кіт | 
+2023-04-17 22:11:19.0992|Debug|Added Дівчина Боббі | 
+2023-04-17 22:11:20.6503|Debug|Added Карнівал Роу | 
+2023-04-17 22:11:23.5268|Debug|Added Хлопці із сільського пекла | 
+2023-04-17 22:11:24.5261|Debug|Added Прокляття матері: Схованки на виживання | 
+2023-04-17 22:11:25.4529|Debug|Added Супергерої | 
+2023-04-17 22:11:26.5914|Debug|Added Ласкаво просимо до Риму. Нові пригоди | 
+2023-04-17 22:11:27.8281|Debug|Added Як убили Джона Кеннеді | 
+2023-04-17 22:11:28.6457|Debug|Added Чорний телефон | 
+2023-04-17 22:11:29.4720|Debug|Added Імперія світла | 
+2023-04-17 22:11:30.2056|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:11:32.1134|Debug|Added Дзвінок, книга, свічка | 
+2023-04-17 22:11:33.8446|Debug|Added Розсіяний | 
+2023-04-17 22:11:34.8138|Debug|Added Звірі, які чіпляються за соломинку | 
+2023-04-17 22:11:35.7370|Debug|Added Дівчина XX століття | 
+2023-04-17 22:11:36.8425|Debug|Added Амаркорд | 
+2023-04-17 22:11:37.6765|Debug|Added Арктичний вибух | 
+2023-04-17 22:11:38.8840|Debug|Added Щасти, Чарлі! Кінощоденник подорожі | 
+2023-04-17 22:11:39.8371|Debug|Added Внутрішній ворог | 
+2023-04-17 22:11:41.9742|Debug|Added Очима гризлі | 
+2023-04-17 22:11:42.9428|Debug|Added Виклик безодні | 
+2023-04-17 22:11:43.6991|Debug|Added Тінь та Кістка | 
+2023-04-17 22:11:46.5250|Debug|Added Буґі | 
+2023-04-17 22:11:47.6130|Debug|Added Шалений дівич-вечір | 
+2023-04-17 22:11:48.1592|Debug|Added Бандит | 
+2023-04-17 22:11:48.7159|Debug|Added Флеш | 
+2023-04-17 22:12:04.0250|Debug|Added Рана Найду | 
+2023-04-17 22:12:07.2231|Debug|Added Задихаючись | 
+2023-04-17 22:12:08.3295|Debug|Added Цілодобова крамниця флірту | 
+2023-04-17 22:12:08.9198|Debug|Added У нас є привид | 
+2023-04-17 22:12:09.5696|Debug|Added Амстердам | 
+2023-04-17 22:12:10.6880|Debug|Added Чоловік на ім&#039;я Отто | 
+2023-04-17 22:12:14.1085|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:12:14.1085|Debug|Added Зоряні Війни: Погана партія | 
+2023-04-17 22:12:15.7357|Debug|Added Барбарелла | 
+2023-04-17 22:12:17.9553|Debug|Added Гонитва за Бенджі | 
+2023-04-17 22:12:19.1052|Debug|Added Лист про кохання | 
+2023-04-17 22:12:23.9958|Debug|Added Тихий американець | 
+2023-04-17 22:12:25.0799|Debug|Added Школа Кьонсон: Зниклі Дівчата | 
+2023-04-17 22:12:26.8141|Debug|Added Сфабриковане Місто | 
+2023-04-17 22:12:27.9870|Debug|Added Райське шосе | 
+2023-04-17 22:12:31.5372|Debug|Added Команда мрії | 
+2023-04-17 22:12:38.0681|Debug|Added Ваша честь | 
+2023-04-17 22:12:42.1382|Debug|Added Лего Зоряні війни: Історія Дроїдів | 
+2023-04-17 22:12:43.6670|Debug|Added Викликайте акушерку | 
+2023-04-17 22:13:06.2780|Debug|Added Мій братик більше не братик | 
+2023-04-17 22:13:07.7490|Error|[174] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 22:13:09.3632|Debug|Added Хибні міркування | 
+2023-04-17 22:13:13.2785|Debug|Added Тобі, безсмертний | 
+2023-04-17 22:13:14.2005|Debug|Added Щасливого Нового Року | 
+2023-04-17 22:13:15.2233|Debug|Added ВІП | 
+2023-04-17 22:13:17.5368|Debug|Added Балкон | 
+2023-04-17 22:13:20.8891|Debug|Added Проста формальність | 
+2023-04-17 22:13:21.7641|Debug|Added Лісова прогулянка | 
+2023-04-17 22:13:22.9390|Debug|Added Тріумф | 
+2023-04-17 22:13:23.8596|Debug|Added Кохання: Інструкція з розлучення | 
+2023-04-17 22:13:27.7622|Debug|Added Казино | 
+2023-04-17 22:13:29.1227|Debug|Added Моя Маленька Поні: Дівчата з Еквестрії | 
+2023-04-17 22:13:31.2040|Debug|Added Котячий Кастинг | 
+2023-04-17 22:13:32.1705|Debug|Added Цибулини | 
+2023-04-17 22:13:34.9302|Debug|Added Приблуди | 
+2023-04-17 22:13:35.9315|Debug|Added Привид черниці з Борлі | 
+2023-04-17 22:13:36.8966|Debug|Added Децибел | 
+2023-04-17 22:13:38.7711|Info|Logger has been initialized | 
+2023-04-17 22:13:44.4131|Debug|Added Нестримне весілля | 
+2023-04-17 22:13:44.9275|Debug|Added Вітні. Я хочу танцювати з кимось | 
+2023-04-17 22:13:46.2633|Debug|Added Смерть семи королів | 
+2023-04-17 22:13:46.7165|Debug|Added Між життям та смертю | 
+2023-04-17 22:13:47.3553|Error|[0] [System.Linq]
+	Value cannot be null. (Parameter 'source') | 
+2023-04-17 22:13:48.3724|Debug|Added Зачистка | 
+2023-04-17 22:13:48.8292|Debug|Added Я винний! / Доведіть мою провину / Визнайте мене винним | 
+2023-04-17 22:13:49.3870|Debug|Added Марлоу | 
+2023-04-17 22:13:49.9174|Debug|Added Ведмідь під кайфом | 
+2023-04-17 22:13:50.3796|Debug|Added Тримайся | 
+2023-04-17 22:13:50.8254|Debug|Added Музика з іншої кімнати | 
+2023-04-17 22:13:51.2889|Debug|Added Золота куля / Куля для генерала | 
+2023-04-17 22:13:52.3180|Debug|Added Ще є час | 
+2023-04-17 22:13:52.7647|Debug|Added Творці страхів | 
+2023-04-17 22:13:53.2107|Debug|Added Прибулець з казки | 
+2023-04-17 22:13:53.7562|Debug|Added Підстава | 
+2023-04-17 22:13:54.2098|Debug|Added Авантюристки | 
+2023-04-17 22:13:54.6589|Debug|Added Хід короля | 
+2023-04-17 22:13:55.0958|Debug|Added Падіння Токіо | 
+2023-04-17 22:13:55.5002|Debug|Added Відлуння злочину | 
+2023-04-17 22:13:55.9476|Debug|Added Кошмар Юрського періоду | 
+2023-04-17 22:13:56.3260|Debug|Added Володар тіней | 
+2023-04-17 22:13:56.7901|Debug|Added Мегре й таємнича дівчина | 
+2023-04-17 22:13:57.1806|Debug|Added Пережити своє життя | 
+2023-04-17 22:13:57.6128|Debug|Added Літні ігри | 
+2023-04-17 22:13:58.0550|Debug|Added Фукусіма | 
+2023-04-17 22:13:58.4313|Debug|Added Імплант | 
+2023-04-17 22:13:58.8223|Debug|Added Смерть у Техасі | 
+2023-04-17 22:13:59.2710|Debug|Added Таємниці ранкового шоу: Убивство в меню | 
+2023-04-17 22:13:59.6661|Debug|Added Таємниці ранкового шоу. Смертельні прикрощі | 
+2023-04-17 22:14:00.0479|Debug|Added Союз душ | 
+2023-04-17 22:14:00.5023|Debug|Added Перемовини | 
+2023-04-17 22:14:01.0046|Debug|Added Немає виходу | 
+2023-04-17 22:14:01.4611|Debug|Added Жити | 
+2023-04-17 22:14:01.9049|Debug|Added Шимпанзе під прикриттям | 
+2023-04-17 22:14:02.2887|Debug|Added Неідеальні попутники | 
+2023-04-17 22:14:02.6942|Debug|Added Сьогодні спиш зі мною | 
+2023-04-17 22:14:03.5243|Info|211 | 
+2023-04-17 22:14:04.6955|Debug|Added Бріолін | 
+2023-04-17 22:14:05.5871|Debug|Added Гольф-клуб | 
+2023-04-17 22:14:05.9839|Debug|Added Зрада голубки | 
+2023-04-17 22:14:06.3623|Debug|Added Бекет | 
+2023-04-17 22:14:06.7592|Debug|Added Основний інстинкт 2 | 
+2023-04-17 22:14:07.1397|Debug|Added Неймовірні пригоди Джоджо: незламний діамант - частина 1 | 
+2023-04-17 22:14:08.0109|Debug|Added Вінскі та порошок-невидимка | 
+2023-04-17 22:14:08.4888|Debug|Added Загублений смартфон | 
+2023-04-17 22:14:08.8587|Debug|Added Кохання під домашнім арештом | 
+2023-04-17 22:14:09.2593|Debug|Added Лютер: Сонце на спаді | 
+2023-04-17 22:14:09.6453|Debug|Added Темпл Ґрандін | 
+2023-04-17 22:14:10.0190|Debug|Added Зіткнення | 
+2023-04-17 22:14:10.4063|Debug|Added Чудова ласка | 
+2023-04-17 22:14:10.8069|Debug|Added Еліс | 
+2023-04-17 22:14:11.6570|Debug|Added Буль і Білл | 
+2023-04-17 22:14:12.0501|Debug|Added Мурахи в штанях | 
+2023-04-17 22:14:12.4386|Debug|Added Ми були солдатами | 
+2023-04-17 22:14:12.8553|Debug|Added Тар | 
+2023-04-17 22:14:13.2569|Debug|Added Гордість та слава | 
+2023-04-17 22:14:13.6328|Debug|Added Техаська різанина бензопилою | 
+2023-04-17 22:14:14.0483|Debug|Added Загадкове вбивство 2 | 
+2023-04-17 23:01:48.0044|Info|Logger has been initialized | 
+2023-04-17 23:02:01.3659|Info|Logger has been initialized | 
+2023-04-17 23:02:06.1781|Error|[112] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 23:02:08.4167|Error|[112] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 23:02:22.0899|Info|Logger has been initialized | 
+2023-04-17 23:03:03.2552|Info|Logger has been initialized | 
+2023-04-17 23:05:18.4260|Info|Logger has been initialized | 
+2023-04-17 23:05:24.2389|Error|[112] [Cimber.Scraper]
+	Index was outside the bounds of the array. | 
+2023-04-17 23:05:25.0219|Error|[112] [Cimber.Scraper]
+	Index was outside the bounds of the array. | 
+2023-04-17 23:05:25.8327|Error|[112] [Cimber.Scraper]
+	Index was outside the bounds of the array. | 
+2023-04-17 23:05:59.1364|Info|Logger has been initialized | 
+2023-04-17 23:06:40.3949|Info|Logger has been initialized | 
+2023-04-17 23:07:50.0046|Info|Logger has been initialized | 
+2023-04-17 23:07:59.6477|Error|[0] [System.Private.CoreLib]
+	Length cannot be less than zero. (Parameter 'length') | 
+2023-04-17 23:08:02.4849|Error|[0] [System.Private.CoreLib]
+	Length cannot be less than zero. (Parameter 'length') | 
+2023-04-17 23:08:05.1073|Debug|Added The Wedding Cottage | 
+2023-04-17 23:08:07.5707|Error|[0] [System.Private.CoreLib]
+	Length cannot be less than zero. (Parameter 'length') | 
+2023-04-17 23:08:10.9099|Info|Logger has been initialized | 
+2023-04-17 23:08:17.5766|Error|[0] [System.Private.CoreLib]
+	Length cannot be less than zero. (Parameter 'length') | 
+2023-04-17 23:08:19.0109|Error|[0] [System.Private.CoreLib]
+	Length cannot be less than zero. (Parameter 'length') | 
+2023-04-17 23:08:33.7401|Info|Logger has been initialized | 
+2023-04-17 23:08:38.6109|Error|[0] [System.Private.CoreLib]
+	Length cannot be less than zero. (Parameter 'length') | 
+2023-04-17 23:08:41.6567|Error|[0] [System.Private.CoreLib]
+	Length cannot be less than zero. (Parameter 'length') | 
+2023-04-17 23:12:20.3393|Info|Logger has been initialized | 
+2023-04-17 23:12:49.9104|Debug|Added Horror in the High Desert 2: Minerva | 
+2023-04-17 23:12:59.0692|Info|Logger has been initialized | 
+2023-04-17 23:13:04.5552|Debug|Added Horror in the High Desert 2: Minerva | 
+2023-04-17 23:13:05.9264|Debug|Added Drunk, Driving, and 17 | 
+2023-04-17 23:13:07.3198|Debug|Added The Wedding Cottage | 
+2023-04-17 23:13:08.5941|Debug|Added Travelin&#8217; Band: Creedence Clearwater Revival at the Royal Albert Hall 1970 | 
+2023-04-17 23:13:10.6608|Debug|Added Save the Cinema | 
+2023-04-17 23:13:13.6997|Debug|Added A Nurse to Die For | 
+2023-04-17 23:13:16.5332|Debug|Added The Shoplifting Pact | 
+2023-04-17 23:13:19.7076|Debug|Added The Pay Day | 
+2023-04-17 23:13:20.9796|Debug|Added Acidman | 
+2023-04-17 23:13:22.2098|Debug|Added Renfield | 
+2023-04-17 23:13:24.9644|Debug|Added If I Can&#8217;t Have You | 
+2023-04-17 23:13:28.1176|Debug|Added The Wandering Earth II | 
+2023-04-17 23:13:30.8318|Debug|Added Kids vs. Aliens | 
+2023-04-17 23:13:33.8918|Debug|Added The Tutor | 
+2023-04-17 23:13:37.1543|Debug|Added Weathering | 
+2023-04-17 23:13:39.9175|Debug|Added Air | 
+2023-04-17 23:13:42.9903|Debug|Added Mafia Mamma | 
+2023-04-17 23:13:44.9042|Debug|Added One Day as a Lion | 
+2023-04-17 23:13:48.2345|Debug|Added The Last Kingdom: Seven Kings Must Die | 
+2023-04-17 23:13:51.5461|Debug|Added Lola 2 | 
+2023-04-17 23:13:54.2211|Debug|Added Infidelity | 
+2023-04-17 23:13:57.1986|Debug|Added Dance For Me | 
+2023-04-17 23:14:00.3652|Debug|Added Wolf Manor | 
+2023-04-17 23:14:03.1266|Debug|Added Kingslayer | 
+2023-04-17 23:14:06.6126|Debug|Added Ripper&#8217;s Revenge | 
+2023-04-17 23:14:09.3945|Debug|Added Celeste Barber: Fine, thanks | 
+2023-04-17 23:14:12.3523|Debug|Added The Seven Faces of Jane | 
+2023-04-17 23:14:15.0275|Debug|Added The Single&#8217;s Guidebook | 
+2023-04-17 23:14:17.9743|Debug|Added Leanne Morgan: I&#8217;m Every Woman | 
+2023-04-17 23:14:20.6988|Debug|Added The Blessing Bracelet | 
+2023-04-17 23:14:23.6252|Debug|Added Revealer | 
+2023-04-17 23:14:26.3663|Debug|Added Butch Cassidy and the Wild Bunch | 
+2023-04-17 23:14:29.3152|Debug|Added Best Friend | 
+2023-04-17 23:14:32.6391|Debug|Added What&#8217;s Love Got to Do with It? | 
+2023-04-17 23:14:35.2738|Debug|Added Jesus Revolution | 
+2023-04-17 23:14:38.1356|Debug|Added A Good Person | 
+2023-04-17 23:14:41.3128|Debug|Added The Professional Bridesmaid | 
+2023-04-17 23:14:42.5033|Debug|Added John Wick: Chapter 4 | 
+2023-04-17 23:14:45.2572|Debug|Added A Lot of Nothing | 
+2023-04-17 23:14:48.3542|Debug|Added A Simple Lie | 
+2023-04-17 23:14:49.0269|Error|[185] [Cimber.Scraper]
+	Object reference not set to an instance of an object. | 
+2023-04-17 23:16:30.6606|Info|Logger has been initialized | 
+2023-04-17 23:16:35.6392|Debug|Added Облака | 
+2023-04-17 23:16:36.0209|Debug|Added Закон Лидии Поэт | 
+2023-04-17 23:16:36.4033|Debug|Added Последнее королевство: Семь королей должны умереть | 
+2023-04-17 23:16:36.8180|Debug|Added Последнее, что он мне сказал | 
+2023-04-17 23:16:37.2247|Debug|Added Хороший человек | 
+2023-04-17 23:16:37.6363|Debug|Added Революция Иисуса | 
+2023-04-17 23:16:38.0242|Debug|Added Человек из Флориды | 
+2023-04-17 23:16:38.4596|Debug|Added Её правда | 
+2023-04-17 23:16:38.8678|Debug|Added Месть | 

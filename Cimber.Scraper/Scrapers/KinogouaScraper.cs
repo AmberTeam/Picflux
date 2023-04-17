@@ -4,7 +4,7 @@ using Spectre.Console;
 
 namespace Cimber.Scraper.Scrapers
 {
-    public class GidonlineScraper : BaseScraper
+    public class KinogouaScraper : BaseScraper
     {
         public override void Start()
         {
@@ -12,7 +12,7 @@ namespace Cimber.Scraper.Scrapers
             {
                 try
                 {
-                    getFilms(Website.GIDONLINE);
+                    getFilms(Website.KINOGOUA);
                     var pagesCount = getPagesCount();
 
                     AnsiConsole.Progress()
@@ -25,14 +25,14 @@ namespace Cimber.Scraper.Scrapers
                             new RemainingTimeColumn()
                         }).Start(ctx =>
                         {
-                            var task = ctx.AddTask($"[green]Scraping {Website.GIDONLINE}[/]");
+                            var task = ctx.AddTask($"[green]Scraping {Website.KINOGOUA}[/]");
                             task.MaxValue = pagesCount;
 
                             while (!ctx.IsFinished)
                             {
                                 for (int i = 2; i <= pagesCount; i++)
                                 {
-                                    var url = $"{Website.GIDONLINE}/page/{i}";
+                                    var url = $"{Website.KINOGOUA}/page/{i}";
 
                                     getFilms(url);
                                     Console.Clear();
@@ -89,55 +89,73 @@ namespace Cimber.Scraper.Scrapers
             try
             {
                 var document = GetDocument(url)?.DocumentNode;
-                var name = document?.SelectSingleNode(".//h1[@itemprop=\"name\"]").InnerText;
+                var name = document?.SelectSingleNode("/html/body/div[1]/div/div/main/div[2]/article/div[1]/header/h1").InnerText;
                 var year = document
-                    ?.SelectSingleNode(".//div[@itemprop=\"dateCreated\"]")
-                    .SelectSingleNode(".//a")
-                    .InnerText;
+                    ?.SelectNodes("/html/body/div[1]/div/div/main/div[2]/article/div[1]/div[2]/div[1]/a")
+                    .Where(a => a.Attributes["href"].Value.Contains("year"))
+                    .FirstOrDefault()!.InnerText;
                 var countries = document
-                    ?.SelectSingleNode(".//div[@itemprop=\"countryOfOrigin\"]")
-                    .SelectNodes(".//a")
-                    .Select(a => a.InnerText)
-                    .ToList();
-                var genres = document
-                    ?.SelectSingleNode(".//div[@itemprop=\"genre\"]")
-                    .SelectNodes(".//a")
-                    .Select(a => a.InnerText)
-                    .ToList();
+                    ?.SelectNodes("/html/body/div[1]/div/div/main/div[2]/article/div[1]/div[2]/div[1]/a")
+                    .Where(a => a.Attributes["href"].Value.Contains("country")).Select(a => a.InnerText).ToList();
+                List<string> genres = new List<string>();
+                try
+                {
+                    genres = document
+                        !.SelectNodes("/html/body/div[1]/div/div/main/div[2]/article/div[1]/div[2]/ul/li/div[contains(normalize-space(),\"Жанр\")]/parent::*/a")
+                        .Select(a => a.InnerText).ToList();
+                }
+                catch { }
                 var duration = document
-                    ?.SelectSingleNode(".//div[@itemprop=\"duration\"]")
-                    .InnerText;
+                    ?.SelectSingleNode("/html/body/div[1]/div/div/main/div[2]/article/div[1]/div[2]/div[1]")
+                    .InnerText
+                    .Split(",")
+                    .Where(x => x.Contains("хв")).FirstOrDefault();
                 var description = document
-                    ?.SelectSingleNode(".//div[@itemprop=\"description\"]")
-                    .SelectSingleNode(".//p")
+                    ?.SelectSingleNode(".//div[contains(concat(\" \",normalize-space(@class),\" \"),\" full-text \")]")
                     .InnerText.Trim();
                 var poster =
-                    Website.GIDONLINE
+                    Website.KINOGOUA
                     + document
-                        ?.SelectSingleNode(".//img[@itemprop=\"image\"]").Attributes["src"]
+                        ?.SelectSingleNode(".//div[contains(concat(\" \",normalize-space(@class),\" \"),\"pmovie__poster\")]/img").Attributes["src"]
                         .Value;
-                var players = document
-                    ?.SelectNodes(".//iframe")
-                    .Select(i => i.Attributes["src"].Value.Split("?partner")[0].Trim())
-                    .Select(i => i.StartsWith("https") ? i : $"https{i}")
-                    .ToList();
+                List<string> players = new List<string>();
+                try
+                {
+                    players = document
+                        !.SelectNodes(".//div[@id=\"smart_player_ajax\"]")
+                        .Select(i => i.Attributes["data-iframe"].Value.Trim())
+                        .Select(i => i.StartsWith("https") ? i : $"https{i}")
+                        .ToList();
+                }
+                catch { }
+                try
+                {
+                    players = document
+                        !.SelectNodes(".//iframe")
+                        .Select(i => i.Attributes["data-src"].Value.Trim())
+                        .Select(i => i.StartsWith("https") ? i : $"https{i}")
+                        .ToList();
+                }
+                catch { }
+
                 players!.RemoveAll(i => i.Contains("youtube"));
                 players!.RemoveAll(i => i.Contains("red.uboost"));
 
+
                 return new Film()
                 {
-                    Language = Language.Russian,
+                    Language = Language.Ukrainian,
                     Title = name ?? "",
-                    RussianTitle = name ?? "",
+                    UkrainianTitle = name ?? "",
                     LowercaseTitle = name!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",
-                    RussianDescription = description ?? "",
+                    UkrainianDescription = description ?? "",
                     Countries = countries!,
-                    RussianCountries = countries!,
+                    UkrainianCountries = countries!,
                     Duration = getDuration(duration!) ?? new TimeSpan(0, 0, 0),
                     Genres = genres!,
-                    RussianGenres = genres!,
+                    UkrainianGenres = genres!,
                     Poster = poster ?? "",
                     Players = players ?? new List<string>(),
                 };
@@ -153,14 +171,14 @@ namespace Cimber.Scraper.Scrapers
         {
             try
             {
-                int hours = int.Parse(stringDuration.Contains("час") ? stringDuration.Split("час")[0].Trim() : "0");
+                int hours = int.Parse(stringDuration.Contains("год") ? stringDuration.Split("год")[0].Trim() : "0");
                 int minutes = 0;
 
 
-                if (stringDuration.Contains("час"))
-                    minutes = int.Parse(hours > 1 ? stringDuration.Split("мин")[0].Trim().Split("часа")[1].Trim() : stringDuration.Split("мин")[0].Trim().Split("час")[1].Trim());
+                if (stringDuration.Contains("год"))
+                    minutes = int.Parse(stringDuration.Split("хв")[0].Trim().Split("год")[1].Trim());
                 else
-                    minutes = int.Parse(stringDuration.Split("мин")[0].Trim());
+                    minutes = int.Parse(stringDuration.Split("хв")[0].Trim());
 
                 TimeSpan timeSpan = new TimeSpan(hours, minutes, 0);
 
@@ -179,7 +197,7 @@ namespace Cimber.Scraper.Scrapers
             {
                 var document = GetDocument(url)?.DocumentNode;
                 var nodes = document?.SelectNodes(
-                    ".//div/div/div/a[contains(concat(\" \",normalize-space(@class),\" \"),\" mainlink \")]"
+                    " .//h2[contains(concat(\" \",normalize-space(@class),\" \"),\" card__title \")]//a"
                 );
                 return nodes;
             }
@@ -194,10 +212,10 @@ namespace Cimber.Scraper.Scrapers
         {
             try
             {
-                var document = GetDocument(Website.GIDONLINE)?.DocumentNode;
+                var document = GetDocument(Website.KINOGOUA)?.DocumentNode;
                 string lastLink = document!
                     .SelectSingleNode(
-                        @".//div[contains(concat("" "",normalize-space(@class),"" ""),"" wp-pagenavi "")]/child::*[last()]/self::a"
+                        @"/html/body/div[1]/div/div[2]/main/section/div[2]/div/div/div[2]/a[10]"
                     )
                     .Attributes["href"].Value.Split("/page/")[1]
                     .Replace("/", "")

@@ -21,7 +21,7 @@ namespace Cimber.Scraper
             _connection = new NpgsqlConnection(connectionString);
             _connection.Open();
 
-            using (var cmd = new NpgsqlCommand("SET lc_messages = 'en_US.UTF-8'", _connection))
+            using (var cmd = new NpgsqlCommand("SET lc_messages TO 'en_US.UTF-8';", _connection))
             {
                 cmd.ExecuteNonQuery();
             }

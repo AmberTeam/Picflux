@@ -1,0 +1,4 @@
+D:\Dev\Amber\Cimber\Cimber.Scraper\Releases\Cimber.Scraper.pdb
+D:\Dev\Amber\Cimber\Cimber.Scraper\Releases\appsettings.json
+D:\Dev\Amber\Cimber\Cimber.Scraper\Releases\nlog.config
+D:\Dev\Amber\Cimber\Cimber.Scraper\Releases\Cimber.Scraper.exe

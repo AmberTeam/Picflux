@@ -1,0 +1,27 @@
+2023-04-17 18:50:51.0291|Debug|Added Королевы ринга | 
+2023-04-17 18:51:11.3468|Error|[0] [Npgsql]
+	Column must be between 0 and 1 | 
+2023-04-17 18:51:55.1222|Error|[0] [Npgsql]
+	Column must be between 0 and 1 | 
+2023-04-17 18:51:59.7030|Error|[0] [Npgsql]
+	Column must be between 0 and 1 | 
+2023-04-17 18:57:58.7235|Info|Info | 
+2023-04-17 18:57:58.7406|Warn|Warning | 
+2023-04-17 18:57:58.7406|Debug|Debug | 
+2023-04-17 18:57:58.7406|Error|Error | 
+2023-04-17 18:57:58.9982|Debug|Added Королевы ринга | 
+2023-04-17 18:58:59.6304|Error|[0] [Npgsql]
+	A command is already in progress: SELECT Id, Players FROM Film WHERE Title=@Name; | 
+2023-04-17 18:58:59.6512|Error|[0] [Npgsql]
+	A command is already in progress: SELECT Id, Players FROM Film WHERE Title=@Name; | 
+2023-04-17 19:00:11.7738|Debug|Updated Королевы ринга | 
+2023-04-17 19:00:11.7861|Debug|Updated Королевы ринга | 
+2023-04-17 19:00:35.7242|Debug|Added Королевы ринга | 
+2023-04-17 19:00:35.7719|Debug|Updated Королевы ринга | 
+2023-04-17 19:01:48.0237|Debug|Updated Королевы ринга | 
+2023-04-17 19:01:48.0377|Debug|Updated Королевы ринга | 
+2023-04-17 19:02:34.9258|Debug|Added Королевы ринга | 
+2023-04-17 19:02:35.9973|Debug|Updated Королевы ринга | 
+2023-04-17 19:03:17.8960|Debug|Added Королевы ринга | 
+2023-04-17 19:06:17.6026|Debug|Added Королевы ринга | 
+2023-04-17 19:06:18.6627|Debug|Updated Королевы ринга | 

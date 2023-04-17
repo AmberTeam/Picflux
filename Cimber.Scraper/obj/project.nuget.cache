@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JuAjkzVZzjpAKYcL9g1kilIzZdLvIvOV3rWmkJw/oV2qdC9tVqcCD2zIIw8sx77T5CZhzbNGG+TFlEy4GPqokQ==",
+  "dgSpecHash": "8Xko9XzUCMU0hkDdp1pClLH3/KhoDqEbo93yQq1jNtohbnGliRYtQUGxbqoj0iIJd3lF+fOPmo6E70BiOkyYXA==",
   "success": true,
   "projectFilePath": "D:\\Dev\\Amber\\Cimber\\Cimber.Scraper\\Cimber.Scraper\\Cimber.Scraper.csproj",
   "expectedPackageFiles": [
@@ -36,10 +36,7 @@
     "C:\\Users\\uaquax\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
     "C:\\Users\\uaquax\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
-    "C:\\Users\\uaquax\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
-    "C:\\Users\\uaquax\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\7.0.4\\microsoft.netcore.app.runtime.linux-x64.7.0.4.nupkg.sha512",
-    "C:\\Users\\uaquax\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\7.0.4\\microsoft.aspnetcore.app.runtime.linux-x64.7.0.4.nupkg.sha512",
-    "C:\\Users\\uaquax\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\7.0.4\\microsoft.netcore.app.host.linux-x64.7.0.4.nupkg.sha512"
+    "C:\\Users\\uaquax\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -74,6 +74,19 @@ namespace Cimber.Scraper
                 film.Description = film!.Description!.Replace("'", "");
                 film.Description = film!.Description!.Replace("© ГидОнлайн", "");
                 film.Description = film!.Description!.Replace("&laquo;", "«").Replace("&raquo;", "»");
+
+                film.EnglishDescription = film!.Description!.Replace("'", "");
+                film.EnglishDescription = film!.Description!.Replace("© ГидОнлайн", "");
+                film.EnglishDescription = film!.Description!.Replace("&laquo;", "«").Replace("&raquo;", "»");
+
+                film.UkrainianDescription = film!.Description!.Replace("'", "");
+                film.UkrainianDescription = film!.Description!.Replace("© ГидОнлайн", "");
+                film.UkrainianDescription = film!.Description!.Replace("&laquo;", "«").Replace("&raquo;", "»");
+
+                film.RussianDescription = film!.Description!.Replace("'", "");
+                film.RussianDescription = film!.Description!.Replace("© ГидОнлайн", "");
+                film.RussianDescription = film!.Description!.Replace("&laquo;", "«").Replace("&raquo;", "»");
+
                 film.LowercaseTitle = removeSpecialCharacters(film.Title!.ToLower());
                 film.LowercaseTitleWithSpaces = removeSpecialCharactersLeaveSpaces(film.Title!.ToLower());
                 film.LowercaseTitleWithSymbols = film.Title!.ToLower().Replace(" ", "");

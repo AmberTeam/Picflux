@@ -6,6 +6,7 @@ class OAuthController {
         res.cookie('refreshToken', data.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
         return res.json(data)
     }
+
 }
 
 module.exports = new OAuthController()

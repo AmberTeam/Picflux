@@ -21,7 +21,6 @@ class WebSocketController {
             if(this.clients[i][expression] === ex_val) {
                 var data_c = data
                 if(data && {}.toString.call(data) === '[object Function]') data_c = data(this.clients[i])
-                console.log(this.clients[i].uid)
                 this.clients[i].send(JSON.stringify({
                     event, 
                     payload: JSON.stringify(data_c),
@@ -143,11 +142,7 @@ class WebSocketController {
     }
 
     emitChatroomMessage(sid, chatid, msg) {
-        this.chatroom_broadcast(chatid, 'chatroom-message', {
-            chatid,
-            owner: sid, 
-            data: msg
-        })
+        this.chatroom_broadcast(chatid, 'chatroom-message', msg)
     }
 
     destroyClientChatRooms(sid) {
@@ -175,13 +170,14 @@ class WebSocketController {
                 for(var _i=0;_i < this.chatrooms[i].members_a.length;_i++) {
                     members_ofl = members_ofl.filter(el => el !== this.chatrooms[i].members_a[_i].uid)
                 }
-                this.broadcast_arrtype_proaccess(members_ofl, 'uid', event, payload)
+                return this.broadcast_arrtype_proaccess(members_ofl, 'uid', event, payload)
             } 
         }
+        console.log("WSC: Could not find active chatroom with the same chatid!")
     }
 
-    syncGlobalEvent(uid, payload) {
-        this.emit_proaccess('uid', uid, 'push-alert', payload)
+    syncGlobalEvent(event, uid, payload) {
+        this.emit_proaccess('uid', uid, event, payload)
     }
 
     initialize() { 
@@ -218,13 +214,16 @@ class WebSocketController {
                     case "chatroom-message": 
                         if(data_p.data.msg === "" || !data_p.data.msg) return 
                         this.emitChatroomMessage(client.uid, data_p.data.chatid, data_p.data.msg)
-                        console.log(client.id)
                         this.alertChatroomMessage(data_p.data.chatid, 'push-alert', {
-                            owner: client.uid,
-                            chatid: data_p.data.chatid, 
+                            ...data_p.data.msg,
                             tag: 'msg'
                         })
-                        break
+                        break 
+                    case "seen":
+                        console.log(data_p.data.messages)
+                        this.chatroom_broadcast(data_p.data.chatid, 'seen',  {
+                            messages: data_p.data.messages
+                        })
                 }
             })
         })

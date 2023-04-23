@@ -130,7 +130,7 @@ class UserService {
             await candidate.save()
             this.storeAlert(f.id, uid, 'sub_inc')
             const fDto = new UserMinDto({...f, status: false, avatar: f.avatar.replace(process.env.API_URL + '/static/', '')})
-            WSC.syncGlobalEvent(uid, {
+            WSC.syncGlobalEvent('push-alert', uid, {
                 owner: fDto, 
                 recipient: uid, 
                 tag: 'sub_inc',
@@ -178,10 +178,20 @@ class UserService {
         const candidate = await UserModel.findOneAndUpdate({_id:uid}, {...data})
         if(!candidate) throw ApiError.UnauthorizedError(ApiError.econfig.unauthorized)
         const userDto = {...new UserMinDto({
-            username: data.username,
+            username: data.username.toLowerCase(),
             avatar: data.avatar ? data.avatar : candidate.avatar,
         }), biography: data.biography}
         return {data: userDto,status:"ok"}
+    }
+
+    async searchCandidates (username) {
+        const username_r = username 
+                                .replace(" ", "")
+        const data = await UserModel.find({ "username": { $regex: '.*' + username_r } })
+        return {
+            status: "ok", 
+            users: data.map(user => new UserMinDto(user))
+        }
     }
 
     async getAlertsIncoming(uid) {

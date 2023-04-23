@@ -11,6 +11,7 @@ router.post('/update', authMiddleware, userController.update)
 router.get('/get/:id', condauthMiddleware, userController.getUserBId)
 router.get('/verify', authMiddleware, userController.verify)
 router.get("/alerts/incoming", authMiddleware, userController.getAlertsIncoming)
+router.get("/regex", authMiddleware, userController.searchCandidates)
 
 module.exports = router
  

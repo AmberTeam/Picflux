@@ -35,7 +35,10 @@ const ChatListItem:FC<IChatListItemProps> = (props:IChatListItemProps) => {
     useEffect(() => {
         if(store.alert) {
             const alert_js:any = toJS(store.alert)
-            if(alert_js.tag === 'msg' && alert_js.chatid === props.chat.chatid && alert_js.owner === props.chat.members[0].id) setAlerts(alerts + 1)
+            if(alert_js.tag === 'msg' && alert_js.chatid === props.chat.chatid && alert_js.owner === props.chat.members[0].id) {
+                store.pushChatMessage(props.chat.chatid, alert_js)
+                setAlerts(alerts + 1)
+            }
         }
     }, [store.alert])
     
@@ -45,7 +48,7 @@ const ChatListItem:FC<IChatListItemProps> = (props:IChatListItemProps) => {
         <button className={`${cl.ChatListItem_container} ${props.active ? cl.Active : cl.Default}`} onClick={() => props.handler(props.chat.chatid)}>
             <div className={cl.ChatListItem_profile}>
                 <div className={cl.Avatar}>
-                    <img src={props.chat.members[0].avatar} className={cl.Profile_avatar}/>
+                    <img src={props.chat.members[0].avatar} draggable={false} className={cl.Profile_avatar}/>
                 </div>
                 <div className={cl.Content}>
                     <div className={cl.Profile_username}>

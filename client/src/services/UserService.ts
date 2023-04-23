@@ -1,7 +1,7 @@
 import $api from "../http";
 import {AxiosResponse} from 'axios';
 import {AuthResponse} from "../models/response/AuthResponse";
-import {IUser, IUserAuthority, IUserAuthorityResponse} from "../models/IUser";
+import {IUser, IUserAuthority, IUserAuthorityResponse, IUserMin} from "../models/IUser";
 import {IFilm, IFilmSearchResponse} from "../models/IFilm"
 import { IDLC } from "../components/pages/Home";
 import { IInbox } from "../models/IDirect";
@@ -69,6 +69,14 @@ export default class UserService {
         return $api.post<any>('/user/update', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
+            }
+        })
+    }
+
+    static async searchCandidates(username:string): Promise<AxiosResponse<IUserMin[]>> {
+        return $api.get<IUserMin[]>('/user/regex', {
+            params: {
+                username
             }
         })
     }

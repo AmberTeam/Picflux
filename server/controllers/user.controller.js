@@ -56,7 +56,7 @@ class UserController {
             return res.redirect(process.env.CLIENT_URL);
         } catch (e) {
             next(e);
-        }
+        } 
     }
 
     async refresh(req, res, next) {
@@ -66,8 +66,8 @@ class UserController {
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.status(200).json(userData);
         } catch (e) {
-            next(e);
-        }
+            next(e); 
+        } 
     }
 
     async getUserBId(req, res, next) {
@@ -75,6 +75,16 @@ class UserController {
             const {id} = req.params
             const user = await userService.getUserBId(id, (req.user && req.user.id === id) && req.query.crr ? true : false, req.user.id)
             return res.status(200).json(user)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async searchCandidates(req, res, next) {
+        try {
+            const {username} = req.query
+            const candidates = await userService.searchCandidates(username)
+            return res.status(200).json(candidates)
         } catch(e) {
             next(e)
         }

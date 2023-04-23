@@ -25,20 +25,31 @@ $api.interceptors.response.use((config) => {
     return config;
 },async (error) => {
     const originalRequest = error.config;
-    if (error.response.status == 401 && error.config && !error.config._isRetry) {
-        originalRequest._isRetry = true;
-        try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true})
-            localStorage.setItem('token', response.data.accessToken);
-            return $api.request(originalRequest);
-        } catch (e) {
-            console.log('Ne АВТОРИЗОВАН')
+    if(error.response) {
+        if(error.response.status === 401 && error.config && !error.config._isRetry) {
+            originalRequest._isRetry = true;
+            try {
+                const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true})
+                localStorage.setItem('token', response.data.accessToken);
+                return $api.request(originalRequest);
+            } catch (e) {
+                throw e
+            }
+        } else {
+            if(error.response.data.config.visible && error.response.data.config.visible === false) return console.log("not visible")
+            else store.callLogModal({
+                ...error.response.data.config as ILogModal,
+                status: 0
+            })
         }
-    } else {
+    } else if(error.request) {
         store.callLogModal({
-            ...error.response.data.config as ILogModal,
+            code: 'x6',
+            alt: 'Unknown server error. Please try again in about 5 minutes.',
             status: 0
         })
+    } else {
+
     }
     throw error;
 })

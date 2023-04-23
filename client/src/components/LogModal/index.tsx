@@ -33,19 +33,14 @@ const LogModal: FC = () => {
         setCurrDeconfigured(translate(`g.${gseg}.${code}`))
     }
 
-    const autoclose = async () => {
-        await new Promise(resolve => {
-            setTimeout(() => {
-                store.closeLogModal()
-                setActive(false)
-            }, store.logModalConfig.duration ? store.logModalConfig.duration : 10000)
-        })
-    }
-
     useEffect(() => {
         setActive(store.logModalActive)
         deconfigLogCode(store.logModalConfig.code, store.logModalConfig.status)
-        autoclose()
+        const timeoutid = setTimeout(() => {
+            store.closeLogModal()
+            setActive(false)
+        }, store.logModalConfig.duration ? store.logModalConfig.duration : 10000)
+        return () => clearTimeout(timeoutid)
     }, [store.logModalActive, currLang])
 
     return (

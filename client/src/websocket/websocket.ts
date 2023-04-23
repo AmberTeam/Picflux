@@ -42,9 +42,12 @@ export default class WebSocketController {
 
     removeListner(event:string, handler:(e:any) => void): number {
         if(!this.ws_ready) {
-            setTimeout(() => this.addListener(event, handler), SOCKET_INTERVAL)
+            setTimeout(() => this.removeListner(event, handler), SOCKET_INTERVAL)
             return 0
         }
+
+        this.listeners.filter(ls => ls.event !== event && ls.handler !== handler)
+        this.websocket?.removeEventListener(event, handler, true)
         return 1
     }
 

@@ -24,10 +24,16 @@ export default class InboxService {
         })
     }
 
-    static async storeMsg(chatid:string,data:string): Promise<AxiosResponse<any>> {
+    static async storeMsg(msg:IMessage): Promise<AxiosResponse<any>> {
         return $api.post<any>('/chatapi/create/msg', {
-            chatid,
-            data
+            ...msg
+        })
+    }
+    static async updateSeen(chatid:string, messages:string, fragid:number, observer:string): Promise<AxiosResponse<any>> {
+        return $api.post<any>(`/chatapi/${chatid}/seen`, {
+            messages,
+            fragid,
+            observer
         })
     }
 }

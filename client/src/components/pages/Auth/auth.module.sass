@@ -9,7 +9,23 @@
         justify-items: start
         padding: 0 5rem
         height: 100vh
-        z-index: 10
+        z-index: 1
+
+        form 
+            button 
+                position: relative
+
+                .Content 
+                    &.Hidden 
+                        opacity: 0
+
+                .Loader
+                    position: absolute
+                    left: calc(50% - 9px)
+                    visibility: hidden 
+
+                    &.Visible 
+                        visibility: visible
 
         h1 
             padding: 3rem 0

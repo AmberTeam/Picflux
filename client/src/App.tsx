@@ -22,7 +22,11 @@ const App: FC = () => {
     const {store, wsc} = useContext(Context)
 
     const setTilestamp = async (): Promise<void> => {
-        await $api.get('/user/tsp')
+        try {
+            await $api.get('/user/tsp')
+        } catch(e) {
+            console.log("Could not set timestamp.")
+        }
     }
 
     const initSocketConnection = async (): Promise<void> => {
@@ -39,11 +43,11 @@ const App: FC = () => {
         if(localStorage.getItem('theme')) store.checkTheme()
         else store.setDefaultLang()
         initSocketConnection()
-        setTilestamp()
     }, [])
 
     useEffect(() => {
         if(store.isAuth) {
+            setTilestamp()
             wsc.send('authorize', {uid: store.user.id})
             store.setSocketAuth(true)
             console.log("setted a push alert")

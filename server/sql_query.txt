@@ -1,0 +1,5 @@
+-- database: c:\Users\Paul\Desktop\projects\spars\cimber\server\ifdb.db
+
+-- Use the ▷ button in the top right corner to run the entire file.
+
+DELETE FROM messages

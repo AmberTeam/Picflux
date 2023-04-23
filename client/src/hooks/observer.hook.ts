@@ -10,7 +10,7 @@ export const useObserver = (ref: any, canLoad: boolean, deps: any[], isLoading: 
         var cb = function(entries: any, observer: any) {
             if (entries[0].isIntersecting && canLoad) {
                 callback()
-            }
+            } 
         };
 
         try {

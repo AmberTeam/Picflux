@@ -50,7 +50,7 @@ async function bootstrap() {
           useNewUrlParser: true,
           useUnifiedTopology: true
         })
-  
+   
         app.listen(process.env.PORT, () => console.log(`\n[server] Listening on ${process.env.PORT} \n`))
         //Init WebSocketServer
         WSC.initialize()

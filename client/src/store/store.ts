@@ -1,4 +1,4 @@
-import {IUser} from "../models/IUser";
+import {IUser, IUserMin} from "../models/IUser";
 import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
 import axios from 'axios';
@@ -35,16 +35,37 @@ export interface IAlert {
     tag: string
 }
 
-export interface IChatFragment {
+/*export interface IChatFragment {
     id:number
     messages:IMessage[]
+}*/
+
+/*export interface IConfigTemplate {
+    chatid: string 
+    members: IUserMin[]
+    offset: number 
+    offset_add: number 
+}*/
+
+export interface ISChatConfig {
+    offset?: number 
+    offset_add?: number 
+    chatid?:string
+    canLoad?:boolean
 }
 
-export interface IChatConfig {
+export interface IChatStorage {
+    config: ISChatConfig
+    messages: IMessage[]
+}
+
+/*export interface IChatConfig {
     chatcfg: IChat
+    offset: number
+    offset_add: number
     fragments: IChatFragment[]
     notseen: boolean
-}
+}*/
 
 export default class Store {
     user: IUser = {} as IUser
@@ -66,7 +87,7 @@ export default class Store {
     isSocketAuth:boolean = false
 
     alert:IAlert | null = null
-    chatfragments:IChatConfig[] = []
+    chatstorage:IChatStorage[] = []
 
     constructor() {
         makeAutoObservable(this);
@@ -78,43 +99,49 @@ export default class Store {
     }
 
     //CHAT FRAGMENTS
-    verifyFragmentExists(chatindex:number, indexEl: IMessage): number {
-        for(var i=0;i < this.chatfragments[chatindex].fragments.length;i++) {
-            const js = toJS(this.chatfragments[chatindex].fragments[i])
-            for(var _i=0;_i < js.messages.length;_i++) {
-                const checkEl = js.messages[_i]
-                if(checkEl.id === indexEl.id && checkEl.data === indexEl.data && checkEl.owner === indexEl.owner) return 1
-            }
+    storeChatConfig(chatcfg:ISChatConfig): IChatStorage | null {
+        for(var i=0;i < this.chatstorage.length;i++) {
+            if(this.chatstorage[i].config.chatid === chatcfg.chatid) return this.chatstorage[i]
         }
-        return 0
+
+        this.chatstorage.push({
+            config: chatcfg,
+            messages: []
+        })
+
+        return null
     }
 
-    storeChatFragment(chatcfg:IChat, fragment:IMessage[]): number {
-        for(var i=0;i < this.chatfragments.length;i++) {
-            if(this.chatfragments[i].chatcfg.chatid === chatcfg.chatid) {
-                const fragexists:number = this.verifyFragmentExists(i, fragment[0])
-                if(fragexists===0) {
-                    this.chatfragments[i].fragments.push({
-                        id: this.chatfragments[i].fragments.length,
-                        messages: fragment
-                    })
+    updateChatConfig(chatcfg:ISChatConfig): void {
+        for(var i=0;i < this.chatstorage.length;i++) {
+            if(this.chatstorage[i].config.chatid === chatcfg.chatid) this.chatstorage[i].config = {...this.chatstorage[i].config, ...chatcfg}
+        }
+    }
+
+    updateChatMessages(chatid:string, messages:IMessage[]): void {
+        for(var i=0;i < this.chatstorage.length;i++) {
+            if(this.chatstorage[i].config.chatid === chatid) this.chatstorage[i].messages = messages
+        }
+    }
+
+    pushChatMessage(chatid:string, message: IMessage): void {
+        for(var i=0;i < this.chatstorage.length;i++) {
+            if(this.chatstorage[i].config.chatid === chatid) {
+                if(this.chatstorage[i].messages) this.chatstorage[i].messages.push(message)
+                else this.chatstorage[i].messages = [message]
+                if(this.chatstorage[i].config) this.chatstorage[i].config.offset_add = this.chatstorage[i].config.offset_add! + 1
+                else this.chatstorage[i].config = {
+                    chatid, 
+                    offset: 0, 
+                    offset_add: 0
                 }
-                return 1
             }
         }
-        this.chatfragments.push({
-            chatcfg,
-            fragments: [{id:0, messages:fragment}],
-            notseen: false
-        } as IChatConfig)
-        return 0
     }
 
-    getChatFragments(chatid:string): IChatConfig | null {
-        for(var i=0;i < this.chatfragments.length;i++) {
-            if(this.chatfragments[i].chatcfg.chatid === chatid) {
-                return this.chatfragments[i]
-            }
+    getChatConfig(chatid:string): IChatStorage | null {
+        for(var i=0;i < this.chatstorage.length;i++) {
+            if(this.chatstorage[i].config.chatid === chatid) return this.chatstorage[i]
         }
 
         return null
@@ -226,25 +253,29 @@ export default class Store {
         this.user = user;
     }
 
-    async login(email: string, password: string): Promise<void> {
+    async login(email: string, password: string): Promise<number> {
         try {
             const response = await AuthService.login(email, password);
             localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
+            return 1
         } catch (e) {
             console.log(e);
+            return 0
         }
     }
 
-    async registration(email: string, password: string): Promise<void> {
+    async registration(email: string, password: string): Promise<number> {
         try {
             const response = await AuthService.registration(email, password);
             localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
+            return 1
         } catch (e) {
             console.log(e);
+            return 0
         }
     }
 
@@ -281,7 +312,7 @@ export default class Store {
             this.setAuth(true);
             this.setUser(response.data.user);
         } catch (e) {
-            console.log(e); 
+            throw e
         } finally {
             this.setLoading(false);
         }

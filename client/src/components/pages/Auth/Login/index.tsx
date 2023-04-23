@@ -5,13 +5,21 @@ import cl from '../auth.module.sass'
 import Input from  "../../../UI/Input"
 import { useTranslation } from '../../../../hooks/translator.hook'
 import { TLoginButton, TLoginButtonSize, TUser } from 'react-telegram-auth'
+import LoaderMini from '../../../UI/LoaderMini'
 
 const LoginPage: FC = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(false)
     const {store} = useContext(Context)
 
     const {translate} = useTranslation()
+
+    const handleSubmit = async (): Promise<void> => {
+        setLoading(true)
+        const response = await store.login(email, password)
+        if(response === 0) setLoading(false)
+    }
 
     return (
         <div className={cl.Auth_layout__container}>
@@ -34,7 +42,7 @@ const LoginPage: FC = () => {
                 </span>
                 <form style={{width: "100%"}} onSubmit={e => {
                     e.preventDefault()
-                    store.login(email, password)
+                    handleSubmit()
                 }}> 
                     <Input
                         onChange={e => setEmail(e.target.value)}
@@ -51,7 +59,12 @@ const LoginPage: FC = () => {
                         default={true}
                     />
                     <button type="submit" className="button">
-                    {translate("auth.form.button.login")}
+                        <span className={`${cl.Content} ${loading ? cl.Hidden : cl.Visible}`}>
+                            {translate("auth.form.button.login")}
+                        </span>
+                        <span className={`${cl.Loader} ${loading ? cl.Visible : cl.Hidden}`}>
+                            <LoaderMini/>
+                        </span>
                     </button>
                 </form>
                 <span className={cl.Act}>

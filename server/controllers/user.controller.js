@@ -83,7 +83,7 @@ class UserController {
     async searchCandidates(req, res, next) {
         try {
             const {username} = req.query
-            const candidates = await userService.searchCandidates(username)
+            const candidates = await userService.searchCandidates(req.user.id, username)
             return res.status(200).json(candidates)
         } catch(e) {
             next(e)

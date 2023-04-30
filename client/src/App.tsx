@@ -30,7 +30,7 @@ const App: FC = () => {
     }
 
     const initSocketConnection = async (): Promise<void> => {
-        const conn:Event = await wsc.init(`ws://localhost:5001?token=${localStorage.getItem('token')}`)
+        const conn:Event = await wsc.init(`ws://localhost:5000/wsedge?token=${localStorage.getItem('token')}`)
         if(conn.isTrusted) {
             wsc.initListeners()
         }
@@ -42,17 +42,16 @@ const App: FC = () => {
         else store.setDefaultLang()
         if(localStorage.getItem('theme')) store.checkTheme()
         else store.setDefaultLang()
-        initSocketConnection()
+        //initSocketConnection()
     }, [])
 
     useEffect(() => {
         if(store.isAuth) {
             setTilestamp()
-            wsc.send('authorize', {uid: store.user.id})
+            initSocketConnection()
+            //wsc.send('authorize', {uid: store.user.id})
             store.setSocketAuth(true)
-            console.log("setted a push alert")
             wsc.addListener('push-alert', (e:any) => {
-                console.log(e)
                 store.pushAlert(e.payload)
             })
         }

@@ -10,7 +10,10 @@ const fileupload = require("express-fileupload")
 const proxyRouter = require("./routes/proxy.router") 
 const Debugger = require("./utils/debugger")
 const app = express() 
-const WSC = require("./websocket/index")   
+const WebSocketController = require('./websocket/core')
+var WebSocketServer = require("ws").Server,
+    http = require("http"),
+    server = http.createServer(app);
 
 app.use(proxyRouter)
 app.use('/static', express.static(path.join(__dirname, '/static')))
@@ -44,6 +47,11 @@ if (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'psprod') {
   })
 }
 
+var wss = new WebSocketServer({server: server, path: '/wsedge'});
+
+const WSC = new WebSocketController(wss)
+WSC.initialize()
+
 async function bootstrap() { 
     try { 
         await mongoose.connect(process.env.DB, {
@@ -51,10 +59,10 @@ async function bootstrap() {
           useUnifiedTopology: true
         })
    
-        app.listen(process.env.PORT, () => console.log(`\n[server] Listening on ${process.env.PORT} \n`))
+        server.listen(process.env.PORT, () => console.log(`\n[server] Listening on ${process.env.PORT} \n`))
         //Init WebSocketServer
-        WSC.initialize()
-        console.log(`[WSS] Listening on ${process.env.WSS_PORT}`) 
+        //WSC.initialize()
+        //console.log(`[WSS] Listening on ${process.env.WSS_PORT}`) 
 
     } catch(e) {
         console.log(e)

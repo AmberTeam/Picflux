@@ -14,23 +14,24 @@ interface IFragmentProps {
     onRendered: any
     chatid: string
     seenState: boolean
+    onReply: (arg:IMessage) => void
+    onDelete: (arg:IMessage) => void 
+    onEdit: (arg:IMessage) => void
 }
 
 const Fragment:FC<IFragmentProps> = (props:IFragmentProps) => {
 
     const {store, wsc} = useContext(Context)
-    const [seenFactor, setSeenFactor] = useState<boolean>(false)
     const fragmentRef = useRef() as React.MutableRefObject<HTMLDivElement>
     const [loading, setLoading] = useState<boolean>(true)
-    const [canLoad, setCanLoad] = useState<boolean>(true)
 
     const updateSeenStatus = async (): Promise<void> => {
-        //InboxService.updateSeen(props.chatid, JSON.stringify(props.fragment.messages), props.fragment.id, props.observer.id)
+        InboxService.updateSeen(props.chatid, JSON.stringify(props.fragment.messages))
         const _messages = []
         for(var i=0;i < props.fragment.messages.length;i++)  {
             if(props.fragment.messages[i].owner !== store.user.id) _messages.push(props.fragment.messages[i])
         }
-        console.log(_messages)
+        
         wsc.send('seen', {
             chatid: props.chatid,
             messages: _messages
@@ -48,8 +49,8 @@ const Fragment:FC<IFragmentProps> = (props:IFragmentProps) => {
     return (
         <div className={cl.Fragment_container} ref={fragmentRef}>
             {
-                props.fragment.messages.map((msg:IMessage, _i) => 
-                    <Message observer={props.observer} onRender={msg.last ? props.onRendered : null} message={msg} key={msg._id}/>
+                props.fragment.messages.map((msg:IMessage) => 
+                    <Message onEdit={props.onEdit} onDelete={props.onDelete} onReply={props.onReply} observer={props.observer} onRender={msg.last ? props.onRendered : null} message={msg} key={msg._id}/>
                 )
             }
         </div>

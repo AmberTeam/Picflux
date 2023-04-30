@@ -1,14 +1,19 @@
 .InboxPage_container 
-    display: grid
-    gap: 3rem
+    //display: grid
+    display: flex
     height: 85vh
     padding: 0 3rem
-    grid-template-columns: 40% calc(60% - 3rem)
+    //grid-template-columns: 40% calc(60% - 3rem)
     margin-bottom: 3rem
+
+    .Resizer 
+        cursor: e-resize
+        width: 3px 
+
 
     .InboxPage_chatlist
         padding: 0 0 .5rem 0
-        width: 100%
+        min-width: 30%
         background: var(--fg)
         border-radius: 16px
         overflow: hidden
@@ -84,9 +89,43 @@
                             font-weight: bold
 
     .Chat_container 
+        margin-left: 3rem
+        width: 100%
+        min-width: 40%
         background: var(--fg)
         border-radius: 16px
         max-height: 85vh
+
+        &.Select 
+            display: flex 
+            justify-content: center
+            align-items: center
+
+        .Select_container 
+            display: grid 
+            gap: 1rem 
+            justify-items: center
+            font-size: 12px
+
+            .SelectBtn 
+                color: var(--color)
+                border: none
+                font-family: 'Roobert'
+                background: var(--color-a)
+                border-radius: 16px
+                cursor: pointer
+                padding: .4rem 1rem
+                opacity: .8
+                transition: .2s all ease 
+
+                &:hover 
+                    opacity: 1
+
+
+            svg 
+                width: 32px
+                height: 32px
+                fill: var(--color)
 
         .Chat_inner 
             display: grid
@@ -103,6 +142,62 @@
                 border-bottom: 1px solid var(--navigator-border)
 
                 .Info_intro
+                    display: flex
+                    gap: .5rem
+                    align-items: center
+
+                    .Typing_container 
+                        font-size: 11px 
+                        font-style: italic 
+                        font-weight: 700
+                        display: flex 
+                        align-items: center 
+                        gap: .2rem
+                        opacity: 0
+                        transition: .2s all ease
+
+                        &.Typing 
+                            opacity: 1
+                        .Txt 
+                            color: #818281
+
+                        .Bubbles 
+                            display: flex
+                            justify-content: space-evenly
+                            align-items: center
+                            height: 11px
+                            width: 18px
+                            margin-top: 5.5px
+
+                            .Bubble
+                                width: 3px
+                                height: 3px
+                                border-radius: 50%
+                                background-color: #818281
+                                animation: bounce 1000ms infinite
+
+                            .Bubble:nth-of-type(2) 
+                                animation-delay: 50ms
+                            
+
+                            .Bubble:nth-of-type(3) 
+                                animation-delay: 100ms
+                        
+
+                            @keyframes bounce 
+                                0% 
+                                    transform: translateY(0)
+                                
+
+                                20% 
+                                    transform: translateY(-5px)
+                                
+
+                                40% 
+                                    transform: translateY(0)
+                            
+                            
+
                     .Chat_username
                         font-size: 18px 
                         font-weight: bold
@@ -161,7 +256,7 @@
                         border-top: 1px solid red
 
                     .Message_container 
-                        max-width: 40%
+                        width: 100%
                         display: flex 
                         align-items: flex-end
                         gap: 5px
@@ -174,12 +269,150 @@
                             pointer-events: none
 
                         .Message_payload 
+                            max-width: 40%
                             background: var(--color)
                             color: var(--fg)
                             word-break: break-word
-                            padding: .5rem
+                            display: grid
+                            gap: .2rem
+                            padding: .5rem  .5rem .25rem .5rem
+
+                            .Reply_container
+                                display: grid
+                                grid-template-columns: 3px auto
+                                gap: .5rem
+                                background: var(--fg)
+                                border-radius: 5px
+                                color: var(--color)
+                                padding: 6px .5rem 6px 6px
+
+                                .Reply_spacer 
+                                    width: 3px 
+                                    height: 100% 
+                                    background: var(--color) 
+                                    border-radius: 3px
+
+                                .Reply_content 
+                                    display: grid 
+                                    gap: .2rem
+
+                                    .Reply_username 
+                                        font-size: 14px 
+                                        font-style: italic
+
+                                    .Reply_payload 
+                                        font-size: 12px 
+
+
+                            //.Message_content 
+                            //    padding: .5rem .2rem .5rem .5rem
+
+                            .Message_info
+                                display: flex
+                                justify-content: flex-end
+                                //padding: .3rem .3rem .3rem 0
+                                .Info_seen
+                                    &.Default 
+                                        svg 
+                                            fill: #818281
+
+                                    &.Active 
+                                        svg
+                                            fill: var(--color-a)
+                                            opacity: .7
+
+                                    svg 
+                                        display: block 
+                                        width: 13px 
+                                        height: 13px
+
+                        &:hover 
+                            &.Default 
+                                .Message_actions
+                                    .Message_action 
+                                        opacity: 1
+                                        left: 0px
+                            
+                            &.Current 
+                                .Message_actions
+                                    .Message_action 
+                                        opacity: 1
+                                        left: -19px
+
+                        .Message_actions
+                            height: 100% 
+                            align-items: center
+                            padding: .5rem 0
+                            display: flex 
+                            position: relative 
+
+                            .Message_action
+                                position: absolute
+                                left: 20px
+                                cursor: pointer 
+                                border: none 
+                                background: transparent 
+                                transition: .1s all ease
+                                opacity: 0
+
+                                &.Active 
+                                    .Ic
+                                        visibility: hidden 
+                                        opacity: 0
+                                        height: 0
+
+                                    .Action_controller
+                                        visibility: visible
+
+                                        .Action 
+                                            border: none 
+                                            outline: none 
+
+                                            svg 
+                                                opacity: 1
+
+                                &:hover 
+                                    .Ic
+                                        fill: var(--color)
+                                
+                                .Ic 
+                                    transition: .2s all ease
+                                    fill: #818281
+                                    width: 19px 
+                                    height: 19px
+                                    
+                                .Action_controller 
+                                    display: flex
+                                    gap: 5px
+                                    width: 100% 
+                                    height: 100% 
+                                    align-items: center 
+                                    visibility: hidden
+                                    position: absolute
+
+                                    .Action 
+                                        padding: .25rem
+                                        background: transparent
+                                        cursor: pointer
+
+                                        &:hover 
+                                            svg 
+                                                fill: var(--color)
+
+                                        svg 
+                                            opacity: 0
+                                            width: 16px 
+                                            height: 16px
+                                            fill: #818281
+                                            transition: .2s all ease
 
                         &.Default 
+                            
+                            .Message_actions 
+                                .Message_action 
+                                    left: -20px
+
+
                             margin-right: auto
                             .Message_payload
                                 border-top-left-radius: 16px 
@@ -187,7 +420,13 @@
                                 border-bottom-left-radius: 6px 
                                 border-bottom-right-radius: 16px
 
+                            .Message_info 
+                                justify-content: flex-start
+
                         &.Current 
+                            .Message_actions 
+                                .Message_action 
+                                    transform: rotateY(180deg)
                             flex-direction: row-reverse
                             margin-left: auto 
 
@@ -196,23 +435,13 @@
                                 border-top-right-radius: 16px 
                                 border-bottom-left-radius: 16px 
                                 border-bottom-right-radius: 6px
+                                flex-direction: row-reverse
 
-                        .Message_params_container 
-                            
-                            .Params_seen 
-                                &.Default 
-                                    svg 
-                                        fill: #818281
+                                //.Message_info
+                                //    padding: .5rem 0 .3rem .5rem
 
-                                &.Active 
-                                    svg
-                                        fill: var(--color-a)
-                                        opacity: .7
-
-                                svg 
-                                    display: block 
-                                    width: 16px 
-                                    height: 16px
+                                //.Message_content 
+                                //    padding: .5rem .5rem .5rem .2rem
 
                         
 
@@ -227,38 +456,80 @@
                         border-radius: 3px
                 
                 .Messages_form
-                    display: flex 
+                    display: grid
                     gap: .5rem
-                    width: 100%
                     border-top: 1px solid var(--navigator-border)
                     padding: 1rem
+                    overflow: hidden
+                    word-break: break-word
 
-                    .Messages_input 
-                        transition: .2s all ease
-                        background: transparent 
+                    .ReplyState_container
+                        display: grid
+                        grid-template-columns: 3px auto
+                        gap: .5rem
+
+                        .ReplyState_spacer 
+                            width: 3px 
+                            height: 100% 
+                            background: var(--color-a)
+                            border-radius: 3px
+                            margin-right: .5rem
+
+                        .ReplyState_content 
+                            display: grid
+                            gap: .2rem
+
+                            .ReplyState_username 
+                                display: flex 
+                                justify-content: space-between
+                                font-size: 14px 
+                                font-style: italic
+
+                                .Exit_btn 
+                                    background: transparent 
+                                    border: none 
+                                    cursor: pointer 
+
+                                    svg 
+                                        width: 17px 
+                                        height: 17px 
+                                        fill: var(--color)
+
+                            .ReplyState_payload
+                                font-size: 12px 
+
+
+                    .Form_action
+                        display: flex 
+                        gap: .5rem
                         width: 100%
-                        border: none
-                        outline: none 
-                        font-family: 'Roobert'
-                        color: #818281
 
-                        &:focus 
-                            color: var(--color)
-
-                    .Messages_submit
-                        background: transparent
-                        border: none
-                        outline: none 
-                        cursor: pointer
-                    
-                        &:hover 
-                            .Ic 
-                                fill: var(--color)
-
-                        .Ic 
+                        .Messages_input 
                             transition: .2s all ease
-                            width: 16px
-                            fill: #818281
+                            background: transparent 
+                            width: 100%
+                            border: none
+                            outline: none 
+                            font-family: 'Roobert'
+                            color: #818281
+
+                            &:focus 
+                                color: var(--color)
+
+                        .Messages_submit
+                            background: transparent
+                            border: none
+                            outline: none 
+                            cursor: pointer
+                        
+                            &:hover 
+                                .Ic 
+                                    fill: var(--color)
+
+                            .Ic 
+                                transition: .2s all ease
+                                width: 16px
+                                fill: #818281
                             
 
                     

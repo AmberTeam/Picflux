@@ -1,7 +1,7 @@
 const rid = require('random-id')
 const StatusSession = require('./obj/session')
 const ChatRoom = require("./obj/chatroom")
-const jwt = require('jsonwebtoken');
+const tokenService = require("../service/token.service")
 
 class WebSocketController {
     ws
@@ -60,6 +60,16 @@ class WebSocketController {
             if(this.chatrooms[i].chatid === chatid) {
                 for(var _i=0;_i<this.chatrooms[i].members_a.length;_i++) {
                     this.emit(this.chatrooms[i].members_a[_i].sid, event, payload)
+                }
+            }
+        }
+    }
+
+    chatroom_force_broadcast(chatid, event, payload) { 
+        for(var i=0;i<this.chatrooms.length;i++) { 
+            if(this.chatrooms[i].chatid === chatid) {
+                for(var _i=0;_i<this.chatrooms[i].members.length;_i++) {
+                    this.emit_proaccess('uid', this.chatrooms[i].members[_i], event, payload)
                 }
             }
         }
@@ -141,7 +151,7 @@ class WebSocketController {
         this.chatrooms[ex].pushActiveMember({sid, uid})
     }
 
-    emitChatroomMessage(sid, chatid, msg) {
+    emitChatroomMessage(sid, chatid, msg) { 
         this.chatroom_broadcast(chatid, 'chatroom-message', msg)
     }
 
@@ -161,7 +171,7 @@ class WebSocketController {
                 this.chatrooms[i].destroyActiveMember(sid)
             }
         }
-    }
+    } 
 
     alertChatroomMessage(chatid, event, payload) {
         for(var i=0;i < this.chatrooms.length;i++) {  
@@ -182,10 +192,14 @@ class WebSocketController {
 
     initialize() { 
         this.ws.on('connection', (soc, req) => {
-            var token = req
-        
+            const accessToken = req.url.replace("/wsedge?token=", "")
+            if(!accessToken || accessToken === "" || accessToken === " ") return soc.close()
+            const userData = tokenService.validateAccessToken(accessToken); 
+            if (!userData) return soc.close()
             
             const client = this.initClientConection(soc) 
+            this.authorizeClient(client.id, userData.id)
+            this.emitStatusListeners(userData.id)
 
             client.on('close', () => {
                 this.destroyClientSessions(client.id)
@@ -196,10 +210,6 @@ class WebSocketController {
             client.on("message", (e) => {
                 const data_p = JSON.parse(e)  
                 switch(data_p.event) {
-                    case "authorize":
-                        this.authorizeClient(client.id, data_p.data.uid)
-                        this.emitStatusListeners(data_p.data.uid)
-                        break
                     case "session-init":
                         this.emit(client.id, "socid", {socid: client.id})
                         this.initStatusSession({ownid:soc.id,uid:data_p.data.uid})
@@ -208,7 +218,6 @@ class WebSocketController {
                         this.initChatRoom(client.id, client.uid, data_p.data)    
                         break
                     case "chatroom-destroy": 
-                        console.log(data_p.data)
                         this.destroyClientChatRoom(data_p.data.chatid, client.id)
                         break
                     case "chatroom-message": 
@@ -220,10 +229,20 @@ class WebSocketController {
                         })
                         break 
                     case "seen":
-                        console.log(data_p.data.messages)
                         this.chatroom_broadcast(data_p.data.chatid, 'seen',  {
                             messages: data_p.data.messages
                         })
+                        break
+                    case "chatroom-event": 
+                        switch(data_p.data.payload.event) {
+                            case 'typing-start':     
+                                return this.broadcast_arrtype(this.chatrooms.find(cr => cr.chatid === data_p.data.chatid).members_a.filter(m => m.sid !== client.id).map(m => m.sid), 'chatroom-event', data_p.data.payload)
+                            case 'typing-end': 
+                                return this.broadcast_arrtype(this.chatrooms.find(cr => cr.chatid === data_p.data.chatid).members_a.filter(m => m.sid !== client.id).map(m => m.sid), 'chatroom-event', data_p.data.payload)
+                        
+                            default: 
+                                return this.chatroom_force_broadcast(data_p.data.chatid, 'chatroom-event', data_p.data.payload)
+                        }
                 }
             })
         })

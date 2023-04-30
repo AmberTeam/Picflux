@@ -184,13 +184,13 @@ class UserService {
         return {data: userDto,status:"ok"}
     }
 
-    async searchCandidates (username) {
+    async searchCandidates (uid, username) {
         const username_r = username 
                                 .replace(" ", "")
         const data = await UserModel.find({ "username": { $regex: '.*' + username_r } })
         return {
             status: "ok", 
-            users: data.map(user => new UserMinDto(user))
+            users: data.filter(user => user.id !== uid).map(user => new UserMinDto(user))
         }
     }
 

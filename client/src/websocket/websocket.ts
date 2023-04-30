@@ -32,12 +32,16 @@ export default class WebSocketController {
         }
 
         this.websocket?.addEventListener('message', (e:MessageEvent<any>) => {
-            const data = JSON.parse(e.data)
-            const _e = data.event
-            for(const listener of this.listeners) {
-                if(listener.event === _e) listener.handler({...data, payload: JSON.parse(data.payload)})
+            try {
+                const data = JSON.parse(e.data)
+                const _e = data.event
+                for(const listener of this.listeners) {
+                    if(listener.event === _e) listener.handler({...data, payload: JSON.parse(data.payload)})
+                }
+            } catch(e) {
+                return
             }
-        })
+        }, true)
     }
 
     removeListner(event:string, handler:(e:any) => void): number {
@@ -46,9 +50,27 @@ export default class WebSocketController {
             return 0
         }
 
-        this.listeners.filter(ls => ls.event !== event && ls.handler !== handler)
-        this.websocket?.removeEventListener(event, handler, true)
+        //this.listeners.filter(ls => ls.event !== event && ls.handler !== handler)
+        //this.websocket?.removeEventListener(event, handler, true)
         return 1
+    }
+
+    addCustomListener(event:string, handler:any, arg:boolean) {
+        if(!this.ws_ready) {
+            setTimeout(() => this.addCustomListener(event, handler, arg), SOCKET_INTERVAL)
+            return
+        }
+
+        this.websocket?.addEventListener(event, handler, arg)
+    }
+
+    removeCustomListener(event:string, handler:any, arg:boolean) {
+        if(!this.ws_ready) {
+            setTimeout(() => this.removeCustomListener(event, handler, arg), SOCKET_INTERVAL)
+            return
+        }
+
+        this.websocket?.removeEventListener(event, handler, arg)
     }
 
     addListener(event:string,handler:(e:any)=>void): void {

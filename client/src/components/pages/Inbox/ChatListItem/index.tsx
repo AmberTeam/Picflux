@@ -1,22 +1,25 @@
 import { observer } from "mobx-react-lite"
-import { FC, useCallback, useContext, useEffect, useState } from "react"
+import { FC, useContext, useEffect, useState } from "react"
 import { Context } from "../../../.."
 import { IChat } from "../../../../models/IDirect"
-import { IUserMin } from "../../../../models/IUser"
 import {toJS} from 'mobx'
 import cl from '../index.module.sass'
+import { IMessage } from "../../../../models/IMessage"
 
 interface IChatListItemProps {
     chat: IChat
     handler: (arg:string) => void
     active: boolean
+    globalSeenHandler: IMessage[]
+    default_unread: IMessage[]
 }
 
 const ChatListItem:FC<IChatListItemProps> = (props:IChatListItemProps) => {
 
     const {wsc, store} = useContext(Context)
     const [online, setOnline] = useState<boolean>(false)
-    const [alerts, setAlerts] = useState<number>(0)
+    const [alerts, setAlerts] = useState<IMessage[]>(props.default_unread ? props.default_unread : [])
+
     useEffect(() => {
         if(store.isSocketAuth && props.chat.members.length) {
             if(props.chat.members[0].status) setOnline(props.chat.members[0].status === 1 ? true : false)
@@ -25,11 +28,6 @@ const ChatListItem:FC<IChatListItemProps> = (props:IChatListItemProps) => {
             })
             wsc.send('session-init', {uid:props.chat.members[0].id})
         }
-        return () => {
-            wsc.removeListner('update-status', (e:any) => {
-                if(e.payload.uid === props.chat.members[0].id) setOnline(true)
-            })
-        }
     }, [store.isSocketAuth])
 
     useEffect(() => {
@@ -37,12 +35,22 @@ const ChatListItem:FC<IChatListItemProps> = (props:IChatListItemProps) => {
             const alert_js:any = toJS(store.alert)
             if(alert_js.tag === 'msg' && alert_js.chatid === props.chat.chatid && alert_js.owner === props.chat.members[0].id) {
                 store.pushChatMessage(props.chat.chatid, alert_js)
-                setAlerts(alerts + 1)
+                setAlerts([...alerts, alert_js])
             }
         }
     }, [store.alert])
-    
 
+    useEffect(() => {
+        if(props.globalSeenHandler && alerts.length) {
+            const gsi = props.globalSeenHandler.map((msg:IMessage) => msg._id)
+            const result:IMessage[] = []
+            for(var i=0;i < alerts.length;i++) {
+                if(alerts[i] && !gsi.includes(alerts[i]._id)) result.push(alerts[i])
+            }
+            setAlerts(result)
+        }
+    }, [props.globalSeenHandler])
+    
 
     return (
         <button className={`${cl.ChatListItem_container} ${props.active ? cl.Active : cl.Default}`} onClick={() => props.handler(props.chat.chatid)}>
@@ -60,8 +68,8 @@ const ChatListItem:FC<IChatListItemProps> = (props:IChatListItemProps) => {
                 </div>
             </div>
             {
-                alerts > 0 && <div className={cl.ChatListItem_alerts}>
-                    {alerts}
+                alerts.length > 0 && <div className={cl.ChatListItem_alerts}>
+                    {alerts.length}
                 </div>
             }
         </button>

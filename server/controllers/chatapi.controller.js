@@ -25,11 +25,9 @@ class ChatApiController {
 
     async getChatHistory(req, res, next) {
         try {
-            console.log("\n 0 \n")
             const {chatid} = req.query
             const {offset, limit} = req.query
             const history = await chatapiService.getChatHistory(req.user.id, chatid, offset, limit)
-            console.log("\n 1 \n")
             return res.status(200).json(history)
         } catch(e) {
             next(e)
@@ -45,9 +43,27 @@ class ChatApiController {
         }
     }
 
+    async deleteMsg(req, res, next) {
+        try {
+            const response = await chatapiService.deleteMsg(req.user.id, req.body.chatid, req.body.mid)
+            return res.status(200).json(response)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async editMsg(req, res, next) {
+        try {
+            const response = await chatapiService.editMsg(req.user.id, req.body.chatid, req.body.mid, req.body.payload)
+            return res.status(200).json(response)
+        } catch(e) {
+            next(e)
+        }
+    }
+
     async updateSeen(req, res, next) {
         try {   
-            const response = await chatapiService.updateSeen(req.user.id, req.params.chatid, JSON.parse(req.body.messages), req.body.fragid, req.body.observer)
+            const response = await chatapiService.updateSeen(req.user.id, req.params.chatid, JSON.parse(req.body.messages))
             res.status(200).json(response)
         } catch(e) {
             next(e)

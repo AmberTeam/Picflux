@@ -1,8 +1,11 @@
 import { AxiosResponse } from "axios"
 import $api from "../http"
 import { IChat, IInbox } from "../models/IDirect"
-import { IMessage } from "../models/IMessage"
-import { IAlert } from "../store/store"
+import { IMessage, ISeverMessage } from "../models/IMessage"
+
+export interface IServerResponse {
+    status: string
+}
 
 export default class InboxService {
     static async getUserInbox(): Promise<AxiosResponse<IInbox>> {
@@ -24,16 +27,29 @@ export default class InboxService {
         })
     }
 
-    static async storeMsg(msg:IMessage): Promise<AxiosResponse<any>> {
+    static async deleteMsg(chatid:string, mid:string): Promise<AxiosResponse<IServerResponse>> {
+        return $api.post<IServerResponse>('/chatapi/delete/msg', {
+            chatid, 
+            mid
+        })
+    }
+
+    static async editMsg(chatid:string, mid:string, payload:string): Promise<AxiosResponse<IServerResponse>> {
+        return $api.post<IServerResponse>('/chatapi/edit/msg', {
+            chatid, 
+            mid,
+            payload
+        })
+    }
+
+    static async storeMsg(msg:ISeverMessage): Promise<AxiosResponse<any>> {
         return $api.post<any>('/chatapi/create/msg', {
             ...msg
         })
     }
-    static async updateSeen(chatid:string, messages:string, fragid:number, observer:string): Promise<AxiosResponse<any>> {
+    static async updateSeen(chatid:string, messages:string): Promise<AxiosResponse<any>> {
         return $api.post<any>(`/chatapi/${chatid}/seen`, {
             messages,
-            fragid,
-            observer
         })
     }
 }

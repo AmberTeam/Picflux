@@ -87,6 +87,7 @@ const App: FC = () => {
                             </Route>
                             <Route path="/inbox">
                                 <Route path=":id" element={<InboxPage/>}/>
+                                <Route path="redirect/:id" element={<InboxPage/>}/>
                             </Route>
                         </>
                     } 

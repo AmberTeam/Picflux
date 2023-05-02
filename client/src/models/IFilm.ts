@@ -38,6 +38,10 @@ export interface IFilm {
     imdb_cfg: IImdbCfg | undefined | null
     imdb_translate_status: string
     comments: IFilmComment[]
+    rated?:boolean
+    rating?:any[]
+    rating_average?:number 
+    rated_value?:number
 }
 
 export interface IFilmSearchResponse {

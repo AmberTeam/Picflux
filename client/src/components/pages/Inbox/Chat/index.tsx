@@ -15,6 +15,8 @@ import MessageList from "./MessageList";
 
 interface ChatProps {
     config:IChat
+    adaptive: boolean
+    changeAdaptState: () => void
 }
 
 const Chat:FC<ChatProps> = (props:ChatProps) => {
@@ -290,7 +292,6 @@ const Chat:FC<ChatProps> = (props:ChatProps) => {
                 }
             })
             wsc.addListener('chatroom-event', (e) => {
-                console.log(e)
                 switch(e.payload.event) {
                     case "delete": 
                         return setDMB(e.payload.message)
@@ -338,14 +339,27 @@ const Chat:FC<ChatProps> = (props:ChatProps) => {
                         </div>
                     </div>
                 </div>
-                <div className={cl.Info_params}>
-                    <button className={cl.Info_ref}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                        </svg>
-                    </button>
-                </div>
+                {
+                    props.adaptive
+                        ?
+                        <div className={cl.Info_params}>
+                            <button className={cl.Info_ref} onClick={props.changeAdaptState}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <path d="M8.538 1.02a.5.5 0 1 0-.076.998 6 6 0 1 1-6.445 6.444.5.5 0 0 0-.997.076A7 7 0 1 0 8.538 1.02Z"/>
+                                    <path d="M7.096 7.828a.5.5 0 0 0 .707-.707L2.707 2.025h2.768a.5.5 0 1 0 0-1H1.5a.5.5 0 0 0-.5.5V5.5a.5.5 0 0 0 1 0V2.732l5.096 5.096Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        :
+                        <div className={cl.Info_params}>
+                            <button className={cl.Info_ref}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                }
             </div>
             <div className={cl.Chat_messages}>
                 <div ref={chatRef} className={cl.Messages_container}>

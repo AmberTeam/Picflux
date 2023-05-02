@@ -33,18 +33,33 @@
             visibility: visible
             opacity: 1
 
-    .UserSelect_input
-        min-height: 22px
-        background: transparent 
-        border: none 
-        outline: none 
-        font-family: 'Roobert'
-        width: 100%
-        color: #818281
-        transition: .2s all ease 
+        .UserSelect_search 
+            display: flex 
+            gap: .5rem
 
-        &:focus 
-            color: var(--color)
+            svg 
+                fill: var(--color)
+
+    .UserSelect_search
+        display: flex 
+
+        svg 
+            width: 22px 
+            height: 22px
+            fill: #484848
+            transition: .2s all ease
+        .UserSelect_input
+            min-height: 22px
+            background: transparent 
+            border: none 
+            outline: none 
+            font-family: 'Roobert'
+            width: 100%
+            color: #818281
+            transition: .2s all ease 
+
+            &:focus 
+                color: var(--color)
 
     .UserSelect_results 
         position: absolute

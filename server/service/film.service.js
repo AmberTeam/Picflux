@@ -8,6 +8,7 @@ class FilmService {
     async paginate(offset, limit) {
         return new Promise((resolve, reject) => {
             DBAgent.db.all(DBAgent.__paginateMethod, [offset, limit], (err, rows) => { 
+                if(err) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
                 return resolve(rows)
             })
         })
@@ -23,44 +24,47 @@ class FilmService {
         }
     }
 
+    async getRating(fid) {
+        return new Promise(async (resolve, reject) => {
+            DBAgent.db.all(`SELECT * FROM ratings WHERE fid = ${fid}`, (err, data) => {
+                if(err) {
+                    console.error(err)
+                    return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                } 
+                return resolve(data)
+            })
+        })
+    }
+
     async getById(id, uid) {
         return new Promise(async (resolve, reject) => {
             DBAgent.db.get(DBAgent.__getByIdMethod, [id], async (err, row) => {
-                
-                const comments_parsed=[]
-                await new Promise((resolve, reject) => {
-                    DBAgent.db.all(`SELECT * FROM comments WHERE fid LIKE '${id}'`, async (e, data) => {
-                        if(e) reject(e)
-                        if(!data || !data.length) return resolve(null)
-                        const data_ids=[]
-                        data.forEach((d) => data_ids.push(d.id))
-                        data_ids.sort((a,b) => b-a)
-                        for(var i=0;i < data_ids.length;i++){
-                            const val_i = data.map((v) => v.id).indexOf(data_ids[i])
-                            const val_d = data[val_i]
-                            const owner = await UserModel.findById(val_d.uid)
-                            const ownerDto = new UserMinDto(owner ? owner : {
-                                username: 'Deleted accound',
-                                id: val_d.uid,
-                                avatar: 'user64.png'
-                            })
-                            comments_parsed.push({
-                                ...val_d,
-                                user: ownerDto
-                            })
-                        }
-                        resolve(comments_parsed)
-                    })
-                })
+
+                var rated = {
+                    rated: false
+                }
+                const rating = await this.getRating(id)
+                const rating_average = rating.length > 0 ? ((Math.round((rating.map(e => e.value).reduce((a, b) => a + b) / rating.length) + Number.EPSILON) * 100) / 100) : null
+                const current_rate = rating.find(r => r.owner === uid)
+                if(uid && current_rate) rated = {
+                    rated: true, 
+                    rated_value: current_rate.value
+                }
 
                 try {
                     row.players = JSON.parse(row.players)
-                    var res_model = {...row} 
+                    var res_model = {
+                        ...row, 
+                        ...rated, 
+                        rating,
+                        rating_average
+                    } 
         
                     if(uid) {
                         const req_owner = await UserModel.findById(uid)
                         
                         res_model = {
+
                             ...res_model,
                             watchLater: req_owner.watchLater
                         }
@@ -102,14 +106,15 @@ class FilmService {
         
                     return resolve({
                         ...res_model,
-                        comments: comments_parsed,
+                        //comments: comments_parsed,
                         imdb_translate_status: "ok"
                     })
                 } catch(e) {
                     console.error(e)
                     return resolve({
                         ...res_model,
-                        comments: comments_parsed,
+                        rating,
+                        ...rated,
                         imdb_translate_status: "err"
                     })
                 }
@@ -173,6 +178,33 @@ class FilmService {
         }
     }
 
+    async getComments(id, offset, limit) { 
+        return new Promise((resolve, reject) => {
+            DBAgent.db.all(`SELECT * FROM comments WHERE fid = ${id} ORDER BY id DESC LIMIT ${offset}, ${limit}`, async (e, data) => {
+                if(e) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                if(!data || !data.length) return resolve({comments: []})
+                const comments_parsed = []
+                const data_ids=[]
+                data.forEach((d) => data_ids.push(d.id))
+                for(var i=0;i < data_ids.length;i++){
+                    const val_i = data.map((v) => v.id).indexOf(data_ids[i])
+                    const val_d = data[val_i]
+                    const owner = await UserModel.findById(val_d.uid)
+                    const ownerDto = new UserMinDto(owner ? owner : {
+                        username: 'Deleted accound',
+                        id: val_d.uid,
+                        avatar: 'user64.png'
+                    })
+                    comments_parsed.push({
+                        ...val_d,
+                        user: ownerDto
+                    })
+                }
+                return resolve({comments: comments_parsed})
+            })
+        })
+    }
+
     async addComment(fid, uid, data) { 
         return new Promise((resolve, reject) => {
             const date = new Date()
@@ -182,7 +214,7 @@ class FilmService {
             const datef_v = `${day}-${month}-${year}`
             const datef_ms = Date.now()
             DBAgent.db.run(`INSERT INTO comments(fid, uid, data, datef_ms, datef_v) VALUES('${fid}', '${uid}', '${data}', '${datef_ms}', '${datef_v}')`, [], async (e, rows) => {
-                if(e) reject(ApiError.BadRequest())
+                if(e) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
                 const user = await UserModel.findById(uid)
                 const userDto = new UserMinDto(user)
                 return resolve({
@@ -191,6 +223,28 @@ class FilmService {
                     datef_ms,
                     datef_v
                 })
+            })
+        })
+    }
+
+    async pushRating(uid, fid, value) {
+        return new Promise(async (resolve, reject) => {
+            await new Promise((r, j) => {
+                DBAgent.db.all(`SELECT * FROM ratings WHERE owner = "${uid}" AND fid = ${fid}`, (err, data) => {
+                    if(err || data.length) {
+                        console.log(err)
+                        return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                    }
+                    return r()
+                })
+            })
+
+            DBAgent.db.run(`INSERT INTO ratings(owner, value, fid) VALUES("${uid}", ${value}, ${fid})`, (err, data) => {
+                if(err) {
+                    console.log(err)
+                    return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                }
+                return resolve({status: "ok"})
             })
         })
     }

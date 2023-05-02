@@ -15,7 +15,6 @@ import { AxiosResponse } from 'axios'
 import AllowAuth from '../../AllowAuth'
 import AllowOwner from '../../AllowOwner'
 import ContentModal from '../../ContentModal'
-import { RENDER_INTERVAL } from '../../../websocket/websocket'
 
 const ProfilePage = () => {
 
@@ -129,7 +128,6 @@ const ProfilePage = () => {
     }, [profileEditConfig])
 
     useEffect(() => {
-        console.log("loaded cause SIR = 1")
         fetchUser(id === store.user.id ? true : false)
     }, [id])
 
@@ -142,10 +140,6 @@ const ProfilePage = () => {
         }
     }, [store.isSocketAuth])
     
-
-    useEffect(() => {
-        console.log(onlineStatus)
-    }, [onlineStatus])
 
     if(err) return <UndefinedRoutePage/>
 
@@ -226,81 +220,83 @@ const ProfilePage = () => {
                 </div>
                 <div className={cl.Profile_content}>
                     <div className={cl.Content}>
-                        <div className={cl.Profile_username}>
-                            <h1>{user.username}</h1>
-                        </div>
-                        <div className={cl.Profile_stats}>
-                            <div className={cl.Stats_container}>
-                                <div className={`${cl.Stat_friends} ${cl.Stat}`}>
-                                    <h3>{user.friends ? user.friends.length : 0}</h3>
-                                    <span>friends</span>
-                                </div>
-                                <div className={cl.Stat_separator}></div>
-                                <div className={`${cl.Stat_status} ${cl.Stat}`}>
-                                    <h3> Kino Geek </h3>
-                                    <span>identity</span>
-                                </div>
-                                <div className={cl.Stat_separator}></div>
-                                <div className={`${cl.Stat_status} ${cl.Stat}`}>
-                                    <h3>{onlineStatus ? "Online" : 'Offline'}</h3>
-                                    <span>status</span>
+                        <div className={cl.Content_header}>
+                            <div className={cl.Profile_username}>
+                                <h1>{user.username}</h1>
+                            </div>
+                            {
+                                user.biography 
+                                    &&
+                                    <div className={cl.Profile_bio}>
+                                        {user.biography}
+                                    </div>
+                            }
+                            <div className={cl.Profile_stats}>
+                                <div className={cl.Stats_container}>
+                                    <div className={`${cl.Stat_friends} ${cl.Stat}`}>
+                                        <h3>{user.friends ? user.friends.length : 0}</h3>
+                                        <span>friends</span>
+                                    </div>
+                                    <div className={cl.Stat_separator}></div>
+                                    <div className={`${cl.Stat_status} ${cl.Stat}`}>
+                                        <h3> Kino Geek </h3>
+                                        <span>identity</span>
+                                    </div>
+                                    <div className={cl.Stat_separator}></div>
+                                    <div className={`${cl.Stat_status} ${cl.Stat}`}>
+                                        <h3 className={`${cl.Status} ${onlineStatus ? cl.Active : cl.Inactive}`}>{onlineStatus ? "online" : "offline"}</h3>
+                                        <span>status</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {
-                            user.biography 
-                                &&
-                                <div className={cl.Profile_bio}>
-                                    {user.biography}
-                                </div>
-                        }
-                        <div className={cl.Profile_actions}>
-                            <AllowAuth>
-                                <button className={`${cl.Subscribe_btn} ${""}`} onClick={() => friendshipAction()}>
-                                    {
-                                        followActionLoading 
-                                            ?
-                                            <LoaderMini variant={'medium-small'}/>
-                                            :
-                                            <>
-                                                <span>{user.subscribed ? "describe" : "subscribe"}</span>
-                                                {
-                                                    user.subscribed 
-                                                        ?
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Zm0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                            <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
-                                                        </svg>
-                                                        :
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                            <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
-                                                        </svg>
-                                                }
-                                            </>
-                                    }
-                                </button>
-                            </AllowAuth>
-                            <button className={cl.Subscribe_btn}>
-                                <span>share</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
-                                </svg>
-                            </button>
-                            <button className={cl.Subscribe_btn}>
-                                <span>chat</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                    <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                </svg>
-                            </button>
-                            <AllowOwner compareid={user.id}>
-                                <button className={cl.Subscribe_btn} onClick={() => setPEMA(true)}>
-                                    <span>edit</span>
+                            <div className={cl.Profile_actions}>
+                                <AllowAuth>
+                                    <button className={`${cl.Subscribe_btn} ${""}`} onClick={() => friendshipAction()}>
+                                        {
+                                            followActionLoading 
+                                                ?
+                                                <LoaderMini variant={'medium-small'}/>
+                                                :
+                                                <>
+                                                    <span>{user.subscribed ? "describe" : "subscribe"}</span>
+                                                    {
+                                                        user.subscribed 
+                                                            ?
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Zm0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+                                                            </svg>
+                                                            :
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+                                                            </svg>
+                                                    }
+                                                </>
+                                        }
+                                    </button>
+                                </AllowAuth>
+                                <button className={cl.Subscribe_btn}>
+                                    <span>share</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                        <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829Zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707ZM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4Zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1h1.829Zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1h1.829ZM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707L13.293 10ZM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0v1.829Zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0L8.354 9.06Z"/>
+                                        <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
                                     </svg>
                                 </button>
-                            </AllowOwner>
+                                <a className={cl.Subscribe_btn} href={`/inbox/redirect/${user.id}`}>
+                                    <span>chat</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                        <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg>
+                                </a>
+                                <AllowOwner compareid={user.id}>
+                                    <button className={cl.Subscribe_btn} onClick={() => setPEMA(true)}>
+                                        <span>edit</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                            <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829Zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707ZM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4Zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1h1.829Zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1h1.829ZM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707L13.293 10ZM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0v1.829Zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0L8.354 9.06Z"/>
+                                        </svg>
+                                    </button>
+                                </AllowOwner>
+                            </div>
                         </div>
                         <div className={cl.Content_body}>
                             <div className={cl.Opts_container}>
@@ -314,13 +310,6 @@ const ProfilePage = () => {
                                 <button className={`${cl.Opt} ${cl.Default} ${tab == 3 && cl.Active}`} onClick={() => setTab(3)}>
                                     <span>
                                         PlayLists
-                                    </span>
-                                    <div className={cl.Border}></div>
-                                </button>
-                                <div className={cl.Border_spacer}></div>
-                                <button className={`${cl.Opt} ${cl.Default} ${tab == 1 && cl.Active}`} onClick={() => setTab(1)}>
-                                    <span>
-                                        {translate("profile.tabs.act")}
                                     </span>
                                     <div className={cl.Border}></div>
                                 </button>

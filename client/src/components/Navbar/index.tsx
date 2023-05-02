@@ -136,56 +136,42 @@ const Navbar: FC = () => {
                             <AllowAuth>
                                 <>
                                     <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/">
-                                        {translate("navbar.opts.home")}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
+                                            <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
+                                        </svg>
+                                        <span>{translate("navbar.opts.home")}</span>
                                     </a>
                                     <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href={`/profile/${store.user.id}/preview`}>
-                                        {translate("navbar.opts.profile")}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                        </svg>
+                                        <span>{translate("navbar.opts.profile")}</span>
                                     </a>
                                     <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/inbox/overview">
-                                        Chat {alertsInbox > 0 ? alertsInbox : null}
-                                    </a>
-                                    <div className={`${cl.Navigator_link} ${cl.Navigator_link_ex} ${cl.Chapter} ${chapterActive === 'inbox' ? cl.Active : cl.Passive}`} onClick={() => chapterActive !== "inbox" && setChapterActive('inbox')}>
-                                        <div className={cl.Navigator_ex_header}>
-                                            <div className={cl.Navigator_ex_title}>
-                                                <span>Inbox</span>
-                                                <span className={cl.Underline}></span>
-                                            </div>
-                                            <button className={cl.Navigator_ex_exec} onClick={() => setChapterActive(null)}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div className={cl.Navigator_ex_body}>
-                                            {
-                                                chapterLoading
-                                                    ?
-                                                        <LoaderMini/>
-                                                    :
-                                                        alerts.length 
-                                                            ?
-                                                                alerts.map((alert:IAlert) => 
-                                                                    <InboxAlert {...alert} key={alert.id}/>
-                                                                )
-                                                            : 
-                                                                <div className={cl.Null_container}>
-                                                                    Looks like here is nothing to see :/
-                                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/inbox/overview">
-                                        Ctest
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                            <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/>
+                                        </svg>
+                                        <span>Chat {alertsInbox > 0 ? alertsInbox : null}</span>
                                     </a>
                                 </>
                             </AllowAuth>
                             <AllowNotAuth>
                                 <>
-                                    <a className={cl.Navigator_link} href="/">
-                                        {translate("navbar.opts.home")}
+                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/login">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
+                                            <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
+                                        </svg>
+                                        <span>{translate("navbar.opts.home")}</span>
                                     </a>
-                                    <a className={cl.Navigator_link} href="/login">
-                                        {translate("navbar.opts.profile")}
+                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/login">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                        </svg>
+                                        <span>{translate("navbar.opts.profile")}</span>
                                     </a>
                                 </>
                             </AllowNotAuth>

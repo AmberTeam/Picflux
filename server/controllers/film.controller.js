@@ -45,6 +45,24 @@ class FilmController {
             return next(e)
         }
     }
+
+    async getComments(req, res, next) { 
+        try {
+            const data = await filmService.getComments(req.params.id, req.query.offset, req.query.limit)
+            return res.json(data)
+        } catch(e) {
+            return next(e)
+        }
+    }
+
+    async pushRating(req, res, next) {
+        try {
+            const response = await filmService.pushRating(req.user.id, req.params.id, req.body.value)
+            return res.status(200).json(response)
+        } catch(e) {    
+            return next(e)
+        }
+    }
 }
 
 module.exports = new FilmController()

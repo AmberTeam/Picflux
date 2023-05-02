@@ -8,7 +8,7 @@ const rid = require("random-id");
 const DBAgent = require('../utils/db');
 const UserMinDto = require('../dtos/user.min.dto');
 const fileService = require('./file.service');
-const WSC = require("../websocket/index")
+const {syncGlobalEvent} = require("../websocket/index")
 
 class UserService {
     async setTimestamp(uid, data) { 
@@ -130,13 +130,13 @@ class UserService {
             await candidate.save()
             this.storeAlert(f.id, uid, 'sub_inc')
             const fDto = new UserMinDto({...f, status: false, avatar: f.avatar.replace(process.env.API_URL + '/static/', '')})
-            WSC.syncGlobalEvent('push-alert', uid, {
+            /*syncGlobalEvent('push-alert', uid, {
                 owner: fDto, 
                 recipient: uid, 
                 tag: 'sub_inc',
                 timestamp: Date.now(),
                 id: rid(12, 'aA0')
-            })
+            })*/
             return {status: "ok"}
         } catch(e) {
             console.error(e)

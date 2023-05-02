@@ -10,7 +10,7 @@ const fileupload = require("express-fileupload")
 const proxyRouter = require("./routes/proxy.router") 
 const Debugger = require("./utils/debugger")
 const app = express() 
-const WebSocketController = require('./websocket/core')
+const {initWebSocketCore} = require("./websocket/index")
 var WebSocketServer = require("ws").Server,
     http = require("http"),
     server = http.createServer(app);
@@ -49,8 +49,8 @@ if (process.env.NODE_ENV === 'prod' || process.env.NODE_ENV === 'psprod') {
 
 var wss = new WebSocketServer({server: server, path: '/wsedge'});
 
-const WSC = new WebSocketController(wss)
-WSC.initialize()
+initWebSocketCore(wss)
+
 
 async function bootstrap() { 
     try { 
@@ -69,4 +69,10 @@ async function bootstrap() {
     }
 }
 
-bootstrap()    
+bootstrap()  
+
+/*const syncGlobalEvent = (chatid, uid, payload) => {
+  WSC.syncGlobalEvent(chatid, uid, payload)
+}
+
+module.exports = syncGlobalEvent*/

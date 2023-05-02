@@ -13,6 +13,9 @@ import LoaderMini from '../../UI/LoaderMini'
 import FlagDetector from '../../UI/FlagDetector'
 import {Helmet} from "react-helmet"
 import FilmService from '../../../services/FilmService'
+import TimeVisualizator from '../../TimeVisualizator'
+import RatingCounter from '../../UI/RatingCounter'
+import AllowNotAuth from '../../AllowNotAuth'
 
 const FilmPage: FC = () => {
     const {store} = useContext(Context)
@@ -32,6 +35,10 @@ const FilmPage: FC = () => {
     const [rewriteErr, setRewriteErr] = useState<boolean>(false)
     const [imdbErr, setImdbErr] = useState<boolean>(false)
     const [pinPSelector, setPPS] = useState<boolean>(false)
+    const [comments, setComments] = useState<IFilmComment[]>([])
+    const [page, setPage] = useState<number>(0)
+    const [canLoad, setCanLoad] = useState<boolean>(true)
+    const [commentsLoading, setCommentsLoading] = useState<boolean>(false)
     const [commentLoading, setCommentLoading] = useState<boolean>(false)
     const [comment, setComment] = useState<string>("")
 
@@ -111,6 +118,25 @@ const FilmPage: FC = () => {
         return results
     }
 
+    const fetchComments = async (): Promise<void> => {
+        if(!canLoad) return 
+        setCommentsLoading(true)
+        try {
+            if(!id) return undefined
+            const response = await FilmService.getComments(Number(id), page * 10, 10)
+            if(!response.data.comments.length) {
+                setCanLoad(false) 
+            } else {
+                setComments([...comments, ...response.data.comments])
+            }
+        } catch(e) {
+            setCanLoad(false)
+            setComments([])
+        } finally {
+            setCommentsLoading(false)
+        }
+    }
+
     const getFilmData = useCallback(async (): Promise<void> => {
         setPlLStatus(-1)
         const response = await UserService.getById(id, store.getStoredLang())
@@ -123,6 +149,7 @@ const FilmPage: FC = () => {
         rewriteFilmDomByEmbeedUrl(filmConfig.players[0], filmConfig.players)
         if(filmConfig.watchLater?.includes(String(filmConfig.id))) setIsInWL(true)
         else setIsInWL(false)
+        fetchComments()
     }, [id])
 
     const changeWatchLater = async (): Promise<void> => {
@@ -161,16 +188,23 @@ const FilmPage: FC = () => {
     }
 
     const addComment = async() => {
+        if(comment.replaceAll(" ", "") === "") return undefined
         setCommentLoading(true)
         const response:any = await FilmService.addComment(Number(id), comment)
-        if(response.data && film) {
-            var film_prev:IFilm = film 
-            film_prev.comments = [response.data, ...film_prev.comments]
-            setFilm({...film_prev} as IFilm)
-        }
+        if(response.data && film) setComments([response.data, ...comments])
         setComment("")
         setCommentLoading(false)
     }
+
+    const handleRating = (rating:number): void => {
+        if(!film || !store.isAuth) return undefined
+        console.log(rating)
+        FilmService.pushRating(film?.id, rating)
+    }
+
+    useEffect(() => {
+        if(page > 0) fetchComments()
+    }, [page])
 
     useEffect(() => {
         store.callLogModal({code: "ad_ts_wrn", status: 1, alt: "test", duration: 2000})
@@ -269,11 +303,6 @@ const FilmPage: FC = () => {
                                         <h3>{translate("film.info.header.overwiev")}</h3>
                                     </div>
                                 </div>
-                                <div className={`${cl.Pager_segment} ${cl.Pager_segment2} ${descTab == 2 ? cl.Pager_descTab : cl.Pager_inactive}`}>
-                                    <div className={cl.Name} onClick={() => setDescTab(2)}>
-                                        <h3>{translate("film.info.header.reviews")}</h3>
-                                    </div>
-                                </div>
                             </div>
                             <div className={cl.Pager_content}>
                                 {
@@ -313,57 +342,11 @@ const FilmPage: FC = () => {
                                             <span className={cl.Inf_row}> {translate("film.info.main.duration")}: </span>
                                             <span className={cl.Inf_res}> {film.duration} </span> 
                                         </div>
-                                    </div>
-                                }
-                                {
-                                    descTab == 2 && 
-                                    <div className={cl.Comments_container}>
-                                        <div className={cl.Comments}>
-                                            {
-                                                film.comments.length 
-                                                    ?
-                                                    film.comments.map((comment:IFilmComment, i) => {
-                                                        return <div className={cl.Comment} key={i}>
-                                                            <div className={cl.Comment_owner}>
-                                                                <div className={cl.Owner_promo}>
-                                                                    <a href={`/profile/${comment.user.id}/preview`}>
-                                                                        <img className={cl.Owner_avatar} src={comment.user.avatar}/>
-                                                                    </a>
-                                                                    <span className={cl.Owner_username}>
-                                                                        {comment.user.username}
-                                                                    </span>
-                                                                </div>
-                                                                <div className={cl.Comment_time}>
-                                                                    {comment.datef_v}
-                                                                </div>
-                                                            </div>
-                                                            <div className={cl.Comment_body}>
-                                                                {comment.data}
-                                                            </div>
-                                                        </div>
-                                                    })
-                                                    :
-                                                    <div className={cl.NoComments_container}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={cl.NC_ic}><linearGradient id="gradient"><stop className="main-stop" offset="0%"></stop><stop className="alt-stop" offset="100%"></stop></linearGradient><path fill="url(#gradient)" d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM5.495 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"></path></svg>
-                                                        <span>No comments yet :/</span>
-                                                    </div>
-                                            }
+                                        <div className={`${cl.Inf}`}>
+                                            <span className={cl.Inf_row}> Рейтинг: </span>
+                                            <span className={cl.Inf_res}> {film.rating_average !== null ? film.rating_average : "Нет оценок"} </span> 
                                         </div>
-                                        <AllowAuth>
-                                            <div className={cl.Comments_actions}>
-                                                <form className={`${cl.Comments_form} ${commentLoading ? cl.Loading : ""}`} method='PUT' onSubmit={e => {
-                                                    e.preventDefault()
-                                                    addComment()
-                                                }}>
-                                                    <input className={cl.Comments_inp} value={comment} onChange={e => setComment(e.target.value)} placeholder="Enter your comment"/>
-                                                    <button className={cl.Add_wread}>Send</button>
-                                                    <span className={cl.Loader}>
-                                                        <LoaderMini/>
-                                                    </span>
-                                                </form>
-                                            </div>
-                                        </AllowAuth>
-                                    </div>  
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -499,6 +482,109 @@ const FilmPage: FC = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <AllowAuth>
+                <div className={cl.Rating_container}>
+                    <span className={cl.Txt}>Rate the video track:</span>
+                    <RatingCounter handler={handleRating} force_rating={film.rated_value ? film.rated_value : undefined}/>
+                </div>
+            </AllowAuth>
+            <AllowNotAuth>
+                <a className={`${cl.Rating_container} ${cl.NotAuth}`} href="/login">
+                    <span className={cl.Txt}>Rate the video track:</span>
+                    <div className={cl.NonPointerEvents}>
+                        <RatingCounter handler={(rate:number) => handleRating(rate)} force_rating={film.rated_value }/>
+                    </div>
+                </a>
+            </AllowNotAuth>
+            <div className={cl.Comments_container}>
+                <div className={cl.Comments_input}>
+                    <AllowAuth>
+                        <form className={`${cl.Comments_form} ${commentLoading ? cl.Loading : ""}`} method='PUT' onSubmit={e => {
+                            e.preventDefault()
+                            addComment()
+                        }}>
+                            <input className={cl.Comments_inp} value={comment} onChange={e => setComment(e.target.value)} placeholder="Enter your comment"/>
+                            <button className={cl.Comments_submit}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                                </svg>
+                            </button>
+                            <span className={cl.Loader}>
+                                <LoaderMini/>
+                            </span>
+                        </form>
+                    </AllowAuth>
+                </div>
+                <div className={cl.Comments_content}>
+                    {
+                        comments.length
+                            ?
+                            comments.map((comment:IFilmComment, i) => {
+                                return <div className={cl.Comment} key={i}>
+                                    <div className={cl.Comment_owner}>
+                                        <div className={cl.Owner_promo}>
+                                            <a href={`/profile/${comment.user.id}/preview`}>
+                                                <img className={cl.Owner_avatar} src={comment.user.avatar}/>
+                                            </a>
+                                            <span className={cl.Owner_username}>
+                                                {comment.user.username}
+                                            </span>
+                                            <div className={cl.Owner_rating}>
+                                                <span>
+                                                    {
+                                                        film.rating!.find((el:any) => el.owner === comment.user.id)
+                                                            && 
+                                                            film.rating!.find((el:any) => el.owner === comment.user.id).value
+                                                    }
+                                                </span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className={cl.Ic} viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className={cl.Comment_time}>
+                                            <TimeVisualizator time={comment.datef_ms}/>
+                                        </div>
+                                    </div>
+                                    <div className={cl.Comment_body}>
+                                        {comment.data}
+                                    </div>
+                                </div>
+                            })
+                            :
+                            <div className={cl.NoComments_container}>
+                                {
+                                    commentsLoading
+                                        ?
+                                        <>
+                                            <LoaderMini/>
+                                            <span>Please, wait...</span>
+                                        </>
+                                        :
+                                        <>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={cl.NC_ic}><linearGradient id="gradient"><stop className="main-stop" offset="0%"></stop><stop className="alt-stop" offset="100%"></stop></linearGradient><path fill="url(#gradient)" d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM5.495 6.033a.237.237 0 0 1-.24-.247C5.35 4.091 6.737 3.5 8.005 3.5c1.396 0 2.672.73 2.672 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.105a.25.25 0 0 1-.25.25h-.81a.25.25 0 0 1-.25-.246l-.004-.217c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.803 0-1.253.478-1.342 1.134-.018.137-.128.25-.266.25h-.825zm2.325 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"></path></svg>
+                                            <span>No comments yet :/</span>
+                                        </>
+                                }
+                            </div>
+                    }
+                </div>
+            </div>
+            <div className={cl.Pagination_container}>
+                {
+                    canLoad
+                        &&
+                        <button className={`${cl.Add_wread} ${commentsLoading ? cl.Loading : ""}`} onClick={() => setPage(page + 1)}>
+                            {
+                                commentsLoading
+                                    ?
+                                    <LoaderMini/>
+                                    :
+                                    "Load more"
+                            }
+                        </button>
+                }
             </div>
         </div>
     )

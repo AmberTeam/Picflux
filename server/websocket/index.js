@@ -1,8 +1,16 @@
 const ws = require('ws')
 const rid = require('random-id')
-const WebSocketController = require('./core')
+const WebSocketCore = require('./core')
 
-const WSS = new ws.Server({port: process.env.WSS_PORT})
-const WSC = new WebSocketController(WSS)
+var webSocketCore
+
+const initWebSocketCore = (wss) => {
+    webSocketCore = new WebSocketCore(wss)
+    webSocketCore.initialize()
+}
+
+const syncGlobalEvent = (event, uid, payload) => {
+    webSocketCore.syncGlobalEvent(event, uid, payload)
+}
  
-module.exports = WSC
+module.exports = {initWebSocketCore, syncGlobalEvent}

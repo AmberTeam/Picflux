@@ -532,5 +532,22 @@
                                 fill: #818281
                             
 
-                    
-                    
+@media(max-width: 1100px) 
+    .InboxPage_container 
+        padding: 0 1rem
+
+        &.Adaptive
+            .InboxPage_chatlist
+                width: 100%
+
+            .Chat_container 
+                display: none
+    
+        &.Adaptive_selected
+
+            .InboxPage_chatlist
+                display: none
+
+            .Chat_container 
+                width: 100%
+                margin-left: 0

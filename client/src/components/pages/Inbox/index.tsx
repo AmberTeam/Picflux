@@ -8,7 +8,7 @@ import Chat from "./Chat"
 import ChatListItem from "./ChatListItem"
 import cl from './index.module.sass'
 import UserSelect from "../../UI/UserSelect"
-import { IUserMin } from "../../../models/IUser"
+import { IUser, IUserMin } from "../../../models/IUser"
 import LoaderMini from "../../UI/LoaderMini"
 import { IMessage } from "../../../models/IMessage"
 
@@ -18,10 +18,12 @@ const InboxPage: FC = () => {
     const resizer = useRef() as React.MutableRefObject<HTMLDivElement>
     const chatList = useRef() as React.MutableRefObject<HTMLDivElement>
     const [inboxChats, setInboxChats] = useState<IChat[]>([])
+    const [inboxLoaded, setInboxLoaded] = useState<boolean>(false)
     const [activeChat, setActiveChat] = useState<IChat | null>(null)
     const [chatLoading, setChatLoading] = useState<boolean>(false)
     const [globalSeenHandler, setGlobalSeenHandler] = useState<IMessage[]>([])
     const [userSelectActive, setUserSelectActive] = useState<boolean>(false)
+    const [adaptState, setAdaptState] = useState<boolean>(window.innerWidth <= 1100 ? true : false)
 
     const loadInbox = useCallback(async (): Promise<void> => {
         const response = await InboxService.getUserInbox()
@@ -32,10 +34,19 @@ const InboxPage: FC = () => {
     const loadInboxIHistory = async (): Promise<void> => {
         const response = await InboxService.getUserInbox()
         setInboxChats(response.data.inbox)
+        setInboxLoaded(true)
         setActiveChat(response.data.inbox.find((chat:IChat) => chat.chatid === id) as IChat)
     }
 
     const createChat = async (user: IUserMin): Promise<void> => {
+        if(user.id === store.user.id) {
+            if(inboxChats.length) {
+                setActiveChat(inboxChats[0])
+                return window.history.pushState({}, 'onchatselect', '/inbox/' + inboxChats[0].chatid) 
+            } else {
+                return setActiveChat(null)
+            }
+        }
         for(var i=0;i < inboxChats.length;i++) {
             for(var _i=0;_i < inboxChats[i].members.length;_i++) {
                 if(inboxChats[i].members[_i].id === user.id) {
@@ -74,6 +85,13 @@ const InboxPage: FC = () => {
     }
 
     useEffect(() => {
+        if(inboxLoaded) {
+            if(window.location.pathname.includes('/inbox/redirect')) {
+                const uid = window.location.pathname.replace('/inbox/redirect', "").replaceAll("/", "")
+                createChat({id:uid} as IUserMin)
+            }
+        }
+        
         window.addEventListener('popstate', (e: any) => {
             const pathname = e.target.location.pathname
             if(pathname.includes('/inbox') && !pathname.includes('overview')) onPopState(pathname.replace('/inbox/', ""))
@@ -81,7 +99,7 @@ const InboxPage: FC = () => {
         })
 
         return () => window.removeEventListener('popstate', () => null)
-    }, [inboxChats])
+    }, [inboxChats, inboxLoaded])
 
     useEffect(() => {
         resizer.current.addEventListener('mousedown', (e:Event) => {
@@ -117,7 +135,7 @@ const InboxPage: FC = () => {
     }, [store.isSocketAuth])
 
     return (
-        <div className={cl.InboxPage_container}>
+        <div className={`${cl.InboxPage_container} ${adaptState ? activeChat ? cl.Adaptive_selected : cl.Adaptive : ""}`}>
             <div className={cl.InboxPage_chatlist} ref={chatList}>
                 <UserSelect handler={(user:IUserMin) => createChat(user)} active={userSelectActive} downgradeActive={() => setUserSelectActive(false)}/>
                 {
@@ -137,7 +155,10 @@ const InboxPage: FC = () => {
                 {
                     activeChat
                         ?
-                        <Chat config={activeChat}/>
+                        <Chat changeAdaptState={() => {
+                            setActiveChat(null)
+                            window.history.pushState({}, 'onchatselect', '/inbox/overwiev')
+                        }} adaptive={adaptState} config={activeChat}/>
                         :
                         <div className={cl.Select_container}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

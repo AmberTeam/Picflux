@@ -3,7 +3,7 @@ const DBAgent = require("../utils/db")
 const uuid = require("uuid")
 const UserModel = require("../models/user.model")
 const UserMinDto = require("../dtos/user.min.dto") 
-const WSC = require("../websocket")
+const {syncGlobalEvent} = require("../websocket/index")
  
 class ChatApiService {
     async getUserInbox(uid) {
@@ -98,6 +98,7 @@ class ChatApiService {
     async createChat(u, members) {
         return new Promise(async (resolve, reject) => {
             const chatid = uuid.v4()
+            if(members[0] === u) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
             const members_str = JSON.stringify(JSON.stringify(members))
             const exists = await new Promise((r, j) => {
                 DBAgent.db.all(`SELECT * FROM chats WHERE members = '${members_str}'`, (err, data) => {
@@ -108,7 +109,7 @@ class ChatApiService {
             })
             if(exists) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
             DBAgent.db.run(`INSERT INTO chats(chatid, members) VALUES("${chatid}", '${members_str}')`, async (err, data) => {
-                if(err) throw reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                if(err) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
                 const members_parsed = []
                 for(var i=0;i < members.length;i++) {
                     if(members[i] !== u.id) {
@@ -126,7 +127,7 @@ class ChatApiService {
                         members_parsed.push(userDto)
                     }
                 }
-                WSC.syncGlobalEvent('chatroom-new', members_parsed[0].id, {
+                syncGlobalEvent('chatroom-new', members_parsed[0].id, {
                     chatid,
                     members: [members_parsed[1]]
                 })

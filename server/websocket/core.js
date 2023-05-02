@@ -3,7 +3,7 @@ const StatusSession = require('./obj/session')
 const ChatRoom = require("./obj/chatroom")
 const tokenService = require("../service/token.service")
 
-class WebSocketController {
+class WebSocketCore {
     ws
     clients
     status_sessions
@@ -187,9 +187,9 @@ class WebSocketController {
     }
 
     syncGlobalEvent(event, uid, payload) {
-        this.emit_proaccess('uid', uid, event, payload)
+        this.emit_proaccess('uid', uid, event, payload) 
     }
-
+ 
     initialize() { 
         this.ws.on('connection', (soc, req) => {
             const accessToken = req.url.replace("/wsedge?token=", "")
@@ -200,6 +200,8 @@ class WebSocketController {
             const client = this.initClientConection(soc) 
             this.authorizeClient(client.id, userData.id)
             this.emitStatusListeners(userData.id)
+
+            console.log(this.clients.length)
 
             client.on('close', () => {
                 this.destroyClientSessions(client.id)
@@ -250,4 +252,4 @@ class WebSocketController {
 
 }
 
-module.exports = WebSocketController
+module.exports = WebSocketCore

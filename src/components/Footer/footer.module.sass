@@ -1,0 +1,123 @@
+
+.Footer_container 
+    background: var(--footer-bg)
+    display: grid
+    
+    &.Primary
+        background: var(--fg)
+
+    .Footer_header 
+        width: 100% 
+        display: grid
+        grid-template-columns: 33.33% 33.33% 33.33%
+        justify-items: center
+
+        .Amber_logo 
+            .Logo 
+                width: 100px
+                filter: drop-shadow(0 0.5rem 1.45rem #fce38991) 
+
+        .Online 
+            display: flex
+            align-items: center
+            gap: 5px
+
+            .Online_dot 
+                width: 10px 
+                height: 10px 
+                background: #00fe00
+                border-radius: 100px
+
+            .Online_text 
+                font-family: 'Roobert'
+                font-size: 14px
+
+    .Footer_inners
+        margin-top: 1.5rem
+        display: grid 
+        grid-template-columns: 33.33% 33.33% 33.33%
+        padding: 0 1rem
+
+        .Footer_inner 
+            width: 100%
+            text-align: center
+            display: grid 
+            height: 100%
+        
+
+            .Content 
+                font-size: 14px
+
+                div 
+                    margin-top: .5rem
+
+                    a
+                        text-decoration: none 
+                        color: var(--footer-color)
+
+                        &:hover 
+                            color: var(--color-a)
+    
+    .Footer_bottom 
+        padding: 0rem 2rem 2rem 2rem
+        margin-top: 1.5rem
+        display: flex
+        font-size: 10px
+        align-items: center
+        color: var(--footer-color)
+
+        .Team
+            width: 100%
+            display: grid
+            gap: 1rem
+            justify-items: center
+
+        .Logout 
+            width: 100%
+            margin-left: 3rem
+
+        .Lang 
+            width: 100%
+            display: flex
+            justify-content: end
+            margin-right: 3rem
+
+    .Logout_btn 
+        background: transparent
+        border: none 
+        outline: none 
+        cursor: pointer
+        font-size: 10px
+        color: var(--footer-color)
+
+@media(max-width: 1100px)
+    .Footer_container 
+        .Footer_header 
+            width: 100% 
+            grid-template-columns: auto
+
+        .Footer_inners
+            margin-top: 1.5rem
+            display: grid 
+            grid-template-columns: calc(50% - .25rem) calc(50% - .25rem)
+            grid-gap: .5rem
+
+            .Footer_inner 
+                .Content 
+                    font-size: 10px
+
+
+        .Footer_bottom 
+            flex-direction: column-reverse
+            gap: 1rem
+
+            .Lang 
+                justify-content: center
+                margin-right: 0
+
+            .Logout
+                text-align: center
+                margin-left: 0
+
+
+

@@ -1,0 +1,15 @@
+{
+    "version": 1,
+    "lang_defaut": "en-EN",
+    "langs_available": [
+        {
+            "name": "en-EN"
+        },
+        {
+            "name": "ua-UA"
+        },
+        {
+            "name": "ru-RU"
+        }
+    ]
+}

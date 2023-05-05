@@ -1,0 +1,739 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex,nofollow,noarchive">
+        <title>Добро пожаловать в Чиппендейлс (1 сезон) - 1 серия</title>
+        <style>
+            body {
+                margin: 0;
+                background-color: black !important;
+            }
+
+            #player {
+                width: 100%;
+            }
+
+            #player > .placeholder {
+                color: white;
+            }
+        </style>
+        <script data-name="main">
+            var playerBase = "https://cdn.jsdelivr.net/npm/venom-player@0.2.78" + '/dist/', app, tryLoad = 1, embedHost = "api.loadbox.ws", consumerHost = "zombie-film.com-embed", consumerId = 4, ancestorOrigins = location.ancestorOrigins && Array.from ? Array.from(location.ancestorOrigins) : [], id = 552645, franchiseID = 61259;
+            var isEmbedded;
+            try {
+                isEmbedded = self !== top;
+            } catch (e) {
+                isEmbedded = true
+            }
+            var sameOrigin;
+            try {
+                sameOrigin = top.location.origin === location.origin
+            } catch (e) {}
+            if (isEmbedded && !sameOrigin) {
+                __s('cat=frame&hit=sub&host=' + location.hostname.split('.')[0].replace(/api\d+/, 'api{0}'));
+                addEventListener('message', function(e) {
+                    if ('ping' == e.data)
+                        e.source.postMessage('pong', e.origin)
+                });
+            }
+            if (isEmbedded && !sameOrigin && window.fetch && window.URL && !/(greenfilm\.vip|vsetam.net|zetfi?l?i?x(main|24|s)?\.\w{2,4})$/.test(consumerHost || '')) {
+
+                var url = new URL(location.href)
+                  , re = /^api\d+\./;
+                if (re.test(url.hostname)) {
+                    url.hostname = url.hostname.replace(re, 'api.');
+                    fetch(url.origin + '/ping/', {
+                        method: 'head'
+                    }).then(function(r) {
+                        url.searchParams.set('host', new URL(document.referrer).hostname);
+                        if (r.status === 200)
+                            location.href = url.href;
+                    })
+                }
+            }
+            var ua = navigator.userAgent.replace(/\sMobile\/[^\s]+/, '').replace('iPhone; CPU iPhone', 'iPhone').replace(' (KHTML, like Gecko)', '').replace('Mozilla/5.0 (', '').replace(' like Mac OS X)', '').replace('Mobile', 'M').replace('Safari', 'S').replace(/(OS\s\d+)(_\d+)+/g, '$1').replace(/(\d+)(\.\d+)+/g, '$1').replace(/\sAppleWebKit\/\d+/, '');
+            var iPhone = ~ua.indexOf('iPhone') && ua.indexOf('Windows') == -1 ? 'iPhone' : 'other';
+            var notSafari = /(GSA|CriOS|YaBrowser|YaApp_iOS|UCBrowser|Instagram|vkclient|FBSV|MicroMessenger|FxiOS|EdgiOS|RDDocuments|LightSpeed|MessengerLiteForiOS|OPT|MiuiBrowser|YaaniBrowser|AlohaBrowser|Baiduspider)\/?\d*/;
+            setTimeout(function() {
+                __s('cat=frame&hit=embed&sub=' + (isEmbedded ? 'embed' : 'top') + '&type=' + (sameOrigin ? 'same' : 'diff') + '&label=' + iPhone + '&host=' + consumerHost)
+            }, 1000);
+            setTimeout(function() {
+                __s('cat=frame&hit=embed1m&sub=' + (isEmbedded ? 'embed' : 'top') + '&type=' + (sameOrigin ? 'same' : 'diff') + '&label=' + iPhone + '&host=' + consumerHost)
+            }, 1000 * 60);
+            if (iPhone === 'iPhone') {
+                var nameVer = notSafari.test(ua) ? ua.match(notSafari)[0] : ua.split(' ').slice(-2)[0];
+                nameVer = (nameVer || '').split('/');
+                if (!nameVer[0] || parseInt(nameVer[0]) || ~['iPhone', 'M', 'OS', ''].indexOf(nameVer[0].replace(/[^\w]/g, ''))) {
+                    nameVer = [navigator.userAgent];
+                }
+                if (/[^\w]/.test(nameVer[0] || ''))
+                    nameVer = [ua.replace(/\s/g, '_').replace(/[^\w]/g, '-')];
+                var major = parseInt(nameVer[1]) || nameVer[1] || '-'
+                  , ancestorProtocols = ancestorOrigins.map(function(d) {
+                    return d.match(/(.+):/)[1]
+                });
+                __s('cat=support&hit=swIos&sub=' + location.protocol + (navigator.serviceWorker ? 'sw' : '') + '&type=' + nameVer[0] + '&label=' + major + '&description=' + ancestorProtocols);
+            }
+            var unixTime = 1673893754;
+            addEventListener('error', function(e, f, l, c) {
+                try {
+                    e = e || '';
+                    f = f || e.filename || '';
+                    l = l || e.lineno;
+                    c = c || e.colno;
+                    var lc = (l || c) ? l + ':' + c : ''
+                      , m = (e.message || e).toString().replace(/\n/g, '').replace('Uncaught SecurityError: Blocked a frame with origin', 'blockFR').replace('from accessing a cross-origin frame', '').replace(/https?:\/\/api\d+/, 'api.').replace("token ')'", 'token )').replace(/uncaught(?:\sexception)?\s+/i, '');
+                    __s('cat=window&hit=error&sub=' + lc + f + '&label=' + m);
+                } catch (e) {
+                    __s('cat=window&hit=error&label=WTF_' + e);
+                }
+                var n = document.getElementById('player'), p;
+                if (n && !app) {
+                    n.style.border = '1px dashed red';
+                    p = document.createElement('p');
+                    p.innerText = m;
+                    p.style.color = 'red';
+                    n.appendChild(p);
+                }
+            });
+            function __s(s) {
+                new Image().src = "https://stats.myangular.life/player?" + s;
+            }
+
+            function makePlayer(opts) {
+                var s
+                if (!window.VenomPlayer) {
+                    if (tryLoad == 1) {
+                        playerBase = 'https://unpkg.com/' + playerBase.slice(playerBase.indexOf('venom'));
+                        s = document.createElement('script');
+                        s.src = playerBase + 'player.js';
+                        s.onload = function() {
+                            setTimeout(function() {
+                                makePlayer(opts)
+                            }, 1000)
+                        }
+                        ;
+                        s.onerror = function() {
+                            __s('cat=window&hit=error&label=PLAYER_LOAD_FAIL_UNPKG')
+                        }
+                        ;
+                        document.head.appendChild(s)
+                    }
+                    throw 'PLAYER_LOAD_FAIL_' + tryLoad++;
+                }
+                if (VenomPlayer.isMobile)
+                    try {
+                        localStorage.removeItem('player.volume')
+                    } catch (e) {}
+
+                Object.assign(opts, {
+                    container: document.getElementById('player'),
+                    publicPath: playerBase,
+                    ads: adsConfig,
+                    defaultPoster: '',
+                    speed: [1, 1.1, 1.25, 1.5],
+                    restrictSpeed: function(s, q) {
+                        return s > 1 && q > 555 ? 'Изменение скорости доступно только на низком качестве видео' : ''
+                    },
+                    volume: 1,
+                    preventExternalSilencing: true,
+                    aspectRatio: isEmbedded ? 'fill' : '16:9',
+                    mini: 320,
+                    reportUrl: 'https://apicollaps.cc/bug-report',
+                    stats: 'wss://stats.myangular.life/ws?ref_id=4',
+                    hlsNativeParam: true,
+                    dash: {
+                        streaming: {
+                            stableBufferTime: 120,
+                            bufferTimeAtTopQualityLongForm: 120
+                        }
+                    },
+                    theme: "classic",
+                    cssVars: {
+                        "color-text": "rgba(255,255,255,1)",
+                        "border-radius": "0rem",
+                        "color-buttons": "rgba(255,255,255,1)",
+                        "color-primary": "rgba(0,217,231,1)",
+                        "background-color-primary": "rgba(0,0,0,0.6)",
+                        "button-icon-color": "rgba(255,255,255,1)"
+                    },
+                    time: 0,
+                    soundBlock: "delete",
+                    autoLandscape: true,
+                    preview: {
+                        interval: 5,
+                        width: 160,
+                        height: 90,
+                        spriteSize: 100,
+                        rowSize: 10,
+                        src: 'https://img.zcvh.net/' + 933911 + '/desktop/thumb-${spriteNum}.webp',
+                        firstNum: 1,
+                        pad: 1
+                    },
+
+                    p2p: Object.assign({
+                        testM: true,
+                        testMhls: true,
+                        packetSize: 16e3,
+                        rtc: {
+                            peerConnection: {
+                                iceServers: [{
+                                    urls: "stun:stun.l.google.com:19302"
+                                }, {
+                                    urls: "stun:global.stun.twilio.com:3478?transport=udp"
+                                }],
+                                bundlePolicy: "max-compat"
+                            }
+                        }
+                    }, opts.p2p),
+                    ui: Object.assign({
+                        titleOnlyOnFullscreen: false,
+                        pip: true,
+                        about: false,
+                        share: true
+                    }, opts.ui),
+                    translations: {
+                        en: {
+                            screen: 'intro',
+                            repeat: 'repeat',
+                            titer: 'titer',
+                            pipIn: 'Picture in Picture',
+                            pipOut: 'expand'
+                        }
+                    },
+                    text: Object.assign({
+                        ads: 'рекламу',
+                        screen: 'интро',
+                        repeat: 'повтор',
+                        titer: 'титры',
+                        blocked: 'Видео заблокировано по просьбе правообладателя'
+                    }, opts.text)
+                });
+                var safariVersion;
+                if (location.pathname.startsWith('/embed/') && /^https:\/\/(api[a-z\-]*|mm)\./.test(location.href) && location.href.indexOf('sw=no') < 0) {
+                    opts.sw = '/embed/sw.js';
+                    if (!navigator.serviceWorker && iPhone === 'iPhone') {
+                        if (ancestorOrigins.some(function(e) {
+                            return e.startsWith('http:')
+                        })) {
+                            opts.restrictQuality = function(q) {
+                                if (+q > 480)
+                                    return 'Изменение качества доступно только на безопасных страницах (https)'
+                            }
+                            ;
+                        } else if (notSafari.test(ua)) {
+                            opts.restrictQuality = function(q) {
+                                if (+q > 480)
+                                    return 'Изменение качества доступно только в Safari'
+                            }
+                            ;
+                        } else {
+                            safariVersion = ua.match(/Version\/(\d+)/);
+                            if (safariVersion && +safariVersion[1] > 10) {
+                                opts.restrictQuality = function(q) {
+                                    if (navigator.serviceWorker)
+                                        return;
+                                    return parseInt(q) > 480 && 'Изменение качества доступно только в Safari<br>Меню =&gt; Открыть в Safari';
+                                }
+                                ;
+                            }
+                        }
+                    }
+                }
+                addEventListener('message', function(e) {
+                    if (!opts.playlist)
+                        return;
+                    if (e.data == 'playlist hook') {
+                        opts.playlist.autoPlay = false;
+                        e.source.postMessage('playlist hooked', '*');
+                    } else if (e.data == 'playlist hooked play' && opts.playlist.autoPlay === false) {
+                        app.play()
+                    }
+                });
+                app = VenomPlayer.make(opts);
+                if (window.listen) {
+                    app.onRenew = listen;
+                    listen(app);
+                }
+            }
+
+            (function() {
+                try {
+                    var w = window
+                      , MS = w.MediaSource || w.WebKitMediaSource
+                      , opus = MS && MS.isTypeSupported && MS.isTypeSupported('audio/webm; codecs="opus"')
+                      , pc = w.RTCPeerConnection || w.mozRTCPeerConnection || w.webkitRTCPeerConnection
+                      , dc = w.WebSocket && pc && pc.prototype && pc.prototype.createDataChannel ? 'dc' : ''
+                      , wasm = w.WebAssembly ? 'wasm ' : '';
+                    support('u8', w.Uint8Array);
+                    support('weak-ref', w.WeakRef);
+                    support('find', Array.prototype.find);
+                    __s('cat=support&hit=opus&description=' + opus);
+                    __s('cat=support&hit=wasm&description=' + (wasm + dc || '-'));
+                } catch (e) {}
+
+                var supportsAsync;
+                try {
+                    new Function('async ()=>1');
+                    supportsAsync = 1
+                } catch (e) {}
+                support('async', supportsAsync);
+
+                function support(name, v) {
+                    __s('cat=support&hit=' + name + '&description=' + (v ? 'yes' : '-'))
+                }
+            }
+            )();
+        </script>
+        <script src="https://api.loadbox.ws/cdn.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/venom-player@0.2.78" crossorigin="anonymous"></script>
+        <script src="https://api.loadbox.ws/js/listen-player.js" async crossorigin="anonymous"></script>
+        <script data-name="ping">
+            !function() {
+                if (!window.fetch)
+                    return;
+
+                var interval = 5 * 60 * 1000
+                  , timers = {};
+
+                setTimeout(function ping() {
+                    if (window.VenomPlayer) {
+                        setTimeout(ping, interval);
+                        pingHost("loadbox.ws");
+                    }
+                }, interval);
+
+                function pingHost(host, url) {
+                    if (!host)
+                        return;
+                    var r = send.bind(null, host);
+                    if (!url)
+                        url = 'https://api.' + host + '/ping/';
+                    fetch(url).then(r).catch(r);
+                    timers[host] = Date.now();
+                }
+
+                function send(host, r) {
+                    VenomPlayer.stats({
+                        hit: 'ping',
+                        host: host,
+                        value: +(r && r.ok),
+                        time: Date.now() - timers[host]
+                    });
+                }
+            }();
+
+            setTimeout(function() {
+                window.VenomPlayer && VenomPlayer.stats({
+                    hit: 'ts',
+                    time: Date.now() / 1000 | 0
+                });
+            }, 6e4);
+
+            if (Math.random() < 0.01 && window.fetch)
+                setTimeout(function() {
+                    fetch('https://api.getsdk.online/check').then(function(r) {
+                        return r.json()
+                    }).then(function(r) {
+                        fetch(r.url).catch(function() {
+                            return new Promise(function(_, rej) {
+                                setTimeout(rej, 1e4)
+                            }
+                            );
+                        }).catch(function() {
+                            return fetch(r.url)
+                        }).catch(function() {
+                            new Image().src = 'https://api.getsdk.online/error?id=' + r.id;
+                        });
+                    }).catch(function() {});
+                }, 6e4);
+        </script>
+        <script data-name="ss">
+            var settingsOrigin = 'https://api.stiven-king.com'
+              , settingsFrame = document.createElement('iframe')
+              , totalTimeKey = 'player.totalTime';
+            settingsFrame.src = settingsOrigin + '/storage.html';
+            settingsFrame.style.width = 0;
+            settingsFrame.style.height = 0;
+            settingsFrame.style.border = 0;
+            addEventListener('DOMContentLoaded', function() {
+                document.body.appendChild(settingsFrame);
+            });
+            addEventListener('message', function(e) {
+                if (e.origin === settingsOrigin && e.data && e.data.key === totalTimeKey)
+                    try {
+                        var remote = +e.data.value
+                          , local = +localStorage.getItem(totalTimeKey) || 0;
+                        if (remote > local) {
+                            localStorage.setItem(totalTimeKey, remote);
+                        } else if (local > remote) {
+                            settingsFrame.contentWindow.postMessage({
+                                'localStorage.setItem': totalTimeKey,
+                                value: local
+                            }, settingsOrigin);
+                        }
+                    } catch (e) {}
+            });
+
+            try {
+                var lastTotalTimeSync = 0
+                  , setItem = localStorage.setItem;
+                localStorage.setItem = function(key, value) {
+                    setItem.call(localStorage, key, value);
+                    var now = Date.now();
+                    if (key === totalTimeKey && now - lastTotalTimeSync > 60 * 1000) {
+                        lastTotalTimeSync = now;
+                        settingsFrame.contentWindow.postMessage({
+                            'localStorage.setItem': totalTimeKey,
+                            value: value
+                        }, settingsOrigin);
+                    }
+                }
+                ;
+            } catch (e) {}
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" class="next-head">
+    </head>
+    <body>
+        <div id="MiuiBrowser" style="display: none; background-color: yellow; padding: 0.5em">
+            На MiuiBrowser жалуются: видео часто само становится на паузу. Для комфортного просмотра лучше использовать
+		<a href="https://play.google.com/store/apps/details?id=com.android.chrome" target="_blank">Google Chrome</a>
+            &nbsp;<button>ok</button>
+        </div>
+        <script data-name="miui">
+            if (/MiuiBrowser\/13\.[3-8]\./.test(navigator.userAgent)) {
+                var miui = document.getElementById('MiuiBrowser');
+                miui.style.display = 'block';
+                miui.querySelector('button').onclick = function() {
+                    miui.remove()
+                }
+            }
+        </script>
+        <div id="player">
+            <span class="placeholder">loading...</span>
+        </div>
+        <script data-name="ad">
+            var middleCount = 0
+              , adTimeouts = {
+                loading: 20000,
+                starting: 20000,
+                toNextImp: 5000,
+                global: 120000
+            }
+              , adsConfig = {
+                nonLinear: {
+                    fallbackOnly: false,
+                    url: "https://4251.tech/load-xml/?id=7875&type=nonlinear&dcc=1",
+                    total: 0,
+                    offset: 300,
+                    label: {
+                        name: 'label',
+                        val: 'overlay',
+                        counter: true
+                    }
+                },
+
+                pre: {
+                    vast: {
+                        timeouts: adTimeouts,
+                        sequential: true
+                    },
+                    maxImpressions: 2,
+                    urls: ["https://4251.tech/vpaid/?id=5241&roll=pre&dcc=1&maximp=2"]
+
+                },
+
+                middle: {
+                    offset: 10 * 60,
+                    vast: {
+                        timeouts: {
+                            loading: 60000,
+                            starting: 60000,
+                            global: 120000
+                        }
+                    },
+                    nonLinearFallback: true,
+                    pop: true,
+                    total: 0,
+                    maxImpressions: 1,
+                    urls: ["https://4251.tech/load-xml/?id=21515&maximp=1&dcc=1&mid=6", "https://4251.tech/load-xml/?id=5242&maximp=1&dcc=1&mid=6"],
+                    getUrls: function() {
+                        var u = middleCount && adsConfig.middle.urls ? adsConfig.middle.urls.slice(1) : adsConfig.middle.urls;
+                        middleCount++;
+                        return u;
+                    },
+                    label: {
+                        name: 'roll',
+                        val: 'mid',
+                        counter: true
+                    }
+                },
+
+                confirmTimeout: 60 * 1000,
+                confirmOn: ['localhost'],
+                vast: {
+                    timeouts: adTimeouts
+                },
+                toLongSkip: 21,
+                volume: 0.3,
+                tv: true,
+                midThenNonLinear: true,
+                suppressOnFakeFullScreen: true
+            };
+        </script>
+        <script data-name="mk">
+            makePlayer({
+                poster: "https://img.imgilall.me/movies/video/5/5/2/6/4/5/0/0/0/0/800x450_552645.jpg?t=1671288661",
+                ui: {
+                    prevNext: true
+                },
+                playlist: {
+                    open: true,
+                    autoNext: true,
+                    id: 61259,
+                    current: {
+                        season: 1,
+                        episode: "1"
+                    },
+                    seasons: [{
+                        "season": 1,
+                        "blocked": false,
+                        "episodes": [{
+                            "episode": "1",
+                            "id": 552645,
+                            "videoKey": 933911,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/12_22/17/16/4L7GBBH2/933911.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/47G2D2KF/II7E4GP4.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/4YMQ4P67/JYPLRQLX.vtt",
+                                "name": "Eng. full - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/VBOOED5G/OCZ2SNZP.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2747,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 1 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/2/6/4/5/0/0/0/0/800x450_552645.jpg?t=1671288661",
+                            "preview": {
+                                "src": "https://img.zcvh.net/933911/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }, {
+                            "episode": "2",
+                            "id": 552646,
+                            "videoKey": 933912,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/12_22/17/16/HY2AEY2F/933912.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/12/5FW2542R/V6XZLMYC.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/JXUBCTNO/HVM6GKY3.vtt",
+                                "name": "Eng. full - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/ZOQ3FLPG/TRLFWGNJ.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2698,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 2 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/2/6/4/6/0/0/0/0/800x450_552646.jpg?t=1671289003",
+                            "preview": {
+                                "src": "https://img.zcvh.net/933912/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }, {
+                            "episode": "3",
+                            "id": 552647,
+                            "videoKey": 933913,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/12_22/17/16/MGCP4LPX/933913.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/13/GB5O4FIM/2HLPFIP2.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/4BSMFNNR/4INWWU5B.vtt",
+                                "name": "Eng. full - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/THMZ6ZFY/3NTOB2UF.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2386,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 3 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/2/6/4/7/0/0/0/0/800x450_552647.jpg?t=1671287409",
+                            "preview": {
+                                "src": "https://img.zcvh.net/933913/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }, {
+                            "episode": "4",
+                            "id": 552648,
+                            "videoKey": 933914,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/12_22/17/16/HLNV62DL/933914.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/6GQOXZ4U/Z4P42QYD.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/NK4SYAVS/QJNODNY5.vtt",
+                                "name": "Eng. full - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/RR2OJDK7/QDKICJPM.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2524,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 4 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/2/6/4/8/0/0/0/0/800x450_552648.jpg?t=1671286484",
+                            "preview": {
+                                "src": "https://img.zcvh.net/933914/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }, {
+                            "episode": "5",
+                            "id": 552649,
+                            "videoKey": 933915,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/12_22/17/16/GCMRS4WV/933915.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/EV6NM5OK/DKIEH5G4.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/RHFNJE22/D32Z3TZ5.vtt",
+                                "name": "Eng. full - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_17_22/12/17/11/DZKYWMNY/ZQEG2FKB.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2602,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 5 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/2/6/4/9/0/0/0/0/800x450_552649.jpg?t=1671285754",
+                            "preview": {
+                                "src": "https://img.zcvh.net/933915/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }, {
+                            "episode": "6",
+                            "id": 553889,
+                            "videoKey": 935341,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/12_22/22/22/PKX3EIGQ/935341.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/12_22_22/12/22/18/T3ZLQCVM/3VEECZMT.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_22_22/12/22/18/HKQ4JWBJ/LF4EDVQ3.vtt",
+                                "name": "Eng. SDH - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/12_22_22/12/22/18/QMH72PAU/624MD3CW.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2322,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 6 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/3/8/8/9/0/0/0/0/800x450_553889.jpg?t=1671741794",
+                            "preview": {
+                                "src": "https://img.zcvh.net/935341/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }, {
+                            "episode": "7",
+                            "id": 557112,
+                            "videoKey": 939315,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/01_23/11/14/IC7KWPLU/939315.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/01_11_23/01/11/11/34C75G5G/DOYDK2NB.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/01_11_23/01/11/10/WXYLXT3K/5PU7ALDF.vtt",
+                                "name": "Eng. full - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/01_11_23/01/11/10/XT2MOVZW/EX2OAWWS.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2154,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 7 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/7/1/1/2/0/0/0/0/800x450_557112.jpg?t=1673441117",
+                            "preview": {
+                                "src": "https://img.zcvh.net/939315/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }, {
+                            "episode": "8",
+                            "id": 557113,
+                            "videoKey": 939316,
+                            "dash": "https://hye1eaipby4w.takedwn.ws/01_23/11/14/73VG7CA5/939316.mpd",
+                            "hls": "https://hye1eaipby4w.takedwn.ws/01_11_23/01/11/11/GD6E3OUU/GZHAPJHP.mp4/master.m3u8",
+                            "audio": {
+                                "names": ["TVShows", "Eng.Original"],
+                                "order": [0, 1]
+                            },
+                            "cc": [{
+                                "url": "https://hye1eaipby4w.takedwn.ws/01_11_23/01/11/10/RYZUJZEJ/KQYFMA4J.vtt",
+                                "name": "Eng. full - 1"
+                            }, {
+                                "url": "https://hye1eaipby4w.takedwn.ws/01_11_23/01/11/10/UOBNCUZL/SLQFDGS7.vtt",
+                                "name": "Eng. full - 2"
+                            }],
+                            "duration": 2152,
+                            "title": "Добро пожаловать в Чиппендейлс (1 сезон) - 8 серия",
+                            "download": "",
+                            "sections": [],
+                            "poster": "https://img.imgilall.me/movies/video/5/5/7/1/1/3/0/0/0/0/800x450_557113.jpg?t=1673441423",
+                            "preview": {
+                                "src": "https://img.zcvh.net/939316/desktop/thumb-${spriteNum}.webp"
+                            }
+                        }]
+                    }]
+                },
+                qualityByWidth: {
+                    "1280": 720,
+                    "1920": 1080,
+                    "864": 480
+                },
+                p2p: {
+                    geo: ["DE", "", "3320"],
+                    tolerance: 4,
+                    tracker: "wss://t4.zcvh.net/v1/ws",
+                    longDownload: 30 * 1000
+                }
+            });
+
+            var videoKey = 933911;
+
+            function onPlaylist(data) {
+                post({
+                    event: 'changeEpisode',
+                    id: data.id,
+                    episode: data.episode,
+                    season: data.season
+                });
+                id = data.id;
+                document.title = data.title;
+
+                try {
+                    var franch = location.pathname.split('/').slice(-1)[0];
+                    if (!/\d+/.test(franch))
+                        return;
+                    document.cookie = 'vp' + franch + '=' + data.season + ':' + data.episode + ';domain=.' + location.hostname.split('.').slice(1).join('.') + ';expires=' + new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 10).toUTCString();
+                } catch (e) {}
+                middleCount = 0;
+            }
+        </script>
+    </body>
+</html>

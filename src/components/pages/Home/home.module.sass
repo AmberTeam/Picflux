@@ -1,0 +1,250 @@
+.SD_container 
+    position: fixed
+    z-index: 999
+    background: #000
+    color: #0f0
+    padding: 1rem
+    top: 0
+    left: 0
+    display: grid
+
+    .SD_data 
+        display: flex
+        
+        .SD_dataname
+            width: 50px
+
+        .SD_separator 
+            margin: 0 1rem
+.Pagination_mtd
+    display: grid
+    gap: .7rem
+    
+    .Mtd_header 
+    
+    .Mtd_body 
+        display: flex
+        gap: .5rem
+        flex-wrap: wrap
+
+        .Mtd_action 
+            padding: .4rem 
+            border: 1px solid var(--mtd-col)
+            border-radius: 6px
+            background: transparent
+            color: var(--mtd-col)
+            transition: .2s all ease
+            cursor: pointer
+
+            &:hover 
+                border-color: var(--color-a)
+                color: var(--color-a)
+
+            &.Input_type 
+                cursor: default
+.Home_section
+    .Section_starter 
+        min-height: 40vh
+        display: grid
+        justify-content: center
+        align-content: center
+        text-align: center
+        
+        h1
+            font-size: 58px
+            font-weight: 600
+            margin-bottom: 3rem
+
+        p
+            font-size: 18px
+
+    .Search_section
+        position: relative
+        width: 100% 
+        display: grid
+        grid-template-columns: 20% 60% 20%
+
+        .Search_field 
+            position: absolute
+            display: grid
+            grid-template-columns: 35% 30% 35%
+            gap: .5rem
+            width: 100%
+            top: -20px
+            align-items: center
+        
+            .Focus_lines
+                width: 100% 
+                height: 1px
+                //background: rgba(10, 10, 10, 1)
+                transition: .2s all ease
+
+                &.Focused 
+                    //background: var(--color-a)
+
+            .Search_input
+                display: flex
+                justify-content: space-between
+                border: 1px solid var(--border-grey)
+                background: var(--bg)
+                padding: 6px 6px 6px 15px
+                border-radius: 6px
+                transition: .2s all ease 
+
+                &.Focused
+                    border: 1px solid var(--color-a)
+
+
+                input 
+                    border: none 
+                    background: transparent
+                    color: var(--color)
+                    outline: none
+                    width: 100%
+            
+                .Search_loop
+                    background: transparent 
+                    border: none 
+                    cursor: pointer
+
+                    svg
+                        circle
+                            transition: .2s all ease 
+                        path
+                            transition: .2s all ease 
+
+                    &:hover 
+
+                        svg
+                            circle
+                                stroke: var(--color-a)
+                            path
+                                stroke: var(--color-a)
+
+            .Tool_container 
+                display: flex 
+                justify-content: start
+
+                &.Search_ints
+                    display: flex
+                    justify-content: end
+
+                .Tool
+                    min-height: 40px
+                    min-width: 40px
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    border: 1px solid var(--border-grey)
+                    background: var(--bg)
+                    border-radius: 6px
+                    cursor: pointer
+                    transition: .2s all ease
+
+                    &:hover 
+                        border-color: var(--color-a)
+
+                        svg 
+                            fill: var(--color-a)
+
+                    svg 
+                        fill: #7d7d7d
+                        transition: .2s all ease
+                    
+            
+
+
+    .Section_content
+        min-height: 60vh
+        background: var(--fg)
+        padding: 4rem 4rem 4rem 4rem
+
+        .Dropper 
+            position: absolute
+            top: 50%
+            opacity: 0
+
+$width: 100px
+$height: 100px
+
+.Loader
+    margin-top: 4rem
+    display: flex 
+    justify-content: center 
+    align-items: center
+
+
+.Click_container
+    display: flex
+    justify-content: center
+    padding: 4rem 4rem 0rem 4rem
+
+    .Load_more 
+        display: flex
+        justify-content: center 
+        align-items: center
+
+        &:hover 
+            svg 
+                fill: var(--color)
+
+        svg 
+            margin-right: .1rem
+            transition: .2s all ease
+            height: 26px
+            fill: var(--bg)
+            
+@media(max-width: 1600px) 
+    .Home_section
+        .Section_content
+            .Content_content 
+                grid-template-columns: calc(20% - 2.5rem) calc(20% - 2.5rem) calc(20% - 2.5rem)  calc(20% - 2.5rem) calc(20% - 2.5rem) 
+
+@media(max-width: 1600px) 
+    .Home_section
+        .Section_content
+            .Content_content 
+                grid-template-columns: calc(25% - 2.2rem) calc(25% - 2.2rem) calc(25% - 2.2rem)  calc(25% - 2.2rem)
+
+@media(max-width: 1300px) 
+    .Home_section
+        .Section_content
+            .Content_content 
+                grid-template-columns: calc(33.3333% - 2rem) calc(33.3333% - 2rem) calc(33.3333% - 2rem)
+
+@media(max-width: 1100px) 
+    .Home_section
+        .Section_content
+            .Content_content 
+                grid-template-columns: calc(50% - 1.5rem) calc(50% - 1.5rem)
+
+@media(max-width: 650px)
+    .Home_section 
+        .Section_starter 
+            
+            h1
+                font-size: 32px
+                font-weight: 600
+                margin-bottom: 3rem
+                padding: 0 1rem
+
+            p
+                font-size: 18px
+                margin-bottom: 1rem
+
+        .Search_section
+
+            .Search_field 
+                grid-template-columns: auto
+                display: grid
+                justify-content: center 
+            .Tool_container 
+                justify-content: center!important
+
+        .Section_content 
+            padding-top: 100px
+            
+            padding: 9rem 1rem 4rem 1rem
+
+    .Click_container
+        padding: 4rem 4rem 0rem 4rem

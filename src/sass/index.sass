@@ -1,0 +1,125 @@
+
+@font-face 
+    font-family: Roobert
+    src: url("./utils/Roobert-Regular.ttf")
+
+@font-face 
+    font-family: "GT America Mono" 
+    src: url("./utils/GT-America-Regular.ttf")
+    
+*
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+
+.app
+    background: var(--bg)
+    color: var(--color)
+
+img 
+    display: block
+
+body 
+    font-family: Roobert
+    color: var(--color)
+    overflow-x: hidden
+
+.button_mini 
+    background: var(--color)
+    border: none
+    border-radius: 16px
+    padding: 0.3rem 0.4rem
+    color: var(--bg)
+    font-size: 10px
+    font-family: "Roobert"
+    cursor: pointer
+    transition: 0.2s all ease
+
+.button 
+    height: 2.875rem
+    padding: 0 1.125rem
+    border-radius: 100px
+    border: 2px solid var(--color)
+    font-weight: bold
+    font-family: 'Roobert'
+    background: var(--color)
+    color: var(--bg)
+    cursor: pointer 
+    transition: .2s all ease 
+
+    &:hover 
+        background: transparent
+        color: var(--color)
+
+.button_a
+    height: 2.875rem
+    padding: 0 1.125rem
+    border-radius: .125rem
+    background: linear-gradient(130deg, rgba(240,168,50,1) 0%, rgba(255,144,93,1) 100%)
+    color: var(--bg)
+    cursor: pointer 
+    transition: .2s all ease 
+    border: none 
+    margin-top: 1rem
+
+    &:hover 
+        transform: scale(1.1)
+
+.a_col
+    background: linear-gradient(90deg, rgba(240,168,50,1) 0%, rgba(255,144,93,1) 100%)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
+svg 
+    display: block
+
+.main-stop 
+    stop-color: rgba(240,168,50,1)
+
+.alt-stop 
+    stop-color: var(--color-a)
+.section_cls 
+    height: 100vh
+
+.error_log 
+    background: #ED4337
+
+.message_log
+    background: var(--color-a)
+
+.success_log 
+    background: green
+
+.loader-extra-small
+    width: 10px
+    height: 10px
+
+.loader-loading-large 
+    width: 30px
+    height: 30px
+
+.loader-medium-small 
+    width: 15px 
+    height: 15px
+
+
+.box 
+  width: 300px
+  h1 
+    font-size: 20px
+    margin: 0 0 1rem 0
+  
+.w-6 
+  width: 1.5em
+
+.h-6 
+  height: 1.5em
+
+.flex 
+  display: flex
+
+.cursor-pointer 
+  cursor: pointer
+
+
+

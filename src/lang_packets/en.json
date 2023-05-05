@@ -1,0 +1,310 @@
+{
+    "packet_name": "en-EN",
+    "g": {
+        "statuses": {
+            "online": "online",
+            "offline": "offline"
+        },
+        "error": {
+            "x1": "Unknown error. Please check that the data you entered is correct.",
+            "x2": "The user is not authorized. Access closed.",
+            "x3": "Validation failed. Please, enter correct data.",
+            "x4": "A user with similar data is already registered in the system.",
+            "x5": "Outdated or corrupted activation link.",
+            "x6": "Unknown server error. Please try again in about 5 minutes."
+        },
+        "message": {
+            "ad_ts_wrn": "Attention, the technology for removing ads is in test mode, which may cause errors!",
+            "imdb_trns_att": "Attention: The translation of the movie data was made using the imdb search, and this does not guarantee a 100% correct translation for this movie"
+        },
+        "success": {
+            "x1": "Yop"
+        },
+        "wp": {
+            "logout": "Logout"
+        },
+        "UI": {
+            "input": {
+                "g": {
+                    "search": "Enter film name"
+                },
+                "placeholder": {
+                    "password": "Password",
+                    "email": "Email"
+                },
+                "viewer": {
+                    "show": "Show", 
+                    "hide": "Hide"
+                }
+            }
+        }
+    },
+    "modal": {
+        "header": {
+            "title": "Are you sure you want to logout?"
+        },
+        "action": {
+            "sure": "Continue",
+            "exit": "No, Exit",
+            "save": "Save all my personal data.",
+            "delete": "Delete all my personal data."
+        }
+    },
+    "auth": {
+        "title": {
+            "login": {
+                "fst": "Log",
+                "sec": "in"
+            },
+            "register": {
+                "fst": "Sign",
+                "sec": "up"
+            }
+        },
+        "form": {
+            "button": {
+                "login": "Log in",
+                "register": "Sign up"
+            }
+        },
+        "prop": {
+            "login": {
+                "fst": "Don't have any account yet?",
+                "sec": "Sign up"
+            },
+            "register": {
+                "fst": "Already have an account?",
+                "sec": "Log in"
+            }
+        }
+    },
+    "navbar": {
+        "unauth": {
+            "opts": {
+                "login": "Log in",
+                "registration": "Sign up"
+            }
+        },
+        "opts": {
+            "home": "Home",
+            "profile": "Profile",
+            "inbox": "Inbox"
+        },
+        "returner": "Go back"
+    },
+    "home": { 
+        "title": {
+            "big": {
+                "fst": "Choose what you will ",
+                "sec": "watch ",
+                "thrd": " today"
+            },
+            "small": "And discover our world with satisfaction"
+        },
+        "actions": {
+            "fl_settings": {
+                "title": "Filtering settings",
+                "pag_mtd": {
+                    "title": "Load method",
+                    "auto": "Auto",
+                    "onclick": "On click"
+                },
+                "fl_bgenre": {
+                    "title": "Filtering by genre",
+                    "genres": {
+                        "horror": "Horror",
+                        "drama": "Drama",
+                        "comedy": "Comedy",
+                        "thriller": "Thriller",
+                        "crime": "Crime",
+                        "action": "Action",
+                        "fantasy": "Fantasy",
+                        "science": "Science",
+                        "cartoon": "Cartoon", 
+                        "biography": "Biography",
+                        "sport": "Sport",
+                        "family": "Family",
+                        "serial": "Serial",
+                        "short_film": "Short film",
+                        "arthouse": "Arthouse",
+                        "new_year": "New Year",
+                        "adventures": "Adventures",
+                        "melodrama": "Melodrama",
+                        "western": "Western",
+                        "military": "Military",
+                        "documentary": "Documentary",
+                        "historical": "Historical",
+                        "anime": "Anime",
+                        "musical": "Musical",
+                        "detective": "Detective",
+                        "fantastic": "Fantastic",
+                        "catastrophe": "Catastrophe",
+                        "music": "Music",
+                        "science_fiction": "Science fiction"
+                    }
+                },
+                "fl_type": {
+                    "title": "Filtering type",
+                    "types": {
+                        "solely": "Solely",
+                        "inclusive": "Inclusive",
+                        "without": "Without filtering"
+                    }
+                },
+                "fl_byear": {
+                    "title": "Filtration by relese date",
+                    "actions": {
+                        "input_placeholder": "Select date",
+                        "without": "Unlimited"
+                    }
+                },
+                "psrt": {
+                    "title": "Sort by properties",
+                    "actions": {
+                        "byd": "By release date",
+                        "without": "No sort",
+                        "asc": "Ascending",
+                        "desc": "Descending"
+                    }
+                }
+            },
+            "load_more": "Load more",
+            "new_tab": "In a new tab"
+        },
+        "throws": {
+            "not_found": "Looks like there is nothing here :("
+        }
+    },
+    "film": {
+        "loading1": "Loading & translating film...",
+        "loading2": "Preparing a player hyperlink for a request...",
+        "loading3": "Sending a request for player configuration to the server...",
+        "loading4": "Editing the player configuration to exclude advertising pre-rolls...",
+        "actions": {
+            "watch_later_svd": "Saved",
+            "watch_later": "Watch later",
+            "watch": "Watch now",
+            "rate": "Rate the video track"
+        },
+        "comments": {
+            "placeholder": {
+                "ec": "Enter your comment"
+            },
+            "pw": "Please, wait...",
+            "nc": "No comments yet",
+            "lm": "Load more"
+        },
+        "info": {
+            "header": {
+                "overwiev": "Overwiev",
+                "reviews": "Reviews"
+            },
+            "main": {
+                "release": "Release",
+                "country_": {
+                    "country": "Country",
+                    "countries": "Countries"
+                },
+                "genre_": {
+                    "genre": "Genre",
+                    "genres": "Genres"
+                },
+                "duration": "Duration",
+                "rating": "Rating",
+                "nrating": "No ratings"
+            }
+        },
+        "player": {
+            "tab": {
+                "player": "Player",
+                "opts": {
+                    "question": "Any question ?",
+                    "issue": "Report an issue"
+                }
+            }
+        }
+    },
+    "inbox": {
+        "chat": {
+            "s_banner": {
+                "1": "Select chat and start messaging!",
+                "2": "Select or create"
+            },
+            "wam": "Write a message...",
+            "em": "Edit message",
+            "typ": "typing",
+            "nmsgs": "No messages...",
+            "lch": "Loading chat history", 
+            "message": {
+                "deleted": "Deleted message",
+                "title": {
+                    "del": "Delete message",
+                    "edit": "Edit message",
+                    "repl": "Reply to message",
+                    "cl": "Cancel"
+                }
+            }
+        }, 
+        "user_select": {
+            "placeholder": "Enter user nickname",
+            "not_found": "Could not find users with the same username",
+            "loading": "Loading results..."
+        }
+    },
+    "profile": {
+        "intro": {
+            "stats": {
+                "fr": "friends", 
+                "id": "identity", 
+                "stat": "status"
+            },
+            "actions": {
+                "sub": "subscribe",
+                "uns": "unsubscribe",
+                "sh": "share",
+                "send": "write",
+                "ed": "edit"
+            }
+        },
+        "tabs": {
+            "wl": "Saves",
+            "act": "Activity",
+            "friends": "Friends"
+        },
+        "edit": {
+            "title": "Edit profile",
+            "submit": "confirm",
+            "usn_e": "Enter new username",
+            "usn": "Username",
+            "bio": "Bio",
+            "bio_e": "Enter new bio",
+            "ex": "This username already taken!"
+        }
+    },
+    "footer": { 
+        "inner": {
+            "1": {
+                "FAQ": "FAQ",
+                "MC": "Media Center"
+            },
+            "2": {
+                "I": "Inspiration", 
+                "AU": "About us",
+                "WIS": "What is this ?"
+            }, 
+            "3": {
+                "account": "Account",
+                "privacy": "Privacy",
+                "CP": "Cookie Preferences"
+            }
+        },
+        "bottom": {
+            "logout": "logout"
+        }
+    },
+    "time_viz": {
+        "hour": "hour(s) ago",
+        "min": "minute(s) ago",
+        "rnow": "Right now"
+    }
+}

@@ -6,7 +6,9 @@ export const useResizeHandler = (callback: (width: number, height: number) => vo
     
     useEffect(() => {
         window.addEventListener('resize', handleResize)
-    }, [])
+
+        return window.removeEventListener('resize', handleResize)
+    })
 
     return {handleResize}
 }

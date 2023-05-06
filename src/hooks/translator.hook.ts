@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { idText, ObjectType } from 'typescript'
+import { useEffect, useState, useContext } from 'react'
+import { ObjectType } from 'typescript'
 import {Context} from "../"
 
 export const useTranslation = () => {
@@ -11,7 +11,7 @@ export const useTranslation = () => {
     const reduceWayToSteps = (way: string) => {
         var steps: any = way.split(".")
         steps.map((step: any) => {
-            step = {el: step, isArrCaller: false}
+            return step = {el: step, isArrCaller: false}
         })
         return {steps, num: steps.length}
     }

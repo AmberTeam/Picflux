@@ -183,6 +183,7 @@
         "actions": {
             "watch_later_svd": "Saved",
             "watch_later": "Watch later",
+            "remove": "Remove",
             "watch": "Watch now",
             "rate": "Rate the video track"
         },
@@ -252,6 +253,7 @@
         }
     },
     "profile": {
+        "loading": "Loading user data...",
         "intro": {
             "stats": {
                 "fr": "friends", 

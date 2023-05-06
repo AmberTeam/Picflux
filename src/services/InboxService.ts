@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios"
 import $api from "../http"
 import { IChat, IInbox } from "../models/IDirect"
-import { IMessage, ISeverMessage } from "../models/IMessage"
+import { ISeverMessage } from "../models/IMessage"
 
 export interface IServerResponse {
     status: string

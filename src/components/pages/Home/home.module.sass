@@ -159,6 +159,14 @@
         background: var(--fg)
         padding: 4rem 4rem 4rem 4rem
 
+        .LanceSettings_modal
+            overflow: hidden
+            transition: all 0.5s ease-in-out
+            height: 0
+
+            &.Collapsed 
+                height: auto
+
         .Dropper 
             position: absolute
             top: 50%

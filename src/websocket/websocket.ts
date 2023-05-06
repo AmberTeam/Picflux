@@ -13,8 +13,6 @@ export default class WebSocketController {
     ws_ready = false
     listeners:IMessageListener[] = []
 
-    constructor() {}
-
     async init(wsserver:string): Promise<Event> {
         return await new Promise((resolve, reject) => {
             this.websocket = new WebSocket(wsserver)

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from "react";
 
-export const useObserver = (ref: any, canLoad: boolean, deps: any[], isLoading: boolean, callback: () => void) => {
+export const useObserver = (ref: React.MutableRefObject<HTMLElement>, canLoad: boolean, deps: any[], isLoading: boolean, callback: () => void) => {
     const observer = useRef<any>(null);
 
     useEffect(() => {

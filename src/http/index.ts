@@ -1,7 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import {AuthResponse} from "../models/response/AuthResponse";
 import {store} from "../index";
-import {IUser} from "../models/IUser";
 import { ILogModal } from '../store/store';
 
 export const API_URL = `http://localhost:5000/api`

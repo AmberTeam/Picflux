@@ -217,7 +217,7 @@ export default class FCRService {
                 }
                 while(done !== true) {
                     scd_curr_i++
-                    if(res_txt[scd_curr_i] == '"') {
+                    if(res_txt[scd_curr_i] === '"') {
                         switch(scd_curr) {
                             case 0: 
                                 pj_serials.version = res_txt.substring(sc_pj_serials_i, scd_curr_i).replace("?v=", '')
@@ -274,7 +274,7 @@ export default class FCRService {
                 }
                 while(done !== true) {
                     scd_curr_i++
-                    if(res_txt[scd_curr_i] == '"') {
+                    if(res_txt[scd_curr_i] === '"') {
                         switch(scd_curr) {
                             case 0: 
                                 pj_serials.version = res_txt.substring(sc_pj_serials_i, scd_curr_i).replace("?v=", '')

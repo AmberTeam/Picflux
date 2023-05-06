@@ -18,7 +18,7 @@ import RatingCounter from '../../UI/RatingCounter'
 import AllowNotAuth from '../../AllowNotAuth'
 
 const FilmPage: FC = () => {
-    const {store} = useContext(Context)
+    const {store, wsc} = useContext(Context)
     const {translate} = useTranslation()
     const [descTab, setDescTab] = useState<number>(1)
     const [film, setFilm] = useState<IFilm | null>(null)
@@ -37,10 +37,12 @@ const FilmPage: FC = () => {
     const [pinPSelector, setPPS] = useState<boolean>(false)
     const [comments, setComments] = useState<IFilmComment[]>([])
     const [page, setPage] = useState<number>(0)
+    const [offset_add, setOffset_add] = useState<number>(0)
     const [canLoad, setCanLoad] = useState<boolean>(true)
     const [commentsLoading, setCommentsLoading] = useState<boolean>(false)
     const [commentLoading, setCommentLoading] = useState<boolean>(false)
     const [comment, setComment] = useState<string>("")
+    const [commentBlank, setCommentBlank] = useState<IFilmComment | null>(null)
 
     useResizeHandler((w: number) => {
         if(w > 1000) setMobileOriented(false)
@@ -123,7 +125,7 @@ const FilmPage: FC = () => {
         setCommentsLoading(true)
         try {
             if(!id) return undefined
-            const response = await FilmService.getComments(Number(id), page * 10, 10)
+            const response = await FilmService.getComments(Number(id), page * 10 + offset_add, 10)
             if(!response.data.comments.length) {
                 setCanLoad(false) 
             } else {
@@ -190,8 +192,8 @@ const FilmPage: FC = () => {
     const addComment = async() => {
         if(comment.replaceAll(" ", "") === "") return undefined
         setCommentLoading(true)
-        const response:any = await FilmService.addComment(Number(id), comment)
-        if(response.data && film) setComments([response.data, ...comments])
+        await FilmService.addComment(Number(id), comment)
+        setOffset_add(offset_add + 1)
         setComment("")
         setCommentLoading(false)
     }
@@ -207,8 +209,27 @@ const FilmPage: FC = () => {
     }, [page])
 
     useEffect(() => {
-        store.callLogModal({code: "ad_ts_wrn", status: 1, alt: "test", duration: 2000})
-    }, [])
+        if(store.isAuth) {
+            wsc.send("film-session-join", {
+                fid: id
+            })
+            wsc.addListener("film-session-event", (e:any) => {
+                switch(e.payload.tag) {
+                    case "comment": 
+                        setCommentBlank(e.payload.comment)
+                        break
+                }
+            })
+        }
+    }, [store.isAuth])
+
+    useEffect(() => {
+        if(commentBlank) {
+            setComments([commentBlank, ...comments])
+            setOffset_add(offset_add + 1)
+            setCommentBlank(null)
+        }
+    }, [commentBlank, comments])
 
     useEffect(() => {
         getFilmData()
@@ -531,16 +552,16 @@ const FilmPage: FC = () => {
                                                 {comment.user.username}
                                             </span>
                                             <div className={cl.Owner_rating}>
-                                                <span>
                                                     {
                                                         film.rating!.find((el:any) => el.owner === comment.user.id)
                                                             && 
-                                                            film.rating!.find((el:any) => el.owner === comment.user.id).value
+                                                            <>
+                                                                <span>{film.rating!.find((el:any) => el.owner === comment.user.id).value}</span>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className={cl.Ic} viewBox="0 0 16 16">
+                                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                                                </svg>
+                                                            </>
                                                     }
-                                                </span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" className={cl.Ic} viewBox="0 0 16 16">
-                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                                </svg>
                                             </div>
                                         </div>
                                         <div className={cl.Comment_time}>

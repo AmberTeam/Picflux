@@ -11,8 +11,6 @@ import ContentModal from '../../ContentModal'
 import BSelector from '../../UI/BrickSelector'
 import LoaderMini from '../../UI/LoaderMini'
 import FilmList from '../../FilmList'
-import { AxiosResponse } from 'axios'
-import { RQDTA } from '../../../models/IRQueue'
 import { compress, decompress } from 'compress-json'
 
 export interface IDLC {
@@ -28,8 +26,8 @@ const HomePage: FC = () => {
 
     const obsElement = useRef() as React.MutableRefObject<HTMLInputElement>
     const contentElement = useRef() as React.MutableRefObject<HTMLDivElement> 
+    const listRef = useRef() as React.MutableRefObject<HTMLDivElement>
 
-    const {store} = useContext(Context)
     const {translate} = useTranslation()
 
     const [films, setFilms] = useState<IFilm[] | [any]>([])
@@ -38,7 +36,6 @@ const HomePage: FC = () => {
     const [_searchQuery, _setSearchQuery] = useState<string>('')
 	const [searchQuery, setSearchQuery] = useState<string>(localStorage.getItem('sq') ? localStorage.getItem('sq')! : '')
 	const [page, setPage] = useState<number>(0)
-	const [limit, setLimit] = useState<number>(12)
 	const [loading, setLoading] = useState<boolean>(false)
 	const [canLoad, setCanLoad] = useState<boolean>(true)
     const [paginateMethod, setPaginateMethod] = useState<string | undefined>(undefined)
@@ -53,8 +50,6 @@ const HomePage: FC = () => {
     const [debugMode, setDebugMode] = useState<number>(1)
     const [DLCReady, setDLCReady] = useState<boolean>(false)
     const [adaptInterface, setAdaptInterface] = useState<boolean>(false)
-    const [lanceSettingsModalActive, setLanceSettingsModalActive] = useState<boolean>(false)
-    const [intersectionAvail, setIA] = useState<boolean>(false)
 
     function reset(incSQ:boolean = false, type:number=3): number {
         if(incSQ) writeLanceConfig("sq", "", () => setSearchQuery(""))
@@ -66,6 +61,27 @@ const HomePage: FC = () => {
         fetchPosts(0, type)
         return 0
     }
+
+    const expandPanel = () => {
+        listRef.current.style.height = '';
+        listRef.current.style.transition = 'none';
+
+
+        const startHeight = window.getComputedStyle(listRef.current).height;
+        
+        listRef.current.classList.toggle(cl.Collapsed)
+        const height = window.getComputedStyle(listRef.current).height;
+        
+        listRef.current.style.height = startHeight;
+        
+        requestAnimationFrame(() => {
+            listRef.current.style.transition = '';
+            
+            requestAnimationFrame(() => {
+                listRef.current.style.height = height
+            })
+        })
+    }
     
 	const fetchPosts = async (_page: number, arg: number): Promise<void> => {
 		setLoading(true)
@@ -74,15 +90,8 @@ const HomePage: FC = () => {
             curr_page = _page
             _setSearchQuery(searchQuery)
             if(arg == 2) curr_page = reset()
-			const response = await userService.search(arg == 3 ? "" : `"${searchQuery}"`, limit, curr_page * limit, dynamicLanceConfig)
-
-			/* if(!response.data.can_load) { 
-                if(arg==2) {
-                    setFilms([])
-                    if(page == 0) setNotFound(true)
-                }
-                if(page != 0) setCanLoad(false)
-			*/
+			const response = await userService.search(arg == 3 ? "" : `"${searchQuery}"`, 12, curr_page * 12, dynamicLanceConfig)
+            
             if(!response.data.can_load) writeLanceConfig("cload", "0", () => setCanLoad(false))
             if(arg == 2 && films.length) {
                 writeLanceConfig("lance_h", JSON.stringify(compress([...response.data.films])), () => null)
@@ -441,180 +450,6 @@ const HomePage: FC = () => {
                         </div>
                     </div>
             }
-            <ContentModal title={translate("home.actions.fl_settings.title")} active={lanceSettingsModalActive} exec={() => setLanceSettingsModalActive(false)}>
-                {
-                    lanceCReady && filteringConfig &&
-                    <>
-                        <div className={cl.Pagination_mtd}>
-                            <BSelector
-                                default={paginateMethod && paginateMethod == 'click' ? 0 : 1}
-                                selectors_required={1} 
-                                dropdown={true}
-                                deletable={false}
-                                actions={
-                                    [
-                                        {content: translate("home.actions.fl_settings.pag_mtd.onclick"), value: "click"},
-                                        {content: translate("home.actions.fl_settings.pag_mtd.auto"), value: "auto"}
-                                    ]
-                                } 
-                                action_c={(value: any) => {
-                                    if(value[0].value !== undefined) writeLanceConfig("pg_mthd", value[0].value, setPaginateMethod)
-                                }}
-                            >
-                                {translate("home.actions.fl_settings.pag_mtd.title")}
-                            </BSelector>
-                        </div>
-                        <div className={cl.Pagination_mtd}>
-                            <BSelector 
-                                selectors_required={27} 
-                                dropdown={true}
-                                deletable={true}
-                                disabled={dynamicLanceConfig.filtering_type === 'without' ? true : false}
-                                actions={
-                                    [
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.horror"), value: "ужасы"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.drama"), value: "драма"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.comedy"), value: "комедия"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.thriller"), value: "триллер"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.crime"), value: "криминал"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.action"), value: "боевик"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.fantasy"), value: "фэнтези"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.science"), value: "наука"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.cartoon"), value: "мультфильм"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.biography"), value: "биография"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.sport"), value: "спорт"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.family"), value: "семейный"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.serial"), value: "сериал"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.short_film"), value: "короткометражка"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.arthouse"), value: "артхаус"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.new_year"), value: "новогодний"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.adventures"), value: "приключения"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.melodrama"), value: "мелодрама"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.western"), value: "вестерн"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.military"), value: "военный"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.documentary"), value: "документальный"}, 
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.historical"), value: "история"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.anime"), value: "аниме"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.musical"), value: "мюзикл"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.detective"), value: "детектив"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.fantastic"), value: "фантастика"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.catastrophe"), value: "катастрофа"},
-                                        {content: translate("home.actions.fl_settings.fl_bgenre.genres.music"), value: "музыка"},
-                                    ]
-                                } 
-                                action_c={(value: any) => {
-                                    if(value !== undefined && value !== null && value.length) writeLanceConfig(dynamicLanceConfig.filtering_type === 'solely' ? "filtr_c_s" : "filtr_c_i", JSON.stringify(value), (data: any) => {
-                                        setDLC({...dynamicLanceConfig, filtering: data, action: 'lch'})
-                                    }, value)
-                                }}
-                                restoreConfig={filteringConfig}
-                            >
-                                {translate("home.actions.fl_settings.fl_bgenre.title")}
-                            </BSelector>
-                        </div>
-                        <div className={cl.Pagination_mtd}>
-                            <BSelector 
-                                default={filteringType === 'solely' ? 0 : filteringType == 'without' ? 2 : 1}
-                                dropdown={true}
-                                selectors_required={1} 
-                                deletable={false}
-                                actions={
-                                    [
-                                        {content: translate("home.actions.fl_settings.fl_type.types.solely"), value: "solely"},
-                                        {content: translate("home.actions.fl_settings.fl_type.types.inclusive"), value: "inclusive"},
-                                        {content: translate("home.actions.fl_settings.fl_type.types.without"), value: "without"}
-                                    ]
-                                } 
-                                action_c={(value: any) => {
-                                    if(value !== undefined && value !== null && value.length) writeLanceConfig("filtr_t", value[0].value, (data: any) => {
-                                        var filtering = []
-                                        if(data !== 'without') filtering = JSON.parse(localStorage.getItem(data === 'solely' ? 'filtr_c_s' : 'filtr_c_i') as string)
-                                        if(!filtering) filtering = []
-                                        setDLC({...dynamicLanceConfig, filtering_type: data, filtering, action: 'lch'})
-                                    })
-                                }}
-                            >
-                                {translate("home.actions.fl_settings.fl_type.title")}
-                            </BSelector>
-                        </div>
-                        <div className={cl.Pagination_mtd}>
-                            <BSelector 
-                                selectors_required={1} 
-                                disabled={dynamicLanceConfig.psrt !== 'without'}
-                                dropdown={true}
-                                variant='input'
-                                deletable={false}
-                                default={dynamicLanceConfig.datesrt === 'any' ? 1 : 0}
-                                actions={
-                                    [
-                                        {content: translate("home.actions.fl_settings.fl_byear.actions.input_placeholder"), value: 'vale', variant: 'addition_init', addition_initvalue: dateSrt !== 'any' ? dateSrt : localStorage.getItem('_datesrt') as string, handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'})})},
-                                        {content: translate("home.actions.fl_settings.fl_byear.actions.without"), value: 'un', handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {dynamicLanceConfig.datesrt && localStorage.setItem("_datesrt", dynamicLanceConfig.datesrt); setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'})})}
-                                    ]
-                                }
-                                action_c={(e: string) => writeLanceConfig('datesrt', e, (data: string) => setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'}))}
-                            >
-                                {translate("home.actions.fl_settings.fl_byear.title")}
-                            </BSelector>
-                        </div>
-                        <div className={cl.Sorting}>
-                            <BSelector 
-                                selectors_required={1} 
-                                dropdown={true}
-                                deletable={true}
-                                default={dynamicLanceConfig.psrt == 'without' ? 1 : 0}
-                                exclude_value="without"
-                                variant='select'
-                                actions={
-                                    [
-                                        {content: translate("home.actions.fl_settings.psrt.actions.byd"), value: 'date', variant: 'addition_init'},
-                                        {content: translate("home.actions.fl_settings.psrt.actions.without"), value: "without"}
-                                    ]
-                                }
-                                default_additions={localStorage.getItem("psrt_t") == 'asc' ? 1 : 2}
-                                additions={
-                                    [
-                                        {content: translate("home.actions.fl_settings.psrt.actions.asc"), value: 'asc'},
-                                        {content: translate("home.actions.fl_settings.psrt.actions.desc"), value: 'desc'}
-                                    ]
-                                }
-                                action_c_add={(value:any) => {
-                                    writeLanceConfig("psrt_t", value.map((val:any) => val.value), (data: any) => {
-                                        setPSrt(data.map((val:any) => val.value).join(" "))
-                                        setDLC({...dynamicLanceConfig, psrt_t: data.map((val:any) => val.value).join(" "), action: 'lch'})
-                                    }, value)
-                                }}
-                                action_c={(value: any) => {
-                                    writeLanceConfig("psrt", value.map((val:any) => val.value).join(" "), (data: any) => {
-                                        setPSrt(data.map((val:any) => val.value).join(" "))
-                                        setDLC({...dynamicLanceConfig, psrt: data.map((val:any) => val.value).join(" "), action: 'lch'})
-                                    }, value)
-                                }}
-                            >
-                                {translate("home.actions.fl_settings.psrt.title")}
-                            </BSelector>
-                        </div>
-                        <div className={cl.Sorting}>
-                            <BSelector 
-                                selectors_required={1} 
-                                dropdown={true}
-                                deletable={false}
-                                default={debugMode}
-                                actions={
-                                    [
-                                        {content: 'On', value: '0'},
-                                        {content: 'Off', value: "1"}
-                                    ]
-                                }
-                                action_c={(value: any) => {
-                                    writeLanceConfig("debug_m", value[0].value, () => setDebugMode(value[0].value))
-                                }}
-                            >
-                                Debug mode
-                            </BSelector>
-                        </div>
-                    </>
-                }
-            </ContentModal>
             <section className={cl.Home_section}>
                 <div className={cl.Section_starter}>
                     <h1>
@@ -653,15 +488,29 @@ const HomePage: FC = () => {
                             </button>
                         </form>
                         <div className={cl.Tool_container}>
-                            <button className={cl.Tool} onClick={() => setLanceSettingsModalActive(lanceSettingsModalActive ? false : true)}>
+                            <button className={cl.Tool} onClick={() => expandPanel()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
                                 </svg>
                             </button> 
                         </div>
                     </div>
                 </div>
                 <div className={cl.Section_content}>
+                    <div className={`${cl.LanceSettings_modal}`} ref={listRef}>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                        <h1>EDIT HERE</h1>
+                    </div>
                     <FilmList notfound={notFound} observerElem={contentElement} films={films} ready={DLCReady && visualReady ? true : false}/>
                     {
 

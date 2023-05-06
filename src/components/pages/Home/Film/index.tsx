@@ -112,9 +112,9 @@ const FilmComponent: FC<IFilm> = (props: IFilm) => {
                                         :
                                         isInWatchLater 
                                             ? 
-                                            "Remove"
+                                            translate("film.actions.remove")
                                             :
-                                            "Watch later"
+                                            translate("film.actions.watch_later")
                                 }
                             </button>
                         }

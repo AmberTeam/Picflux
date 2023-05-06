@@ -1,4 +1,4 @@
-import {IUser, IUserMin} from "../models/IUser";
+import {IUser} from "../models/IUser";
 import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
 import axios from 'axios';
@@ -12,10 +12,7 @@ import en_img from "../img/lang_ic/en.png"
 import ru_img from "../img/lang_ic/ru.png"
 import ukr_img from "../img/lang_ic/ukr.png"
 import { TUser } from "react-telegram-auth";
-import { IRQDTO, RQDTA } from "../models/IRQueue";
-import { IChat } from "../models/IDirect";
 import { IMessage } from "../models/IMessage";
-import {toJS} from "mobx"
 
 export interface ILogModal {
     code: string,
@@ -281,7 +278,7 @@ export default class Store {
 
     async logout(delete_data_flag: boolean = false): Promise<void> {
         try {
-            const response = await AuthService.logout(delete_data_flag);
+            await AuthService.logout(delete_data_flag);
             localStorage.removeItem('token');
             this.setAuth(false);
             this.setUser({} as IUser);

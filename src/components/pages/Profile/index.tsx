@@ -6,7 +6,6 @@ import {Context} from "../../../"
 import { useTranslation } from '../../../hooks/translator.hook'
 import { IUser, IUserAuthorityResponse } from '../../../models/IUser'
 import UserService from '../../../services/UserService'
-import Film from "../Home/Film"
 import { IFilm } from '../../../models/IFilm'
 import FilmList from '../../FilmList'
 import LoaderMini from '../../UI/LoaderMini'
@@ -29,7 +28,6 @@ const ProfilePage = () => {
     const [profileEditConfig, setPEC] = useState<IUser>(store.user)
     const [profileEditModalActive, setPEMA] = useState<boolean>(false)
     const [profileEditErrs, setPEE] = useState<string[]>([])
-    const [profileEditModalLoading, setPEML] = useState<boolean>(false)
     const [previewFile, setPreviewFile] = useState<File | null>(null)
     const [onlineStatus, setOnlineStatus] = useState<boolean>(false)
     
@@ -95,7 +93,6 @@ const ProfilePage = () => {
     }
 
     const updateUserData = async(): Promise<void> => {
-        setPEML(true)
         try {
             const formData = new FormData()
             formData.append("avatar", previewFile!)
@@ -118,7 +115,6 @@ const ProfilePage = () => {
             console.error(e)
         } finally {
             setPEMA(false)
-            setPEML(false)
         }
     }
 
@@ -145,7 +141,7 @@ const ProfilePage = () => {
 
     if(!user || store.isLoading) return <div className={cl.Loading_container}>
         <LoaderMini variant="loading-large"/>
-        <span>Loading user data...</span>
+        <span>{translate("profile.loading")}</span>
     </div>
     
     return (
@@ -244,7 +240,7 @@ const ProfilePage = () => {
                                     </div>
                                     <div className={cl.Stat_separator}></div>
                                     <div className={`${cl.Stat_status} ${cl.Stat}`}>
-                                        <h3 className={`${cl.Status} ${onlineStatus ? cl.Active : cl.Inactive}`}>{onlineStatus ? "online" : "offline"}</h3>
+                                        <h3 className={`${cl.Status} ${onlineStatus ? cl.Active : cl.Inactive}`}>{onlineStatus ? translate("g.statuses.online") : translate("g.statuses.offline")}</h3>
                                         <span>{translate("profile.intro.stats.stat")}</span>
                                     </div>
                                 </div>
@@ -303,21 +299,14 @@ const ProfilePage = () => {
                         </div>
                         <div className={cl.Content_body}>
                             <div className={cl.Opts_container}>
-                                <button className={`${cl.Opt} ${cl.Default} ${tab == 0 && cl.Active}`} onClick={() => setTab(0)}>
+                                <button className={`${cl.Opt} ${cl.Default} ${tab === 0 && cl.Active}`} onClick={() => setTab(0)}>
                                     <span>
                                         {translate("profile.tabs.wl")}
                                     </span>
                                     <div className={cl.Border}></div>
                                 </button>
                                 <div className={cl.Border_spacer}></div>
-                                <button className={`${cl.Opt} ${cl.Default} ${tab == 3 && cl.Active}`} onClick={() => setTab(3)}>
-                                    <span>
-                                        PlayLists
-                                    </span>
-                                    <div className={cl.Border}></div>
-                                </button>
-                                <div className={cl.Border_spacer}></div>
-                                <button className={`${cl.Opt} ${cl.Default} ${tab == 2 && cl.Active}`} onClick={() => setTab(2)}>
+                                <button className={`${cl.Opt} ${cl.Default} ${tab === 2 && cl.Active}`} onClick={() => setTab(2)}>
                                     <span>
                                         {translate("profile.tabs.friends")}
                                     </span>
@@ -330,21 +319,11 @@ const ProfilePage = () => {
                             </div>
                             <section className={cl.Tab_content}>
                                 {
-                                    tab == 0 && user.watchLater
+                                    tab === 0 && user.watchLater
                                         &&
                                         <FilmList observerElem={undefined} ready={user ? true : false} notfound={false} films={user.watchLater.map((wlf) => {
                                             return {...{...wlf, watchLater: user.watchLater, wlChangeCb: reloadWL} as IFilm}
                                         })}/>
-                                }
-                                {
-                                    tab == 1 && user.watchLater
-                                        &&
-                                        <h1>Activity</h1>
-                                }
-                                {
-                                    tab == 2 && user.watchLater
-                                        &&
-                                        <h1>Friends</h1>
                                 }
                             </section>
                         </div>

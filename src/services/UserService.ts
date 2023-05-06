@@ -1,10 +1,8 @@
 import $api from "../http";
 import {AxiosResponse} from 'axios';
-import {AuthResponse} from "../models/response/AuthResponse";
 import {IUser, IUserAuthority, IUserAuthorityResponse, IUserMin} from "../models/IUser";
 import {IFilm, IFilmSearchResponse} from "../models/IFilm"
 import { IDLC } from "../components/pages/Home";
-import { IInbox } from "../models/IDirect";
 import { IAlert } from "../components/Navbar";
 
 export default class UserService {
@@ -20,9 +18,9 @@ export default class UserService {
             } else req_queried = '/film/search?fl=[]'
         } 
         if(fconfig.filtering_type) {
-            if(fconfig.filtering_type=='without') req_queried = '/film/search?fl=[]&flt=' + fconfig.filtering_type
+            if(fconfig.filtering_type==='without') req_queried = '/film/search?fl=[]&flt=' + fconfig.filtering_type
             else {
-                if(req_queried == '/film/search') req_queried = req_queried + "?flt=" + fconfig.filtering_type
+                if(req_queried === '/film/search') req_queried = req_queried + "?flt=" + fconfig.filtering_type
                 else req_queried = req_queried + "&flt=" + fconfig.filtering_type
             }
         }

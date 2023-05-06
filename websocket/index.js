@@ -12,5 +12,9 @@ const initWebSocketCore = (wss) => {
 const syncGlobalEvent = (event, uid, payload) => {
     webSocketCore.syncGlobalEvent(event, uid, payload)
 }
+
+const syncFilmEvent = (fid, event, payload) => {
+    webSocketCore.filmService.emitSessionEvent(fid, event, payload)
+}
  
-module.exports = {initWebSocketCore, syncGlobalEvent}
+module.exports = {initWebSocketCore, syncGlobalEvent, syncFilmEvent}

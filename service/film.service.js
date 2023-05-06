@@ -5,6 +5,7 @@ const ApiError = require("../exceptions/api.error")
 const jsdom = require("jsdom")
 const translatte = require('translatte');
 const {decode} = require("html-entities") 
+const {syncFilmEvent} = require("../websocket/index")
 
 class FilmService {
 
@@ -175,12 +176,10 @@ class FilmService {
                             const cr_str = imdb_translate.credits.map((cr, i) => {
                                 return `${i ? ", " : ""}${cr.name}`
                             }).join("")
-                            console.log(cr_str)
                             await translatte("Ving Rhames", {
                                 from: "en",
                                 to: tolng
                             }).then(res => {
-                                console.log(res.text)
                             }).catch(err => {
                                 console.error(err)
                                 imdb_translate.status = "err"
@@ -321,6 +320,15 @@ class FilmService {
                 if(e) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
                 const user = await UserModel.findById(uid)
                 const userDto = new UserMinDto(user)
+                syncFilmEvent(fid, "comment", {
+                    comment: {
+                        fid: Number(fid), 
+                        user: userDto, 
+                        data, 
+                        datef_ms,
+                        datef_v
+                    }
+                })
                 return resolve({
                     data,
                     user: userDto,
@@ -333,15 +341,24 @@ class FilmService {
 
     async pushRating(uid, fid, value) {
         return new Promise(async (resolve, reject) => {
-            await new Promise((r, j) => {
+            const exists = await new Promise((r, j) => {
                 DBAgent.db.all(`SELECT * FROM ratings WHERE owner = "${uid}" AND fid = ${fid}`, (err, data) => {
-                    if(err || data.length) {
+                    if(err) {
                         console.log(err)
                         return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
                     }
-                    return r()
+                    if(data.length) return r(true)
+                    else return r(false)
                 })
             })
+
+            if(exists) DBAgent.db.run(`UPDATE ratings SET value = ${value} WHERE owner = "${uid}" AND fid = ${fid}`, (err, data) => {
+                if(err) {
+                    console.log(err)
+                    return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                }
+                return resolve({status: "ok"})
+            }) 
 
             DBAgent.db.run(`INSERT INTO ratings(owner, value, fid) VALUES("${uid}", ${value}, ${fid})`, (err, data) => {
                 if(err) {

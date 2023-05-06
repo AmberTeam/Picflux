@@ -2,18 +2,22 @@ const rid = require('random-id')
 const StatusSession = require('./obj/session')
 const ChatRoom = require("./obj/chatroom")
 const tokenService = require("../service/token.service")
+const FilmService = require('./src/FilmSession')
 
 class WebSocketCore {
     ws
     clients
     status_sessions
+    film_sessions
     chatrooms 
+    filmService
 
     constructor(ws) {
         this.ws = ws
         this.clients=[]
         this.status_sessions=[]
         this.chatrooms=[]
+        this.filmService = new FilmService(this)
     } 
 
     emit_proaccess(expression, ex_val, event, data) {
@@ -205,6 +209,7 @@ class WebSocketCore {
                 this.destroyClientSessions(client.id)
                 this.destroyClientChatRooms(client.id) 
                 this.destroyClientConnection(client.id)
+                this.filmService.destroyFilmSessionsConnection(client.uid)
             }) 
  
             client.on("message", (e) => {
@@ -213,6 +218,12 @@ class WebSocketCore {
                     case "session-init":
                         this.emit(client.id, "socid", {socid: client.id})
                         this.initStatusSession({ownid:soc.id,uid:data_p.data.uid})
+                        break
+                    case "film-session-join": 
+                        this.filmService.joinFilmSession(data_p.data.fid, client.uid)
+                        break
+                    case "film-session-disconnect":
+                        this.filmService.disconnectFilmSession(data_p.data.fid, client.uid) 
                         break
                     case "chatroom-init":
                         this.initChatRoom(client.id, client.uid, data_p.data)    

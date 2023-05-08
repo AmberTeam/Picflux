@@ -137,7 +137,7 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
 
     return (
         <div className={`${cl.BrickSelector} ${props.disabled ? cl.Disabled : cl.Enabled} ${props.dropdown && cl.Dropdown_type}`}>
-            <div className={cl.Selector_header} onClick={props.dropdown ? () => setDropdownActive(!dropdownActive) : () => null}>
+            {/* <div className={cl.Selector_header} onClick={props.dropdown ? () => setDropdownActive(!dropdownActive) : () => null}>
                 <span>
                     {props.children}
                 </span>
@@ -145,8 +145,8 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
                 <button className={`${props.dropdown && cl.Dropdown_caret} ${dropdownActive && cl.Active}`}>
                     <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z"/></svg>   
                 </button>}
-            </div>
-            <div className={`${cl.Selector_body} ${props.dropdown && dropdownActive && cl.Active}`}>
+            </div> */}
+            <div className={`${cl.Selector_body} ${props.dropdown && cl.Active}`}>
                 <div className={cl.Body_content}>
                     {
                         props.actions.map((action: IBrickAction) => {

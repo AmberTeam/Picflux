@@ -1,25 +1,50 @@
-.Rating_container 
+.Rating_container
     display: flex
     gap: 6px
 
-.Ic 
-    width: 24px 
+.Ic
+    width: 24px
     height: 24px
     transition: .1s all ease
 
-.Active 
-    fill: yellow
+.Active
+    fill: #F0A832
 
 .Default
     fill: var(--fg)
 
-.Current 
+.Current
     animation-name: bounce
     animation-duration: .3s
     animation-delay: ease
 
-@keyframes bounce 
+// create design for clear button using var(--color-a) color
+.Clear_Button
+    display: flex
+    justify-content: center
+    align-items: center
+    cursor: pointer
+    border-radius: 50%
+    width: 24px
+    height: 24px
+    transition: .1s all ease
+    background: var(--bg)
+    border: none
+    border-color: var(--color-a)
+    border-radius: 50%
+
+    &:hover
+        border: 1px solid var(--color-a)
+        color: var(--color-a)
+
+    &:active
+        background: var(--color-a)
+        color: var(--bg)
+        border-color: var(--color-a)
+        box-shadow: 0 0 0 1px var(--color-a)
+
+@keyframes bounce
     50%
         transform: scale(1.3)
-    100% 
+    100%
         transform: scale(1)

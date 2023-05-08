@@ -1,5 +1,6 @@
 import { FC, useEffect, useMemo, useState } from "react"
 import cl from "./index.module.sass"
+import Button from 'react';
 
 interface IRatingCounterProps {
     handler: (arg:number) => void
@@ -20,13 +21,13 @@ function StarIcon(props:IStartIconProps) {
     )
 }
 
-interface IRatingIconProps { 
+interface IRatingIconProps {
     index:number
-    rating: number 
-    hoverRating: number 
-    onMouseEnter: (arg:any) => void 
-    onMouseLeave: () => void 
-    onMouseRating: () => void 
+    rating: number
+    hoverRating: number
+    onMouseEnter: (arg:any) => void
+    onMouseLeave: () => void
+    onMouseRating: () => void
     onSaveRating: (arg:any) => void
 }
 
@@ -52,7 +53,7 @@ function RatingIcon(props:any) {
 
 const RatingCounter:FC<IRatingCounterProps> = (props:IRatingCounterProps) => {
     const [rating, setRating] = useState<number>(props.force_rating ? props.force_rating : 0)
-    const [hoverRating, setHoverRating] = useState<number>(0)  
+    const [hoverRating, setHoverRating] = useState<number>(0)
     const [selected, setSelected] = useState<boolean>(false)
 
     const onMouseEnter = (index:number) => {
@@ -62,33 +63,42 @@ const RatingCounter:FC<IRatingCounterProps> = (props:IRatingCounterProps) => {
         !selected && setHoverRating(0)
     }
     const onSaveRating = (index:number) => {
-        if(selected) return 
+        if(selected) return
         setRating(index)
         props.handler(index)
         setSelected(true)
+    }
+    const clearRating = () => {
+      setRating(0);
+      setSelected(false);
     }
 
     useEffect(() => {
         if(props.force_rating) {
             setSelected(true)
             setRating(props.force_rating)
-        } 
+        }
     }, [props.force_rating])
 
     return (
         <div className={cl.Rating_container}>
             {[1,2,3,4,5,6,7,8,9,10].map((index) => {
                 return (
-                <RatingIcon 
-                    key={index}
-                    index={index} 
-                    rating={rating} 
-                    hoverRating={hoverRating} 
-                    onMouseEnter={onMouseEnter} 
-                    onMouseLeave={onMouseLeave} 
+                <RatingIcon
+                    index={index}
+                    rating={rating}
+                    hoverRating={hoverRating}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
                     onSaveRating={onSaveRating} />
                 )
             })}
+            <p>{rating}</p>
+            <button className={cl.Clear_Button} onClick={() => clearRating()}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+              </svg>
+            </button>
         </div>
     )
 }

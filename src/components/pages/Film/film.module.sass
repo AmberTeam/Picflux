@@ -1,164 +1,166 @@
-.Loader_container 
+.Loader_container
     height: 100vh
-    display: grid 
+    display: grid
     justify-items: center
     align-content: center
-    gap: 1rem 
+    gap: 1rem
     font-size: 12px
 
-.Add_wread 
+.Add_wread
     display: flex
     gap: .3rem
-    border: 2px solid var(--color)
-    background: var(--color)
+    border: 2px solid var(--color-a)
+    background: var(--bg)
     padding: .8rem 2rem .8rem 2rem
     font-family: 'Roobert'
     border-radius: 100px
     font-size: 14px
     cursor: pointer
-    transition: .2s all ease 
+    transition: .2s all ease
     font-weight: bold
-    color: var(--bg)
+    color: var(--color-a)
 
-    svg 
-        fill: var(--bg)
+    svg
+        fill: var(--color-a)
         transition: .2s all ease
-    
-    &.Loading 
-        background: var(--bg)
-        color: var(--color)
 
+    &:hover
+        background: var(--color-a)
+        color: var(--bg)
 
-    &:hover 
-        background: var(--bg)
-        color: var(--color)
+        svg
+            fill: var(--bg)
 
-        svg 
-            fill: var(--color)
-
-.Watch 
+.Watch
     text-decoration: none
     border: 2px solid var(--color)
-    padding: .8rem 2rem 
+    padding: .8rem 2rem
     font-family: 'Roobert'
     border-radius: 100px
     font-size: 14px
     cursor: pointer
-    transition: .2s all ease 
+    transition: .2s all ease
     font-weight: bold
     background: var(--bg)
     color: var(--color)
 
-    &:hover 
+    &:hover
         background: var(--color)
         color: var(--bg)
 
-.FilmPage_container 
+.FilmPage_container
     display: grid
     gap: 2rem
     padding: 3rem
     margin: 0 15rem
     min-height: 100vh
 
-    .Top_inner 
-        display: flex 
+    .Top_inner
+        display: flex
         gap: 3rem
 
         .Poster
 
             .Poster_imdb
                 max-width: 30vh
-            img 
+            img
                 border-radius: 16px
                 width: auto
                 height: auto
 
         .Content
             .Header
-                display: grid 
+                display: grid
                 gap: 1rem
                 justify-items: start
-                align-content: start 
+                align-content: start
                 height: 100%
-            
-            .Btns 
+
+            .Btns
                 display: flex
                 gap: .5rem
 
             .Pager
-                display: grid 
+                display: grid
                 gap: .5rem
                 width: 100%
-                
-                .Pager_headers 
+
+                .Pager_headers
                     display: flex
                     gap: 1rem
-                    
-                    .Pager_segment 
+
+                    .Pager_segment
                         transition: .2s all ease
-                        cursor: pointer 
+                        cursor: pointer
                         padding: .2rem 0
                         color: rgba(0,0,0, .6)
 
-                        &.Pager_inactive 
+                        &.Pager_inactive
                             opacity: .6
 
-                        .Name 
+                        .Name
                             font-family: "Roobert"
                             color: var(--color)
 
-                        &.Pager_active 
+                        &.Pager_active
                             color: #000
 
-                        &:hover 
+                        &:hover
                             color: #000
 
                 .Pager_content
-                    .Overwiev 
-                        display: grid 
+                    .Overwiev
+                        display: grid
                         grid-gap: .5rem
-                        .Inf
-                            font-size: 14px
-                            display: grid 
-                            grid-template-columns: 160px 100%
 
-                            .Inf_row 
+                        .Inf
+                            display: flex
+                            flex-direction: row
+                            font-size: 14px
+
+                            .Inf_row
+                                margin-right: 10px
                                 opacity: .5
 
+                            .rating_star
+                                fill: var(--color-a)
+                                margin-left: 5px
+                                width: 16px
+                                height: 16px
 
-        .Msg 
+        .Msg
             margin-left: auto
 
             .Msg_btn
-                background: transparent 
-                border: none 
+                background: transparent
+                border: none
                 cursor: pointer
 
-                &:hover 
-                    svg 
+                &:hover
+                    svg
                         transform: scale(1.1)
                         fill: var(--color-a)
                         opacity: 1
 
-                svg 
+                svg
                     transition: .2s all ease
                     height: 20px
                     width: 20px
                     fill: var(--color)
                     opacity: .6
 
-    .Bottom_inner 
+    .Bottom_inner
         display: grid
         gap: 2rem
 
-        .Description 
-            font-weight: bold
+        .Description
+            font-weight: 400
 
-        .Frame_container 
+        .Frame_container
             width: 100%
-            display: flex 
+            display: flex
 
-            .PlayerTabs_container 
+            .PlayerTabs_container
                 position: relative
                 border-radius: 16px 0px 0px 16px
                 display: grid
@@ -169,10 +171,10 @@
                 background: var(--player-tabs-bg)
                 gap: 1px
 
-                &.Active 
+                &.Active
                     width: calc(150px + 2.4rem)
-                    .Tabs_inner 
-                        .Tab 
+                    .Tabs_inner
+                        .Tab
                             overflow: visible
                 .Tabs_inner
                     position: relative
@@ -185,46 +187,43 @@
                         overflow-y: auto
                         overflow-x: hidden
 
-                        &::-webkit-scrollbar 
+                        &::-webkit-scrollbar
                             width: 2px
 
-                        &::-webkit-scrollbar-track 
+                        &::-webkit-scrollbar-track
                             background: transparent
-                        
-                        &::-webkit-scrollbar-thumb 
+
+                        &::-webkit-scrollbar-thumb
                             background: var(--color-a)
-                        
-                        
+
                         .Tab
                             border-right: none
-                            
-                            
 
                     .Tab
 
-                        &.Err 
+                        &.Err
                             background: #ED4337
 
-                            &:hover 
+                            &:hover
                                 opacity: #ed4337e0
 
                             &.Active
                                 background: #ed4337c7
 
-                        &.Pl_tab 
-                            .Tab_content 
+                        &.Pl_tab
+                            .Tab_content
                                 justify-content: start
 
-                        .Tab_content 
+                        .Tab_content
                             display: flex
                             justify-content: center
-                            align-items: center 
+                            align-items: center
                             gap: .5rem
 
-                            .Pl_info 
+                            .Pl_info
                                 .Err_inf
-                                width: 16px 
-                                fill: red
+                                    width: 16px
+                                    fill: red
 
                         .Selected_span
                             position: absolute
@@ -237,39 +236,39 @@
                 height: 50vh
                 background: #000
                 border-left: 1px solid var(--bg)
-                width: 100% 
-                display: grid 
+                width: 100%
+                display: grid
                 align-content: center
                 gap: 1rem
                 justify-items: center
                 border-radius: 0px 16px 16px 0px
 
-                .RE_img 
+                .RE_img
                     fill: var(--bg)
-                    width: 75px 
+                    width: 75px
                     height: 75px
 
-                .RE_text 
+                .RE_text
                     color: var(--bg)
                     font-family: 'Roobert'
                     font-weight: bold
 
-            .RewriteErr_container 
+            .RewriteErr_container
                 height: 50vh
                 background: #ED4337
-                width: 100% 
-                display: grid 
+                width: 100%
+                display: grid
                 align-content: center
                 gap: 1rem
                 justify-items: center
                 border-radius: 0px 16px 16px 0px
 
-                .RE_img 
+                .RE_img
                     fill: var(--bg)
-                    width: 75px 
+                    width: 75px
                     height: 75px
 
-                .RE_text 
+                .RE_text
                     color: var(--bg)
                     font-family: 'Roobert'
                     font-weight: bold
@@ -277,11 +276,11 @@
             .Frame
                 width: 100%
                 height: 50vh
-                border: none 
+                border: none
                 //border-radius: 0px 16px 16px 0px
                 transition: .4s all ease
 
-                &.Active 
+                &.Active
                     border-radius: 16px
 
             .Controlls_container
@@ -302,107 +301,134 @@
                     border-radius: 25px
                     transition: .2s all ease
 
-                    &.Active 
+                    &.Active
                         background: #f0a83236
-                        
+
                         svg
                             fill: var(--color-a)
-                    
-                    svg  
+
+                    svg
                         width: 100%
-                        fill: #fff 
+                        fill: #fff
                         transition: .2s all ease
 
-                &.Active 
+                &.Active
                     display: grid
                     width: 50px
-                    justify-items: center 
+                    justify-items: center
                     padding: 6.5px
 
-                    .Tabs_inner 
-                        .Tab 
+                    .Tabs_inner
+                        .Tab
                             overflow: visible
 
-    .Rating_container 
+    .Rating_container
         border-radius: 16px
         display: grid
-        justify-items: center
+        justify-items: left
         gap: .5rem
-        font-size: 17px 
+        font-size: 17px
         font-weight: 600
 
-        &.NotAuth 
-            user-select: none 
+        &.NotAuth
+            user-select: none
             color: var(--color)
             text-decoration: none
 
             .NonPointerEvents
                 pointer-events: none
 
-    .Comments_container 
+    .Comments_container
         width: 100%
-        display: grid 
-        gap: .8rem 
+        display: grid
+        gap: .8rem
 
-        .Comments_input 
+        .Comments_input
+
             .Comments_form
                 position: relative
-                display: flex 
+                display: flex
                 width: 100%
                 gap: .5rem
                 border: 2px solid var(--fg)
                 padding: .7rem 1rem
                 border-radius: 100px
 
-                &.Loading 
-                    .Loader 
+                &.Loading
+                    .Loader
                         z-index: 0
                         opacity: 1
 
-                .Loader 
-                    display: flex 
+                .Loader
+                    display: flex
                     justify-content: center
                     align-items: center
                     background: rgba(0, 0, 0, .4)
                     backdrop-filter: blur(4px)
-                    width: 100% 
+                    width: 100%
                     height: 100%
-                    position: absolute 
-                    top: 0 
+                    position: absolute
+                    top: 0
                     left: 0
                     z-index: -10
-                    opacity: 0 
-
+                    opacity: 0
 
                 .Comments_inp
                     width: 100%
-                    background: transparent 
-                    color: var(--color) 
+                    background: transparent
+                    color: var(--color)
                     font-family: 'Roobert'
-                    border: none 
+                    border: none
                     outline: none
 
-                .Comments_submit 
-                    display: flex 
-                    gap: .5rem 
+                .Comments_submit
+                    display: flex
+                    gap: .5rem
                     align-items: cente
-                    background: transparent 
-                    border: none 
+                    background: transparent
+                    border: none
                     cursor: pointer
                     transition: .2s all ease
 
-                    &:hover 
-                        svg 
-                            fill: var(--color)
-                    svg 
-                        width: 16px 
+                    &:hover
+                        svg
+                            fill: var(--color-a)
+                    svg
+                        width: 16px
                         height: 16px
                         fill: var(--fg)
 
-        .Comments_header 
+        .Comments_header
             margin-bottom: 1rem
-            
-        .Comments_content  
+
+        /*.Comments
+         width: 100%
+         display: grid
+         gap: .5rem
+         overflow-y: auto
+         max-height: 350px*/
+
+        /*    &::-webkit-scrollbar
+         width: 3px */
+
+        /*    &::-webkit-scrollbar-track
+         background: transparent
+
+            &::-webkit-scrollbar-thumb
+                background: var(--color-a)
+                border-radius: 3px */
+
+        /*    .NoComments_container
+         display: grid
+         align-content: start
+         padding: 1rem
+         justify-items: center
+         gap: 1rem */
+
+        /*       .NC_ic
+         width: 34px
+         height: 34px */
+        .Comments_content
             display: grid
             border-radius: 16px
             overflow: hidden
@@ -416,29 +442,29 @@
                 align-items: center
                 align-content: center
                 justify-items: center
-                
-                svg 
-                    width: 52px 
+
+                svg
+                    width: 52px
                     height: 52px
 
             .Comment
                 width: 100%
                 display: grid
-                gap: .5rem 
+                gap: .5rem
                 opacity: .9
                 transition: .2s all ease
                 padding: .8rem
                 color: var(--color)
                 border-bottom: 2px solid var(--fg)
 
-                &:hover 
+                &:hover
                     opacity: 1
 
-                .Comment_owner 
-                    display: flex 
+                .Comment_owner
+                    display: flex
                     justify-content: space-between
                     .Owner_promo
-                        display: flex 
+                        display: flex
                         align-items: center
                         gap: .5rem
 
@@ -447,33 +473,33 @@
                             width: 27px
                             height: 27px
 
-                        .Owner_username 
+                        .Owner_username
                             font-size: 12px
                             font-style: italic
 
-                        .Owner_rating 
+                        .Owner_rating
                             gap: 3.5px
-                            display: flex 
-                            font-size: 12px 
+                            display: flex
+                            font-size: 12px
                             align-items: center
-                            
-                            .Ic 
-                                width: 14px 
-                                height: 14px 
-                                fill: yellow
 
-                    .Comment_time 
+                            .Ic
+                                width: 14px
+                                height: 14px
+                                fill: #F0A832
+
+                    .Comment_time
                         font-size: 10px
-            
-                .Comment_body 
+
+                .Comment_body
                     word-break: break-all
                     max-width: calc(30vh - 1rem)
 
-    .Pagination_container 
+    .Pagination_container
         display: flex
-        margin-top: 1rem 
+        margin-top: 1rem
         justify-content: center
-.Tab 
+.Tab
     min-width: 150px
     transition: .2s all ease
     background: var(--player-tab-bg)
@@ -482,83 +508,78 @@
     transition: .2s all ease
     cursor: pointer
     overflow: hidden
-    border-left: 0 
+    border-left: 0
     border-top: 0
     border-bottom: 0
     font-size: 12px
     text-align: center
     text-decoration: none
-    
 
     .Ad_prefix
         font-size: 10px
         color: red
 
-    .NoAd_prefix 
-        font-size: 10px 
+    .NoAd_prefix
+        font-size: 10px
         color: green
 
-    &.Active 
-        background: var(--player-tab-h-col) 
+    &.Active
+        background: var(--player-tab-h-col)
 
     &:hover
         background: var(--player-tab-h-col)
 
-    &.First 
+    &.First
         border-top-left-radius: 16px
-        
-@media(max-width: 1100px) 
-    .Tab 
+
+@media(max-width: 1100px)
+    .Tab
         border-right: 0px
         border-top-left-radius: 0px!important
 
-
-    .FilmPage_container 
+    .FilmPage_container
         display: grid
         margin: 0 0
-    
 
         .Top_inner
             display: grid
             .Poster
-                img 
+                img
                     border-radius: 16px
                     width: 100%
                     height: auto
 
             .Content
-                .Btns 
+                .Btns
                     display: grid
                     gap: 1rem
 
-                    .Watch 
+                    .Watch
 
                 .Pager
 
                     .Pager_content
-                        .Overwiev 
+                        .Overwiev
                             .Inf
                                 font-size: 12px
-                                display: grid 
+                                display: grid
                                 grid-template-columns: 80% 20%
 
-                                .Inf_row 
+                                .Inf_row
                                     opacity: .5
 
-        .Bottom_inner 
-            .Frame_container 
+        .Bottom_inner
+            .Frame_container
                 width: 100%
                 display: flex
                 flex-flow: row wrap
                 flex-direction: column-reverse
-                    
-                    
 
-                .PlayerTabs_container 
+                .PlayerTabs_container
                     width: 100%!important
                     border-radius: 0px 0px 16px 16px
 
-                .RewriteErr_container 
+                .RewriteErr_container
                     //border-radius: 16px 16px 0px 0px
                     border-radius: 0
 
@@ -566,16 +587,15 @@
                     //border-radius: 16px 16px 0px 0px
                     border-radius: 0
 
-                .Controlls_container 
+                .Controlls_container
                     border-radius: 16px 16px 0 0
                     display: flex!important
                     height: 50px
                     width: 100%!important
 
-                    .Controller 
+                    .Controller
                         &.Pin
-                            display: none 
+                            display: none
 
-                        svg 
+                        svg
                             width: 25px
-

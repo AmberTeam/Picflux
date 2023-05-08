@@ -1,4 +1,4 @@
-.SaveBtn 
+.SaveBtn
     border: 2px solid var(--color)
     background: var(--color)
     padding: .3rem .75rem .3rem .75rem
@@ -6,91 +6,89 @@
     border-radius: 100px
     font-size: 12px
     cursor: pointer
-    transition: .2s all ease 
+    transition: .2s all ease
     font-weight: bold
     color: var(--bg)
 
-    &.Disabled 
+    &.Disabled
         opacity: .6
         pointer-events: none
 
-    &:hover 
+    &:hover
         background: var(--bg)
         color: var(--color)
 
-.Loading_container 
-    display: grid 
-    height: 100vh 
-    justify-items: center 
+.Loading_container
+    display: grid
+    height: 100vh
+    justify-items: center
     align-content: center
     gap: .8rem
     font-size: 12px
 
+.ProfileEdit_container
+    display: grid
+    gap: 1rem
 
-.ProfileEdit_container 
-    display: grid 
-    gap: 1rem 
-
-    .ProfileEdit_avatar 
+    .ProfileEdit_avatar
         .Avatar_changer
-            background: transparent 
+            background: transparent
             border-radius: 100px
-            width: 64px 
+            width: 64px
             height: 64px
             position: relative
             border: none
             cursor: pointer
             display: block
 
-            &:hover 
-                .Blurer 
+            &:hover
+                .Blurer
                     opacity: 1
-            
+
             .Avatar_img
-                width: 64px 
+                width: 64px
                 height: 64px
                 border-radius: 100px
 
             .Blurer
                 transition: .2s all ease
-                display: flex 
-                justify-content: center 
+                display: flex
+                justify-content: center
                 align-items: center
-                position: absolute 
-                top: 0 
-                left: 0 
-                width: 100% 
-                height: 100% 
+                position: absolute
+                top: 0
+                left: 0
+                width: 100%
+                height: 100%
                 border-radius: 100px
                 opacity: 0
                 background: rgba(0, 0,0,.6)
 
-                .Changer_ic 
-                    svg 
-                        width: 24px 
-                        height: 24px 
+                .Changer_ic
+                    svg
+                        width: 24px
+                        height: 24px
                         fill: var(--color)
 
-    .Data_edit 
+    .Data_edit
         display: grid
         gap: .8rem
-        .DataEdit_header 
-            font-weight: bold 
-            
+        .DataEdit_header
+            font-weight: bold
 
-        .DataEdit_body 
+        .DataEdit_body
             display: grid
 
             .Err_txt
                 margin-top: .5rem
                 color: #ED4337
-                font-size: 11px 
-                    
+                font-size: 11px
+
             input
                 min-width: 30vh
-                background: transparent 
+                background: transparent
                 border: 2px solid var(--auth-pre-space-col)
-                color: var(--color) 
+                color: var(--color)
                 padding: .8rem 1.2rem .8rem 1.2rem
                 border-radius: 16px
                 outline: none
@@ -101,35 +99,35 @@
                     border-color: #ED4337
 
                 &.Default
-                    &:focus 
+                    &:focus
                         border-color: var(--color)
-.Profile_section 
+.Profile_section
     height: auto !important
-    .Profile_header 
+    .Profile_header
         position: relative
         width: 100%
         margin-top: 5rem
 
-        .Avatar_container 
+        .Avatar_container
             position: absolute
-            top: 0 
+            top: 0
             bottom: 0
             width: 100%
 
             display: flex
-            align-items: center 
+            align-items: center
 
-            .Line 
+            .Line
                 width: 100%
-                height: 2px 
+                height: 2px
                 background: var(--fg)
-            
-            .Avatar 
-                width: 128px 
-                height: 128px 
 
-                img 
-                    width: 128px 
+            .Avatar
+                width: 128px
+                height: 128px
+
+                img
+                    width: 128px
                     height: 128px
                     border-radius: 50%
 
@@ -138,30 +136,30 @@
         min-height: 100vh
         padding: 64px 5rem 5rem 5rem
 
-        .Content 
+        .Content
 
             .Content_header
-                display: grid 
+                display: grid
                 gap: 1rem
                 margin: 0 0 2rem 0
-                .Profile_username 
+                .Profile_username
                     margin: 1rem 0 0 0
                     text-align: center
                     font-size: 20px
 
                 .Profile_stats
-                    width: 100% 
-                    display: flex 
+                    width: 100%
+                    display: flex
                     justify-content: center
-                    margin: 0 0 1rem 0 
+                    margin: 0 0 1rem 0
 
-                    .Stats_container 
+                    .Stats_container
                         display: flex
 
                         .Stat
                             display: grid
                             text-align: center
-                            span 
+                            span
                                 font-size: 10px
 
                             &.Stat_status
@@ -171,65 +169,64 @@
                                 &.Active
                                     color: #2ae127
 
-                        .Stat_separator 
+                        .Stat_separator
                             margin: 0 1rem
-                            width: 2px 
+                            width: 2px
                             height: 100%
                             background: linear-gradient(90deg, rgb(240, 168, 50) 0%, rgb(255, 144, 93) 100%)
-                            
+
                 .Profile_bio
                     text-align: center
-                
-                .Profile_actions 
-                    display: flex 
+
+                .Profile_actions
+                    display: flex
                     flex-wrap: wrap
                     gap: .5rem
                     justify-content: center
 
-                    .Subscribe_btn 
-                        text-decoration: none 
+                    .Subscribe_btn
+                        text-decoration: none
                         user-select: none
                         display: flex
                         gap: .3rem
-                        border: 2px solid var(--color)
-                        background: var(--color)
+                        border: 2px solid var(--profile-btn-color)
+                        background: var(--profile-btn-bg)
                         padding: .6rem 1.5rem .6rem 1.5rem
                         font-family: 'Roobert'
                         border-radius: 100px
                         font-size: 12px
                         cursor: pointer
-                        transition: .2s all ease 
+                        transition: .2s all ease
                         font-weight: bold
-                        color: var(--bg)
+                        color: var(--profile-btn-color)
 
-                        svg 
-                            fill: var(--bg)
+                        svg
+                            fill: var(--profile-btn-color)
                             transition: .2s all ease
-                        
-                        &.Loading 
+
+                        &.Loading
                             background: var(--bg)
                             color: var(--color)
 
+                        &:hover
+                            background: var(--profile-btn-color)
+                            color: var(--profile-btn-bg)
 
-                        &:hover 
-                            background: var(--bg)
-                            color: var(--color)
+                            svg
+                                fill: var(--profile-btn-bg)
 
-                            svg 
-                                fill: var(--color)
-                    
-        .Content_body 
+        .Content_body
             display: grid
 
             .Opts_container
                 display: flex
 
-                .Border_spacer 
+                .Border_spacer
                     width: 45px
                     border-bottom: 2px solid var(--profile-tabs-border)
                     margin-bottom: 10px
 
-                .Opt 
+                .Opt
                     color: var(--profile-tabs-tab)
                     background: transparent
                     border: none
@@ -240,42 +237,41 @@
                     transition: .2s all ease
                     cursor: pointer
 
-                    &.Last 
+                    &.Last
                         margin-top: 9px
                         width: 100%
 
-                    .Border 
+                    .Border
                         transition: .2s all ease
                         margin-top: 10px
                         border-bottom: 2px solid var(--profile-tabs-border)
 
-                    &.Active 
+                    &.Active
                         color: var(--color-a)
 
-                        .Border 
+                        .Border
                             border-bottom: 2px solid var(--color-a)
                     &.Default
                         padding: 0rem 0px 10px 0px
 
-            .Tab_content 
+            .Tab_content
                 margin-top: 3rem
 
 @media(max-width: 1500px)
-    .Profile_section 
+    .Profile_section
 
         .Profile_content
             .Content_body
-                .WL_section  
+                .WL_section
 
-                    .WL_container 
+                    .WL_container
                         grid-template-columns: 50% 50%
 
 @media(max-width: 1000px)
-    .Profile_section 
+    .Profile_section
 
         .Profile_content
             padding: 64px 1rem 1rem 1rem
-            .Content_body 
-                .Tab_content 
+            .Content_body
+                .Tab_content
                     margin-top: 1rem
-

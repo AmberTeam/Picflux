@@ -3,65 +3,61 @@
     gap: .7rem
     transition: .2s all ease
 
-    &.Disabled 
+    &.Disabled
 
-        .Selector_body 
+        .Selector_body
             opacity: .2
 
-            .Selector_action 
+            .Selector_action
                 cursor: default
                 pointer-events: none
     &.Dropdown_type
-        
-        .Selector_header 
-            display: flex 
+
+        .Selector_header
+            display: flex
             align-items: center
             cursor: pointer
 
-            span 
+            span
                 user-select: none
-            
+
             .Dropdown_caret
                 background: transparent
-                border: none 
-                cursor: pointer 
+                border: none
+                cursor: pointer
 
-                &.Active 
+                &.Active
 
-                    svg 
+                    svg
                         transform: rotateZ(90deg)
 
-                svg 
+                svg
                     transition: .2s all ease
                     width: 21px
-                    height: 21px 
+                    height: 21px
                     fill: var(--color)
 
-    .Selector_header 
+    .Selector_header
 
-
-    .Selector_body 
+    .Selector_body
         overflow: hidden
         max-height: 0
         transition: .2s linear
 
-        &.Active 
+        &.Active
             max-height: 500px
 
         .Body_content
             display: flex
             gap: .5rem
             flex-wrap: wrap
-            
 
-    
-
-        .Body_addition 
-            display: flex 
+        .Body_addition
+            display: flex
             gap: .5rem
             margin-top: .5rem
-            .Addition_input 
-                padding: .4rem 
+            .Addition_input
+                padding: .4rem
                 border: 1px solid var(--color-a)
                 border-radius: 6px
                 background: rgba(240, 168, 50, .3)
@@ -69,8 +65,8 @@
                 transition: .2s all ease
                 opacity: .7
                 outline: none
-.Selector_action 
-    padding: .4rem 
+.Selector_action
+    padding: .5rem
     border: 1px solid var(--mtd-col)
     border-radius: 6px
     background: transparent
@@ -79,7 +75,7 @@
     cursor: pointer
     opacity: .7
 
-    &.Input_type 
+    &.Input_type
         cursor: auto
         outline: none
 
@@ -91,20 +87,20 @@
         &.Selected_required_all
             &::placeholder
                 color: var(--color-a)
-                opacity: 1              
+                opacity: 1
 
     &.Default
-        &:hover 
+        &:hover
             border-color: var(--color-a)
             color: var(--color-a)
 
-    &.Selected 
+    &.Selected
         border-color: var(--color-a)
         background: rgba(240, 168, 50, .3)
         color: var(--color-a)
         opacity: 1
 
-        &:hover 
+        &:hover
             border-color: #ED4337
             color: #ED4337
             background: rgba(237, 67, 55, .3)
@@ -114,4 +110,3 @@
         color: var(--color-a)
         background: rgba(240, 168, 50, .3)
         opacity: 1
-            

@@ -8,10 +8,10 @@ import { observer } from 'mobx-react-lite'
 import userService from "../../../services/UserService"
 import cl from "./home.module.sass"
 import ContentModal from '../../ContentModal'
-import BSelector from '../../UI/BrickSelector'
 import LoaderMini from '../../UI/LoaderMini'
 import FilmList from '../../FilmList'
 import { compress, decompress } from 'compress-json'
+import BSelector from '../../UI/BrickSelector'
 
 export interface IDLC {
     filtering: string[],
@@ -23,7 +23,6 @@ export interface IDLC {
 }
 
 const HomePage: FC = () => {
-
     const obsElement = useRef() as React.MutableRefObject<HTMLInputElement>
     const contentElement = useRef() as React.MutableRefObject<HTMLDivElement> 
     const listRef = useRef() as React.MutableRefObject<HTMLDivElement>
@@ -50,6 +49,7 @@ const HomePage: FC = () => {
     const [debugMode, setDebugMode] = useState<number>(1)
     const [DLCReady, setDLCReady] = useState<boolean>(false)
     const [adaptInterface, setAdaptInterface] = useState<boolean>(false)
+    const [sortYear, setSortYear] = useState<boolean>(true)
 
     function reset(incSQ:boolean = false, type:number=3): number {
         if(incSQ) writeLanceConfig("sq", "", () => setSearchQuery(""))
@@ -145,6 +145,9 @@ const HomePage: FC = () => {
         }
     }
 
+    const setSort = (): void => {
+        setSortYear(!sortYear);
+    }
     const prepareLanceConfig = (): void => {
         try {
             const sq:string = localStorage.getItem("sq")!
@@ -286,6 +289,7 @@ const HomePage: FC = () => {
     useEffect(() => {
         prepareLanceConfig()
     }, [])
+
     
     return (
         <>
@@ -467,7 +471,7 @@ const HomePage: FC = () => {
                                     <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                     <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
                                 </svg>
-                            </button> 
+                            </button>
                         </div>
                         <form className={`${focused ? cl.Focused : ""} ${cl.Search_input}`} onSubmit={e => {
                             e.preventDefault()
@@ -497,19 +501,155 @@ const HomePage: FC = () => {
                     </div>
                 </div>
                 <div className={cl.Section_content}>
-                    <div className={`${cl.LanceSettings_modal}`} ref={listRef}>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
-                        <h1>EDIT HERE</h1>
+                    <div className={`${cl.LanceSettings_modal} ${cl.Collapsed}`} ref={listRef}>
+                        <div className={cl.LanceSettings_modal_container}>
+                        <div className={`${cl.Filter}`}>
+                            <p className={cl.Filter_header}>Year</p>
+                            <hr className={cl.Filter_line}></hr>
+                            <div className={cl.Filter_content}>
+                                <button className={cl.Filter_button} onClick={() => setSort()}>
+                                    {sortYear ? <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M12.438 1.668V7H11.39V2.684h-.051l-1.211.859v-.969l1.262-.906h1.046z"/>
+                                                <path fill-rule="evenodd" d="M11.36 14.098c-1.137 0-1.708-.657-1.762-1.278h1.004c.058.223.343.45.773.45.824 0 1.164-.829 1.133-1.856h-.059c-.148.39-.57.742-1.261.742-.91 0-1.72-.613-1.72-1.758 0-1.148.848-1.835 1.973-1.835 1.09 0 2.063.636 2.063 2.687 0 1.867-.723 2.848-2.145 2.848zm.062-2.735c.504 0 .933-.336.933-.972 0-.633-.398-1.008-.94-1.008-.52 0-.927.375-.927 1 0 .64.418.98.934.98z"/>
+                                                <path d="M4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
+                                                </svg>
+                                                : <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M11.36 7.098c-1.137 0-1.708-.657-1.762-1.278h1.004c.058.223.343.45.773.45.824 0 1.164-.829 1.133-1.856h-.059c-.148.39-.57.742-1.261.742-.91 0-1.72-.613-1.72-1.758 0-1.148.848-1.836 1.973-1.836 1.09 0 2.063.637 2.063 2.688 0 1.867-.723 2.848-2.145 2.848zm.062-2.735c.504 0 .933-.336.933-.972 0-.633-.398-1.008-.94-1.008-.52 0-.927.375-.927 1 0 .64.418.98.934.98z"/>
+                                                    <path d="M12.438 8.668V14H11.39V9.684h-.051l-1.211.859v-.969l1.262-.906h1.046zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
+                                                </svg>}
+                                </button>
+                                <input className={cl.Filter_input} placeholder='Enter year'>
+                                </input>
+                            </div>
+                        </div>
+                        <div className={`${cl.Filter}`}>
+                            <p>Genres</p>
+                            <hr className={cl.Filter_line}></hr>
+                            <div className={cl.Filter_content}>
+                                <BSelector 
+                                    selectors_required={27} 
+                                    dropdown={true}
+                                    deletable={true}
+                                    disabled={dynamicLanceConfig.filtering_type === 'without' ? true : false}
+                                    actions={
+                                        [
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.horror"), value: "ужасы"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.drama"), value: "драма"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.comedy"), value: "комедия"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.thriller"), value: "триллер"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.crime"), value: "криминал"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.action"), value: "боевик"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.fantasy"), value: "фэнтези"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.science"), value: "наука"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.cartoon"), value: "мультфильм"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.biography"), value: "биография"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.sport"), value: "спорт"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.family"), value: "семейный"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.serial"), value: "сериал"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.short_film"), value: "короткометражка"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.arthouse"), value: "артхаус"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.new_year"), value: "новогодний"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.adventures"), value: "приключения"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.melodrama"), value: "мелодрама"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.western"), value: "вестерн"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.military"), value: "военный"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.documentary"), value: "документальный"}, 
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.historical"), value: "история"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.anime"), value: "аниме"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.musical"), value: "мюзикл"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.detective"), value: "детектив"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.fantastic"), value: "фантастика"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.catastrophe"), value: "катастрофа"},
+                                            {content: translate("home.actions.fl_settings.fl_bgenre.genres.music"), value: "музыка"},
+                                        ]
+                                    } 
+                                    action_c={(value: any) => {
+                                        if(value !== undefined && value !== null && value.length) writeLanceConfig(dynamicLanceConfig.filtering_type === 'solely' ? "filtr_c_s" : "filtr_c_i", JSON.stringify(value), (data: any) => {
+                                            setDLC({...dynamicLanceConfig, filtering: data, action: 'lch'})
+                                        }, value)
+                                    }}
+                                    restoreConfig={filteringConfig}
+                                >
+                                    {translate("home.actions.fl_settings.fl_bgenre.title")}
+                                </BSelector>
+                            </div>
+                        </div>
+                        <div className={`${cl.Filter}`}>
+                            <p>Filter type</p>
+                            <hr className={cl.Filter_line}></hr>
+                            <div className={cl.Filter_content}>
+                                <BSelector 
+                                    default={filteringType === 'solely' ? 0 : filteringType == 'without' ? 2 : 1}
+                                    dropdown={true}
+                                    selectors_required={1} 
+                                    deletable={false}
+                                    actions={
+                                        [
+                                            {content: translate("home.actions.fl_settings.fl_type.types.solely"), value: "solely"},
+                                            {content: translate("home.actions.fl_settings.fl_type.types.inclusive"), value: "inclusive"},
+                                            {content: translate("home.actions.fl_settings.fl_type.types.without"), value: "without"}
+                                        ]
+                                    } 
+                                    action_c={(value: any) => {
+                                        if(value !== undefined && value !== null && value.length) writeLanceConfig("filtr_t", value[0].value, (data: any) => {
+                                            var filtering = []
+                                            if(data !== 'without') filtering = JSON.parse(localStorage.getItem(data === 'solely' ? 'filtr_c_s' : 'filtr_c_i') as string)
+                                            if(!filtering) filtering = []
+                                            setDLC({...dynamicLanceConfig, filtering_type: data, filtering, action: 'lch'})
+                                        })
+                                    }}
+                                >
+                                    {translate("home.actions.fl_settings.fl_type.title")}
+                                </BSelector>
+                            </div>
+                        </div>
+                        <div className={`${cl.Filter}`}>
+                            <p>Load method</p>
+                            <hr className={cl.Filter_line}></hr>
+                            <div className={cl.Filter_content}>
+                                <BSelector
+                                    default={paginateMethod && paginateMethod == 'click' ? 0 : 1}
+                                    selectors_required={1} 
+                                    dropdown={true}
+                                    deletable={false}
+                                    actions={
+                                        [
+                                            {content: translate("home.actions.fl_settings.pag_mtd.onclick"), value: "click"},
+                                            {content: translate("home.actions.fl_settings.pag_mtd.auto"), value: "auto"}
+                                        ]
+                                    } 
+                                    action_c={(value: any) => {
+                                        if(value[0].value !== undefined) writeLanceConfig("pg_mthd", value[0].value, setPaginateMethod)
+                                    }}
+                                >
+                                    {translate("home.actions.fl_settings.pag_mtd.title")}
+                                </BSelector>
+                            </div>
+                        </div>
+                        <div className={`${cl.Filter}`}>
+                            <p>Debug mode</p>
+                            <hr className={cl.Filter_line}></hr>
+                            <div className={cl.Filter_content}>
+                                <BSelector 
+                                    selectors_required={1} 
+                                    dropdown={true}
+                                    deletable={false}
+                                    default={debugMode}
+                                    actions={
+                                        [
+                                            {content: 'On', value: '0'},
+                                            {content: 'Off', value: "1"}
+                                        ]
+                                    }
+                                    action_c={(value: any) => {
+                                        writeLanceConfig("debug_m", value[0].value, () => setDebugMode(value[0].value))
+                                    }}
+                                >
+                                    Debug mode
+                                </BSelector>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                     <FilmList notfound={notFound} observerElem={contentElement} films={films} ready={DLCReady && visualReady ? true : false}/>
                     {

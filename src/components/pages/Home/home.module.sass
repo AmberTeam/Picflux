@@ -1,4 +1,4 @@
-.SD_container 
+.SD_container
     position: fixed
     z-index: 999
     background: #000
@@ -8,27 +8,27 @@
     left: 0
     display: grid
 
-    .SD_data 
+    .SD_data
         display: flex
-        
+
         .SD_dataname
             width: 50px
 
-        .SD_separator 
+        .SD_separator
             margin: 0 1rem
 .Pagination_mtd
     display: grid
     gap: .7rem
-    
-    .Mtd_header 
-    
-    .Mtd_body 
+
+    .Mtd_header
+
+    .Mtd_body
         display: flex
         gap: .5rem
         flex-wrap: wrap
 
-        .Mtd_action 
-            padding: .4rem 
+        .Mtd_action
+            padding: .4rem
             border: 1px solid var(--mtd-col)
             border-radius: 6px
             background: transparent
@@ -36,20 +36,20 @@
             transition: .2s all ease
             cursor: pointer
 
-            &:hover 
+            &:hover
                 border-color: var(--color-a)
                 color: var(--color-a)
 
-            &.Input_type 
+            &.Input_type
                 cursor: default
 .Home_section
-    .Section_starter 
+    .Section_starter
         min-height: 40vh
         display: grid
         justify-content: center
         align-content: center
         text-align: center
-        
+
         h1
             font-size: 58px
             font-weight: 600
@@ -60,11 +60,11 @@
 
     .Search_section
         position: relative
-        width: 100% 
+        width: 100%
         display: grid
         grid-template-columns: 20% 60% 20%
 
-        .Search_field 
+        .Search_field
             position: absolute
             display: grid
             grid-template-columns: 35% 30% 35%
@@ -72,14 +72,14 @@
             width: 100%
             top: -20px
             align-items: center
-        
+
             .Focus_lines
-                width: 100% 
+                width: 100%
                 height: 1px
                 //background: rgba(10, 10, 10, 1)
                 transition: .2s all ease
 
-                &.Focused 
+                &.Focused
                     //background: var(--color-a)
 
             .Search_input
@@ -89,31 +89,30 @@
                 background: var(--bg)
                 padding: 6px 6px 6px 15px
                 border-radius: 6px
-                transition: .2s all ease 
+                transition: .2s all ease
 
                 &.Focused
                     border: 1px solid var(--color-a)
 
-
-                input 
-                    border: none 
+                input
+                    border: none
                     background: transparent
                     color: var(--color)
                     outline: none
                     width: 100%
-            
+
                 .Search_loop
-                    background: transparent 
-                    border: none 
+                    background: transparent
+                    border: none
                     cursor: pointer
 
                     svg
                         circle
-                            transition: .2s all ease 
+                            transition: .2s all ease
                         path
-                            transition: .2s all ease 
+                            transition: .2s all ease
 
-                    &:hover 
+                    &:hover
 
                         svg
                             circle
@@ -121,8 +120,8 @@
                             path
                                 stroke: var(--color-a)
 
-            .Tool_container 
-                display: flex 
+            .Tool_container
+                display: flex
                 justify-content: start
 
                 &.Search_ints
@@ -141,18 +140,15 @@
                     cursor: pointer
                     transition: .2s all ease
 
-                    &:hover 
+                    &:hover
                         border-color: var(--color-a)
 
-                        svg 
+                        svg
                             fill: var(--color-a)
 
-                    svg 
+                    svg
                         fill: #7d7d7d
                         transition: .2s all ease
-                    
-            
-
 
     .Section_content
         min-height: 60vh
@@ -162,12 +158,70 @@
         .LanceSettings_modal
             overflow: hidden
             transition: all 0.5s ease-in-out
-            height: 0
+            height: 30rem
 
-            &.Collapsed 
-                height: auto
+            .LanceSettings_modal_container
+                display: flex
+                justify-content: center
 
-        .Dropper 
+                .Filter
+                    font-size: 30px
+                    text-align: center
+                    padding-left: 20px
+                    padding-right: 20px
+                    align-items: center
+
+                    .Filter_content
+                        margin-top: 1rem
+                        display: flex
+                        justify-content: center
+
+                        .Filter_button
+                            min-height: 40px
+                            min-width: 40px
+                            padding: 5px
+                            border: 1px solid var(--filter-button-color)
+                            background: var(--fg)
+                            border-radius: 12px
+                            cursor: pointer
+                            transition: .2s all ease
+
+                            &:hover
+                                border-color: var(--color-a)
+
+                                svg
+                                    fill: var(--color-a)
+
+                            svg
+                                width: 100%
+                                height: 100%
+                                fill: #7d7d7d
+                                transition: .2s all ease
+                        .Filter_input
+                            color: var(--color)
+                            margin-left: 10px
+                            border: 1px solid var(--filter-button-color)
+                            background: var(--fg)
+                            outline: none
+                            padding: 6px 6px 6px 15px
+                            font-size: 16px
+                            border-radius: 8px
+
+                            &:focus
+                                border-color: var(--color-a)
+
+                            &:active
+                                border-color: var(--color-a)
+
+                    .Filter_line
+                        width: 20rem
+                        height: 2px
+                        background: var(--color)
+
+            &.Collapsed
+                height: 0px
+
+        .Dropper
             position: absolute
             top: 50%
             opacity: 0
@@ -177,59 +231,58 @@ $height: 100px
 
 .Loader
     margin-top: 4rem
-    display: flex 
-    justify-content: center 
+    display: flex
+    justify-content: center
     align-items: center
-
 
 .Click_container
     display: flex
     justify-content: center
     padding: 4rem 4rem 0rem 4rem
 
-    .Load_more 
+    .Load_more
         display: flex
-        justify-content: center 
+        justify-content: center
         align-items: center
 
-        &:hover 
-            svg 
+        &:hover
+            svg
                 fill: var(--color)
 
-        svg 
+        svg
             margin-right: .1rem
             transition: .2s all ease
             height: 26px
             fill: var(--bg)
-            
-@media(max-width: 1600px) 
-    .Home_section
-        .Section_content
-            .Content_content 
-                grid-template-columns: calc(20% - 2.5rem) calc(20% - 2.5rem) calc(20% - 2.5rem)  calc(20% - 2.5rem) calc(20% - 2.5rem) 
 
-@media(max-width: 1600px) 
+@media(max-width: 1600px)
     .Home_section
         .Section_content
-            .Content_content 
-                grid-template-columns: calc(25% - 2.2rem) calc(25% - 2.2rem) calc(25% - 2.2rem)  calc(25% - 2.2rem)
+            .Content_content
+                grid-template-columns: calc(20% - 2.5rem) calc(20% - 2.5rem) calc(20% - 2.5rem) calc(20% - 2.5rem) calc(20% - 2.5rem)
 
-@media(max-width: 1300px) 
+@media(max-width: 1600px)
     .Home_section
         .Section_content
-            .Content_content 
+            .Content_content
+                grid-template-columns: calc(25% - 2.2rem) calc(25% - 2.2rem) calc(25% - 2.2rem) calc(25% - 2.2rem)
+
+@media(max-width: 1300px)
+    .Home_section
+        .Section_content
+            .Content_content
                 grid-template-columns: calc(33.3333% - 2rem) calc(33.3333% - 2rem) calc(33.3333% - 2rem)
 
-@media(max-width: 1100px) 
+@media(max-width: 1100px)
     .Home_section
         .Section_content
-            .Content_content 
+            .Content_content
                 grid-template-columns: calc(50% - 1.5rem) calc(50% - 1.5rem)
 
 @media(max-width: 650px)
-    .Home_section 
-        .Section_starter 
-            
+    .Home_section
+        .Section_starter
+
             h1
                 font-size: 32px
                 font-weight: 600
@@ -242,16 +295,16 @@ $height: 100px
 
         .Search_section
 
-            .Search_field 
+            .Search_field
                 grid-template-columns: auto
                 display: grid
-                justify-content: center 
-            .Tool_container 
+                justify-content: center
+            .Tool_container
                 justify-content: center!important
 
-        .Section_content 
+        .Section_content
             padding-top: 100px
-            
+
             padding: 9rem 1rem 4rem 1rem
 
     .Click_container

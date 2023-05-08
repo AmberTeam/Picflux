@@ -290,33 +290,6 @@ const FilmPage: FC = () => {
                             }
                             ({film.year})
                         </h1>
-                        <div className={cl.Btns}>
-                            <AllowAuth>
-                                <button className={`${cl.Add_wread} ${isWLLoading ? cl.Loading : ""}`} onClick={() => changeWatchLater()}>
-                                    {
-                                        isWLLoading 
-                                            ?
-                                            <LoaderMini/>
-                                            :
-                                            isInWatchLater 
-                                                ? 
-                                                    <>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox='0 0 1793 1792'><path d="M1420 128q23 0 44 9 33 13 52.5 41t19.5 62v1289q0 34-19.5 62t-52.5 41q-19 8-44 8-48 0-83-32l-441-424-441 424q-36 33-83 33-23 0-44-9-33-13-52.5-41t-19.5-62V240q0-34 19.5-62t52.5-41q21-9 44-9h1048z"/></svg>
-                                                        <span>{translate("film.actions.watch_later_svd")}</span>
-                                                    </>
-                                                :
-                                                    <>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox='0 0 1793 1792'><path d="M1408 256H384v1242l423-406 89-85 89 85 423 406V256zm12-128q23 0 44 9 33 13 52.5 41t19.5 62v1289q0 34-19.5 62t-52.5 41q-19 8-44 8-48 0-83-32l-441-424-441 424q-36 33-83 33-23 0-44-9-33-13-52.5-41t-19.5-62V240q0-34 19.5-62t52.5-41q21-9 44-9h1048z"/>
-                                                        </svg>
-                                                        <span>{translate("film.actions.watch_later")}</span>
-                                                    </>
-                                    }
-                                </button>
-                            </AllowAuth>
-                            <a href="#frame" className={cl.Watch}>
-                               {translate("film.actions.watch")}
-                            </a>
-                        </div>
                         <div className={cl.Pager}>
                             <div className={cl.Pager_headers}>
                                 <div className={`${cl.Pager_segment} ${cl.Pager_segment1} ${descTab == 1 ? cl.Pager_descTab : cl.Pager_inactive}`}>
@@ -371,6 +344,30 @@ const FilmPage: FC = () => {
                                 }
                             </div>
                         </div>
+                        <div className={cl.Btns}>
+                            <AllowAuth>
+                                <button className={`${cl.Add_wread} ${isWLLoading ? cl.Loading : ""}`} onClick={() => changeWatchLater()}>
+                                    {
+                                        isWLLoading 
+                                            ?
+                                            <LoaderMini/>
+                                            :
+                                            isInWatchLater 
+                                                ? 
+                                                    <>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox='0 0 1793 1792'><path d="M1420 128q23 0 44 9 33 13 52.5 41t19.5 62v1289q0 34-19.5 62t-52.5 41q-19 8-44 8-48 0-83-32l-441-424-441 424q-36 33-83 33-23 0-44-9-33-13-52.5-41t-19.5-62V240q0-34 19.5-62t52.5-41q21-9 44-9h1048z"/></svg>
+                                                        <span>{translate("film.actions.watch_later_svd")}</span>
+                                                    </>
+                                                :
+                                                    <>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox='0 0 1793 1792'><path d="M1408 256H384v1242l423-406 89-85 89 85 423 406V256zm12-128q23 0 44 9 33 13 52.5 41t19.5 62v1289q0 34-19.5 62t-52.5 41q-19 8-44 8-48 0-83-32l-441-424-441 424q-36 33-83 33-23 0-44-9-33-13-52.5-41t-19.5-62V240q0-34 19.5-62t52.5-41q21-9 44-9h1048z"/>
+                                                        </svg>
+                                                        <span>{translate("film.actions.watch_later")}</span>
+                                                    </>
+                                    }
+                                </button>
+                            </AllowAuth>
+                        </div>
                     </div>
                 </div>
                 {
@@ -384,6 +381,8 @@ const FilmPage: FC = () => {
                         </div> 
                 }
             </div>
+            
+            
             <div className={cl.Bottom_inner}>
                 <div className={cl.Description}>
                     {
@@ -506,7 +505,7 @@ const FilmPage: FC = () => {
             </div>
             <AllowAuth>
                 <div className={cl.Rating_container}>
-                    <span className={cl.Txt}>{translate("film.actions.rate")}:</span>
+                    <span className={cl.Txt}>Rate the film / series:</span>
                     <RatingCounter handler={handleRating} force_rating={film.rated_value ? film.rated_value : undefined}/>
                 </div>
             </AllowAuth>

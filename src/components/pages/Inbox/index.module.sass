@@ -1,4 +1,4 @@
-.InboxPage_container 
+.InboxPage_container
     //display: grid
     display: flex
     height: 85vh
@@ -6,10 +6,9 @@
     //grid-template-columns: 40% calc(60% - 3rem)
     margin-bottom: 3rem
 
-    .Resizer 
+    .Resizer
         cursor: e-resize
-        width: 3px 
-
+        width: 3px
 
     .InboxPage_chatlist
         padding: 0 0 .5rem 0
@@ -30,7 +29,7 @@
             transition: .2s all ease
             padding: .5rem 1rem .5rem 1rem
             background: transparent
-            border: none 
+            border: none
             outline: none
             color: var(--color)
             width: 100%
@@ -41,73 +40,75 @@
             align-items: center
             user-select: none
 
-            &.Loading 
+            &.Loading
                 justify-content: center
 
             .ChatListItem_alerts
-                background: #ED4337 
+                background: #ED4337
                 width: 20px
-                height: 20px 
+                height: 20px
                 display: flex
-                justify-content: center 
+                justify-content: center
                 align-items: center
                 border-radius: 20px
                 font-size: 11px
 
-            &.Active 
+            &.Active
                 background: var(--bg)
                 pointer-events: none
-            
-            &:hover 
+
+            &:hover
                 background: var(--bg)
 
-            .ChatListItem_profile 
+            .ChatListItem_profile
                 display: flex
                 gap: .5rem
-            
+
                 .Avatar
                     .Profile_avatar
                         width: 44px
-                        height: 44px 
+                        height: 44px
                         border-radius: 44px
-                
-                .Content 
+
+                .Content
                     display: grid
                     justify-items: start
                     align-items: center
                     align-content: center
 
-                    .Profile_username 
+                    .Profile_username
                         font-style: italic
-                    
-                    .Profile_status 
+
+                    .Profile_status
                         color: rgba(255, 255, 255, .2)
                         font-size: 12px
-                        
-                        &.Active 
+
+                        &.Active
                             color: #78de45
                             font-weight: bold
 
-    .Chat_container 
+    .Chat_container
         margin-left: 3rem
         width: 100%
         min-width: 40%
-        background: var(--fg)
+        background: var(--bg)
+        border: 2px solid var(--fg)
         border-radius: 16px
+        overflow: hidden
         max-height: 85vh
 
-        &.Select 
-            display: flex 
+        &.Select
+            display: flex
             justify-content: center
             align-items: center
 
-        .Select_container 
-            display: grid 
-            gap: 1rem 
+        .Select_container
+            display: grid
+            gap: 1rem
             justify-items: center
             font-size: 12px
 
-            .SelectBtn 
+            .SelectBtn
                 color: var(--color)
                 border: none
                 font-family: 'Roobert'
@@ -116,24 +117,24 @@
                 cursor: pointer
                 padding: .4rem 1rem
                 opacity: .8
-                transition: .2s all ease 
+                transition: .2s all ease
 
-                &:hover 
+                &:hover
                     opacity: 1
 
-
-            svg 
+            svg
                 width: 32px
                 height: 32px
                 fill: var(--color)
 
-        .Chat_inner 
+        .Chat_inner
             display: grid
             align-content: space-between
             width: 100%
             height: 100%
 
-            .Chat_info 
+            .Chat_info
+                background: var(--fg)
                 padding: 1rem
                 display: flex
                 gap: .5rem
@@ -145,25 +146,25 @@
                     display: flex
                     gap: .5rem
                     align-items: center
-                    color: var(--color) 
+                    color: var(--color)
                     text-decoration: none
 
-                    .Typing_container 
-                        font-size: 11px 
-                        font-style: italic 
+                    .Typing_container
+                        font-size: 11px
+                        font-style: italic
                         font-weight: 700
-                        display: flex 
-                        align-items: center 
+                        display: flex
+                        align-items: center
                         gap: .2rem
                         opacity: 0
                         transition: .2s all ease
 
-                        &.Typing 
+                        &.Typing
                             opacity: 1
-                        .Txt 
+                        .Txt
                             color: #818281
 
-                        .Bubbles 
+                        .Bubbles
                             display: flex
                             justify-content: space-evenly
                             align-items: center
@@ -178,53 +179,46 @@
                                 background-color: #818281
                                 animation: bounce 1000ms infinite
 
-                            .Bubble:nth-of-type(2) 
+                            .Bubble:nth-of-type(2)
                                 animation-delay: 50ms
-                            
 
-                            .Bubble:nth-of-type(3) 
+                            .Bubble:nth-of-type(3)
                                 animation-delay: 100ms
-                        
 
-                            @keyframes bounce 
-                                0% 
+                            @keyframes bounce
+                                0%
                                     transform: translateY(0)
-                                
 
-                                20% 
+                                20%
                                     transform: translateY(-5px)
-                                
 
-                                40% 
+                                40%
                                     transform: translateY(0)
-                            
-                            
 
                     .Chat_username
-                        font-size: 18px 
+                        font-size: 18px
                         font-weight: bold
                         font-style: italic
 
                 .Info_params
                     height: 14px
-                    .Info_ref 
-                        background: transparent 
-                        border: none 
-                        cursor: pointer 
-                        outline: none 
-                        transition: .2s all ease 
+                    .Info_ref
+                        background: transparent
+                        border: none
+                        cursor: pointer
+                        outline: none
+                        transition: .2s all ease
 
-                        &:hover 
+                        &:hover
                             svg
                                 fill: var(--color-a)
 
-                        svg 
-                            fill: var(--color) 
-                            width: 16px 
+                        svg
+                            fill: var(--color)
+                            width: 16px
                             height: 16px
 
-        
-            .Chat_messages 
+            .Chat_messages
                 overflow: hidden
                 display: grid
                 align-content: space-between
@@ -238,11 +232,11 @@
                     padding-top: 1rem
 
                     .Loader
-                        width: 100% 
-                        display: flex 
-                        justify-content: center 
-                    
-                    .Loading_container 
+                        width: 100%
+                        display: flex
+                        justify-content: center
+
+                    .Loading_container
                         height: 72vh
                         display: grid
                         justify-content: center
@@ -252,61 +246,60 @@
                         gap: 1rem
                         font-size: 12px
 
-                    .Fragment_container 
+                    .Fragment_container
                         display: grid
                         gap: .5rem
                         border-top: 1px solid red
 
-                    .Message_container 
+                    .Message_container
                         width: 100%
-                        display: flex 
+                        display: flex
                         align-items: flex-end
                         gap: 5px
 
-                        .Message_avatar 
+                        .Message_avatar
                             width: 24px
                             height: 24px
                             border-radius: 24px
                             user-select: none
                             pointer-events: none
 
-                        .Message_payload 
+                        .Message_payload
                             max-width: 40%
-                            background: var(--color)
-                            color: var(--fg)
+                            background: var(--message-bg)
+                            color: var(--color)
                             word-break: break-word
                             display: grid
                             gap: .2rem
-                            padding: .5rem  .5rem .25rem .5rem
+                            padding: .5rem .5rem .25rem .5rem
 
                             .Reply_container
                                 display: grid
                                 grid-template-columns: 3px auto
                                 gap: .5rem
-                                background: var(--fg)
+                                background: var(--message-bg)
                                 border-radius: 5px
                                 color: var(--color)
                                 padding: 6px .5rem 6px 6px
 
-                                .Reply_spacer 
-                                    width: 3px 
-                                    height: 100% 
-                                    background: var(--color) 
+                                .Reply_spacer
+                                    width: 3px
+                                    height: 100%
+                                    background: var(--message-color)
                                     border-radius: 3px
 
-                                .Reply_content 
-                                    display: grid 
+                                .Reply_content
+                                    display: grid
                                     gap: .2rem
 
-                                    .Reply_username 
-                                        font-size: 14px 
+                                    .Reply_username
+                                        font-size: 14px
                                         font-style: italic
 
-                                    .Reply_payload 
-                                        font-size: 12px 
+                                    .Reply_payload
+                                        font-size: 12px
 
-
-                            //.Message_content 
+                            //.Message_content
                             //    padding: .5rem .2rem .5rem .5rem
 
                             .Message_info
@@ -314,150 +307,149 @@
                                 justify-content: flex-end
                                 //padding: .3rem .3rem .3rem 0
                                 .Info_seen
-                                    &.Default 
-                                        svg 
-                                            fill: #818281
+                                    &.Default
+                                        svg
+                                            fill: var(--message-color)
 
-                                    &.Active 
+                                    &.Active
                                         svg
                                             fill: var(--color-a)
                                             opacity: .7
 
-                                    svg 
-                                        display: block 
-                                        width: 13px 
+                                    svg
+                                        display: block
+                                        fill: var(--message-color)
+                                        width: 13px
                                         height: 13px
 
-                        &:hover 
-                            &.Default 
+                        &:hover
+                            &.Default
                                 .Message_actions
-                                    .Message_action 
+                                    .Message_action
                                         opacity: 1
                                         left: 0px
-                            
-                            &.Current 
+
+                            &.Current
                                 .Message_actions
-                                    .Message_action 
+                                    .Message_action
                                         opacity: 1
                                         left: -19px
 
                         .Message_actions
-                            height: 100% 
+                            height: 100%
                             align-items: center
                             padding: .5rem 0
-                            display: flex 
-                            position: relative 
+                            display: flex
+                            position: relative
 
                             .Message_action
                                 position: absolute
                                 left: 20px
-                                cursor: pointer 
-                                border: none 
-                                background: transparent 
+                                cursor: pointer
+                                border: none
+                                background: transparent
                                 transition: .1s all ease
                                 opacity: 0
 
-                                &.Active 
+                                &.Active
                                     .Ic
-                                        visibility: hidden 
+                                        visibility: hidden
                                         opacity: 0
                                         height: 0
 
                                     .Action_controller
                                         visibility: visible
 
-                                        .Action 
-                                            border: none 
-                                            outline: none 
+                                        .Action
+                                            border: none
+                                            outline: none
 
-                                            svg 
+                                            svg
                                                 opacity: 1
 
-                                &:hover 
+                                &:hover
                                     .Ic
                                         fill: var(--color)
-                                
-                                .Ic 
+
+                                .Ic
                                     transition: .2s all ease
                                     fill: #818281
-                                    width: 19px 
+                                    width: 19px
                                     height: 19px
-                                    
-                                .Action_controller 
+
+                                .Action_controller
                                     display: flex
                                     gap: 5px
-                                    width: 100% 
-                                    height: 100% 
-                                    align-items: center 
+                                    width: 100%
+                                    height: 100%
+                                    align-items: center
                                     visibility: hidden
                                     position: absolute
 
-                                    .Action 
+                                    .Action
                                         padding: .25rem
                                         background: transparent
                                         cursor: pointer
 
-                                        &:hover 
-                                            svg 
+                                        &:hover
+                                            svg
                                                 fill: var(--color)
 
-                                        svg 
+                                        svg
                                             opacity: 0
-                                            width: 16px 
+                                            width: 16px
                                             height: 16px
                                             fill: #818281
                                             transition: .2s all ease
 
-                        &.Default 
-                            
-                            .Message_actions 
-                                .Message_action 
-                                    left: -20px
+                        &.Default
 
+                            .Message_actions
+                                .Message_action
+                                    left: -20px
 
                             margin-right: auto
                             .Message_payload
-                                border-top-left-radius: 16px 
-                                border-top-right-radius: 16px 
-                                border-bottom-left-radius: 6px 
+                                border-top-left-radius: 16px
+                                border-top-right-radius: 16px
+                                border-bottom-left-radius: 6px
                                 border-bottom-right-radius: 16px
 
-                            .Message_info 
+                            .Message_info
                                 justify-content: flex-start
 
-                        &.Current 
-                            .Message_actions 
-                                .Message_action 
+                        &.Current
+                            .Message_actions
+                                .Message_action
                                     transform: rotateY(180deg)
                             flex-direction: row-reverse
-                            margin-left: auto 
+                            margin-left: auto
 
-                            .Message_payload 
-                                border-top-left-radius: 16px 
-                                border-top-right-radius: 16px 
-                                border-bottom-left-radius: 16px 
+                            .Message_payload
+                                border-top-left-radius: 16px
+                                border-top-right-radius: 16px
+                                border-bottom-left-radius: 16px
                                 border-bottom-right-radius: 6px
                                 flex-direction: row-reverse
 
                                 //.Message_info
                                 //    padding: .5rem 0 .3rem .5rem
 
-                                //.Message_content 
+                                //.Message_content
                                 //    padding: .5rem .5rem .5rem .2rem
 
-                        
-
-                    &::-webkit-scrollbar 
+                    &::-webkit-scrollbar
                         width: 3px
 
-                    &::-webkit-scrollbar-track 
+                    &::-webkit-scrollbar-track
                         background: transparent
-                    
-                    &::-webkit-scrollbar-thumb 
+
+                    &::-webkit-scrollbar-thumb
                         background: var(--color-a)
                         border-radius: 3px
-                
+
                 .Messages_form
+                    background: var(--fg)
                     display: grid
                     gap: .5rem
                     border-top: 1px solid var(--navigator-border)
@@ -470,86 +462,84 @@
                         grid-template-columns: 3px auto
                         gap: .5rem
 
-                        .ReplyState_spacer 
-                            width: 3px 
-                            height: 100% 
+                        .ReplyState_spacer
+                            width: 3px
+                            height: 100%
                             background: var(--color-a)
                             border-radius: 3px
                             margin-right: .5rem
 
-                        .ReplyState_content 
+                        .ReplyState_content
                             display: grid
                             gap: .2rem
 
-                            .ReplyState_username 
-                                display: flex 
+                            .ReplyState_username
+                                display: flex
                                 justify-content: space-between
-                                font-size: 14px 
+                                font-size: 14px
                                 font-style: italic
 
-                                .Exit_btn 
-                                    background: transparent 
-                                    border: none 
-                                    cursor: pointer 
+                                .Exit_btn
+                                    background: transparent
+                                    border: none
+                                    cursor: pointer
 
-                                    svg 
-                                        width: 17px 
-                                        height: 17px 
+                                    svg
+                                        width: 17px
+                                        height: 17px
                                         fill: var(--color)
 
                             .ReplyState_payload
-                                font-size: 12px 
-
+                                font-size: 12px
 
                     .Form_action
-                        display: flex 
+                        display: flex
                         gap: .5rem
                         width: 100%
 
-                        .Messages_input 
+                        .Messages_input
                             transition: .2s all ease
-                            background: transparent 
+                            background: transparent
                             width: 100%
                             border: none
-                            outline: none 
+                            outline: none
                             font-family: 'Roobert'
                             color: #818281
 
-                            &:focus 
+                            &:focus
                                 color: var(--color)
 
                         .Messages_submit
                             background: transparent
                             border: none
-                            outline: none 
+                            outline: none
                             cursor: pointer
-                        
-                            &:hover 
-                                .Ic 
+
+                            &:hover
+                                .Ic
                                     fill: var(--color)
 
-                            .Ic 
+                            .Ic
                                 transition: .2s all ease
                                 width: 16px
                                 fill: #818281
-                            
 
-@media(max-width: 1100px) 
-    .InboxPage_container 
+@media(max-width: 1100px)
+    .InboxPage_container
         padding: 0 1rem
 
         &.Adaptive
             .InboxPage_chatlist
                 width: 100%
 
-            .Chat_container 
+            .Chat_container
                 display: none
-    
+
         &.Adaptive_selected
 
             .InboxPage_chatlist
                 display: none
 
-            .Chat_container 
+            .Chat_container
                 width: 100%
                 margin-left: 0

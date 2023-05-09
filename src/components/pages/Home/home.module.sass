@@ -158,28 +158,30 @@
         .LanceSettings_modal
             overflow: hidden
             transition: all 0.5s ease-in-out
-            height: 30rem
 
             .LanceSettings_modal_container
-                display: flex
-                justify-content: center
+                display: grid
+                grid-template-columns: 25% 25% 25% 25%
+                gap: 2rem
+                border-bottom: 1px solid var(--mtd-col) 
+                padding-bottom: .9rem 
+                margin-bottom: 3rem
 
                 .Filter
-                    font-size: 30px
-                    text-align: center
-                    padding-left: 20px
-                    padding-right: 20px
-                    align-items: center
+                    display: grid
+                    gap: .90rem
+                    align-content: start
+                    font-size: 13px 
+                    font-weight: bold
+                    letter-spacing: 1px
 
                     .Filter_content
-                        margin-top: 1rem
-                        display: flex
-                        justify-content: center
-
+                        display: grid 
+                        gap: 1rem
+                        
                         .Filter_button
                             min-height: 40px
                             min-width: 40px
-                            padding: 5px
                             border: 1px solid var(--filter-button-color)
                             background: var(--fg)
                             border-radius: 12px
@@ -214,9 +216,9 @@
                                 border-color: var(--color-a)
 
                     .Filter_line
-                        width: 20rem
-                        height: 2px
-                        background: var(--color)
+                        background: var(--mtd-col)
+                        height: 1px 
+                        width: 100%
 
             &.Collapsed
                 height: 0px
@@ -273,11 +275,29 @@ $height: 100px
             .Content_content
                 grid-template-columns: calc(33.3333% - 2rem) calc(33.3333% - 2rem) calc(33.3333% - 2rem)
 
+            .LanceSettings_modal
+
+                .LanceSettings_modal_container
+                    grid-template-columns: 50% 50%
+                    border-bottom: 0px solid transparent
+                    padding-bottom: 0
+                    margin-bottom: 3rem
+
 @media(max-width: 1100px)
     .Home_section
         .Section_content
             .Content_content
                 grid-template-columns: calc(50% - 1.5rem) calc(50% - 1.5rem)
+@media(max-width: 800px) 
+    .Home_section
+        .Section_content
+            .LanceSettings_modal
+
+                .LanceSettings_modal_container
+                    grid-template-columns: auto
+                    border-bottom: 0px solid transparent
+                    padding-bottom: 0
+                    margin-bottom: 3rem
 
 @media(max-width: 650px)
     .Home_section

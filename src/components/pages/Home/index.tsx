@@ -121,7 +121,7 @@ const HomePage: FC = () => {
                 switch(data) {
                     case 'solely': 
                         var filtr_c_s:string[] = JSON.parse(localStorage.getItem('filtr_c_s') as string)
-                        if(!filtr_c_s.length || !filtr_c_s) {
+                        if(!filtr_c_s || !filtr_c_s.length) {
                             localStorage.setItem("filtr_c_s", JSON.stringify([]))
                             filtr_c_s = []
                         }
@@ -129,7 +129,7 @@ const HomePage: FC = () => {
                         break
                     case 'inclusive':
                         var filtr_c_i:string[] = JSON.parse(localStorage.getItem('filtr_c_i') as string)
-                        if(!filtr_c_i.length || !filtr_c_i) {
+                        if(!filtr_c_i || !filtr_c_i.length) {
                             localStorage.setItem("filtr_c_i", JSON.stringify([]))
                             filtr_c_i = []
                         }
@@ -293,167 +293,6 @@ const HomePage: FC = () => {
     
     return (
         <>
-            {
-                debugMode == 0
-                    &&
-                    <div className={cl.SD_container}>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                sq
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {searchQuery === "" ? "null" : searchQuery}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                films
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {films.length}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                page
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {page}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                load
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {loading ? "1" : "0"}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                cl
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {canLoad ? "1" : "0"}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                nf
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {notFound ? "1" : "0"}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                pm
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {paginateMethod}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                ft
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {dynamicLanceConfig.filtering_type}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                fl
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {dynamicLanceConfig.filtering.length}
-                            </div>
-                        </div>
-
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                dsrt
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {dynamicLanceConfig.datesrt}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                psrt_t
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {dynamicLanceConfig.psrt_t}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                psrt
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {dynamicLanceConfig.psrt}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                dlcrd
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {DLCReady ? "1" : "0"}
-                            </div>
-                        </div>
-                        <div className={cl.SD_data}>
-                            <div className={cl.SD_dataname}>
-                                vrd
-                            </div>
-                            <div className={cl.SD_separator}>
-                            |
-                            </div>
-                            <div className={cl.SD_datavalue}>
-                                {visualReady ? "1" : "0"}
-                            </div>
-                        </div>
-                    </div>
-            }
             <section className={cl.Home_section}>
                 <div className={cl.Section_starter}>
                     <h1>
@@ -504,27 +343,69 @@ const HomePage: FC = () => {
                     <div className={`${cl.LanceSettings_modal} ${cl.Collapsed}`} ref={listRef}>
                         <div className={cl.LanceSettings_modal_container}>
                         <div className={`${cl.Filter}`}>
-                            <p className={cl.Filter_header}>Year</p>
-                            <hr className={cl.Filter_line}></hr>
+                            <p className={cl.Filter_header}>YEAR</p>
+                            <div className={cl.Filter_line}></div>
                             <div className={cl.Filter_content}>
-                                <button className={cl.Filter_button} onClick={() => setSort()}>
-                                    {sortYear ? <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                                                <path d="M12.438 1.668V7H11.39V2.684h-.051l-1.211.859v-.969l1.262-.906h1.046z"/>
-                                                <path fill-rule="evenodd" d="M11.36 14.098c-1.137 0-1.708-.657-1.762-1.278h1.004c.058.223.343.45.773.45.824 0 1.164-.829 1.133-1.856h-.059c-.148.39-.57.742-1.261.742-.91 0-1.72-.613-1.72-1.758 0-1.148.848-1.835 1.973-1.835 1.09 0 2.063.636 2.063 2.687 0 1.867-.723 2.848-2.145 2.848zm.062-2.735c.504 0 .933-.336.933-.972 0-.633-.398-1.008-.94-1.008-.52 0-.927.375-.927 1 0 .64.418.98.934.98z"/>
-                                                <path d="M4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
-                                                </svg>
-                                                : <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M11.36 7.098c-1.137 0-1.708-.657-1.762-1.278h1.004c.058.223.343.45.773.45.824 0 1.164-.829 1.133-1.856h-.059c-.148.39-.57.742-1.261.742-.91 0-1.72-.613-1.72-1.758 0-1.148.848-1.836 1.973-1.836 1.09 0 2.063.637 2.063 2.688 0 1.867-.723 2.848-2.145 2.848zm.062-2.735c.504 0 .933-.336.933-.972 0-.633-.398-1.008-.94-1.008-.52 0-.927.375-.927 1 0 .64.418.98.934.98z"/>
-                                                    <path d="M12.438 8.668V14H11.39V9.684h-.051l-1.211.859v-.969l1.262-.906h1.046zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
-                                                </svg>}
-                                </button>
-                                <input className={cl.Filter_input} placeholder='Enter year'>
-                                </input>
+                                <BSelector 
+                                    selectors_required={1} 
+                                    disabled={dynamicLanceConfig.psrt !== 'without'}
+                                    dropdown={true}
+                                    variant='input'
+                                    deletable={false}
+                                    default={dynamicLanceConfig.datesrt === 'any' ? 1 : 0}
+                                    actions={
+                                        [
+                                            {content: translate("home.actions.fl_settings.fl_byear.actions.input_placeholder"), value: 'vale', variant: 'addition_init', addition_initvalue: dateSrt !== 'any' ? dateSrt : localStorage.getItem('_datesrt') as string, handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'})})},
+                                            {content: translate("home.actions.fl_settings.fl_byear.actions.without"), value: 'un', handler: (e: string) => writeLanceConfig('datesrt', e, (data: string) => {dynamicLanceConfig.datesrt && localStorage.setItem("_datesrt", dynamicLanceConfig.datesrt); setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'})})}
+                                        ]
+                                    }
+                                    action_c={(e: string) => {
+                                            writeLanceConfig('datesrt', e, (data: string) => setDLC({...dynamicLanceConfig, datesrt: data, action: 'lch'}))
+                                        }
+                                    }
+                                >
+                                    {translate("home.actions.fl_settings.fl_byear.title")}
+                                </BSelector>
+                                <BSelector 
+                                    selectors_required={1} 
+                                    dropdown={true}
+                                    deletable={true}
+                                    default={dynamicLanceConfig.psrt == 'without' ? 1 : 0}
+                                    exclude_value="without"
+                                    variant='select'
+                                    actions={
+                                        [
+                                            {content: translate("home.actions.fl_settings.psrt.actions.byd"), value: 'date', variant: 'addition_init'},
+                                            {content: translate("home.actions.fl_settings.psrt.actions.without"), value: "without"}
+                                        ]
+                                    }
+                                    default_additions={localStorage.getItem("psrt_t") == 'asc' ? 1 : 2}
+                                    additions={
+                                        [
+                                            {content: translate("home.actions.fl_settings.psrt.actions.asc"), value: 'asc'},
+                                            {content: translate("home.actions.fl_settings.psrt.actions.desc"), value: 'desc'}
+                                        ]
+                                    }
+                                    action_c_add={(value:any) => {
+                                        writeLanceConfig("psrt_t", value.map((val:any) => val.value), (data: any) => {
+                                            setPSrt(data.map((val:any) => val.value).join(" "))
+                                            setDLC({...dynamicLanceConfig, psrt_t: data.map((val:any) => val.value).join(" "), action: 'lch'})
+                                        }, value)
+                                    }}
+                                    action_c={(value: any) => {
+                                        writeLanceConfig("psrt", value.map((val:any) => val.value).join(" "), (data: any) => {
+                                            setPSrt(data.map((val:any) => val.value).join(" "))
+                                            setDLC({...dynamicLanceConfig, psrt: data.map((val:any) => val.value).join(" "), action: 'lch'})
+                                        }, value)
+                                    }}
+                                >
+                                    {translate("home.actions.fl_settings.psrt.title")}
+                            </BSelector>
                             </div>
                         </div>
                         <div className={`${cl.Filter}`}>
-                            <p>Genres</p>
-                            <hr className={cl.Filter_line}></hr>
+                            <p>GENRES</p>
+                            <div className={cl.Filter_line}></div>
                             <div className={cl.Filter_content}>
                                 <BSelector 
                                     selectors_required={27} 
@@ -564,6 +445,7 @@ const HomePage: FC = () => {
                                         ]
                                     } 
                                     action_c={(value: any) => {
+                                        console.log(dynamicLanceConfig.filtering_type)
                                         if(value !== undefined && value !== null && value.length) writeLanceConfig(dynamicLanceConfig.filtering_type === 'solely' ? "filtr_c_s" : "filtr_c_i", JSON.stringify(value), (data: any) => {
                                             setDLC({...dynamicLanceConfig, filtering: data, action: 'lch'})
                                         }, value)
@@ -575,8 +457,8 @@ const HomePage: FC = () => {
                             </div>
                         </div>
                         <div className={`${cl.Filter}`}>
-                            <p>Filter type</p>
-                            <hr className={cl.Filter_line}></hr>
+                            <p>FILTERING TYPE</p>
+                            <div className={cl.Filter_line}></div>
                             <div className={cl.Filter_content}>
                                 <BSelector 
                                     default={filteringType === 'solely' ? 0 : filteringType == 'without' ? 2 : 1}
@@ -604,8 +486,8 @@ const HomePage: FC = () => {
                             </div>
                         </div>
                         <div className={`${cl.Filter}`}>
-                            <p>Load method</p>
-                            <hr className={cl.Filter_line}></hr>
+                            <p>LOAD METHOD</p>
+                            <div className={cl.Filter_line}></div>
                             <div className={cl.Filter_content}>
                                 <BSelector
                                     default={paginateMethod && paginateMethod == 'click' ? 0 : 1}
@@ -623,29 +505,6 @@ const HomePage: FC = () => {
                                     }}
                                 >
                                     {translate("home.actions.fl_settings.pag_mtd.title")}
-                                </BSelector>
-                            </div>
-                        </div>
-                        <div className={`${cl.Filter}`}>
-                            <p>Debug mode</p>
-                            <hr className={cl.Filter_line}></hr>
-                            <div className={cl.Filter_content}>
-                                <BSelector 
-                                    selectors_required={1} 
-                                    dropdown={true}
-                                    deletable={false}
-                                    default={debugMode}
-                                    actions={
-                                        [
-                                            {content: 'On', value: '0'},
-                                            {content: 'Off', value: "1"}
-                                        ]
-                                    }
-                                    action_c={(value: any) => {
-                                        writeLanceConfig("debug_m", value[0].value, () => setDebugMode(value[0].value))
-                                    }}
-                                >
-                                    Debug mode
                                 </BSelector>
                             </div>
                         </div>

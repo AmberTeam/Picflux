@@ -35,6 +35,7 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
     const [dropdownActive, setDropdownActive] = useState<boolean>(false)
     const [additionActive, setAdditionActive] = useState<boolean>(false)
     const [additionVal, setAdditionVal] = useState<string>("")
+    const [additionStaticVal, setAdditioStaticVal] = useState<string>("")
 
     const prepareAdditonInit = (addition_initvalue: string) => {
         setAdditionActive(true)
@@ -104,6 +105,10 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
         updateArrCb([...arr, selector])
     }
 
+    const filterInput = (val:string) => {
+        return (/^\d*\.?\d*$/.test(val))
+    }
+
     useEffect(() => {
         if(props.restoreConfig) {
             setSelected([...props.restoreConfig])
@@ -135,17 +140,17 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
         }
     }, [])
 
+    useEffect(() => {
+        if(additionStaticVal.replaceAll(" ", "") === "") return undefined
+        const timid = setTimeout(() => {
+            props.action_c(additionStaticVal)
+        }, 700)
+
+        return () => clearTimeout(timid)
+    }, [additionStaticVal])
+
     return (
         <div className={`${cl.BrickSelector} ${props.disabled ? cl.Disabled : cl.Enabled} ${props.dropdown && cl.Dropdown_type}`}>
-            {/* <div className={cl.Selector_header} onClick={props.dropdown ? () => setDropdownActive(!dropdownActive) : () => null}>
-                <span>
-                    {props.children}
-                </span>
-                {props.dropdown && 
-                <button className={`${props.dropdown && cl.Dropdown_caret} ${dropdownActive && cl.Active}`}>
-                    <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z"/></svg>   
-                </button>}
-            </div> */}
             <div className={`${cl.Selector_body} ${props.dropdown && cl.Active}`}>
                 <div className={cl.Body_content}>
                     {
@@ -184,8 +189,10 @@ const BSelector: FC<IBSelectorProps> = ({...props}) => {
                     {variant === 'input' ?
                         additionActive && <input 
                             className={cl.Addition_input}
+                            type="number"
                             defaultValue={additionVal}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.action_c(e.target.value)}
+                            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => filterInput(e.key)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAdditioStaticVal(e.target.value)}
                         />
                         :
                         additionActive && props.additions?.map((action: IBrickAction) => {

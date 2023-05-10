@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@tsmx/object-hmac": "^1.1.3",
+    "amber-cinema": "file:..",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -31,6 +32,7 @@
     "node-telegram-login": "^2.0.0",
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
+    "pg": "^8.10.0",
     "random-id": "^1.0.4",
     "sqlite3": "^5.1.2",
     "translatte": "^3.0.1",

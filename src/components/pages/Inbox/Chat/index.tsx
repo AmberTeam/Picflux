@@ -75,6 +75,7 @@ const Chat:FC<ChatProps> = (props:ChatProps) => {
                         type,
                         refer
                     }
+                    setMessageBlank(msg_construct)
                     wsc.send('chatroom-event', {
                         chatid: props.config.chatid, 
                         payload: {

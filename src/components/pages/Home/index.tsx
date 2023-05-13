@@ -222,6 +222,7 @@ const HomePage: FC = () => {
 
             var psrt_t:string = localStorage.getItem("psrt_t")!
             if(psrt_t) {
+                
                 setPSrtT(psrt_t)
             } else {
                 localStorage.setItem('psrt_t', 'desc')
@@ -274,6 +275,14 @@ const HomePage: FC = () => {
     })
 
     useEffect(() => {
+        const tid = setTimeout(() => {
+            handleCustomSearchReq()
+        }, 500)
+
+        return () => clearTimeout(tid)
+    }, [searchQuery])
+
+    useEffect(() => {
         switch(dynamicLanceConfig.action) {
             case 'init': 
                 break 
@@ -314,7 +323,7 @@ const HomePage: FC = () => {
                         </div>
                         <form className={`${focused ? cl.Focused : ""} ${cl.Search_input}`} onSubmit={e => {
                             e.preventDefault()
-                            handleCustomSearchReq()
+                            //handleCustomSearchReq()
                         }}>
                             <input 
                                 id="search"

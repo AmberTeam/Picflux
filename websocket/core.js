@@ -181,7 +181,7 @@ class WebSocketCore {
                                 return this.broadcast_arrtype(this.chatService.chatrooms.find(cr => cr.chatid === data_p.data.chatid).members_a.filter(m => m.sid !== client.id).map(m => m.sid), 'chatroom-event', data_p.data.payload)
                         
                             default: 
-                                return this.chatService.chatroom_force_broadcast(data_p.data.chatid, 'chatroom-event', data_p.data.payload)
+                                return this.chatService.chatroom_force_broadcast_ex(data_p.data.chatid, client.uid, 'chatroom-event', data_p.data.payload)
                         }
                 }
             })

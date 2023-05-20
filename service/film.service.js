@@ -6,6 +6,8 @@ const jsdom = require("jsdom")
 const translatte = require('translatte');
 const {decode} = require("html-entities") 
 const {syncFilmEvent} = require("../websocket/index")
+const {checkTexts} = require("yandex-speller")
+const { removeStopwords, rus } = require('stopword')
 
 class FilmService {
 
@@ -79,7 +81,7 @@ class FilmService {
                         }
                     }
 
-                    const imdb_translate = {
+                    /*const imdb_translate = {
                         status: "ok", 
                         origin: null,
                         cr_origin: null,
@@ -207,11 +209,13 @@ class FilmService {
 
                                 
                         })
-                    })
+                    }) */
         
                     return resolve({
                         ...res_model,
-                        imdb_translate
+                        imdb_translate: {
+                            status: "err"
+                        }
                     })
                 } catch(e) {
                     console.error(e)
@@ -236,24 +240,161 @@ class FilmService {
         psrtt,
         uid
     ) {
-        return new Promise((resolve, reject) => {
-            DBAgent.db.all(DBAgent.formatSearchMethodStr(q, offs, lim, fl, flt, datesrt, psrt, psrtt), [], async (err, rows) => {
-                if(!rows) return resolve([])
-                const arr = [] 
-                var req_owner
-                if(uid) {
-                    req_owner = await UserModel.findById(uid)
+        //SPELL CHECK
+        const q_f = q.replaceAll(/[^a-zа-я0-9 ]/gi, ' ').split(" ").filter(el => el !== "")
+        const q_s = await new Promise((resolve, reject) => checkTexts(q_f, (err, data) => {
+            let q_s = []
+            if(err) {
+                console.error(err) 
+                throw ApiError.BadRequest(ApiError.econfig.bad_request)
+            }
+            data.map((el, i) => {
+                if(el.length > 0 && el[0] && el[0].s.length && el[0].s[0]) {
+                    if(el[0].s.length) return q_s.push(el[0].s[0].toLowerCase())
                 } 
-                rows.map((row) => {
-                    if(req_owner) row.watchLater = req_owner.watchLater
-                    row.players = JSON.parse(row.players)
-                    row.genres = JSON.parse(row.genres)
-                })
-                DBAgent.db.all(DBAgent.formatSearchMethodStr(q, String((Number(offs) + Number(lim))) , lim, fl, flt, datesrt, psrt, psrtt), [], async (err, _rows) => {
-                    if(_rows.length) return resolve({films: rows, can_load: true})
-                    else return resolve({films: rows, can_load: false})
+                q_s.push(q_f[i].toLowerCase())
+            })
+            return resolve(q_s)
+        }, {
+            lang: "ru"
+        }))
+        const q_s_cf = q_s.map(el => {
+            return {
+                data: el.split(""),
+                indeed: false
+            }
+        }) 
+        //CONSTRUCT SQL SCRIPT
+        var flt_construct=''
+        var psrt_construct=''
+        var namedef_construct=``
+        var free_search=q_s.length===0?` LIMIT ${offs}, ${lim}`:""
+        var free_s_prefix = q_s.length===0?` WHERE duration NOT LIKE "prefix" `:""
+        var req_f
+
+        if(q_s.length>1) for(var i=0;i<q_s.length;i++) {
+            switch(i) {
+                case 0: 
+                    namedef_construct+=` WHERE (lowerName LIKE "%${q_s[i]}%" `
+                    break
+                case q_s.length-1:
+                    namedef_construct+=`OR lowerName LIKE "%${q_s[i]}%") ` 
+                    break
+                default: 
+                    namedef_construct+=`OR lowerName LIKE "%${q_s[i]}%" `
+                    break
+            }
+        } 
+        else if(q_s.length===1) namedef_construct=` WHERE (lowerName LIKE "%${q_s[0]}%") `
+        
+        switch(flt) {
+            case "without": 
+                if(datesrt&&datesrt!=="any"&&psrt==="without") req_f = `SELECT * FROM films ${free_s_prefix}${namedef_construct} AND year = ${datesrt}${psrt_construct}${free_search}`
+                else req_f = `SELECT * FROM films ${namedef_construct}${psrt_construct}${free_search}`
+                break
+            default: 
+                for(var i=0;i<fl.length;i++) flt_construct=` AND genres${flt === 'solely' ? " NOT" : ""} LIKE '%${fl[i]}%'`
+                if(datesrt&&datesrt!=="any"&&psrt==="without") flt_construct+=` AND year = ${datesrt}`
+                req_f = `SELECT * FROM films ${free_s_prefix}${namedef_construct}${flt_construct}${psrt_construct}${free_search}`
+                break
+        }
+
+        return new Promise((resolve, reject) => {
+            DBAgent.db.all(req_f, [], (err, rows) => {
+                if(err) {
+                    console.error(err)
+                    return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                } 
+                //FILTER FILMS
+                if(free_search==="") {
+                    for(var a=0;a<rows.length;a++) {
+                        var name_sp = rows[a].name.replaceAll("-", " ").split(" ").map(ns => {
+                            return {
+                                c: ns,
+                                verified: false
+                            }
+                        })
+                        for(var q=0;q<q_s_cf.length;q++) q_s_cf[q].indeed = false 
+                        rows[a].i_p = { 
+                            //Is search word 
+                            issf: false,   
+                            issf_i: [],  
+                            i: 0, 
+                            inc_c: 0,
+                            strlen_qu: 0,   
+                            order_c: [] 
+                        } 
+                        for(var b=0;b<name_sp.length;b++) { 
+                            for(var c=0;c<q_s_cf.length;c++) {
+                                if(name_sp[b].c.toLowerCase()[0] === q_s_cf[c].data[0] && !q_s_cf[c].indeed && !name_sp[b].verified) { 
+                                    //TOTAL MATCHES 
+                                    var row_model = {
+                                        cert_word: c,   
+                                        word_index: b,
+                                        ias: c === b, 
+                                        inc_c: 0,
+                                        t_order: 0,   
+                                    }
+     
+                                    for(var d=1;d<q_s_cf[c].data.length;d++) {    
+                                        if(name_sp[b].c[d] === q_s_cf[c].data[d]) {
+                                            row_model.inc_c++ 
+                                            rows[a].i_p.inc_c++ 
+                                        }   
+                                    } 
+     
+                                    if(row_model.inc_c >= Math.trunc(q_s_cf[c].data.length / 2)) {
+                                        q_s_cf[c].indeed = true
+                                        name_sp[b].verified = true
+                                    }
+    
+     
+                                    rows[a].i_p.strlen_qu = name_sp.length === q_s_cf.length ? 1 : 0
+                                    rows[a].i_p.issf_i.push(row_model)
+                                    rows[a].i_p.order_c.push(name_sp[b].c.toLowerCase()[0])
+       
+                                    if(rows[a].i) {
+                                        rows[a].i += 1   
+                                    } else {  
+                                        rows[a].i = 2   
+                                    }  
+                                } 
+                            }
+                        }
+                    }  
+     
+                    //REDUCE FILMS 
+                    for(var a=0;a<rows.length;a++) { 
+                        for(var b=0;b<rows[a].i_p.issf_i.length;b++) { 
+                            if(rows[a].i_p.issf_i[b].ias) {
+                                rows[a].i_p.i++
+                            }  
+                        }   
+                    }      
+                    rows = rows.filter(row => row.i_p.issf_i.length > 0 && row.i_p.inc_c > 0)
+                        .sort((a, b) => a.i_p.i - b.i_p.i)
+                        .sort((a, b) => a.i_p.strlen_qu - b.i_p.strlen_qu) 
+                        .sort((a, b) => a.i_p.inc_c - b.i_p.inc_c)
+                        .sort((a, b) => a.i_p.t_order - b.i_p.t_order).reverse()
+                }
+    
+                rows.map((row) => {  
+                    row.players = JSON.parse(row.players) 
+                    row.genres = JSON.parse(row.genres)      
                 }) 
-            }) 
+                if(psrt==='date') {
+                    switch(psrtt) { 
+                        case 'asc':
+                            rows = rows.sort((a, b) => a.year - b.year)
+                            break
+                        case 'desc': 
+                            rows = rows.sort((a, b) => a.year - b.year).reverse()
+                            break
+                    }
+                }
+                if(free_search==="") resolve({films: rows.splice(offs, offs+lim), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}) 
+                else resolve({films: rows, can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}) 
+            })  
         })
     }
 

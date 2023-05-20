@@ -9,7 +9,7 @@ class FilmController {
             const {id} = req.params
             const filmData = await filmService.getById(id, req.user ? req.user.id : undefined, req.headers["accept-language"])
             return res.json(filmData)
-        } catch(e) {
+        } catch(e) { 
             next(e)
         }
     }
@@ -18,8 +18,8 @@ class FilmController {
         const {fl, flt, datesrt, psrt, psrt_t} = req.query
         const {limit, offset, query} = req.body
         const fl_arr = fl.split(" ").filter((fle) => fle !== "")
-        const psrt_frm = psrt.replaceAll('"', '').split(' ')
-        const fdatas = await filmService.search(query.replaceAll('"', '').toLowerCase(), offset, limit, fl_arr, flt, datesrt, psrt_frm, psrt_t, req.user ? req.user.id : undefined)
+        const psrt_f = psrt.replaceAll('"', '')
+        const fdatas = await filmService.search(query, Number(offset), Number(limit), fl_arr, flt, datesrt, psrt_f, psrt_t, req.user ? req.user.id : undefined)
         return res.json(fdatas)
     }
 

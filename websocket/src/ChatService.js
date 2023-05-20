@@ -28,6 +28,16 @@ class FilmService {
         }
     }
 
+    chatroom_force_broadcast_ex(chatid, ex, event, pyaload) {
+        for(var i=0;i<this.chatrooms.length;i++) { 
+            if(this.chatrooms[i].chatid === chatid) {
+                for(var _i=0;_i<this.chatrooms[i].members.length;_i++) {
+                    if(this.chatrooms[i].members[_i] !== ex) this.core.emit_proaccess('uid', this.chatrooms[i].members[_i], event, payload)
+                }
+            }
+        }
+    }
+
     chatroom_force_broadcast(chatid, event, payload) { 
         for(var i=0;i<this.chatrooms.length;i++) { 
             if(this.chatrooms[i].chatid === chatid) {

@@ -35,9 +35,11 @@
     "pg": "^8.10.0",
     "random-id": "^1.0.4",
     "sqlite3": "^5.1.2",
+    "stopword": "^2.0.8",
     "translatte": "^3.0.1",
     "uuid": "^9.0.0",
     "websocket": "^1.0.34",
-    "ws": "^8.11.0"
+    "ws": "^8.11.0",
+    "yandex-speller": "^4.1.0"
   }
 }

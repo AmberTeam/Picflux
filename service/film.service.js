@@ -268,7 +268,7 @@ class FilmService {
         var flt_construct=''
         var psrt_construct=''
         var namedef_construct=``
-        var free_search=q_s.length===0?` LIMIT ${offs}, ${lim}`:""
+        var free_search=q_s.length===0?` ${psrt==='date' ? `ORDER BY year ${psrtt} `:''}LIMIT ${offs}, ${lim}`:""
         var free_s_prefix = q_s.length===0?` WHERE duration NOT LIKE "prefix" `:""
         var req_f
 
@@ -284,7 +284,7 @@ class FilmService {
                     namedef_construct+=`OR lowerName LIKE "%${q_s[i]}%" `
                     break
             }
-        } 
+        }  
         else if(q_s.length===1) namedef_construct=` WHERE (lowerName LIKE "%${q_s[0]}%") `
         
         switch(flt) {
@@ -300,7 +300,7 @@ class FilmService {
         }
 
         return new Promise((resolve, reject) => {
-            DBAgent.db.all(req_f, [], (err, rows) => {
+            DBAgent.db.all(req_f, [], async (err, rows) => {
                 if(err) {
                     console.error(err)
                     return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
@@ -376,31 +376,43 @@ class FilmService {
                         .sort((a, b) => a.i_p.strlen_qu - b.i_p.strlen_qu) 
                         .sort((a, b) => a.i_p.inc_c - b.i_p.inc_c)
                         .sort((a, b) => a.i_p.t_order - b.i_p.t_order).reverse()
+
+                    if(psrt==='date') {
+                        switch(psrtt) { 
+                            case 'asc':
+                                rows = rows.sort((a, b) => a.year - b.year)
+                                break
+                            case 'desc': 
+                                rows = rows.sort((a, b) => a.year - b.year).reverse()
+                                break
+                        }
+                    }
                 }
     
                 rows.map((row) => {  
                     row.players = JSON.parse(row.players) 
                     row.genres = JSON.parse(row.genres)      
                 }) 
-                if(psrt==='date') {
-                    switch(psrtt) { 
-                        case 'asc':
-                            rows = rows.sort((a, b) => a.year - b.year)
-                            break
-                        case 'desc': 
-                            rows = rows.sort((a, b) => a.year - b.year).reverse()
-                            break
-                    }
+                if(free_search==="") resolve({films: rows.slice(offs, offs+lim), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}) 
+                else {
+                    await new Promise((r, j) => {
+                        DBAgent.db.all(req_f, [], (err, _rows) => {
+                            if(err) {
+                                console.error(err)
+                                return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
+                            } 
+
+                            resolve({films: rows, can_load: _rows.length>0}) 
+                        })
+                    })
                 }
-                if(free_search==="") resolve({films: rows.splice(offs, offs+lim), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}) 
-                else resolve({films: rows, can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}) 
-            })  
+            })   
         })
     }
 
     async removeWillReadFilm(userid, fid) {
         try {
-            const user = await UserModel.findById(userid)
+            const user = await UserModel.findById(userid) 
             user.watchLater.remove(fid)
             await user.save() 
             return {status: "ok"}    

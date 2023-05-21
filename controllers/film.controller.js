@@ -17,8 +17,8 @@ class FilmController {
     async search(req, res) {
         const {fl, flt, datesrt, psrt, psrt_t} = req.query
         const {limit, offset, query} = req.body
-        const fl_arr = fl.split(" ").filter((fle) => fle !== "")
-        const psrt_f = psrt.replaceAll('"', '')
+        const fl_arr = fl ? fl.split(" ").filter((fle) => fle !== "") : []
+        const psrt_f = psrt ? psrt.replaceAll('"', '') : "without"
         const fdatas = await filmService.search(query, Number(offset), Number(limit), fl_arr, flt, datesrt, psrt_f, psrt_t, req.user ? req.user.id : undefined)
         return res.json(fdatas)
     }
@@ -32,7 +32,7 @@ class FilmController {
         }
     }
 
-    async removeWillReadFilm(req, res, next) {
+    async removeWillReadFilm(req, res, next) {s
         try {
             const response = await filmService.removeWillReadFilm(req.user.id, req.body.id)
             return res.json(response)

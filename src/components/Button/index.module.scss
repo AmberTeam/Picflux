@@ -1,0 +1,30 @@
+.button {
+  padding: 0.8rem 2rem;
+  border-radius: 100px;
+  font-family: Roobert;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &.filled-button {
+    background-color: var(--color);
+    color: var(--fg);
+    border: 2px solid var(--color);
+    @media(hover: hover) {
+      &:hover {
+        background-color: transparent;
+        color: var(--color);
+      }
+    }
+  }
+  &.empty-button {
+    background-color: transparent;
+    border: 2px solid var(--color-a);
+    color: var(--color-a);
+    @media(hover: hover) {
+      &:hover {
+        background-color: var(--color-a);
+        color: var(--bg);
+      }
+    }
+  }
+}

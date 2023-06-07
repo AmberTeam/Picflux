@@ -1,0 +1,13 @@
+@import "../../sass/var.scss";
+
+.languages-container {
+    display: flex;
+    gap: .5rem;
+    .language-icon {
+        cursor: pointer;
+        opacity: .3;
+        &.active {
+            opacity: 1;
+        }
+    }
+}

@@ -1,0 +1,178 @@
+.profile-section {
+    position: relative;
+    margin-top: 6rem;
+
+    .avatar {
+        position: absolute;
+        left: calc(50% - 64px);
+        top: -64px;
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+    }
+
+    .profile-content {
+        background: var(--fg);
+        min-height: 100vh;
+        padding: 5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        .user-information {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .username {
+                margin-top: 1rem;
+                text-align: center;
+                font-size: 30px;
+            }
+
+            .user-statistics {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 1rem;
+
+                .statistic {
+                    display: grid;
+                    text-align: center;
+                    padding: 0 1rem;
+                    border-right: 2px solid rgb(247.5, 156, 71.5);
+
+                    &:last-child {
+                        border-right: none;
+                    }
+
+                    .statistic-name {
+                        font-size: 10px;
+                    }
+
+                    .statistic-value {
+                        font-size: 1.125rem;
+                    }
+
+                    .status {
+                        &.active {
+                            color: #2ae127;
+                        }
+                    }
+                }
+            }
+
+            .profile-biography {
+                text-align: center;
+            }
+
+            .profile-actions {
+                display: flex;
+                gap: .5rem;
+                justify-content: center;
+
+                .action-button {
+                    text-decoration: none;
+                    user-select: none;
+                    display: flex;
+                    gap: .3rem;
+                    border: 2px solid var(--profile-btn-color);
+                    background: var(--profile-btn-bg);
+                    padding: .6rem 1.5rem;
+                    font-family: 'Roobert';
+                    border-radius: 100px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    transition: .2s all ease;
+                    font-weight: bold;
+                    color: var(--profile-btn-color);
+
+                    .action-button-icon {
+                        fill: var(--profile-btn-color);
+                        transition: .2s all ease;
+                    }
+
+                    &.Loading {
+                        background: var(--bg);
+                        color: var(--color);
+                    }
+
+                    @media (hover: hover) {
+                        &:hover {
+                            background: var(--profile-btn-color);
+                            color: var(--profile-btn-bg);
+
+                            svg {
+                                fill: var(--profile-btn-bg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .user-interactions {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            .tabs {
+                display: flex;
+                gap: 2.5rem;
+                border-bottom: 2px solid var(--profile-tabs-border);
+
+                .tab {
+                    text-transform: capitalize;
+                    font-size: 1rem;
+                    color: var(--profile-tabs-tab);
+                    background: transparent;
+                    border: none;
+                    font-family: 'Roobert';
+                    font-weight: bold;
+                    padding: .7;
+                    transition: .2s all ease;
+                    cursor: pointer;
+                    padding-bottom: 10px;
+                    border-bottom: 2px solid transparent;
+                    transform: translateY(2px);
+
+                    &.Active {
+                        color: var(--color-a);
+                        border-bottom: 2px solid var(--color-a);
+                    }
+                }
+            }
+
+            .tab-content {
+                margin-top: 3rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 1500px) {
+    .profile-section {
+        .profile-content {
+            .user-interactions {
+                .WL_section {
+                    .WL_container {
+                        grid-template-columns: 50% 50%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .profile-section {
+        .profile-content {
+            padding: 4rem 0 1rem 0;
+
+            .user-interactions {
+                .tab-content {
+                    margin-top: 1rem;
+                }
+            }
+        }
+    }
+}

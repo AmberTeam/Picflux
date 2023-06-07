@@ -1,0 +1,32 @@
+.films-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    margin: 0 auto;
+}
+
+.not-found-container {
+    margin-top: 80.5px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    .not-found-icon {
+        width: 50px;
+    }
+}
+
+@media (max-width: 1300px) {
+    .films-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .films-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}

@@ -1,0 +1,92 @@
+@font-face {
+    font-family: Roobert;
+    src: url("./utils/Roobert-Regular.ttf");
+}
+
+@font-face {
+    font-family: "GT America Mono";
+    src: url("./utils/GT-America-Regular.ttf");
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    background: var(--bg);
+    color: var(--color);
+}
+
+img {
+    display: block;
+}
+
+.container {
+    width: calc(100vw - 8rem);
+    @media (max-width: 600px) {
+        width: calc(100vw - 2rem);
+    }
+}
+
+body {
+    font-family: Roobert;
+    color: var(--color);
+    overflow-x: hidden;
+}
+
+.button {
+    height: 2.875rem;
+    padding: 0 1.125rem;
+    border-radius: 100px;
+    border: 2px solid var(--color);
+    font-weight: bold;
+    font-family: 'Roobert';
+    background: var(--color);
+    color: var(--bg);
+    cursor: pointer;
+    transition: .2s all ease;
+}
+
+@media (hover: hover) {
+    .button:hover {
+        background: transparent;
+        color: var(--color);
+    }
+}
+
+.a_col {
+    background: linear-gradient(90deg, rgba(240, 168, 50, 1) 0%, rgba(255, 144, 93, 1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-stop {
+    stop-color: rgba(240, 168, 50, 1);
+}
+
+.alt-stop {
+    stop-color: var(--color-a);
+}
+
+.section_cls {
+    height: 100vh;
+}
+
+.box {
+    width: 300px;
+}
+
+.box h1 {
+    font-size: 20px;
+    margin: 0 0 1rem 0;
+}
+
+.flex {
+    display: flex;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

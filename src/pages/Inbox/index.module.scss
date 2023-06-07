@@ -1,0 +1,19 @@
+.inbox-page-container {
+  display: flex;
+  height: 85vh;
+  margin: 0 auto 3rem auto;
+  gap: 3rem;
+  position: relative;
+  .contacts-container {
+    padding: 0 0 .5rem 0;
+    min-width: 30%;
+    background: var(--fg);
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+    align-content: start;
+    @media (max-width: 900px) {
+      width: 100%;
+    }
+  }
+}

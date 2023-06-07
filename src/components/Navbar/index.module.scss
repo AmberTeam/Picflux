@@ -1,0 +1,88 @@
+.navbar {
+    transition: .2s all ease;
+    display: grid;
+    grid-template-columns: 1fr 70% 1fr;
+    height: 61px;
+    margin: 0 auto 1.5rem auto;
+    .amber {
+        display: flex;
+        align-items: flex-end;
+
+        .icon {
+            margin-right: .3rem;
+        }
+
+        .name {
+            font-weight: 400;
+            font-size: 20px;
+        }
+    }
+
+    .opts {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+
+        a {
+            .amber-logo {
+                width: 40px;
+                transition: .2s all ease;
+                opacity: .7;
+                cursor: pointer;
+
+                @media(hover: hover) {
+                    &:hover {
+                        opacity: 1;
+                        filter: drop-shadow(0 0.7rem 1.25rem #fce38991);
+                    }
+                }
+            }
+        }
+    }
+
+    .hamburger-menu-container {
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+
+        .hamburger-menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+
+            .hamburger-menu-icon {
+                fill: var(--color);
+                overflow: visible;
+
+                path {
+                    transition: 0.2s transform ease;
+                }
+
+                @media(hover: hover) {
+                    &:hover {
+                        path:nth-child(odd) {
+                            transform: translateX(-5px);
+                        }
+
+                        path:nth-child(even) {
+                            transform: translateX(5px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 1100px) {
+    .navbar {
+        grid-template-columns: 1fr 1fr;
+
+        .opts {
+            display: none;
+        }
+    }
+}

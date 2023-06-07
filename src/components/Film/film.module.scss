@@ -1,0 +1,110 @@
+.container {
+  position: relative;
+  min-height: 500px;
+}
+
+.film-container {
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: top 0.2s ease;
+  @media(hover: hover) {
+    &:hover {
+      border-color: var(--color-a);
+      top: calc(-25.59px - 1rem);
+      .film-poster-container {
+        .blurer {
+          opacity: 1;
+        }
+      }
+      .film-body {
+        .buttons-container {
+          height: 2rem;
+        }
+      }
+    }
+  }
+  .film-poster-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    cursor: pointer;
+    .blurer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .film-poster {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .film-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .film-information {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 18px;
+      .film-details {
+        color: #a6a6a6;
+        font-size: 12px;
+      }
+    }
+    .buttons-container {
+      margin-left: 1rem;
+      transition: height 0.2s ease;
+      display: flex;
+      gap: 0.5rem;
+      height: 0;
+      overflow: hidden;
+      align-items: center;
+      @media (max-width: 600px) {
+        display: none;
+      }
+      .button {
+        text-decoration: none;
+        color: var(--bg);
+        background-color: var(--color);
+        border: none;
+        cursor: pointer;
+        padding: 0.3rem 0.4rem;
+        font-size: 0.75rem;
+        text-align: center;
+        border-radius: 1rem;
+        font-weight: 400;
+        font-family: Roobert;
+      }
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .film-container {
+    .film-body {
+      .film-information {
+        font-size: 15px;
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+enum Genre {
+  Horror = "ужасы",
+  Drama = "драма",
+  Comedy = "комедия",
+  Thriller = "триллер",
+  Crime = "криминал",
+  Action = "боевик",
+  Fantasy = "фэнтези",
+  Science = "наука",
+  Cartoon = "мультфильм",
+  Biography = "биография",
+  Sport = "спорт",
+  Family = "семейный",
+  Serial  = "сериал",
+  ShortFilm = "короткометражка",
+  Arthouse = "артхаус",
+  NewYear = "новогодний",
+  Adventures = "приключения",
+  Melodrama = "мелодрама",
+  Western = "вестерн",
+  Military = "военный",
+  Documentary = "документальный",
+  Historical = "история",
+  Anime = "аниме",
+  Musical = "мюзикл",
+  Detective = "детектив",
+  Fantastic = "фантастика",
+  Catastrophe = "катастрофа",
+  Music = "музыка"
+}
+
+export default Genre

@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios"
 import $api from "../http"
-import { IChat, IInbox } from "../models/IDirect"
-import { ISeverMessage } from "../models/IMessage"
+import { IChat, IInbox } from "../interfaces/IDirect"
+import { IServerMessage } from "../interfaces/IMessage"
 
 export interface IServerResponse {
     status: string
@@ -9,17 +9,17 @@ export interface IServerResponse {
 
 export default class InboxService {
     static async getUserInbox(): Promise<AxiosResponse<IInbox>> {
-        return $api.get<IInbox>('/chatapi/user/inbox')
+        return $api.get<IInbox>("/chatapi/user/inbox")
     }
 
-    static async createChat(members:string[]): Promise<AxiosResponse<IChat>> {
-        return $api.post<IChat>('/chatapi/create/chatroom', {
+    static async createChat(members: string[]): Promise<AxiosResponse<IChat>> {
+        return $api.post<IChat>("/chatapi/create/chatroom", {
             members: JSON.stringify(members)
         })
     }
 
-    static async getChatHistory(chatid:string, offset:number, limit:number): Promise<AxiosResponse<any | IChat[]>> {
-        return $api.get<any | IChat[]>('/chatapi/history?chatid=' + chatid, {
+    static async getChatHistory(chatid: string, offset: number, limit: number): Promise<AxiosResponse<any | IChat[]>> {
+        return $api.get<any | IChat[]>("/chatapi/history?chatid=" + chatid, {
             params: {
                 offset,
                 limit
@@ -27,27 +27,27 @@ export default class InboxService {
         })
     }
 
-    static async deleteMsg(chatid:string, mid:string): Promise<AxiosResponse<IServerResponse>> {
-        return $api.post<IServerResponse>('/chatapi/delete/msg', {
-            chatid, 
+    static async deleteMsg(chatid: string, mid: string): Promise<AxiosResponse<IServerResponse>> {
+        return $api.post<IServerResponse>("/chatapi/delete/msg", {
+            chatid,
             mid
         })
     }
 
-    static async editMsg(chatid:string, mid:string, payload:string): Promise<AxiosResponse<IServerResponse>> {
-        return $api.post<IServerResponse>('/chatapi/edit/msg', {
-            chatid, 
+    static async editMsg(chatid: string, mid: string, payload: string): Promise<AxiosResponse<IServerResponse>> {
+        return $api.post<IServerResponse>("/chatapi/edit/msg", {
+            chatid,
             mid,
             payload
         })
     }
 
-    static async storeMsg(msg:ISeverMessage): Promise<AxiosResponse<any>> {
-        return $api.post<any>('/chatapi/create/msg', {
+    static async storeMsg(msg: IServerMessage): Promise<AxiosResponse<any>> {
+        return $api.post<any>("/chatapi/create/msg", {
             ...msg
         })
     }
-    static async updateSeen(chatid:string, messages:string): Promise<AxiosResponse<any>> {
+    static async updateSeen(chatid: string, messages: string): Promise<AxiosResponse<any>> {
         return $api.post<any>(`/chatapi/${chatid}/seen`, {
             messages,
         })

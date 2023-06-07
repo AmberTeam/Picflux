@@ -1,0 +1,23 @@
+.brick-button {
+  padding: 0.5rem;
+  border: 1px solid var(--mtd-col);
+  border-radius: 6px;
+  background: none;
+  color: var(--mtd-col);
+  cursor: pointer;
+  transition: all .2s ease;
+  text-transform: capitalize;
+  opacity: 0.7;
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-a);
+      color: var(--color-a);
+    }
+  }
+  &.selected {
+    opacity: 1;
+    background-color: rgba(240, 168, 50, 0.3);
+    border-color: var(--color-a);
+    color: var(--color-a);
+  }
+}

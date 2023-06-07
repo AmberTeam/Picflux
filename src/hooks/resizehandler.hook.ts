@@ -5,9 +5,9 @@ export const useResizeHandler = (callback: (width: number, height: number) => vo
     const handleResize = (e: any) => callback(window.innerWidth, window.innerHeight)
     
     useEffect(() => {
-        window.addEventListener('resize', handleResize)
+        window.addEventListener("resize", handleResize)
 
-        return window.removeEventListener('resize', handleResize)
+        return window.removeEventListener("resize", handleResize)
     })
 
     return {handleResize}

@@ -2,8 +2,8 @@
     "packet_name": "en-EN",
     "g": {
         "statuses": {
-            "online": "online",
-            "offline": "offline"
+            "online": "Online",
+            "offline": "Offline"
         },
         "error": {
             "x1": "Unknown error. Please check that the data you entered is correct.",
@@ -45,7 +45,7 @@
         },
         "action": {
             "sure": "Continue",
-            "exit": "No, Exit",
+            "exit": "No, exit",
             "save": "Save all my personal data.",
             "delete": "Delete all my personal data."
         }
@@ -95,9 +95,9 @@
     "home": { 
         "title": {
             "big": {
-                "fst": "Choose what you will ",
-                "sec": "watch ",
-                "thrd": " today"
+                "fst": "Choose what you will",
+                "sec": "Watch",
+                "thrd": "Today"
             },
             "small": "And discover our world with satisfaction"
         },
@@ -127,7 +127,7 @@
                         "serial": "Serial",
                         "short_film": "Short film",
                         "arthouse": "Arthouse",
-                        "new_year": "New Year",
+                        "new_year": "New year",
                         "adventures": "Adventures",
                         "melodrama": "Melodrama",
                         "western": "Western",
@@ -139,8 +139,7 @@
                         "detective": "Detective",
                         "fantastic": "Fantastic",
                         "catastrophe": "Catastrophe",
-                        "music": "Music",
-                        "science_fiction": "Science fiction"
+                        "music": "Music"
                     }
                 },
                 "fl_type": {
@@ -185,7 +184,8 @@
             "watch_later": "Watch later",
             "remove": "Remove",
             "watch": "Watch now",
-            "rate": "Rate the video track"
+            "rate": "Rate the video track",
+            "rate_film": "Rate the film / series"
         },
         "comments": {
             "placeholder": {
@@ -197,7 +197,7 @@
         },
         "info": {
             "header": {
-                "overwiev": "Overwiev",
+                "overview": "Overview",
                 "reviews": "Reviews"
             },
             "main": {
@@ -233,7 +233,7 @@
             },
             "wam": "Write a message...",
             "em": "Edit message",
-            "typ": "typing",
+            "typ": "Typing",
             "nmsgs": "No messages...",
             "lch": "Loading chat history", 
             "message": {
@@ -256,16 +256,16 @@
         "loading": "Loading user data...",
         "intro": {
             "stats": {
-                "fr": "friends", 
-                "id": "identity", 
-                "stat": "status"
+                "fr": "Friends", 
+                "id": "Identity", 
+                "stat": "Status"
             },
             "actions": {
-                "sub": "subscribe",
-                "uns": "unsubscribe",
-                "sh": "share",
-                "send": "write",
-                "ed": "edit"
+                "sub": "Subscribe",
+                "uns": "Unsubscribe",
+                "sh": "Share",
+                "send": "Write",
+                "ed": "Edit"
             }
         },
         "tabs": {
@@ -275,7 +275,7 @@
         },
         "edit": {
             "title": "Edit profile",
-            "submit": "confirm",
+            "submit": "Confirm",
             "usn_e": "Enter new username",
             "usn": "Username",
             "bio": "Bio",
@@ -291,8 +291,8 @@
             },
             "2": {
                 "I": "Inspiration", 
-                "AU": "About us",
-                "WIS": "What is this ?"
+                "AU": "About Us",
+                "WIS": "What is this?"
             }, 
             "3": {
                 "account": "Account",
@@ -301,12 +301,12 @@
             }
         },
         "bottom": {
-            "logout": "logout"
+            "logout": "Logout"
         }
     },
     "time_viz": {
-        "hour": "hour(s) ago",
-        "min": "minute(s) ago",
+        "hour": "Hour(s) ago",
+        "min": "Minute(s) ago",
         "rnow": "Right now"
     }
 }

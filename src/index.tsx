@@ -1,30 +1,31 @@
 
-import React, { createContext } from 'react';
-import ReactDOM from "react-dom/client";
-import App from './App';
-import Store from "./store/store";
-import WebSocketController from './websocket/websocket';
+import { createContext } from "react"
+import ReactDOM from "react-dom/client"
+import App from "./App"
+import WebSocketController from "./websocket/websocket"
 
 interface State {
-    store: Store,
-    wsc:WebSocketController
+    wsc: WebSocketController
 }
 
-export const store = new Store();
 export const wsc = new WebSocketController()
 
 export const Context = createContext<State>({
-    store,
     wsc
 })
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const rootElement = document.getElementById("root")
+
+if(!("ontouchstart" in window)) {
+    rootElement?.classList.add("hover")    
+}
+
+const root = ReactDOM.createRoot(rootElement as HTMLElement)
 
 root.render(
     <Context.Provider value={{
-        store,
-        wsc
+        wsc: wsc
     }}>
         <App/>
     </Context.Provider>
-);
+)

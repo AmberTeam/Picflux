@@ -1,0 +1,47 @@
+.inbox-alert-container {
+    width: 100%;
+    display: grid;
+    gap: .5rem;
+    border-bottom: 1px solid var(--navigator-border);
+    padding: 1rem 0;
+
+    @media(hover: hover) {
+        &:hover {
+            .inbox-alert-intro {
+                .inbox-alert-time {
+                    color: var(--color-a);
+                }
+            }
+        }
+    }
+
+    .inbox-alert-intro {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem;
+
+        .inbox-alert-content {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+
+            .inbox-alert-avatar {
+                width: 24px;
+                height: 24px;
+                border-radius: 100px;
+            }
+
+            .inbox-alert-username {
+                font-size: 12px;
+                font-style: italic;
+            }
+        }
+
+        .inbox-alert-time {
+            transition: .2s all ease;
+            font-size: 10px;
+            color: var(--navigator-border);
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.modal-container {
+    background: rgba(0, 0, 0, .2);
+    backdrop-filter: blur(6px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    transition: .2s all linear;
+    visibility: visible;
+    z-index: 1001;
+    &.inactive {
+        visibility: hidden;
+        opacity: 0;
+    }
+    .modal {
+        transform: translateY(-200%);
+        transition: transform 0.2s ease;
+        &.active {
+            transform: translateY(0);
+        }
+    }
+}

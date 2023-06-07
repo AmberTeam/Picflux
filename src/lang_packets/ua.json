@@ -196,8 +196,7 @@
                   "detective": "Детектив",
                   "fantastic": "Фантастика",
                   "catastrophe": "Катастрофа",
-                  "music": "Музика",
-                  "science_fiction": "Наукова фантастика"
+                  "music": "Музика"
                 }
             },
             "fl_type": {
@@ -243,7 +242,8 @@
         "watch_later": "Переглянути пізніше",
         "remove": "Видалити",
         "watch": "Дивитись",
-        "rate": "Оцініть відеодоріжку"
+        "rate": "Оцініть відеодоріжку",
+        "rate_film": "Оцінити фільм / серіал"
       },
       "comments": {
         "placeholder": {
@@ -255,7 +255,7 @@
       },
       "info": {
         "header": {
-          "overwiev": "Овервієв",
+          "overview": "Овервієв",
           "reviews": "Відгуки"
         },
         "main": {

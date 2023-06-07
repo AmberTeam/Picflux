@@ -1,0 +1,17 @@
+.filter {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  .filter-header {
+    width: 100%;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--mtd-col);
+  }
+  .filter-content {
+    display: flex;
+    gap: 1rem;
+  }
+}

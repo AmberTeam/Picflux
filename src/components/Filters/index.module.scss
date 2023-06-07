@@ -1,0 +1,33 @@
+.filters-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--mtd-col);
+  margin: 0 auto 3rem auto;
+  &.collapsed {
+    height: 0;
+    padding: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+}
+
+@media(max-width: 1300px) {
+  .filters-container {
+    grid-template-columns: repeat(2, 1fr);
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+@media(max-width: 800px) {
+  .filters-container {
+    grid-template-columns: auto;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}

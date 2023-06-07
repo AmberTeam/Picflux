@@ -1,99 +1,154 @@
-import {FC, useContext, useEffect} from 'react'
-import RegistrationPage from './components/pages/Auth/Registration'
-import LoginPage from './components/pages/Auth/Login'
-import HomePage from './components/pages/Home'
-import {Context} from "./index"
-import {observer} from "mobx-react-lite"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import Navbar from './components/Navbar'
-import LogModal from './components/LogModal'
-import FilmPage from './components/pages/Film'
-import ProfilePage from './components/pages/Profile'
-import SettingsPage from './components/pages/Settings'
-import UndefinedRoutePage from './components/pages/UndefRoute'
-import Footer from './components/Footer'
-import LogoutModal from './components/LogoutModal'
-import InboxPage from "./components/pages/Inbox"
-import "./sass/index.sass"
-import $api from './http' 
+import { FC, useContext, useEffect } from "react"
+import RegistrationPage, { registrationAction } from "./pages/Auth/Registration"
+import LoginPage, { loginAction } from "./pages/Auth/Login"
+import HomePage, { homeLoader } from "./pages/Home"
+import { Context } from "./index"
+import { observer } from "mobx-react-lite"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import FilmPage, { filmLoader, manageWatchLaterAction, rateFilmAction } from "./pages/Film"
+import ProfilePage, { manageFriendshipAction, profileLoader } from "./pages/Profile"
+import SettingsPage from "./pages/Settings"
+import UndefinedRoutePage from "./pages/UndefRoute"
+import InboxPage, { inboxLoader } from "./pages/Inbox"
+import "./sass/index.scss"
+import $api from "./http"
+import Root from "./pages/Root/Root"
+import store from "./store/store"
+import EditProfileModal, { editProfileModalAction } from "./components/EditProfileModal"
+import NoChat from "./pages/Inbox/NoChat"
+import Chat, { chatLoader } from "./pages/Inbox/Chat"
+import { createChatAction, searchUsersLoader } from "./components/UserSelect"
+import ProtectedPage from "./components/ProtectedPage"
 
+const router = createBrowserRouter([
+    {
+        errorElement: <UndefinedRoutePage />,
+        children: [
+            {
+                path: "/login",
+                element: <ProtectedPage hasToBeLoggedIn={false}><LoginPage /></ProtectedPage>,
+                action: loginAction
+            },
+            {
+                path: "/registration",
+                element: <ProtectedPage hasToBeLoggedIn={false}><RegistrationPage /></ProtectedPage>,
+                action: registrationAction
+            },
+            {
+                path: "/",
+                element: <Root />,
+                children: [
+                    {
+                        index: true,
+                        element: <HomePage />,
+                        loader: homeLoader
+                    },
+                    {
+                        path: "film/:id",
+                        element: <FilmPage />,
+                        loader: filmLoader,
+                        children: [
+                            {
+                                path: "manage-watch-list",
+                                action: manageWatchLaterAction
+                            },
+                            {
+                                path: "rate-film",
+                                action: rateFilmAction
+                            }
+                        ]
+                    },
+                    {
+                        path: "profile",
+                        children: [
+                            {
+                                path: ":id/preview",
+                                element: <ProtectedPage hasToBeLoggedIn={true}><ProfilePage /></ProtectedPage>,
+                                loader: profileLoader,
+                                children: [
+                                    {
+                                        path: "edit",
+                                        element: <ProtectedPage hasToBeLoggedIn={true}><EditProfileModal /></ProtectedPage>,
+                                        action: editProfileModalAction
+                                    },
+                                    {
+                                        path: "friendship",
+                                        action: manageFriendshipAction
+                                    }
+                                ]
+                            },
+                            {
+                                path: "settings",
+                                element: <ProtectedPage hasToBeLoggedIn={true}><SettingsPage /></ProtectedPage>
+                            }
+                        ]
+                    },
+                    {
+                        path: "inbox",
+                        element: <ProtectedPage hasToBeLoggedIn={true}><InboxPage /></ProtectedPage>,
+                        loader: inboxLoader,
+                        children: [
+                            {
+                                index: true,
+                                element: <NoChat />
+                            },
+                            {
+                                path: ":id",
+                                element: <Chat />,
+                                loader: chatLoader,
+                            },
+                            {
+                                path: "search-users",
+                                loader: searchUsersLoader
+                            },
+                            {
+                                path: "create-chat",
+                                action: createChatAction
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+])
 
 const App: FC = () => {
-    const {store, wsc} = useContext(Context)
-
+    const { wsc } = useContext(Context)
     const setTilestamp = async (): Promise<void> => {
         try {
-            await $api.get('/user/tsp')
-        } catch(e) {
+            await $api.get("/user/tsp")
+        } catch (e) {
             console.log("Could not set timestamp.")
         }
     }
 
-    const initSocketConnection = async (): Promise<void> => {
-        const conn:Event = await wsc.init(`ws://localhost:5000/wsedge?token=${localStorage.getItem('token')}`)
-        if(conn.isTrusted) {
-            wsc.initListeners()
-        }
+    const initSocketConnection = () => {
+        wsc.init(`ws://localhost:5000/wsedge?token=${localStorage.getItem("token")}`)
     }
 
     useEffect(() => {
-        if (localStorage.getItem('token')) store.checkAuth()
-        if(localStorage.getItem('lang')) store.checkLang()
+        if (localStorage.getItem("token")) store.checkAuth()
+        if (localStorage.getItem("lang")) store.checkLang()
         else store.setDefaultLang()
-        if(localStorage.getItem('theme')) store.checkTheme()
-        else store.setDefaultLang()
-        //initSocketConnection()
+        if (localStorage.getItem("theme")) store.checkTheme()
+        else store.setDefaultTheme()
     }, [])
 
     useEffect(() => {
-        if(store.isAuth) {
+        if (store.isAuth) {
             setTilestamp()
             initSocketConnection()
-            //wsc.send('authorize', {uid: store.user.id})
             store.setSocketAuth(true)
-            wsc.addListener('push-alert', (e:any) => {
-                store.pushAlert(e.payload)
-            })
         }
     }, [store.isAuth])
 
     if (store.isLoading || !store.lang_ready) {
         return <div>Загрузка...</div>
     }
-
     return (
         <div data-theme={store.theme} className="app">
-            <BrowserRouter>
-                <Navbar/>
-                <LogoutModal/>
-                <LogModal/>
-                <Routes>
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/film/:id" element={<FilmPage/>}/>
-                    {
-                        !store.isAuth ? 
-                        <>
-                            <Route path="/login" element={<LoginPage/>}/>
-                            <Route path="/registration" element={<RegistrationPage/>}/>
-                        </>
-                        :
-                        <>
-                            <Route path="/registration" element={<Navigate to="/"/>}/>
-                            <Route path="/login" element={<Navigate to="/"/>}/>
-                            <Route path="/profile">
-                                <Route path=":id/preview" element={<ProfilePage/>}/>
-                                <Route path="settings" element={<SettingsPage/>}/>
-                                <Route path="*" element={<UndefinedRoutePage/>}/>
-                            </Route>
-                            <Route path="/inbox">
-                                <Route path=":id" element={<InboxPage/>}/>
-                                <Route path="redirect/:id" element={<InboxPage/>}/>
-                            </Route>
-                        </>
-                    } 
-                </Routes>
-                <Footer/>
-            </BrowserRouter>
+            <RouterProvider router={router} />
         </div>
     )
 }

@@ -1,18 +1,18 @@
-import {IUser} from "../models/IUser";
-import {makeAutoObservable} from "mobx";
-import AuthService from "../services/AuthService";
-import axios from 'axios';
-import {AuthResponse} from "../models/response/AuthResponse";
-import {API_URL} from "../http";
-import lconfig from "../lang_packets/config/global.json"
-import ukr from '../lang_packets/ua.json'
-import ru from '../lang_packets/ru.json'
-import en from '../lang_packets/en.json'
-import en_img from "../img/lang_ic/en.png"
-import ru_img from "../img/lang_ic/ru.png"
-import ukr_img from "../img/lang_ic/ukr.png"
-import { TUser } from "react-telegram-auth";
-import { IMessage } from "../models/IMessage";
+import { IUser } from "../interfaces/IUser"
+import { makeAutoObservable } from "mobx"
+import AuthService from "../services/AuthService"
+import axios from "axios"
+import { AuthResponse } from "../interfaces/AuthResponse"
+import { API_URL } from "../http"
+import lconfig from "../lang_packets/config/global"
+import ukr from "../lang_packets/ua.json"
+import ru from "../lang_packets/ru.json"
+import en from "../lang_packets/en.json"
+import { TUser } from "react-telegram-auth"
+import { IMessage } from "../interfaces/IMessage"
+import Theme from "../enums/Theme"
+import ILanguage from "../interfaces/ILanguage"
+import Language from "../enums/Language"
 
 export interface ILogModal {
     code: string,
@@ -27,28 +27,16 @@ export interface KeyMemoInterface {
     tag?: string
 }
 
-export interface IAlert { 
+export interface IAlert {
     data: any,
     tag: string
 }
 
-/*export interface IChatFragment {
-    id:number
-    messages:IMessage[]
-}*/
-
-/*export interface IConfigTemplate {
-    chatid: string 
-    members: IUserMin[]
-    offset: number 
-    offset_add: number 
-}*/
-
 export interface ISChatConfig {
-    offset?: number 
-    offset_add?: number 
-    chatid?:string
-    canLoad?:boolean
+    offset?: number
+    offset_add?: number
+    chatid?: string
+    canLoad?: boolean
 }
 
 export interface IChatStorage {
@@ -56,49 +44,41 @@ export interface IChatStorage {
     messages: IMessage[]
 }
 
-/*export interface IChatConfig {
-    chatcfg: IChat
-    offset: number
-    offset_add: number
-    fragments: IChatFragment[]
-    notseen: boolean
-}*/
-
-export default class Store {
+class Store {
     user: IUser = {} as IUser
-    online:any[] = [] as any
+    online: any[] = []
 
-    lang = this.predefineLang(lconfig.lang_defaut);
-    lang_ready:boolean = false
+    lang = this.getLanguageTexts(lconfig.lang_default as Language)
+    lang_ready = false
 
-    theme:string = 'light'
+    theme: Theme = Theme.Light
 
-    logoutModalActive:boolean = false;
+    logoutModalActive = false
 
-    logModalConfig:ILogModal = {} as ILogModal
-    logModalActive:boolean = false
+    logModalConfig: ILogModal = {} as ILogModal
+    logModalActive = false
 
-    isLoading:boolean = false;  
-    isAuth:boolean = false;
+    isLoading = false
+    isAuth = false
 
-    isSocketAuth:boolean = false
+    isSocketAuth = false
 
-    alert:IAlert | null = null
-    chatstorage:IChatStorage[] = []
+    alert: IAlert | null = null
+    chatstorage: IChatStorage[] = []
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this)
     }
 
     //ALERTS 
-    pushAlert(payload:any) {
+    pushAlert(payload: IAlert | null) {
         this.alert = payload
     }
 
     //CHAT FRAGMENTS
-    storeChatConfig(chatcfg:ISChatConfig): IChatStorage | null {
-        for(var i=0;i < this.chatstorage.length;i++) {
-            if(this.chatstorage[i].config.chatid === chatcfg.chatid) return this.chatstorage[i]
+    storeChatConfig(chatcfg: ISChatConfig): IChatStorage | null {
+        for (let i = 0; i < this.chatstorage.length; i++) {
+            if (this.chatstorage[i].config.chatid === chatcfg.chatid) return this.chatstorage[i]
         }
 
         this.chatstorage.push({
@@ -109,43 +89,43 @@ export default class Store {
         return null
     }
 
-    updateChatConfig(chatcfg:ISChatConfig): void {
-        for(var i=0;i < this.chatstorage.length;i++) {
-            if(this.chatstorage[i].config.chatid === chatcfg.chatid) this.chatstorage[i].config = {...this.chatstorage[i].config, ...chatcfg}
+    updateChatConfig(chatcfg: ISChatConfig): void {
+        for (let i = 0; i < this.chatstorage.length; i++) {
+            if (this.chatstorage[i].config.chatid === chatcfg.chatid) this.chatstorage[i].config = { ...this.chatstorage[i].config, ...chatcfg }
         }
     }
 
-    updateChatMessages(chatid:string, messages:IMessage[]): void {
-        for(var i=0;i < this.chatstorage.length;i++) {
-            if(this.chatstorage[i].config.chatid === chatid) this.chatstorage[i].messages = messages
+    updateChatMessages(chatid: string, messages: IMessage[]): void {
+        for (let i = 0; i < this.chatstorage.length; i++) {
+            if (this.chatstorage[i].config.chatid === chatid) this.chatstorage[i].messages = messages
         }
     }
 
-    pushChatMessage(chatid:string, message: IMessage): void {
-        for(var i=0;i < this.chatstorage.length;i++) {
-            if(this.chatstorage[i].config.chatid === chatid) {
-                if(this.chatstorage[i].messages) this.chatstorage[i].messages.push(message)
+    pushChatMessage(chatid: string, message: IMessage): void {
+        for (let i = 0; i < this.chatstorage.length; i++) {
+            if (this.chatstorage[i].config.chatid === chatid) {
+                if (this.chatstorage[i].messages) this.chatstorage[i].messages.push(message)
                 else this.chatstorage[i].messages = [message]
-                if(this.chatstorage[i].config) this.chatstorage[i].config.offset_add = this.chatstorage[i].config.offset_add! + 1
+                if (this.chatstorage[i].config) this.chatstorage[i].config.offset_add = this.chatstorage[i].config.offset_add! + 1
                 else this.chatstorage[i].config = {
-                    chatid, 
-                    offset: 0, 
+                    chatid,
+                    offset: 0,
                     offset_add: 0
                 }
             }
         }
     }
 
-    getChatConfig(chatid:string): IChatStorage | null {
-        for(var i=0;i < this.chatstorage.length;i++) {
-            if(this.chatstorage[i].config.chatid === chatid) return this.chatstorage[i]
+    getChatConfig(chatid: string): IChatStorage | null {
+        for (let i = 0; i < this.chatstorage.length; i++) {
+            if (this.chatstorage[i].config.chatid === chatid) return this.chatstorage[i]
         }
 
         return null
     }
 
     //SOCKETS 
-    setSocketAuth(bool:boolean) {
+    setSocketAuth(bool: boolean) {
         this.isSocketAuth = bool
     }
 
@@ -162,8 +142,8 @@ export default class Store {
     }
 
     //LOG MODAL
-    callLogModal(config: ILogModal = this.logModalConfig): void { 
-        this.logModalConfig = config 
+    callLogModal(config: ILogModal = this.logModalConfig): void {
+        this.logModalConfig = config
         this.logModalActive = true
     }
 
@@ -173,57 +153,57 @@ export default class Store {
     }
 
     //LANG 
-    predefineLang(lang_name: string): any {
-        let lang = null;
-        switch(lang_name) {
-            case lconfig.langs_available[0].name: 
-                lang = {...en, img: en_img}
+    getLanguageTexts(lang_name: Language): any {
+        let lang = null
+        switch (lang_name) {
+            case Language.English:
+                lang = en
                 break
-            case lconfig.langs_available[1].name:
-                lang = {...ukr, img: ukr_img}
+            case Language.Ukranian:
+                lang = ukr
                 break
-            case lconfig.langs_available[2].name:
-                lang = {...ru, img: ru_img}
-                break
-            default: 
+            case Language.Russian:
+                lang = ru
                 break
         }
         return lang
     }
 
     setDefaultLang(): void {
-        this.setLang(this.predefineLang(lconfig.lang_defaut))
+        this.setLanguage(this.getLanguageTexts(lconfig.lang_default as Language))
         this.lang_ready = true
     }
 
-    setLang(_lang: any): void {
-        this.lang = _lang
-        localStorage.setItem('lang', _lang.packet_name)
+    setLanguage(language: ILanguage): void {
+        if(language){
+            this.lang = language
+            localStorage.setItem("lang", language.packet_name as string)
+        }
     }
 
-    getStoredLang(): string {
-        return localStorage.getItem('lang') as string
+    getStoredLang(): Language {
+        return localStorage.getItem("lang") as Language
     }
 
     checkLang(): void {
-        const lang_name:string = localStorage.getItem('lang') as string
-        const lang = this.predefineLang(lang_name!) 
-        this.setLang(lang)
-        this.lang_ready = true 
+        const lang_name = localStorage.getItem("lang") as Language
+        const lang = this.getLanguageTexts(lang_name)
+        this.setLanguage(lang)
+        this.lang_ready = true
     }
 
     //THEME 
     setDefaultTheme(): void {
-        this.setTheme('light')
+        this.setTheme(Theme.Light)
     }
 
-    setTheme(theme: string): void {
+    setTheme(theme: Theme): void {
         this.theme = theme
-        localStorage.setItem('theme', theme)
+        localStorage.setItem("theme", theme)
     }
 
     checkTheme(): void {
-        const theme = localStorage.getItem('theme') as string
+        const theme = localStorage.getItem("theme") as Theme
         this.setTheme(theme)
     }
 
@@ -232,86 +212,78 @@ export default class Store {
         this.logoutModalActive = true
     }
 
-    setLogoutModal(bool: boolean): void { 
+    setLogoutModal(bool: boolean): void {
         this.logoutModalActive = bool
     }
 
     //LOADING
     setLoading(bool: boolean): void {
-        this.isLoading = bool;
+        this.isLoading = bool
     }
 
     //AUTH & API 
     setAuth(bool: boolean): void {
-        this.isAuth = bool;
+        this.isAuth = bool
     }
 
     setUser(user: IUser): void {
-        this.user = user;
+        this.user = user
     }
 
-    async login(email: string, password: string): Promise<number> {
+    async login(email: string, password: string): Promise<boolean> {
         try {
-            const response = await AuthService.login(email, password);
-            localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true);
-            this.setUser(response.data.user);
-            return 1
+            const response = await AuthService.login(email, password)
+            localStorage.setItem("token", response.data.accessToken)
+            this.setAuth(true)
+            this.setUser(response.data.user)
+            return true
         } catch (e) {
-            console.log(e);
-            return 0
+            console.log(e)
+            return false
         }
     }
 
-    async registration(email: string, password: string): Promise<number> {
+    async registration(email: string, password: string): Promise<boolean> {
         try {
-            const response = await AuthService.registration(email, password);
-            localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true);
-            this.setUser(response.data.user);
-            return 1
+            const response = await AuthService.registration(email, password)
+            localStorage.setItem("token", response.data.accessToken)
+            this.setAuth(true)
+            this.setUser(response.data.user)
+            return true
         } catch (e) {
-            console.log(e);
-            return 0
+            console.log(e)
+            return false
         }
     }
 
-    async logout(delete_data_flag: boolean = false): Promise<void> {
-        try {
-            await AuthService.logout(delete_data_flag);
-            localStorage.removeItem('token');
-            this.setAuth(false);
-            this.setUser({} as IUser);
-        } catch (e) {
-            console.log(e);
-        }
+    async logout(delete_data_flag = false): Promise<void> {
+        await AuthService.logout(delete_data_flag)
+        localStorage.removeItem("token")
+        this.setAuth(false)
+        this.setUser({} as IUser)
     }
 
     async handleTelegramAuth(authdata: TUser): Promise<void> {
-        this.setLoading(true) 
-        try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/oauth/telegram`, {withCredentials: true, params: authdata})
-            localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true);
-            this.setUser(response.data.user);
-        } catch(e) {
-            console.log(e) 
-        } finally {
-            this.setLoading(false)
-        }
+        this.setLoading(true)
+        const response = await axios.get<AuthResponse>(`${API_URL}/oauth/telegram`, { withCredentials: true, params: authdata })
+        localStorage.setItem("token", response.data.accessToken)
+        this.setAuth(true)
+        this.setUser(response.data.user)
+        this.setLoading(false)
     }
 
     async checkAuth(): Promise<void> {
-        this.setLoading(true);
+        this.setLoading(true)
         try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, {withCredentials: true})
-            localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true);
-            this.setUser(response.data.user);
-        } catch (e) {
-            throw e
-        } finally {
-            this.setLoading(false);
+            const response = await axios.get<AuthResponse>(`${API_URL}/auth/refresh`, { withCredentials: true })
+            localStorage.setItem("token", response.data.accessToken)
+            this.setAuth(true)
+            this.setUser(response.data.user)
+        } catch(error) {
+            console.log(error)
         }
+        this.setLoading(false)
     }
 }
+const store = new Store()
+export default store

@@ -1,190 +1,37 @@
-import { observer } from 'mobx-react-lite'
-import {FC, useContext, useEffect, useState} from 'react'
-import cl from './index.module.sass'
-import {Context} from "../../index"
+import { observer } from "mobx-react-lite"
+import { FC, useState } from "react"
+import styles from "./index.module.scss"
 import ic from "../../img/Icon_nav.png"
-import { useLocation } from 'react-router-dom'
-import { useTranslation } from '../../hooks/translator.hook'
-import AllowAuth from '../AllowAuth' 
-import AllowNotAuth from '../AllowNotAuth'
-import { useScrollDirection } from '../../hooks/sd.hook'
-import { ScrollDirection } from '../../hooks/sd.hook'
-import LangDropdown from '../UI/LangDropdown'
-import ThemeTumbler from '../UI/ThemeTumbler'
+import { useScrollDirection } from "../../hooks/sd.hook"
+import { ScrollDirection } from "../../hooks/sd.hook"
 import amber_down from "../../img/amber_png_down_cropped.png"
-import {toJS} from "mobx"
-import { IUserMin } from '../../models/IUser'
-import UserService from '../../services/UserService'
-import InboxAlert from './InboxAlert'
-import { AxiosResponse } from 'axios'
-import LoaderMini from '../UI/LoaderMini'
-
-export interface IAlert {
-    id: string
-    owner: IUserMin
-    tag: string 
-    timestamp: string
-    recipient: string
-}
-
+import Offcanvas from "../Offcanvas"
+import { ReactComponent as HamburgerMenuIcon } from "../../icons/HamburgerMenu.svg"
+import { Link } from "react-router-dom"
+import store from "../../store/store"
 const Navbar: FC = () => {
-    
     const scrollDirection = useScrollDirection()
-
-    const {translate} = useTranslation()
-
-    const {store} = useContext(Context)
-
-    const [isAuth, setIsAuth] = useState<boolean>(false)
     const [navigatorActive, setNavigatorActive] = useState<boolean>(false)
-    const [alertsInbox, setAlertsInbox] = useState<number>(0)
-    const [alerts, setAlerts] = useState<IAlert[]>([])
-    const [chapterActive, setChapterActive] = useState<string | null>(null)
-    const [chapterLoading, setChapterLoading] = useState<boolean>(false)
-
-    const location = useLocation()
-
-    const fetchAlerts = async () => {
-        setChapterLoading(true) 
-        const alerts:AxiosResponse<any> = await UserService.getAlerts()
-        setAlerts(alerts.data.alerts)
-        setChapterLoading(false)
-    }
-
-    useEffect(() => {
-        if(location.pathname === '/login' || location.pathname === '/registration') setIsAuth(true)
-        else setIsAuth(false)
-    }, [location])
-
-    useEffect(() => {
-        if(store.alert) {
-            const alert_js = toJS(store.alert)
-            switch(alert_js.tag) {
-                case "msg": 
-                    setAlertsInbox(alertsInbox + 1)
-                    break
-                default: 
-                    setAlerts([alert_js, ...alerts] as IAlert[])
-            }
-        }
-    }, [store.alert])
-
-    useEffect(() => {
-        if(chapterActive) fetchAlerts()
-        if(!chapterActive) setAlerts([])
-    }, [chapterActive])
-
-    if(isAuth) return <a href="/" className={cl.Return_btn}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-        </svg>
-        {translate("navbar.returner")}
-    </a>
 
     return (
         <>
-            <div className={`${cl.Navbar} ${scrollDirection === ScrollDirection.down ? cl.Down : cl.Up}`}>
-                <div className={cl.Navbar_space}></div>
-                <div className={cl.Navbar_promo}>
-                    <div className={cl.Amber}>
-                        <img className={cl.Icon} src={ic} width="32"/>
-                        <span className={cl.Name}> imber </span>
-                    </div>
-                    <div className={cl.Opts}>
-                        <a href='/' title={translate("navbar.opts.home")}>
-                            <img className={cl.Amber_logo} src={amber_down}/>
-                        </a>
-                    </div>
-                    <button className={cl.Burger_container} onClick={() => setNavigatorActive(!navigatorActive)}>
-                        <span className={`${cl.Line} ${cl.Top}`}></span>
-                        <span className={`${cl.Line} ${cl.Middle}`}></span>
-                        <span className={`${cl.Line} ${cl.Bottom}`}></span>
+            <header className={`container ${styles.navbar} ${scrollDirection === ScrollDirection.down ? styles.down : styles.up}`}>
+                <div className={styles.amber}>
+                    <img className={styles.icon} src={ic} width="32" />
+                    <span className={styles.name}>imber</span>
+                </div>
+                <div className={styles.opts}>
+                    <Link to='/' title={store.lang.navbar.opts.home}>
+                        <img className={styles["amber-logo"]} src={amber_down} />
+                    </Link>
+                </div>
+                <div className={styles["hamburger-menu-container"]}>
+                    <button className={styles["hamburger-menu-button"]} onClick={() => setNavigatorActive(state => !state)}>
+                        <HamburgerMenuIcon className={styles["hamburger-menu-icon"]}/>
                     </button>
                 </div>
-                <div className={cl.Navbar_space}></div>
-            </div>
-            <div className={`${cl.Navigator_container} ${navigatorActive ? cl.Active : ""}`}>
-                <div className={`${cl.Blurer} ${navigatorActive ? cl.Active : ""}`} onClick={() => setNavigatorActive(false)}></div>
-                <div className={cl.Navigator_content}>
-                    <div className={cl.Navigator_main}>
-                        <div className={cl.Navigator_header}>
-                            <div className={cl.Header_account}>
-                                <AllowAuth>
-                                    <div className={cl.Account_content}>
-                                        <a className={cl.Profile} href={`/profile/${store.user.id}/preview`}>
-                                            <img className={cl.Icon} src={store.user.avatar} width="32px"/>
-                                        </a>
-                                        <button className="button_mini" onClick={() => store.callLogoutModal()}>{translate("footer.bottom.logout")}</button>
-                                    </div>
-                                </AllowAuth>
-                                <AllowNotAuth>
-                                    <div className={cl.Btns_container}>
-                                        <a href="/login" className={`${cl.Auth_btn} ${cl.Login_btn}`}>
-                                            {translate("navbar.unauth.opts.login")}
-                                        </a>
-                                    </div>
-                                </AllowNotAuth>
-                            </div>
-                            <button className={cl.Header_exec} onClick={() => setNavigatorActive(!navigatorActive)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <div className={cl.HR}></div>
-                        <div className={cl.Navigator_body}>
-                            <AllowAuth>
-                                <>
-                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
-                                            <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
-                                        </svg>
-                                        <span>{translate("navbar.opts.home")}</span>
-                                    </a>
-                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href={`/profile/${store.user.id}/preview`}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                            <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                        </svg>
-                                        <span>{translate("navbar.opts.profile")}</span>
-                                    </a>
-                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/inbox/overview">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                            <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4z"/>
-                                        </svg>
-                                        <span>{translate("navbar.opts.inbox")} {alertsInbox > 0 ? alertsInbox : null}</span>
-                                    </a>
-                                </>
-                            </AllowAuth>
-                            <AllowNotAuth>
-                                <>
-                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/login">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
-                                            <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
-                                        </svg>
-                                        <span>{translate("navbar.opts.home")}</span>
-                                    </a>
-                                    <a className={`${cl.Navigator_link} ${!chapterActive ? "" : cl.Inactive}`} href="/login">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                            <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                        </svg>
-                                        <span>{translate("navbar.opts.profile")}</span>
-                                    </a>
-                                </>
-                            </AllowNotAuth>
-                        </div>
-                    </div>
-                    <div className={cl.Navigator_bottom}>
-                        <div className={cl.Controlls}>
-                            <LangDropdown/>
-                            <ThemeTumbler/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </header>
+            <Offcanvas isActive={navigatorActive} close={() => setNavigatorActive(false)} />
         </>
     )
 }

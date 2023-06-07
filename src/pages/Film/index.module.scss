@@ -1,0 +1,100 @@
+.bold {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.film-page-container {
+    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 3rem;
+    width: 65vw;
+    .film-information-container {
+        display: flex;
+        gap: 3rem;
+
+        .film-poster {
+            border-radius: 1rem;
+        }
+
+        .film-information-watch-later {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .film-information {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .film-details-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+
+                    .film-details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                    }
+                }
+            }
+
+            .watch-later-button {
+                align-items: center;
+                display: flex;
+                gap: 0.3rem;
+                width: fit-content;
+
+                .watch-later-icon {
+                    transition: 0.2s fill ease;
+                    width: 13px;
+                    height: 18px;
+
+                    &.active {
+                        fill: var(--color-a);
+                    }
+
+                    path {
+                        transition: 0.2s stroke ease;
+                        stroke: var(--color-a);
+                    }
+                }
+
+                @media (hover: hover) {
+                    &:hover {
+                        .watch-later-icon {
+                            &.active {
+                                fill: var(--bg);
+                            }
+
+                            path {
+                                stroke: var(--bg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .rate-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media(max-width: 900px) {
+    .film-page-container {
+        width: 100%;
+        .film-information-container {
+            flex-direction: column;
+
+            .film-information-watch-later {
+                gap: 1rem;
+            }
+        }
+    }
+}

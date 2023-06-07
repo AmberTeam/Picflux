@@ -1,0 +1,31 @@
+.modal-action {
+  display: grid;
+  grid-gap: 1.5rem;
+
+  .form {
+      display: grid;
+      gap: .5rem;
+
+      .field {
+          display: flex;
+          gap: .2rem;
+      }
+  }
+
+  .buttons {
+      display: flex;
+      gap: .5rem;
+  }
+}
+
+.modal {
+    box-shadow: 0px 0px 74px -13px rgba(0, 0, 0, 0.75);
+    background: var(--fg);
+    padding: 1.5rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 55px;
+    text-transform: capitalize;
+}

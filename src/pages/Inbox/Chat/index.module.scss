@@ -1,0 +1,129 @@
+.reply-message-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  .reply-container {
+    padding-left: 0.5rem;
+    border-left: 3px solid var(--message-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    .reply-username {
+      font-size: 14px;
+    }
+    .reply-message {
+      font-size: 12px;
+    }
+  }
+  .cancel-button {
+    border: none;
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    background-color: transparent;
+    .cancel-icon {
+      height: 100%;
+      width: 100%;
+      fill: var(--color);
+    }
+  }
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: 2px solid var(--fg);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: var(--fg);
+    border-bottom: 1px solid var(--navigator-border);
+    .username {
+      text-decoration: none;
+      color: var(--color);
+      font-size: 18px;
+      font-style: italic;
+      font-weight: bold;
+    }
+    .action-icon {
+      fill: var(--color);
+      width: 1rem;
+      height: 1rem;
+      cursor: pointer;
+      @media (hover: hover){
+        &:hover {
+          fill: var(--color-a);
+        }
+      }
+    }
+  }
+  .send-message-information {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 100%;
+    background-color: var(--fg);
+    border-top: 1px solid var(--navigator-border);
+    gap: 0.75rem;
+    .send-message-form {
+      display: flex;
+      align-items: center;
+    }
+    .message-input {
+      width: 100%;
+      background-color: transparent;
+      outline: none;
+      border: none;
+      color: var(--color);
+      font-family: Roobert;
+    }
+    .send-message-button {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      @media (hover: hover) {
+        &:hover {
+          .send-message-icon {
+            fill: var(--color);
+          }
+        }        
+      }
+      .send-message-icon {
+        transition: fill 0.2s ease;
+        fill: #818281;
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}
+.show-if-desktop {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+.show-if-mobile {
+  @media (min-width: 901px) {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .chat-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}

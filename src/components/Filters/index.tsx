@@ -9,6 +9,7 @@ import FilteringType from "../../enums/FilteringType"
 import LoadingMethod from "../../enums/LoadingMethod"
 import Genre from "../../enums/Genre"
 import store from "../../store/store"
+import ButtonType from "../../enums/ButtonType"
 interface Props {
     isVisible: boolean
     onLoadMethodChange: (loadMethod: LoadingMethod) => void
@@ -108,13 +109,13 @@ const Filters: FC<Props> = ({ isVisible, onLoadMethodChange }) => {
                     }]}
                     selectSeveral={true}
                     canBeWithoutValue={true}
-                    defaultValue={null}
+                    defaultValue={localStorage.getItem("genres")?.split(" ") as Genre[] ?? null}
                 />
             </Filter>
             <Filter header="FILTERING TYPE">
                 <BrickSelector<FilteringType>
                     isInput={true}
-                    name="filtering_type"
+                    name="filtering-type"
                     buttonsInformation={[{
                         text: texts.home.actions.fl_settings.fl_type.types.solely,
                         id: FilteringType.Solely
@@ -127,7 +128,7 @@ const Filters: FC<Props> = ({ isVisible, onLoadMethodChange }) => {
                     }]}
                     canBeWithoutValue={false}
                     selectSeveral={false}
-                    defaultValue={FilteringType.None}
+                    defaultValue={[localStorage.getItem("filtering-type") as FilteringType ?? FilteringType.None]}
                 />
             </Filter>
             <Filter header="LOAD METHOD">
@@ -143,7 +144,8 @@ const Filters: FC<Props> = ({ isVisible, onLoadMethodChange }) => {
                     }]}
                     canBeWithoutValue={false}
                     selectSeveral={false}
-                    defaultValue={LoadingMethod.OnClick}
+                    defaultValue={[localStorage.getItem("load-method") as LoadingMethod ?? LoadingMethod.OnClick]}
+                    buttonType={ButtonType.Button}
                 />
             </Filter>
         </div>

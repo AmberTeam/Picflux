@@ -54,7 +54,7 @@ const AuthPage: FC<Props> = ({ type, navigateTo }) => {
                         name="password"
                     />
                     <button type="submit" className={styles["auth-button"]}>
-                        {navigation.state === "submitting" || navigation.state === "loading" ? 
+                        {navigation.formAction && (navigation.state === "submitting" || navigation.state === "loading") ? 
                             <div className={`${styles.loader}`}>
                                 <LoaderMini />
                             </div>

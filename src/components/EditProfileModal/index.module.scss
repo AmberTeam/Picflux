@@ -26,7 +26,6 @@
             }
         }
         .title {
-            text-transform: capitalize;
             font-size: 22px;
             font-weight: bold;
         }
@@ -89,7 +88,6 @@
                     color: #0a0a0a;
                     font-size: 16px;
                     color: var(--color);
-                    text-transform: capitalize;
                 }
                 textarea {
                     resize: none;
@@ -115,7 +113,6 @@
             height: fit-content;
             color: var(--bg);
             font-family: Roobert;
-            text-transform: capitalize;
             border: 2px solid var(--color);
             padding: 0.5rem 1.5rem;
             border-radius: 100px;

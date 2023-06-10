@@ -3,11 +3,23 @@
   min-height: 30px;
   border-radius: 8px;
   background: none;
-  border: 1px solid var(--color-a);
+  border: 1px solid transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  &.inactive {
+    border-color: var(--year-button-color);
+    .year-sort-icon {
+      fill: var(--year-button-color);
+    }
+  }
+  &.descendant, &.ascendant {
+    border-color: var(--color-a);
+    .year-sort-icon {
+      fill: var(--color-a);
+    }
+  }
 }
 
 .year-input {

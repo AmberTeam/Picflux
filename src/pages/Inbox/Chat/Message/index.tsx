@@ -38,7 +38,7 @@ const Message: FC<IMessageProps> = ({ onRender, observer, message, onReply, onDe
                 className={styles["message-user-avatar"]}
             />
             <div className={styles["message-data"]}>
-                {message.refer !== "null" ?
+                {message.refer && message.refer !== "null" ?
                     <div className={styles["reply-container"]}>
                         <span className={styles["reply-username"]}>{message.refer.owner === store.user.id ? store.user.username : observer.username}</span>
                         <span className={styles["reply-message"]}>{message.refer.payload}</span>
@@ -49,11 +49,13 @@ const Message: FC<IMessageProps> = ({ onRender, observer, message, onReply, onDe
                     <span>{message.payload}</span>
                     <div className={styles["message-details"]}>
                         {
-                            message.seen
-                                ?
-                                <TwoTicksIcon className={styles["message-status-icon"]} />
-                                :
-                                <OneTickIcon className={styles["message-status-icon"]} />
+                            message.owner === store.user.id ?
+                                message.seen
+                                    ?
+                                    <TwoTicksIcon className={styles["message-status-icon"]} />
+                                    :
+                                    <OneTickIcon className={styles["message-status-icon"]} />
+                                : null
                         }
                     </div>
                 </div>

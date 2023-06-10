@@ -12,63 +12,96 @@ import Trigger from "../../components/Trigger"
 import { ReactComponent as PlusIcon } from "../../icons/Plus.svg"
 import store from "../../store/store"
 import UserService from "../../services/UserService"
-import { Form, useLoaderData, useSubmit } from "react-router-dom"
+import { useFetcher, useLoaderData } from "react-router-dom"
 export interface IDLC {
-    genres: string,
-    filtering_type: FilteringType,
-    date: number | "any"
+    genres: string
+    filtering_type: FilteringType
+    date: string
     sortCriteria: SortCriteria
     sortDirection: SortDirection
 }
 
-export async function homeLoader({ request }: { request: Request }) {
+export async function getFilmsLoader({ request }: { request: Request }) {
     const url = new URL(request.url)
     const genres = url.searchParams.get("genres") ?? ""
     const query = url.searchParams.get("query") ?? ""
-    let offset = url.searchParams.get("offset") ?? 0
-    if (typeof offset === "string") {
-        offset = parseInt(offset)
-    }
-    const filteringType = url.searchParams.get("filtering_type") as FilteringType
+    let offset: string | number | null = url.searchParams.get("offset")
+    if(typeof offset === "string" && offset) offset = parseInt(offset)
+    else offset = 0
+    const filteringType = url.searchParams.get("filtering-type") as FilteringType
+    const date = url.searchParams.get("date") ?? "any"
+    const sortCriteria = url.searchParams.get("sort-criteria") as SortCriteria ?? SortCriteria.None
+    const sortDirection = url.searchParams.get("sort-direction") as SortDirection ?? SortDirection.Descendant
+    localStorage.setItem("genres", genres)
+    localStorage.setItem("query", query)
+    localStorage.setItem("date", date)
+    localStorage.setItem("filtering-type", filteringType)
+    localStorage.setItem("sort-criteria", sortCriteria)
+    localStorage.setItem("sort-direction", sortDirection)
     const response = await UserService.search(query, 12, offset, {
         genres,
         filtering_type: filteringType,
-        date: "any",
-        sortCriteria: SortCriteria.None,
-        sortDirection: SortDirection.Descendant
+        date,
+        sortCriteria,
+        sortDirection
     })
-    return { films: response.data.films, canLoad: response.data.can_load, isFirstPage: offset === 0 }
+    return { films: response.data.films, canLoad: response.data.can_load, isFirst: offset === 0 }
+}
+
+export async function homeLoader() {
+    const genres = localStorage.getItem("genres") ?? ""
+    const query = localStorage.getItem("query") ?? ""
+    const filteringType = localStorage.getItem("filtering-type") as FilteringType ?? FilteringType.None
+    const date = localStorage.getItem("date") ?? "any"
+    const sortCriteria = localStorage.getItem("sort-criteria") as SortCriteria ?? SortCriteria.None
+    const sortDirection = localStorage.getItem("sort-direction") as SortDirection ?? SortDirection.Descendant
+    const response = await UserService.search(query, 12, 0, {
+        genres,
+        filtering_type: filteringType,
+        date,
+        sortCriteria,
+        sortDirection
+    })
+    return { films: response.data.films, canLoad: response.data.can_load }
+}
+
+interface FetcherData {
+    canLoad: boolean
+    films: IFilm[]
+    isFirst?: boolean
 }
 
 const HomePage: FC = () => {
-    const url = useRef(new URL(location.href))
-    const { films: newFilms, canLoad, isFirstPage } = useLoaderData() as { films: IFilm[], canLoad: boolean, isFirstPage: boolean }
-    const [loadMethod, setLoadMethod] = useState<LoadingMethod>(LoadingMethod.OnClick)
-    const [films, setFilms] = useState<IFilm[]>([])
-    const submit = useSubmit()
+    const formRef = useRef<HTMLFormElement>(null)
+    const { films: firstFilms, canLoad } = useLoaderData() as { films: IFilm[], canLoad: boolean }
+    const [loadMethod, setLoadMethod] = useState<LoadingMethod>(localStorage.getItem("load-method") as LoadingMethod ?? LoadingMethod.OnClick)
+    const [films, setFilms] = useState<IFilm[]>(firstFilms)
+    const [canLoadMore, setCanLoadMore] = useState<boolean>(canLoad)
+    const fetcher = useFetcher<FetcherData>()
+    const getNextFilms = useCallback(() => {
+        if(formRef.current) {
+            const data = new FormData(formRef.current)
+            data.delete("offset")
+            const urlParams = new URLSearchParams()
+            let query = `/get-films?offset=${films.length}`
+            for(const [key, value] of data.entries()) {
+                urlParams.append(key, value.toString())
+            }
+            query += urlParams
+            fetcher.load(query)
+        }
+    }, [films])
     useEffect(() => {
-        if(isFirstPage) {
-            setFilms([...newFilms])
+        if(fetcher.data && (fetcher.state !== "submitting" && fetcher.state !== "loading")) {
+            if(fetcher.data.isFirst) {
+                setFilms(fetcher.data.films)
+            }
+            else {
+                setFilms(previousFilms => [...previousFilms, ...(fetcher.data?.films ?? [])])
+            }
+            setCanLoadMore(fetcher.data.canLoad)
         }
-        else {
-            setFilms(previousFilms => [...previousFilms, ...newFilms])
-        }
-    }, [newFilms])
-    useEffect(() => {
-        url.current = new URL(location.href)
-    }, [location.href])
-    const fetchNextFilms = useCallback(() => {
-        const previousOffset: string = url.current.searchParams.get("offset") ?? "0"
-        if (previousOffset !== undefined) {
-            url.current.searchParams.delete("offset")
-        }
-        url.current.searchParams.append("offset", (parseInt(previousOffset) + 12).toString())
-        const formData = new FormData()
-        for (const [key, value] of url.current.searchParams.entries()) {
-            formData.append(key, value)
-        }
-        submit(formData)
-    }, [])
+    }, [fetcher.data])
     return (
         <section className={styles["home-section"]}>
             <div className={styles["home-header"]}>
@@ -78,28 +111,27 @@ const HomePage: FC = () => {
                 <p>{store.lang.home.title.small}</p>
             </div>
             <div className={styles["home-content"]}>
-                <SearchForm
-                    onLoadMethodChange={(loadMethod: LoadingMethod) => setLoadMethod(loadMethod)}
+                <SearchForm<FetcherData>
+                    onLoadMethodChange={(loadMethod: LoadingMethod) => {
+                        setLoadMethod(loadMethod)
+                        localStorage.setItem("load-method", loadMethod)
+                    }}
+                    formRef={formRef}
+                    fetcher={fetcher}
                 />
                 <FilmList films={films} />
-                {films.length && canLoad ?
-                    <Form
-                        method="get"
-                    >
-                        {
-                            loadMethod === LoadingMethod.Auto ?
-                                <Trigger onTrigger={fetchNextFilms} />
-                                :
-                                <button
-                                    className={styles["load-button"]}
-                                    onClick={fetchNextFilms}
-                                    type="button"
-                                >
-                                    <PlusIcon />
-                                    <span>{store.lang.home.actions.load_more}</span>
-                                </button>
-                        }
-                    </Form>
+                {films.length && canLoadMore ?
+                    loadMethod === LoadingMethod.Auto ?
+                        <Trigger onTrigger={getNextFilms} />
+                        :
+                        <button
+                            className={styles["load-button"]}
+                            type="submit"
+                            onClick={getNextFilms}
+                        >
+                            <PlusIcon />
+                            <span>{store.lang.home.actions.load_more}</span>
+                        </button>
                     : null
                 }
             </div>

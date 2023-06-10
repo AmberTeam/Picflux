@@ -14,15 +14,14 @@ import Trigger from "../../../../components/Trigger"
 interface IFragmentProps {
     fragment: IFragment
     observer: IUserMin
-    onRendered?: () => void
     isFragmentSeen: boolean
     onReply: (arg: IMessage) => void
     onDelete: (arg: IMessage) => void
     onEdit: (arg: IMessage) => void
 }
 
-const Fragment: FC<IFragmentProps> = ({ fragment, observer, onRendered, isFragmentSeen, onReply, onDelete, onEdit }) => {
-    const params = useParams()
+const Fragment: FC<IFragmentProps> = ({ fragment, observer, isFragmentSeen, onReply, onDelete, onEdit }) => {
+    const params = useParams<"id">()
     const { wsc } = useContext(Context)
 
     const updateSeenStatus = useCallback(async (): Promise<void> => {
@@ -37,14 +36,13 @@ const Fragment: FC<IFragmentProps> = ({ fragment, observer, onRendered, isFragme
             })
         }
     }, [fragment.messages, params.id, store.user.id, isFragmentSeen])
-
     return (
         <div
             className={styles["fragment-container"]}
         >
             {
                 fragment.messages.map((msg: IMessage) =>
-                    <Message onEdit={onEdit} onDelete={onDelete} onReply={onReply} observer={observer} onRender={msg.last ? onRendered : undefined} message={msg} key={msg._id} />
+                    <Message onEdit={onEdit} onDelete={onDelete} onReply={onReply} observer={observer} message={msg} key={msg._id} />
                 )
             }
             <Trigger onTrigger={updateSeenStatus} />

@@ -3,18 +3,20 @@ import BrickButton from "../BrickButton"
 import { observer } from "mobx-react-lite"
 import IButtonInformation from "../../interfaces/IButtonInformation"
 import { useState } from "react"
+import ButtonType from "../../enums/ButtonType"
 
 interface Props<T> {
     buttonsInformation: IButtonInformation<T>[]
     selectSeveral: boolean
     canBeWithoutValue: boolean
-    defaultValue: T | null
+    defaultValue: T[] | null
     isInput: boolean
     name?: string
     onSelect?: (argument: T) => void
+    buttonType?: ButtonType
 }
-const BrickSelector = <T,>({ buttonsInformation, selectSeveral, canBeWithoutValue, defaultValue, isInput, name, onSelect }: Props<T>) => {
-    const [selectedButtons, setSelectedButtons] = useState<Set<T>>(new Set(defaultValue !== null ? [defaultValue] : null))
+const BrickSelector = <T,>({ buttonsInformation, selectSeveral, canBeWithoutValue, defaultValue, isInput, name, onSelect, buttonType }: Props<T>) => {
+    const [selectedButtons, setSelectedButtons] = useState<Set<T>>(new Set(defaultValue !== null ? defaultValue : null))
     const handleClick = (id: T, isSelected: boolean) => {
         if (isSelected) {
             if(canBeWithoutValue || (selectSeveral && selectedButtons.size > 1)) {
@@ -47,6 +49,7 @@ const BrickSelector = <T,>({ buttonsInformation, selectSeveral, canBeWithoutValu
                     text={buttonInformation.text}
                     onButtonClick={handleClick}
                     isSelected={selectedButtons.has(buttonInformation.id)}
+                    buttonType={buttonType}
                 />
             ))}
         </div>

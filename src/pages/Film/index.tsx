@@ -6,49 +6,57 @@ import UserService, { IFilmGetById } from "../../services/UserService"
 import store from "../../store/store"
 import FilmDetail from "../../components/FilmDetail"
 import RatingCounter from "../../components/RatingCounter"
-import { useFetcher, useLoaderData } from "react-router-dom"
+import { useFetcher, useLoaderData, ActionFunctionArgs, Params, ParamParseKey } from "react-router-dom"
 import Button from "../../components/Button"
 import ButtonVariant from "../../enums/ButtonVariant"
 import { ReactComponent as WatchLaterIcon } from "../../icons/WatchLater.svg"
 import FilmService from "../../services/FilmService"
-
 import CommentsSection from "../../components/CommentsSection"
 import Player from "../../components/Player"
+import LoaderMini from "../../components/LoaderMini"
 enum ManageWatchLaterAction {
     Add = "add",
     Remove = "remove"
 }
 
-export async function rateFilmAction({ request, params }: { request: Request, params: any }) {
-    const formData = await request.formData()
-    const rating = formData.get("rating")
-    if (rating) {
-        const response = await FilmService.pushRating(params.id, parseInt(rating as string))
-        return { response: response.data }
+const path = "/film/:id"
+interface Args extends ActionFunctionArgs {
+    params: Params<ParamParseKey<typeof path>>
+}
+
+export async function rateFilmAction({ request, params }: Args) {
+    if (params.id) {
+        const formData = await request.formData()
+        const rating = formData.get("rating")
+        if (rating) {
+            const response = await FilmService.pushRating(parseInt(params.id), parseInt(rating.toString()))
+            return { response: response.data }
+        }
     }
     return {}
 }
 
-export async function manageWatchLaterAction({ request, params }: { request: Request, params: any }) {
-    const formData = await request.formData()
-    const action = formData.get("action")
-    let response
-    if (action === ManageWatchLaterAction.Add) {
-        response = await UserService.addWLFilm(params.id)
+export async function manageWatchLaterAction({ request, params }: Args) {
+    if (params.id) {
+        const formData = await request.formData()
+        const action = formData.get("action")
+        const filmId = parseInt(params.id)
+        if (action === ManageWatchLaterAction.Add) {
+            await UserService.addWLFilm(filmId)
+        }
+        else if (action === ManageWatchLaterAction.Remove) {
+            await UserService.removeWLFilm(filmId)
+        }
     }
-    else if (action === ManageWatchLaterAction.Remove) {
-        response = await UserService.removeWLFilm(params.id)
-    }
-    return { response }
 }
 
-export async function filmLoader({ params }: { params: any }) {
+export async function filmLoader({ params }: Args) {
     const film = (await UserService.getById(params.id, store.getStoredLang())).data
     return { film }
 }
 const FilmPage: FC = () => {
     const { film } = useLoaderData() as { film: IFilmGetById, player: string }
-    const isInWatchList = useMemo(() => film?.watchLater.some(watchLaterFilmId => watchLaterFilmId === film.id.toString() ?? false), [film.watchLater])
+    const isInWatchList = useMemo(() => film?.watchLater?.some(watchLaterFilmId => watchLaterFilmId === film.id.toString() ?? false), [film])
     const rating = useMemo(() => {
         if (film.rated) {
             const userRating = film.rating.find(rating => rating.owner === store.user.id)
@@ -115,10 +123,16 @@ const FilmPage: FC = () => {
                                 name="action"
                                 type="submit"
                             >
-                                <WatchLaterIcon className={`${styles["watch-later-icon"]} ${isInWatchList ? styles.active : ""}`} />
-                                <span>
-                                    {store.lang.film.actions[isInWatchList ? "watch_later_svd" : "watch_later"]}
-                                </span>
+                                {fetcher.state === "loading" || fetcher.state === "submitting" ?
+                                    <LoaderMini />
+                                    :
+                                    <>
+                                        <WatchLaterIcon className={`${styles["watch-later-icon"]} ${isInWatchList ? styles.active : ""}`} />
+                                        <span>
+                                            {store.lang.film.actions[isInWatchList ? "watch_later_svd" : "watch_later"]}
+                                        </span>
+                                    </>
+                                }
                             </Button>
                         </fetcher.Form>
                         : null
@@ -126,7 +140,7 @@ const FilmPage: FC = () => {
                 </div>
             </div>
             <p className={styles["film-description"]}>{film.description}</p>
-            <Player players={film.players}/>
+            <Player players={film.players} />
             <div className={styles["rate-container"]}>
                 <span className={styles.bold}>{store.lang.film.actions.rate_film}:</span>
                 <RatingCounter

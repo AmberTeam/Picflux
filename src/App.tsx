@@ -1,7 +1,7 @@
 import { FC, useContext, useEffect } from "react"
 import RegistrationPage, { registrationAction } from "./pages/Auth/Registration"
 import LoginPage, { loginAction } from "./pages/Auth/Login"
-import HomePage, { homeLoader } from "./pages/Home"
+import HomePage, { getFilmsLoader, homeLoader } from "./pages/Home"
 import { Context } from "./index"
 import { observer } from "mobx-react-lite"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
@@ -17,8 +17,9 @@ import store from "./store/store"
 import EditProfileModal, { editProfileModalAction } from "./components/EditProfileModal"
 import NoChat from "./pages/Inbox/NoChat"
 import Chat, { chatLoader } from "./pages/Inbox/Chat"
-import { createChatAction, searchUsersLoader } from "./components/UserSelect"
+import { searchUsersLoader } from "./components/UserSelect"
 import ProtectedPage from "./components/ProtectedPage"
+import CreateChat, { createChatAction } from "./components/CreateChat"
 
 const router = createBrowserRouter([
     {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
                         index: true,
                         element: <HomePage />,
                         loader: homeLoader
+                    },
+                    {
+                        path: "get-films",
+                        loader: getFilmsLoader
                     },
                     {
                         path: "film/:id",
@@ -102,7 +107,8 @@ const router = createBrowserRouter([
                                 loader: searchUsersLoader
                             },
                             {
-                                path: "create-chat",
+                                path: "create/:id",
+                                element: <CreateChat />,
                                 action: createChatAction
                             }
                         ]

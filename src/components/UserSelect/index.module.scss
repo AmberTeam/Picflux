@@ -99,34 +99,37 @@
                 height: 32px;
             }
         }
-
-        .user-select-item {
-            background: var(--bg);
-            border: none;
-            color: var(--color);
-            font-family: 'Roobert';
-            padding: 0.5rem;
-            border-bottom: 1px solid var(--navigator-border);
-            cursor: pointer;
-            user-select: none;
-
-            @media(hover: hover) {
-                &:hover {
-                    border-right: 2px solid var(--color-a);
+        .user-select-item-container {
+            width: 100%;
+            .user-select-item {
+                width: 100%;
+                background: var(--bg);
+                border: none;
+                color: var(--color);
+                font-family: 'Roobert';
+                padding: 0.5rem;
+                border-bottom: 1px solid var(--navigator-border);
+                cursor: pointer;
+                user-select: none;
+    
+                @media(hover: hover) {
+                    &:hover {
+                        border-right: 2px solid var(--color-a);
+                    }
                 }
-            }
-
-            .user-information {
-                display: flex;
-                gap: 0.5rem;
-                align-items: center;
-                font-style: italic;
-                font-size: 14px;
-
-                .user-avatar {
-                    width: 24px;
-                    height: 24px;
-                    border-radius: 24px;
+    
+                .user-information {
+                    display: flex;
+                    gap: 0.5rem;
+                    align-items: center;
+                    font-style: italic;
+                    font-size: 14px;
+    
+                    .user-avatar {
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 24px;
+                    }
                 }
             }
         }

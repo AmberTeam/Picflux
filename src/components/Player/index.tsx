@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Player: FC<Props> = ({ players }) => {
-    const [isFixed, setIsFixed] = useState<boolean>(false)
+    const [isFixed, setIsFixed] = useState<boolean>(localStorage.getItem("pinned") === "true")
     const [selectedPlayer, setSelectedPlayer] = useState<string>(players[0])
     const playerRef = useRef<HTMLIFrameElement>(null)
     const controllersRef = useRef<HTMLDivElement>(null)
@@ -48,7 +48,12 @@ const Player: FC<Props> = ({ players }) => {
             <div ref={controllersRef} className={`${styles["player-controllers"]} ${isFixed ? "" : styles["is-not-fixed"]}`}>
                 <button
                     className={`${styles["controller-button"]} ${isFixed ? styles.active : ""} ${styles["full-size-only"]}`}
-                    onClick={() => setIsFixed(wasFixed => !wasFixed)}
+                    onClick={() => {
+                        setIsFixed(wasFixed => {
+                            localStorage.setItem("pinned", !wasFixed ? "true" : "false")
+                            return !wasFixed
+                        })
+                    }}
                 >
                     <PinIcon className={styles["controller-icon"]} />
                 </button>

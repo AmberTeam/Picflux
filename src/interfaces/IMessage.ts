@@ -8,7 +8,7 @@ export interface IMessage {
     seen: number
     last?: boolean
     type: string
-    refer: IMessage | "null"
+    refer: IMessage | null | "null"
 }
 
 export interface IServerMessage {

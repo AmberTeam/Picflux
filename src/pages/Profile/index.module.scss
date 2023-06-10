@@ -121,7 +121,6 @@
                 border-bottom: 2px solid var(--profile-tabs-border);
 
                 .tab {
-                    text-transform: capitalize;
                     font-size: 1rem;
                     color: var(--profile-tabs-tab);
                     background: transparent;
@@ -135,7 +134,7 @@
                     border-bottom: 2px solid transparent;
                     transform: translateY(2px);
 
-                    &.Active {
+                    &.active {
                         color: var(--color-a);
                         border-bottom: 2px solid var(--color-a);
                     }

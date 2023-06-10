@@ -96,8 +96,8 @@
         "title": {
             "big": {
                 "fst": "Choose what you will",
-                "sec": "Watch",
-                "thrd": "Today"
+                "sec": "watch",
+                "thrd": "today"
             },
             "small": "And discover our world with satisfaction"
         },

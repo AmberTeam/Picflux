@@ -9,6 +9,7 @@ import UserSelect from "../../components/UserSelect"
 
 export async function inboxLoader() {
     const response = await InboxService.getUserInbox()
+
     const chats = response.data.inbox
     return { chats }
 }

@@ -1,6 +1,4 @@
-const DBAgent = require("../utils/db")
 const filmService = require("../service/film.service")
-const UserModel = require("../models/user.model")
 
 class FilmController {
      
@@ -32,7 +30,7 @@ class FilmController {
         }
     }
 
-    async removeWillReadFilm(req, res, next) {s
+    async removeWillReadFilm(req, res, next) {
         try {
             const response = await filmService.removeWillReadFilm(req.user.id, req.body.id)
             return res.json(response)
@@ -43,7 +41,7 @@ class FilmController {
 
     async addComment(req, res, next) {
         try { 
-            const data = await filmService.addComment(req.params.id, req.user.id, req.body.data)
+            const data = await filmService.addComment(req.params.id, req.user, req.body.data)
             return res.json(data)
         } catch(e) {
             return next(e)

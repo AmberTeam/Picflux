@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const tokenModel = require('../models/token.model');
+const db = require("../utils/ndb")
 
 class TokenService { 
     generateTokens(payload) {
@@ -29,23 +29,27 @@ class TokenService {
         }
     }
 
-    async saveToken(userId, refreshToken) {
-        const tokenData = await tokenModel.findOne({user: userId})
+    async saveToken(uid, refreshToken) {
+        //const tokenData = await tokenModel.findOne({user: userId})
+        const tokenData = await db.query("SELECT * FROM tokens WHERE uid = $1", [uid]).then(data => data.rows[0])
         if (tokenData) {
             tokenData.refreshToken = refreshToken;
-            return tokenData.save();
+            return await db.query("UPDATE tokens SET refresh_token = $1 WHERE uid = $2 RETURNING *", [refreshToken, uid]).then(data => data.rows[0])
         }
-        const token = await tokenModel.create({user: userId, refreshToken})
-        return token;
+        //const token = await tokenModel.create({user: userId, refreshToken})
+        //return token
+        return await db.query("INSERT INTO tokens(refresh_token, uid) VALUES ($1, $2) RETURNING *", [refreshToken, uid]).then(data => data.rows[0])
     }
 
     async removeToken(refreshToken) {
-        const tokenData = await tokenModel.deleteOne({refreshToken})
+        //const tokenData = await tokenModel.deleteOne({refreshToken})
+        const tokenData = await db.query("DELETE FROM tokens WHERE refresh_token = $1 RETURNING *", [refreshToken]).then(data => data.rows[0])
         return tokenData;
     }
 
     async findToken(refreshToken) {
-        const tokenData = await tokenModel.findOne({refreshToken})
+        //const tokenData = await tokenModel.findOne({refreshToken})
+        const tokenData = await db.query("SELECT * FROM tokens WHERE refresh_token = $1", [refreshToken]).then(data => data.rows[0])
         return tokenData;
     }
 }

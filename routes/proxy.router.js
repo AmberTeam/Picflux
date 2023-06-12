@@ -94,7 +94,7 @@ router.get("/vcdn/script", async (req, res) => {
                             .replaceAll('00adef', 'f0a832')
                             .replaceAll('00ADEF', 'f0a832')
                             .replaceAll('2aa1c2', 'f0a832')
-
+ 
             case 'pj_films': 
                 data_str = data_str
                             .replaceAll('00adef', 'f0a832')

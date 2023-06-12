@@ -5,17 +5,24 @@ const fs = require("fs")
 class FileService {
     saveFile(file) { 
         try { 
-            const fileName = uuid.v4() + ".png"
+            const fname = uuid.v4() + ".png"
 
-            const filePath = path.resolve('static', fileName)
+            const fpath = path.resolve('static', fname)
 
-            file.mv(filePath)
+            file.mv(fpath)
 
-            return fileName
+            return fname
         } catch(e) {
             console.log(e)
             return path.resolve('static', "user64.png")
         }
+    }
+
+    saveFileBuf(buf) {
+        const fname = uuid.v4() + ".png"
+        const fpath = path.resolve('static', fname)
+        fs.writeFileSync(fpath, buf)
+        return fname
     }
 
     async saveFileFromUrl(url) {

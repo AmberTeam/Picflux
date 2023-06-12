@@ -14,7 +14,7 @@ class FilmService {
                 for(var _i=0;_i<this.chatrooms[i].members_a.length;_i++) {
                     this.core.emit(this.chatrooms[i].members_a[_i].sid, event, payload)
                 }
-            }
+            } 
         }
     }
 
@@ -28,7 +28,7 @@ class FilmService {
         }
     }
 
-    chatroom_force_broadcast_ex(chatid, ex, event, pyaload) {
+    chatroom_force_broadcast_ex(chatid, ex, event, payload) {
         for(var i=0;i<this.chatrooms.length;i++) { 
             if(this.chatrooms[i].chatid === chatid) {
                 for(var _i=0;_i<this.chatrooms[i].members.length;_i++) {

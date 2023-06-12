@@ -4,7 +4,6 @@ const routes = require("./routes")
 const path = require("path")
 const cors = require("cors")
 const cookieParser = require("cookie-parser") 
-const mongoose = require("mongoose") 
 const errorMiddleware = require('./middlewares/error.middleware')
 const fileupload = require("express-fileupload")
 const proxyRouter = require("./routes/proxy.router") 
@@ -54,11 +53,7 @@ initWebSocketCore(wss)
 
 async function bootstrap() { 
     try { 
-        await mongoose.connect(process.env.DB, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        })
-   
+      
         server.listen(process.env.PORT, () => console.log(`\n[server] Listening on ${process.env.PORT} \n`))
         //Init WebSocketServer
         //WSC.initialize()

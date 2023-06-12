@@ -8,10 +8,11 @@ router.get('/tsp', authMiddleware, userController.setTimestamp)
 router.put("/:id/friendship/init", authMiddleware, userController.subscribe)
 router.put("/:id/friendship/destroy", authMiddleware, userController.unsubscribe)
 router.post('/update', authMiddleware, userController.update)
-router.get('/get/:id', condauthMiddleware, userController.getUserBId)
+router.get('/get/:id', condauthMiddleware, userController.getUserBId) 
 router.get('/verify', authMiddleware, userController.verify)
 router.get("/alerts/incoming", authMiddleware, userController.getAlertsIncoming)
 router.get("/regex", authMiddleware, userController.searchCandidates)
+router.get("/activate/:link", userController.activate)
 
 module.exports = router
  

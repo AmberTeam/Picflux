@@ -1,22 +1,24 @@
 const userService = require('../service/user.service');
+const mailService = require('../service/mail.service')
 const {validationResult} = require('express-validator');
 const ApiError = require('../exceptions/api.error');
-
+const {validation_err} = require("../utils/resconfig")
+ 
 class UserController {
     
-    async setTimestamp(req, res, next) {
+    async setTimestamp(req, res, next) { 
         try {
             const data = await userService.setTimestamp(req.user.id, Date.now())
             return res.status(200).json(data)
         } catch(e) {
             console.log(e)
         }
-    }
+    } 
 
     async registration(req, res, next) {
         try {
             const errors = validationResult(req);
-            if (!errors.isEmpty()) return next(ApiError.BadRequest(ApiError.econfig.validation_err, errors.array()))
+            if (!errors.isEmpty()) return next(ApiError.CustomError({...validation_err, visible: true}))
             const {email, password} = req.body;
             const userData = await userService.registration(email, password);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
@@ -41,7 +43,7 @@ class UserController {
         try {
             const {refreshToken} = req.cookies;
             const {ddf} = req.body
-            const token = await userService.logout(refreshToken, JSON.parse(ddf), req.user);
+            const token = await userService.logout(refreshToken, ddf === "true", req.user);
             res.clearCookie('refreshToken');
             return res.json(token);
         } catch (e) {
@@ -53,7 +55,7 @@ class UserController {
         try {
             const activationLink = req.params.link;
             await userService.activate(activationLink);
-            return res.redirect(process.env.CLIENT_URL);
+            res.redirect('http://localhost:3000-')
         } catch (e) {
             next(e);
         } 

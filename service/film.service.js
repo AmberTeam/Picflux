@@ -59,14 +59,13 @@ class FilmService {
 
     async search(
         q,
-        offs,
-        lim,
-        fl,
+        offs = 0,
+        lim = 12,
+        fl = [],
         flt,
         datesrt,
         psrt,
-        psrtt,
-        uid
+        psrtt
     ) {
         //SPELL CHECK
         const q_f = q.replaceAll(/[^a-zа-я0-9 ]/gi, ' ').split(" ").filter(el => el !== "")
@@ -121,28 +120,17 @@ class FilmService {
                 else req_f = `SELECT * FROM film ${namedef_construct}${psrt_construct}${free_search}`
                 break
             default: 
-                var genre_str = ""
-                for(var i=0;i<fl.length;i++) {
-                    switch(i) {
-                        case 0:
-                            if(fl.length===1) genre_str+=`{${fl[i]}}`
-                            else genre_str+=`{${fl[0]}`
-                            break
-                        case fl.length-1:
-                            genre_str+=`,${fl[i]}}`
-                            break
-                        default: 
-                            genre_str+=`,${fl[i]}`
-                            break
-                    }
+                if(fl.length) {
+                    var genre_str = array2postgres(fl)
+                    flt_construct=` AND ${flt === 'solely' ? ` NOT(genres && '${genre_str}')` : `genres @> '${genre_str}'`}`
                 }
-                flt_construct=` AND ${flt === 'solely' ? ` NOT(genres && '${genre_str}')` : `genres @> '${genre_str}'`}`
                 if(datesrt&&datesrt!=="any"&&psrt==="without") flt_construct+=` AND year = ${datesrt}`
                 req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${flt_construct}${psrt_construct}${free_search}`
                 break
         }
 
-
+        console.log("here")
+        console.log(req_f)
         var rows = await db.query(req_f).then(data => data.rows)
 
         //FILTER FILMS

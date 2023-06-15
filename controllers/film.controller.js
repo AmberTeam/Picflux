@@ -1,3 +1,4 @@
+const ApiError = require("../exceptions/api.error")
 const filmService = require("../service/film.service")
 
 class FilmController {
@@ -12,13 +13,55 @@ class FilmController {
         }
     }
 
-    async search(req, res) {
-        const {fl, flt, datesrt, psrt, psrt_t} = req.query
-        const {limit, offset, query} = req.body
-        const fl_arr = fl ? fl.split(" ").filter((fle) => fle !== "") : []
-        const psrt_f = psrt ? psrt.replaceAll('"', '') : "without"
-        const fdatas = await filmService.search(query, Number(offset), Number(limit), fl_arr, flt, datesrt, psrt_f, psrt_t, req.user ? req.user.id : undefined)
-        return res.json(fdatas)
+    async search(req, res, next) {
+        try {
+            const {fl, flt, datesrt, psrt, psrt_t} = req.query
+            const {limit, offset, query} = req.body
+            const ACTIVATORS = {
+                datesrt: [""], 
+                flt: [""],
+                psrt: [""],
+                psrt_t: [""]
+            }
+    
+            var result = { 
+                datesrt: "any",
+                flt: "without",
+                psrt: "without",
+                psrt_t: "desc"
+            }
+    
+            const keys = Object.keys({datesrt, flt, psrt, psrt_t})
+            const vls = Object.values({datesrt, flt, psrt, psrt_t})
+    
+            for(var i=0;i < vls.length;i++) {
+                switch(keys[i]) {
+                    case "datesrt": 
+                        if(vls[i] && !ACTIVATORS.datesrt.includes(vls[i])) result.datesrt = vls[i]
+                        break
+                    case "flt":
+                        if(vls[i] && !ACTIVATORS.flt.includes(vls[i])) result.flt = vls[i]
+                        break 
+                    case "psrt": 
+                        if(vls[i] && !ACTIVATORS.psrt.includes(vls[i])) result.psrt = vls[i]
+                        break 
+                    case "psrt_t": 
+                        if(vls[i] && !ACTIVATORS.psrt_t.includes(vls[i])) result.psrt_t = vls[i]
+                        break
+                }
+            }
+
+    
+            var fl_arr = fl ? fl.split(" ").filter((fle) => fle !== "") : []
+            
+            if(result.psrt_t !== "without" && !fl_arr.length) fl_arr = []
+    
+            const fdatas = await filmService.search(query, Number(offset), Number(limit), fl_arr, result.flt, result.datesrt, result.psrt, result.psrt_t, req.user ? req.user.id : undefined)
+    
+            return res.json(fdatas)
+        } catch(e) {
+            next(e)
+        }
     }
 
     async addWillReadFilm(req, res) {

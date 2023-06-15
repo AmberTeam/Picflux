@@ -47,7 +47,6 @@ const YearFilter = () => {
         const defaultStateIndex = states.findIndex(state => state.id === localStorage.getItem("sort-year"))
         return defaultStateIndex !== -1 ? defaultStateIndex : 0
     }, [])
-    console.log(defaultState)
     const { next, state } = useCircularState<ICircularState>(states, defaultState)
     return (
         <Filter header="YEAR">
@@ -63,6 +62,7 @@ const YearFilter = () => {
                 <state.icon className={styles["year-sort-icon"]} />
             </button>
             <input
+                disabled={state.id !== States.Disabled}
                 defaultValue={localStorage.getItem("date") ?? ""}
                 type="number"
                 min="1915"

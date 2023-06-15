@@ -22,14 +22,19 @@ const ChatListItem: FC<IChatListItemProps> = (props: IChatListItemProps) => {
     const [alerts, setAlerts] = useState<IMessage[]>(props.default_unread ?? [])
     useEffect(() => {
         if (store.isSocketAuth && props.chat.members.length) {
-            if (props.chat.members[0].status) setOnline(props.chat.members[0].status === 1 ? true : false)
+            if (props.chat.members[0].status) setOnline(!!props.chat.members[0].status)
             const handler = (event: MessageEvent) => {
-                if (event.data.type === WebSocketEvents.UpdateUserStatus) {
-                    if (event.data.payload.uid === props.chat.members[0].id) setOnline(true)
+                const data = JSON.parse(event.data)
+                if (data.event === WebSocketEvents.UpdateUserStatus) {
+                    const payload = JSON.parse(data.payload)
+                    if (payload.uid === props.chat.members[0].id) setOnline(true)
                 }
             }
             wsc.addListener("message", handler)
             wsc.send(WebSocketActions.InitializeSession, { uid: props.chat.members[0].id })
+            return () => {
+                wsc.removeListener("message", handler)
+            }
         }
     }, [store.isSocketAuth])
 
@@ -54,10 +59,11 @@ const ChatListItem: FC<IChatListItemProps> = (props: IChatListItemProps) => {
         }
     }, [props.globalSeenHandler])
 
-
     return (
         <NavLink
-            className={({ isActive }) => `${styles["chat-list-item-container"]} ${isActive ? styles.Active : styles.Default}`}
+            className={({ isActive }) => {
+                return `${styles["chat-list-item-container"]} ${isActive ? styles.active : ""}`
+            }}
             to={`/inbox/${props.chat.chatid}`}
         >
             <div className={styles["chat-list-item-profile"]}>
@@ -68,7 +74,7 @@ const ChatListItem: FC<IChatListItemProps> = (props: IChatListItemProps) => {
                     <div className={styles["profile-username"]}>
                         {props.chat.members[0].username}
                     </div>
-                    <div className={`${styles["profile-status"]} ${online ? styles.active : styles.default}`}>
+                    <div className={`${styles["profile-status"]} ${online ? styles.active : ""}`}>
                         {online ? store.lang.g.statuses.online : store.lang.g.statuses.offline}
                     </div>
                 </div>

@@ -19,15 +19,20 @@
   align-items: flex-end;
   &.own-message {
     flex-direction: row-reverse;
+    .message-actions-container {
+      left: 20px;
+    }
     .message-data {
       border-bottom-left-radius: 1rem;
       border-bottom-right-radius: 0.375rem;
     }
   }
-  &:hover {
-    .message-actions-container {
-      left: 0;
-      opacity: 1;
+  @media (hover: hover) {
+    &:hover {
+      .message-actions-container {
+        left: 0;
+        opacity: 1;
+      }
     }
   }
   .message-user-avatar {
@@ -71,14 +76,21 @@
       opacity: 1;
     }
     .action {
+      @media (hover: none) {
+        &.more-action {
+          display: none;
+        }
+      }
       border: none;
       background-color: transparent;
       cursor: pointer;
       height: 19px;
       width: 19px;
-      &:hover {
-        .action-icon {
-          fill: var(--color);
+      @media (hover: hover) {        
+        &:hover {
+          .action-icon {
+            fill: var(--color);
+          }
         }
       }
       .action-icon {

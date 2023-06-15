@@ -3,75 +3,12 @@
   flex-direction: column;
   gap: 3rem;
   align-items: center;
-
+  width: 100%;
   .comments {
-    width: 100%;
     border: 2px solid var(--fg);
     border-radius: 16px;
     display: flex;
     flex-direction: column;
-
-    .comment-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      padding: 0.8rem;
-      border-bottom: 2px solid var(--fg);
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .comment-details {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .comment-date {
-          font-size: 10px;
-        }
-
-        .comment-user-information {
-          display: flex;
-          gap: 0.5rem;
-          align-items: center;
-          font-size: 12px;
-
-          .comment-user-avatar {
-            height: 27px;
-            width: 27px;
-            border-radius: 50%;
-          }
-
-          .comment-user-rating-container {
-            display: flex;
-            align-items: center;
-            gap: 3.5px;
-
-            .rating-icon {
-              width: 14px;
-              height: 14px;
-              fill: var(--color-a);
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.no-comments-container {
-  width: 100%;
-  height: 18rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  border: 2px solid var(--fg);
-  border-radius: 16px;
-  .no-comments-icon {
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 100%;
   }
 }

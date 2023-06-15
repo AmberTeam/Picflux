@@ -14,6 +14,8 @@ import FilmService from "../../services/FilmService"
 import CommentsSection from "../../components/CommentsSection"
 import Player from "../../components/Player"
 import LoaderMini from "../../components/LoaderMini"
+import { IFilmComment, IPlayer } from "../../interfaces/IFilm"
+import FCRService from "../../services/FCRService"
 enum ManageWatchLaterAction {
     Add = "add",
     Remove = "remove"
@@ -50,12 +52,41 @@ export async function manageWatchLaterAction({ request, params }: Args) {
     }
 }
 
+const definePlayerGeo = (purl: string): string => {
+    return "ru"
+    const { hostname } = new URL(purl)
+    switch (hostname) {
+        case "ashdi.vip":
+            return "ukr"
+        default:
+            return "ru"
+    }
+}
+
 export async function filmLoader({ params }: Args) {
     const film = (await UserService.getById(params.id, store.getStoredLang())).data
-    return { film }
+    const players: IPlayer[] = film.players.map(player => {
+        const url = FCRService.deartefactUrl(player)
+        return {
+            url: url,
+            geo: definePlayerGeo(player)
+        }
+    })
+    let comments: IFilmComment[] = []
+    let canLoadMoreComments = false
+    if(params.id) {
+        const response = await FilmService.getComments(params.id, 0, 15)
+        if(response.data) {
+            console.log(response)
+            comments = response.data.comments
+            canLoadMoreComments = response.data.can_load
+        }
+    }
+    return { film, players, comments, canLoadMoreComments }
 }
 const FilmPage: FC = () => {
-    const { film } = useLoaderData() as { film: IFilmGetById, player: string }
+    const { film, players } = useLoaderData() as { film: IFilmGetById, players: IPlayer[] }
+    const fetcher = useFetcher()
     const isInWatchList = useMemo(() => film?.watchLater?.some(watchLaterFilmId => watchLaterFilmId === film.id.toString() ?? false), [film])
     const rating = useMemo(() => {
         if (film.rated) {
@@ -64,11 +95,10 @@ const FilmPage: FC = () => {
         }
         return 0
     }, [store.user, film.rating, film.rated])
-    const fetcher = useFetcher()
     return (
         <div className={styles["film-page-container"]}>
             <Helmet>
-                <title>Cimber: {film.name}</title>
+                <title>Cimber: {film.title}</title>
                 <meta name="viewport" content="width=1000" />
                 <meta httpEquiv="X-UA-Compatible" content="chrome=IE8" />
                 <meta property="og:type" content="video.tv_series" />
@@ -84,7 +114,7 @@ const FilmPage: FC = () => {
                 <img src={film.poster} className={styles["film-poster"]} />
                 <div className={styles["film-information-watch-later"]}>
                     <div className={styles["film-information"]}>
-                        <h1 className={styles["film-name"]}>{film.name}</h1>
+                        <h1 className={styles["film-name"]}>{film.title}</h1>
                         <div className={styles["film-details-container"]}>
                             <span className={styles.bold}>{store.lang.film.info.header.overview}</span>
                             <div className={styles["film-details"]}>
@@ -94,11 +124,11 @@ const FilmPage: FC = () => {
                                 />
                                 <FilmDetail
                                     detail={store.lang.film.info.main.country_.country}
-                                    value={JSON.parse(film.countries).join(", ")}
+                                    value={film.countries.join(", ")}
                                 />
                                 <FilmDetail
                                     detail={store.lang.film.info.main.genre_.genres}
-                                    value={JSON.parse(film.genres).join(", ")}
+                                    value={film.genres.join(", ")}
                                 />
                                 <FilmDetail
                                     detail={store.lang.film.info.main.duration}
@@ -140,14 +170,14 @@ const FilmPage: FC = () => {
                 </div>
             </div>
             <p className={styles["film-description"]}>{film.description}</p>
-            <Player players={film.players} />
+            <Player players={players} />
             <div className={styles["rate-container"]}>
                 <span className={styles.bold}>{store.lang.film.actions.rate_film}:</span>
                 <RatingCounter
                     rating={rating}
                 />
             </div>
-            <CommentsSection />
+            <CommentsSection ratings={film.rating} />
         </div>
     )
 }

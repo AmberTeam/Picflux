@@ -7,18 +7,18 @@ import IAlert from "../interfaces/IAlert"
 import IRating from "../interfaces/IRating"
 
 export interface IFilmGetById {
-    comments: string
-    countries: string
+    comments: string[]
+    countries: string[]
     description: string
     duration: string
-    genres: string
+    genres: string[]
     id: number
     poster: string
     rated: boolean
     rating: IRating[]
     rating_average: number
     year: 2022
-    name: string
+    title: string
     players: string[]
     imdb_translate?: IIMDBTranslate
     language: number

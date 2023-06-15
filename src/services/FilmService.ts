@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios"
 import { IFilmComment } from "../interfaces/IFilm"
 
 export default class FilmService {
-    static async addComment(fid: number, data: string): Promise<AxiosResponse<IFilmComment>> {
+    static async addComment(fid: string, data: string): Promise<AxiosResponse<IFilmComment>> {
         return $api.put<IFilmComment>(`/film/${fid}/comment`, { data })
     }
 
@@ -13,7 +13,7 @@ export default class FilmService {
         })
     }
 
-    static async getComments(id: number, offset: number, limit: number): Promise<AxiosResponse<any>> {
+    static async getComments(id: string, offset: number, limit: number): Promise<AxiosResponse<any>> {
         return $api.get<any>(`/film/${id}/comments?offset=${offset}&limit=${limit}`)
     }
 }

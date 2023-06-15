@@ -1,0 +1,37 @@
+.profile-container {
+  margin-left: 1rem;
+  position: relative;
+}
+.dropdown-button {
+  width: 120px;
+  padding: 12.8px;
+  border: none;
+  background-color: green;
+  text-align: left;
+  color: white;
+  cursor: pointer;
+}
+.dropdown-content {
+  border-radius: 6px;
+  background-color: #232121;
+  width: 120px;
+  transition: all 0.3s ease;
+  list-style: none;
+  position: absolute;
+  top: 45px;
+  display: none;
+  opacity: 0;
+  &.active {
+    display: block;
+    opacity: 1;
+  }
+  .dropdown-element {
+    color: white;
+    border-top: 1px solid #414245;
+    padding: 12.8px;
+    text-transform: capitalize;
+    &:first-child {
+      border-top: none;
+    }
+  }
+}

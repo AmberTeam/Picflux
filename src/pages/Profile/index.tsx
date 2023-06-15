@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { Link, Outlet, useFetcher, useLoaderData, useNavigate, ActionFunctionArgs, Params, ParamParseKey, useParams } from "react-router-dom"
+import { Link, useFetcher, useLoaderData, ActionFunctionArgs, Params, ParamParseKey, useParams } from "react-router-dom"
 import styles from "./index.module.scss"
 import { IUser } from "../../interfaces/IUser"
 import UserService from "../../services/UserService"
@@ -15,6 +15,7 @@ import LoaderMini from "../../components/LoaderMini"
 import { wsc } from "../.."
 import WebSocketEvents from "../../enums/WebSocketEvents"
 import WebSocketActions from "../../enums/WebSocketActions"
+import EditProfileModal from "../../components/EditProfileModal"
 
 enum Tab {
     WatchLaterList = "watchLaterList",
@@ -56,9 +57,9 @@ const ProfilePage = () => {
     const { user } = useLoaderData() as { user: IUser | undefined }
     const params = useParams<"id">()
     const isSameUser = useMemo(() => user?.id === store.user.id, [user, store.user.id])
-    const navigate = useNavigate()
     const [tab, setTab] = useState<Tab>(isSameUser ? Tab.WatchLaterList : Tab.Friends)
-    const [isOnline, setIsOnline] = useState<boolean>(store.user.id === params.id ? true : !!user?.status ?? false)
+    const [isOnline, setIsOnline] = useState<boolean>(store.user.id === params.id ? true : user?.id !== undefined ? !!user.id : false)
+    const [isInEditMode, setIsInEditMode] = useState<boolean>(false)
     const fetcher = useFetcher()
     const isLoading = fetcher.state === "submitting" || fetcher.state === "loading"
     useEffect(() => {
@@ -79,7 +80,7 @@ const ProfilePage = () => {
     }, [params.id])
     return (
         <>
-            <Outlet />
+            <EditProfileModal isActive={isInEditMode} setIsActive={setIsInEditMode}/>
             {user?.id ?
 
                 <section className={styles["profile-section"]}>
@@ -160,7 +161,7 @@ const ProfilePage = () => {
                                 }
                                 {
                                     isSameUser ?
-                                        <button className={styles["action-button"]} onClick={() => navigate("edit")}>
+                                        <button className={styles["action-button"]} onClick={() => setIsInEditMode(true)}>
                                             <span>{store.lang.profile.intro.actions.ed}</span>
                                             <EditIcon className={styles["action-button-icon"]} />
                                         </button>

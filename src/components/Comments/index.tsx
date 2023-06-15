@@ -1,32 +1,38 @@
-import { FC } from "react"
-import ButtonVariant from "../../enums/ButtonVariant"
+import { FC, useMemo } from "react"
 import { IFilmComment } from "../../interfaces/IFilm"
-import store from "../../store/store"
-import Button from "../Button"
 import styles from "./index.module.scss"
-import { ReactComponent as NoCommentsIcon } from "../../icons/NotFound.svg"
+import Comment from "../Comment/index"
+import IRating from "../../interfaces/IRating"
 interface Props {
     comments: IFilmComment[]
+    ratings: IRating[]
 }
 
-const Comments: FC<Props> = ({ comments }) => {
+const Comments: FC<Props> = ({ comments, ratings }) => {
+    const mergedCommentsRatings = useMemo(() => {
+        const seen: { [key: string]: number } = {}
+        return comments.map(comment => {
+            let rating: number | undefined
+            if (seen[comment.user.id] !== undefined) {
+                rating = seen[comment.user.id]
+            }
+            else {
+                rating = ratings.find(rating => rating.owner === comment.user.id)?.value
+            }
+            return {
+                ...comment,
+                rating
+            }
+        })
+    }, [ratings, comments])
     return (
-        comments.length ?
-            <div className={styles["comments-container"]}>
-                <div className={styles.comments}>
-                    {comments.map((comment) => {
-                        return <div key={comment.data}>Hola</div>
-                    })}
-                </div>
-                <Button variant={ButtonVariant.Empty}>
-                    {store.lang.film.comments.lm}
-                </Button>
+        <div className={styles["comments-container"]}>
+            <div className={styles.comments}>
+                {mergedCommentsRatings.map(({ rating, ...comment }) => {
+                    return <Comment comment={comment} rating={rating} key={comment.id} />
+                })}
             </div>
-            :
-            <div className={styles["no-comments-container"]}>
-                <NoCommentsIcon className={styles["no-comments-icon"]} />
-                <span>{store.lang.film.comments.nc}</span>
-            </div>
+        </div>
     )
 }
 

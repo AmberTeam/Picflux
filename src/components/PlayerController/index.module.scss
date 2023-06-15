@@ -1,0 +1,26 @@
+.controller-button {
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  transition: background-color 0.2s ease;
+  
+  &.active {
+    background-color: rgba(240, 168, 50, .212);
+
+    .controller-icon {
+      fill: var(--color-a);
+    }
+  }
+
+  .controller-icon {
+    transition: fill 0.2s ease;
+    width: 1rem;
+    height: 1rem;
+    fill: var(--player-tab-col);
+  }
+}

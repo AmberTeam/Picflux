@@ -1,0 +1,46 @@
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border-bottom: 2px solid var(--fg);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .comment-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .comment-date {
+      font-size: 10px;
+    }
+
+    .comment-user-information {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      font-size: 12px;
+
+      .user-avatar {
+        height: 27px;
+        width: 27px;
+        border-radius: 50%;
+      }
+
+      .comment-user-rating-container {
+        display: flex;
+        align-items: center;
+        gap: 3.5px;
+
+        .rating-icon {
+          width: 14px;
+          height: 14px;
+          fill: var(--color-a);
+        }
+      }
+    }
+  }
+}

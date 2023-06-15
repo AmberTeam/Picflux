@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import { IMessage } from "../../../../interfaces/IMessage"
 import styles from "./index.module.scss"
 import { IUserMin } from "../../../../interfaces/IUser"
@@ -13,19 +13,13 @@ import { ReactComponent as CancelIcon } from "../../../../icons/Close.svg"
 interface IMessageProps {
     message: IMessage
     observer: IUserMin
-    onRender?: () => void
     onReply: (arg: IMessage) => void
     onDelete: (arg: IMessage) => void
     onEdit: (arg: IMessage) => void
 }
 
-const Message: FC<IMessageProps> = ({ onRender, observer, message, onReply, onDelete, onEdit }) => {
+const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEdit }) => {
     const [controllerActive, setControllerActive] = useState<boolean>(false)
-    useEffect(() => {
-        if (onRender) {
-            onRender()
-        }
-    }, [])
     return (
         <div
             className={`${styles["message-container"]} ${message.owner === store.user.id ? styles["own-message"] : ""}`}
@@ -102,7 +96,7 @@ const Message: FC<IMessageProps> = ({ onRender, observer, message, onReply, onDe
                     </div>
                     :
                     <button
-                        className={styles.action}
+                        className={`${styles.action} ${styles["more-action"]}`}
                         onClick={() => setControllerActive(true)}
                     >
                         <MoreIcon className={styles["action-icon"]} />

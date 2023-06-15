@@ -8,10 +8,21 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(240, 168, 50, 0.3);
+    }
+    &.inactive {
+      &:hover {
+        background-color: rgba(100, 100, 100, 0.3);
+      }
+    }
+  }
   &.inactive {
-    border-color: var(--year-button-color);
+    border-color: var(--mtd-col);
     .year-sort-icon {
-      fill: var(--year-button-color);
+      fill: var(--mtd-col);
     }
   }
   &.descendant, &.ascendant {

@@ -4,25 +4,24 @@ import { ReactComponent as CloseIcon } from "../../icons/Close.svg"
 import store from "../../store/store"
 import Modal from "../Modal"
 import { ReactComponent as UploadIcon } from "../../icons/Upload.svg"
-import { Form, redirect, useNavigate } from "react-router-dom"
+import { useFetcher } from "react-router-dom"
 import UserService from "../../services/UserService"
 import { observer } from "mobx-react-lite"
+
+interface Props {
+    isActive: boolean
+    setIsActive: (isActive: boolean) => void
+}
 
 export async function editProfileModalAction({ request } : { request: Request }) {
     const newUserInformation = Object.fromEntries(await request.formData())
     const response = await UserService.update(newUserInformation)
-    if(response.status === 200){
-        return redirect("..")
-    }
     return { response }
 }
 
-const EditProfileModal: FC = () => {
-    const navigate = useNavigate()
+const EditProfileModal: FC<Props> = ({ isActive, setIsActive }) => {
     const [avatarUrl, setAvatarUrl] = useState(store.user.avatar)
-    const close = () => {
-        navigate(-1)
-    }
+    const fetcher = useFetcher()
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { files } = event.target
         if(files?.length) {
@@ -37,20 +36,21 @@ const EditProfileModal: FC = () => {
     }
     return (
         <Modal
-            isActive={true}
-            close={close}
+            isActive={isActive}
+            close={() => setIsActive(false)}
             className={styles.modal}
         >
             <div className={styles["modal-header"]}>
-                <button className={styles["close-icon-container"]} onClick={close}>
+                <button className={styles["close-icon-container"]} onClick={() => setIsActive(false)}>
                     <CloseIcon className={styles["close-icon"]} />
                 </button>
                 <span className={styles.title}>{store.lang.profile.edit.title}</span>
             </div>
-            <Form
+            <fetcher.Form
                 className={styles["modal-form"]}
                 encType="multipart/form-data"
                 method="patch"
+                action="edit"
             >
                 <div className={styles["avatar-field"]}>
                     <input
@@ -103,10 +103,11 @@ const EditProfileModal: FC = () => {
                 <button
                     className={`${styles["submit-button"]}`}
                     type="submit"
+                    onClick={() => setIsActive(false)}
                 >
                     {store.lang.profile.edit.submit}
                 </button>
-            </Form>
+            </fetcher.Form>
         </Modal>
     )
 }

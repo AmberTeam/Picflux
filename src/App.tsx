@@ -14,12 +14,13 @@ import "./sass/index.scss"
 import $api from "./http"
 import Root from "./pages/Root/Root"
 import store from "./store/store"
-import EditProfileModal, { editProfileModalAction } from "./components/EditProfileModal"
+import { editProfileModalAction } from "./components/EditProfileModal"
 import NoChat from "./pages/Inbox/NoChat"
 import Chat, { chatLoader } from "./pages/Inbox/Chat"
 import { searchUsersLoader } from "./components/UserSelect"
 import ProtectedPage from "./components/ProtectedPage"
 import CreateChat, { createChatAction } from "./components/CreateChat"
+import { getNextCommentsLoader, postCommentAction } from "./components/CommentsSection"
 
 const router = createBrowserRouter([
     {
@@ -60,6 +61,11 @@ const router = createBrowserRouter([
                             {
                                 path: "rate-film",
                                 action: rateFilmAction
+                            },
+                            {
+                                path: "comments",
+                                action: postCommentAction,
+                                loader: getNextCommentsLoader
                             }
                         ]
                     },
@@ -73,7 +79,6 @@ const router = createBrowserRouter([
                                 children: [
                                     {
                                         path: "edit",
-                                        element: <ProtectedPage hasToBeLoggedIn={true}><EditProfileModal /></ProtectedPage>,
                                         action: editProfileModalAction
                                     },
                                     {

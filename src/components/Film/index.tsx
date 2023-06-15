@@ -1,32 +1,41 @@
 import { observer } from "mobx-react-lite"
-import { FC } from "react"
+import { FC, useEffect, useRef } from "react"
 import styles from "./film.module.scss"
 import { IFilm } from "../../interfaces/IFilm"
 import { Link, useNavigate } from "react-router-dom"
 import { ReactComponent as PlayIcon } from "../../icons/Play.svg"
 import UserService from "../../services/UserService"
 import store from "../../store/store"
+import PlaceholderPoster from "../../img/poster_placeholder.png"
 interface Props {
     film: IFilm
 }
 const FilmComponent: FC<Props> = ({ film }) => {
     const navigate = useNavigate()
+    const posterRef = useRef<HTMLImageElement>(null)
+    useEffect(() => {
+        posterRef.current?.addEventListener("error", () => {
+            if (posterRef.current) {
+                posterRef.current.src = PlaceholderPoster
+            }
+        })
+    }, [])
     return (
         <div className={styles.container}>
             <div className={styles["film-container"]}
             >
-                <div 
+                <div
                     className={styles["film-poster-container"]}
                     onClick={() => navigate(`/film/${film.id}`)}
                 >
                     <div className={styles.blurer}>
                         <PlayIcon />
                     </div>
-                    <img className={styles["film-poster"]} src={film.poster} />
+                    <img ref={posterRef} className={styles["film-poster"]} src={film.poster} />
                 </div>
                 <div className={styles["film-body"]}>
                     <div className={styles["film-information"]}>
-                        <span>{film.name}</span>
+                        <span>{film.title}</span>
                         <span className={styles["film-details"]}>{film.year}. {film.genres.join(", ")}</span>
                     </div>
                     <div className={styles["buttons-container"]}>

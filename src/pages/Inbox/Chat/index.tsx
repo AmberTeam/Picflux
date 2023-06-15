@@ -63,13 +63,15 @@ const Chat: FC = () => {
             }
         }
     }
-    const getPreviousMessages = useCallback(async () => {
+    const getPreviousMessages = useCallback(() => {
         if (canLoadMore && params.id && fragments.length) {
-            const response = await InboxService.getChatHistory(params.id, fragments.reduce((acc, fragment) => fragment.messages.length + acc, 0), 25)
-            if (!response.data.history.length) {
-                setCanLoadMore(false)
-            }
-            updateFragments("unshift", [...response.data.history])
+            setTimeout(async () => {
+                const response = await InboxService.getChatHistory(params.id ?? "", fragments.reduce((acc, fragment) => fragment.messages.length + acc, 0), 25)
+                if (!response.data.history.length) {
+                    setCanLoadMore(false)
+                }
+                updateFragments("unshift", response.data.history)
+            }, 100)
         }
     }, [canLoadMore, params.id, fragments])
     useEffect(() => {

@@ -21,37 +21,9 @@
     overflow: hidden;
     width: 2.75rem;
     transition: width 0.2s ease;
-
-    .controller-button {
-      border-radius: 50%;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      transition: background-color 0.2s ease;
-
-      &.full-size-only {
-        @media (max-width: 900px) {
-          display: none;
-        }
-      }
-
-      &.active {
-        background-color: rgba(240, 168, 50, .212);
-
-        .controller-icon {
-          fill: var(--color-a);
-        }
-      }
-
-      .controller-icon {
-        transition: fill 0.2s ease;
-        width: 1rem;
-        height: 1rem;
-        fill: var(--player-tab-col);
+    .full-size-only {
+      @media (max-width: 900px) {
+        display: none;
       }
     }
   }
@@ -72,42 +44,6 @@
       &::-webkit-scrollbar {
         display: none;
       }
-
-      .change-player-option {
-        border-bottom: 1px solid var(--player-tabs-bg);
-
-        &:last-child {
-          border-bottom: none;
-        }
-
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        padding: 0.8rem;
-        background-color: var(--player-tab-bg);
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-
-        @media (hover: hover) {
-          &:hover {
-            background-color: var(--player-tab-h-col);
-          }
-        }
-
-        &.active {
-          background-color: var(--player-tab-h-col);
-        }
-
-        .player-language-flag {
-          width: 1rem;
-          height: 1rem;
-        }
-
-        .player-number {
-          font-size: 12px;
-          font-family: Arial, Helvetica, sans-serif;
-        }
-      }
     }
 
     .actions {
@@ -116,11 +52,7 @@
       flex-direction: column;
 
       .action-container {
-        border-bottom: 1px solid var(--player-tabs-bg);
-
-        &:last-child {
-          border-bottom: none;
-        }
+        border-top: 1px solid var(--player-tabs-bg);
 
         .action {
           width: 100%;

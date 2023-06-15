@@ -2,11 +2,7 @@ import { IUserMin } from "./IUser"
 
 export interface IPlayer {
     url: string
-    variant: number
     geo: string
-    err?: boolean
-    index: number
-    ps_index: number
 }
 
 
@@ -15,6 +11,9 @@ export interface IFilmComment {
     user: IUserMin
     datef_ms: string
     datef_v: string
+    id: number
+    fid: number
+    uid: string
 }
 
 export interface IIMDBCredit {
@@ -36,7 +35,7 @@ export interface IIMDBTranslate {
 
 export interface IFilm {
     id: number
-    name: string
+    title: string
     year: string
     description: string
     countries: [string]

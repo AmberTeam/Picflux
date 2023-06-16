@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react"
+import { FC, useEffect, useMemo, useRef } from "react"
 import styles from "./index.module.scss"
 import { observer } from "mobx-react-lite"
 import { Helmet } from "react-helmet"
@@ -16,6 +16,7 @@ import Player from "../../components/Player"
 import LoaderMini from "../../components/LoaderMini"
 import { IFilmComment, IPlayer } from "../../interfaces/IFilm"
 import FCRService from "../../services/FCRService"
+import PlaceholderPoster from "../../img/poster_placeholder.png"
 enum ManageWatchLaterAction {
     Add = "add",
     Remove = "remove"
@@ -74,9 +75,9 @@ export async function filmLoader({ params }: Args) {
     })
     let comments: IFilmComment[] = []
     let canLoadMoreComments = false
-    if(params.id) {
+    if (params.id) {
         const response = await FilmService.getComments(params.id, 0, 15)
-        if(response.data) {
+        if (response.data) {
             console.log(response)
             comments = response.data.comments
             canLoadMoreComments = response.data.can_load
@@ -85,6 +86,7 @@ export async function filmLoader({ params }: Args) {
     return { film, players, comments, canLoadMoreComments }
 }
 const FilmPage: FC = () => {
+    const posterRef = useRef<HTMLImageElement>(null)
     const { film, players } = useLoaderData() as { film: IFilmGetById, players: IPlayer[] }
     const fetcher = useFetcher()
     const isInWatchList = useMemo(() => film?.watchLater?.some(watchLaterFilmId => watchLaterFilmId === film.id.toString() ?? false), [film])
@@ -95,6 +97,17 @@ const FilmPage: FC = () => {
         }
         return 0
     }, [store.user, film.rating, film.rated])
+    useEffect(() => {
+        const errorHandler = () => {
+            if(posterRef.current) {
+                posterRef.current.src = PlaceholderPoster 
+            }
+        }
+        posterRef.current?.addEventListener("error", errorHandler)
+        return () => {
+            posterRef.current?.removeEventListener("error", errorHandler)
+        }
+    }, [posterRef.current])
     return (
         <div className={styles["film-page-container"]}>
             <Helmet>
@@ -111,7 +124,7 @@ const FilmPage: FC = () => {
                 <meta property="og:image" content={film.poster} />
             </Helmet>
             <div className={styles["film-information-container"]}>
-                <img src={film.poster} className={styles["film-poster"]} />
+                <img ref={posterRef} src={film.poster} className={styles["film-poster"]} />
                 <div className={styles["film-information-watch-later"]}>
                     <div className={styles["film-information"]}>
                         <h1 className={styles["film-name"]}>{film.title}</h1>
@@ -141,7 +154,7 @@ const FilmPage: FC = () => {
                             </div>
                         </div>
                     </div>
-                    {store.user ?
+                    {store.isAuth ?
                         <fetcher.Form
                             method="post"
                             action="manage-watch-list"
@@ -171,12 +184,15 @@ const FilmPage: FC = () => {
             </div>
             <p className={styles["film-description"]}>{film.description}</p>
             <Player players={players} />
-            <div className={styles["rate-container"]}>
-                <span className={styles.bold}>{store.lang.film.actions.rate_film}:</span>
-                <RatingCounter
-                    rating={rating}
-                />
-            </div>
+            {store.isAuth ? 
+                <div className={styles["rate-container"]}>
+                    <span className={styles.bold}>{store.lang.film.actions.rate_film}:</span>
+                    <RatingCounter
+                        rating={rating}
+                    />
+                </div>
+                : null
+            }
             <CommentsSection ratings={film.rating} />
         </div>
     )

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { FC, useMemo, useEffect, useRef, useState, useCallback } from "react"
+import { FC, useMemo, useEffect, useRef, useState, useCallback, useContext } from "react"
 import InboxService from "../../../services/InboxService"
 import styles from "./index.module.scss"
 import { ActionFunctionArgs, Link, ParamParseKey, Params, useLoaderData, useOutletContext, useParams } from "react-router-dom"
@@ -9,13 +9,13 @@ import { ReactComponent as SendIcon } from "../../../icons/Send.svg"
 import { IChat } from "../../../interfaces/IDirect"
 import MessageList from "./MessageList"
 import { IMessage } from "../../../interfaces/IMessage"
-import { wsc } from "../../.."
 import WebSocketActions from "../../../enums/WebSocketActions"
 import uuid from "react-uuid"
 import WebSocketEvents from "../../../enums/WebSocketEvents"
 import { ReactComponent as CancelIcon } from "../../../icons/Close.svg"
 import { ReactComponent as GoBackIcon } from "../../../icons/GoBack.svg"
 import useFragmenting from "../../../hooks/useFragmenting.hook"
+import { Context } from "../../.."
 
 const path = "/inbox/:id" as const
 
@@ -32,10 +32,12 @@ export async function chatLoader({ params }: Args) {
 }
 
 const Chat: FC = () => {
+    const { wsc } = useContext(Context)
     const inputMessageRef = useRef<HTMLInputElement>(null)
     const [canLoadMore, setCanLoadMore] = useState(true)
     const { messages: fetchedMessages } = useLoaderData() as { messages: IMessage[] }
     const [replyingMessage, setReplyingMessage] = useState<IMessage | null>(null)
+    const [editingMessage, setEditingMessage] = useState<string | null>(null)
     const { chats } = useOutletContext<{ chats: IChat[] }>()
     const params = useParams<"id">()
     const chat = useMemo(() => chats.find(chat => chat.chatid === params.id), [params.id, chats])
@@ -44,23 +46,27 @@ const Chat: FC = () => {
     const handleMessageSubmit = () => {
         const message = inputMessageRef.current?.value
         if (message && params.id) {
-            const messageInformation = {
-                owner: store.user.id,
-                payload: message,
-                chatid: params.id,
-                timestamp: Date.now(),
-                seen: 0,
-                id: "",
-                _id: uuid(),
-                type: replyingMessage?._id ? "reply" : "default"
+            if (editingMessage) {
+                console.log("Editing message", params.id, editingMessage, message)
+                InboxService.editMsg(params.id, editingMessage, message)
             }
-            if (message) {
+            else {
+                const messageInformation = {
+                    owner: store.user.id,
+                    payload: message,
+                    chatid: params.id,
+                    timestamp: Date.now(),
+                    seen: 0,
+                    id: "",
+                    _id: uuid(),
+                    type: replyingMessage?._id ? "reply" : "default"
+                }
                 wsc.send(WebSocketActions.ChatroomMessage, { chatid: params.id, msg: { ...messageInformation, refer: replyingMessage } })
                 InboxService.storeMsg({ ...messageInformation, refer: replyingMessage?._id ?? null })
                 updateFragments("push", [{ ...messageInformation, refer: replyingMessage ?? null }])
-                inputMessageRef.current.value = ""
                 setReplyingMessage(null)
             }
+            inputMessageRef.current.value = ""
         }
     }
     const getPreviousMessages = useCallback(() => {
@@ -83,6 +89,7 @@ const Chat: FC = () => {
             const data = JSON.parse(event.data)
             if (data.event === WebSocketEvents.ChatroomMessage) {
                 const payload = JSON.parse(data.payload)
+                console.log("Receiving message", payload)
                 if (payload) {
                     updateFragments("push", [payload])
                 }
@@ -134,11 +141,18 @@ const Chat: FC = () => {
                     username: "No Username",
                     avatar: ""
                 }}
-                onDelete={() => {
-                    console.log("TODO")
+                onDelete={(message) => {
+                    if (inputMessageRef.current) {
+                        if (params.id) {
+                            InboxService.deleteMsg(params.id, message._id)
+                        }
+                    }
                 }}
-                onEdit={() => {
-                    console.log("TODO")
+                onEdit={(message) => {
+                    if (inputMessageRef.current) {
+                        inputMessageRef.current.value = message.payload
+                        setEditingMessage(message._id)
+                    }
                 }}
                 onReply={(message) => setReplyingMessage(message)}
             />
@@ -165,13 +179,11 @@ const Chat: FC = () => {
                     </div>
                     : null
                 }
-                <input type="hidden" name="replying-message" value={JSON.stringify(replyingMessage ?? "")} />
                 <div className={styles["send-message-form"]}>
                     <input
                         type="text"
                         placeholder={store.lang.inbox.chat.wam}
                         className={styles["message-input"]}
-                        name="message"
                         ref={inputMessageRef}
                     />
                     <button type="submit" className={styles["send-message-button"]}>

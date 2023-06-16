@@ -73,14 +73,20 @@ const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEd
                                 <button
                                     title={store.lang.inbox.chat.message.title.del}
                                     className={styles.action}
-                                    onClick={() => onDelete(message)}
+                                    onClick={() => {
+                                        onDelete(message)
+                                        setControllerActive(false)
+                                    }}
                                 >
                                     <DeleteIcon className={styles["action-icon"]} />
                                 </button>
                                 <button
                                     title={store.lang.inbox.chat.message.title.edit}
                                     className={styles.action}
-                                    onClick={() => onEdit(message)}
+                                    onClick={() => {
+                                        onEdit(message)
+                                        setControllerActive(false)
+                                    }}
                                 >
                                     <EditMessageIcon className={styles["action-icon"]} />
                                 </button>

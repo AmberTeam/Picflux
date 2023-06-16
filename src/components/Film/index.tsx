@@ -14,39 +14,44 @@ const FilmComponent: FC<Props> = ({ film }) => {
     const navigate = useNavigate()
     const posterRef = useRef<HTMLImageElement>(null)
     useEffect(() => {
-        posterRef.current?.addEventListener("error", () => {
+        console.log(film)
+        const errorHandler = () => {
             if (posterRef.current) {
                 posterRef.current.src = PlaceholderPoster
             }
-        })
+        }
+        posterRef.current?.addEventListener("error", errorHandler)
+        return () => {
+            posterRef.current?.removeEventListener("error", errorHandler)
+        }
     }, [])
     return (
-        <div className={styles.container}>
-            <div className={styles["film-container"]}
+        <div className={styles["film-container"]}
+        >
+            <div
+                className={styles["film-poster-container"]}
+                onClick={() => navigate(`/film/${film.id}`)}
             >
-                <div
-                    className={styles["film-poster-container"]}
-                    onClick={() => navigate(`/film/${film.id}`)}
-                >
-                    <div className={styles.blurer}>
-                        <PlayIcon />
-                    </div>
-                    <img ref={posterRef} className={styles["film-poster"]} src={film.poster} />
+                <div className={styles.blurer}>
+                    <PlayIcon />
                 </div>
-                <div className={styles["film-body"]}>
-                    <div className={styles["film-information"]}>
-                        <span>{film.title}</span>
-                        <span className={styles["film-details"]}>{film.year}. {film.genres.join(", ")}</span>
-                    </div>
-                    <div className={styles["buttons-container"]}>
-                        <Link className={styles.button} to={`/film/${film.id}`} target="blank">{store.lang.home.actions.new_tab}</Link>
+                <img ref={posterRef} className={styles["film-poster"]} src={film.poster} />
+            </div>
+            <div className={styles["film-body"]}>
+                <div className={styles["film-information"]}>
+                    <span>{film.title}</span>
+                    <span className={styles["film-details"]}>{film.year}. {film.genres.join(", ")}</span>
+                </div>
+                <div className={styles["buttons-container"]}>
+                    <Link className={styles.button} to={`/film/${film.id}`} target="blank">{store.lang.home.actions.new_tab}</Link>
+                    {store.isAuth ?
                         <button className={styles.button} onClick={async () => {
                             await UserService.addWLFilm(film.id)
                         }}>{store.lang.film.actions.watch_later}</button>
-                    </div>
+                        : null
+                    }
                 </div>
             </div>
-
         </div>
     )
 }

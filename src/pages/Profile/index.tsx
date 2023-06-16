@@ -18,8 +18,7 @@ import WebSocketActions from "../../enums/WebSocketActions"
 import EditProfileModal from "../../components/EditProfileModal"
 
 enum Tab {
-    WatchLaterList = "watchLaterList",
-    Friends = "friends"
+    WatchLaterList = "watchLaterList"
 }
 
 enum ManageFriendshipAction {
@@ -57,18 +56,18 @@ const ProfilePage = () => {
     const { user } = useLoaderData() as { user: IUser | undefined }
     const params = useParams<"id">()
     const isSameUser = useMemo(() => user?.id === store.user.id, [user, store.user.id])
-    const [tab, setTab] = useState<Tab>(isSameUser ? Tab.WatchLaterList : Tab.Friends)
+    const [tab, setTab] = useState<Tab | null>(isSameUser ? Tab.WatchLaterList : null)
     const [isOnline, setIsOnline] = useState<boolean>(store.user.id === params.id ? true : user?.id !== undefined ? !!user.id : false)
     const [isInEditMode, setIsInEditMode] = useState<boolean>(false)
     const fetcher = useFetcher()
     const isLoading = fetcher.state === "submitting" || fetcher.state === "loading"
     useEffect(() => {
-        if(params.id && params.id !== store.user.id) {
+        if (params.id && params.id !== store.user.id) {
             const handler = (event: MessageEvent) => {
                 const data = JSON.parse(event.data)
-                if(data?.event === WebSocketEvents.UpdateUserStatus) {
+                if (data?.event === WebSocketEvents.UpdateUserStatus) {
                     const payload = JSON.parse(data.payload)
-                    if(payload.uid === params.id) setIsOnline(!!payload.status)
+                    if (payload.uid === params.id) setIsOnline(!!payload.status)
                 }
             }
             wsc.addListener("message", handler)
@@ -80,7 +79,7 @@ const ProfilePage = () => {
     }, [params.id])
     return (
         <>
-            <EditProfileModal isActive={isInEditMode} setIsActive={setIsInEditMode}/>
+            <EditProfileModal isActive={isInEditMode} setIsActive={setIsInEditMode} />
             {user?.id ?
 
                 <section className={styles["profile-section"]}>
@@ -169,30 +168,22 @@ const ProfilePage = () => {
                                 }
                             </div>
                         </div>
-                        <div className={`container ${styles["user-interactions"]}`}>
-                            <div className={styles.tabs}>
-                                {
-                                    isSameUser ?
-                                        <button className={`${styles.tab} ${styles.Default} ${tab === Tab.WatchLaterList ? styles.active : ""}`} onClick={() => setTab(Tab.WatchLaterList)}>
-                                            {store.lang.profile.tabs.wl}
-                                        </button>
-                                        :
-                                        null
-                                }
-                                <button className={`${styles.tab} ${tab === Tab.Friends ? styles.active : ""}`} onClick={() => setTab(Tab.Friends)}>
-                                    {store.lang.profile.tabs.friends}
-                                </button>
-                            </div>
-                            <section className={styles["tab-content"]}>
-                                {tab === Tab.WatchLaterList && user.watchLater ?
-                                    <FilmList films={user.watchLater} />
-                                    :
-                                    tab === Tab.Friends ?
-                                        <div>TODO</div>
+                        {isSameUser ?                         
+                            <div className={`container ${styles["user-interactions"]}`}>
+                                <div className={styles.tabs}>
+                                    <button className={`${styles.tab} ${styles.Default} ${tab === Tab.WatchLaterList ? styles.active : ""}`} onClick={() => setTab(Tab.WatchLaterList)}>
+                                        {store.lang.profile.tabs.wl}
+                                    </button>
+                                </div>
+                                <section className={styles["tab-content"]}>
+                                    {tab === Tab.WatchLaterList && user.watchLater ?
+                                        <FilmList films={user.watchLater} />
                                         : null
-                                }
-                            </section>
-                        </div>
+                                    }
+                                </section>
+                            </div>
+                            : null
+                        }
                     </div>
                 </section>
                 : null}

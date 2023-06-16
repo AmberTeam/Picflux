@@ -40,7 +40,7 @@ class WebSocketCore {
         for(var i=0;i < this.clients.length;i++) {
             if(this.clients[i].id === sid) {
                 this.clients[i].send(JSON.stringify({
-                    event, 
+                    event,  
                     payload: JSON.stringify(data),
                     timestamp: Date.now()
                 }))

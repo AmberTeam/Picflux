@@ -129,8 +129,6 @@ class FilmService {
                 break
         }
 
-        console.log("here")
-        console.log(req_f)
         var rows = await db.query(req_f).then(data => data.rows)
 
         //FILTER FILMS

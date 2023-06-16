@@ -31,8 +31,8 @@ class FilmService {
     chatroom_force_broadcast_ex(chatid, ex, event, payload) {
         for(var i=0;i<this.chatrooms.length;i++) { 
             if(this.chatrooms[i].chatid === chatid) {
-                for(var _i=0;_i<this.chatrooms[i].members.length;_i++) {
-                    if(this.chatrooms[i].members[_i] !== ex) this.core.emit_proaccess('uid', this.chatrooms[i].members[_i], event, payload)
+                for(var _i=0;_i<this.chatrooms[i].members_a.length;_i++) {
+                    if(this.chatrooms[i].members_a[_i].uid !== ex) this.core.emit_proaccess('uid', this.chatrooms[i].members_a[_i].uid, event, payload)
                 }
             }
         }
@@ -88,11 +88,13 @@ class FilmService {
 
     initChatRoom(sid, uid, cfg) {
         const ex = this.checkActiveChatRoom(cfg.chatid)
+        console.log(cfg)
         if(ex === null) {
             const chatroom = new ChatRoom({...cfg, members_a: [{sid, uid}]})
             return this.chatrooms.push(chatroom)
         }
 
+        
         this.chatrooms[ex].pushActiveMember({sid, uid})
     }
 

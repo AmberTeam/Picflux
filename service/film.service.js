@@ -36,7 +36,7 @@ class FilmService {
             ...rated, 
             rating,
             rating_average,
-            duration: `${row.duration.hours ? row.duration.hours + " час(ов) ":""}${row.duration.minutes ? row.duration.minutes + " минут(а)":""}}`
+            duration: `${row.duration.hours ? row.duration.hours + " час(ов) ":""}${row.duration.minutes ? row.duration.minutes + " минут(а)":""}`
         } 
 
         if(uid) {

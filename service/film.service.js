@@ -65,7 +65,9 @@ class FilmService {
         flt,
         datesrt,
         psrt,
-        psrtt
+        psrtt,
+        segment_start, 
+        segment_end
     ) {
         //SPELL CHECK
         const q_f = q.replaceAll(/[^a-zа-я0-9 ]/gi, ' ').split(" ").filter(el => el !== "")
@@ -93,41 +95,51 @@ class FilmService {
         }) 
         //CONSTRUCT SQL SCRIPT
         var flt_construct=''
-        var psrt_construct=''
-        var namedef_construct=``
+        var namedef_construct="" 
+        var segment_construct=""
         var free_search=q_s.length===0?` ${psrt==='date' ? `ORDER BY year ${psrtt} `:''}OFFSET ${offs} LIMIT ${lim}`:""
         var free_s_prefix = q_s.length===0?` WHERE year != 01100111`:""
         var req_f
 
-        if(q_s.length>1) for(var i=0;i<q_s.length;i++) {
-            switch(i) {
-                case 0: 
-                    namedef_construct+=` WHERE (lowercasetitle LIKE '%${q_s[i]}%' `
-                    break
-                case q_s.length-1:
-                    namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%') ` 
-                    break
-                default: 
-                    namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%' `
-                    break
-            }  
-        }  
+        if(segment_end !== "any" || segment_start !== "any") {
+            segment_construct += `${segment_start !== "any" ? ' AND year > ' + segment_start : ""} ${segment_end !== "any" ? ' AND year < ' + segment_end : ""}`
+        }
+
+        if(q_s.length>1) {
+            segment_construct = segment_construct.replace("WHERE", "")
+            for(var i=0;i<q_s.length;i++) {
+                switch(i) {
+                    case 0: 
+                        namedef_construct+=` WHERE (lowercasetitle LIKE '%${q_s[i]}%' `
+                        break
+                    case q_s.length-1:
+                        namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%') ` 
+                        break
+                    default: 
+                        namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%' ` 
+                        break
+                }  
+            }
+        }
         else if(q_s.length===1) namedef_construct=` WHERE (lowercasetitle LIKE '%${q_s[0]}%') `
+
         
         switch(flt) {
             case "without":
-                if(datesrt&&datesrt!=="any"&&psrt==="without") req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct} AND year = ${datesrt}${psrt_construct}${free_search}`
-                else req_f = `SELECT * FROM film ${namedef_construct}${psrt_construct}${free_search}`
+                if(datesrt&&datesrt!=="any"&&psrt==="without") req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${segment_construct} AND year = ${datesrt}${free_search}`
+                else req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${segment_construct}${free_search}`
                 break
-            default: 
+            default:   
                 if(fl.length) {
                     var genre_str = array2postgres(fl)
-                    flt_construct=` AND ${flt === 'solely' ? ` NOT(genres && '${genre_str}')` : `genres @> '${genre_str}'`}`
+                    flt_construct+=` AND ${flt === 'solely' ? ` NOT(genres && '${genre_str}')` : `genres @> '${genre_str}'`}`
                 }
                 if(datesrt&&datesrt!=="any"&&psrt==="without") flt_construct+=` AND year = ${datesrt}`
-                req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${flt_construct}${psrt_construct}${free_search}`
+                req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${segment_construct}${flt_construct}${free_search}`
                 break
         }
+
+        console.log(req_f)
 
         var rows = await db.query(req_f).then(data => data.rows)
 

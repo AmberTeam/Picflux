@@ -3,4 +3,4 @@ enum ButtonVariant {
   Empty = "empty"
 }
 
-export default ButtonVariant
+export default ButtonVariant;

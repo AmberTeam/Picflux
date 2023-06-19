@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom"
-import Navbar from "../../components/Navbar"
-import Footer from "../../components/Footer"
-import LogoutModal from "../../components/LogoutModal"
-import LogModal from "../../components/LogModal"
+import { Outlet } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import LogoutModal from "../../components/LogoutModal";
+import LogModal from "../../components/LogModal";
 
 const Root = () => {
     return (
@@ -13,7 +13,7 @@ const Root = () => {
             <Outlet />
             <Footer />
         </>
-    )
-}
+    );
+};
 
-export default Root
+export default Root;

@@ -1,5 +1,5 @@
-import { FC, ReactNode } from "react"
-import styles from "./index.module.scss"
+import { FC, ReactNode } from "react";
+import styles from "./index.module.scss";
 interface Props {
     children: ReactNode
     header: string
@@ -13,7 +13,7 @@ const Filter: FC<Props> = ({header, children}) => {
                 {children}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Filter
+export default Filter;

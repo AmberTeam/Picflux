@@ -1,15 +1,34 @@
 .auth-container {
-    background-color: rgba(0, 0, 0, 0.5);
-
+    backdrop-filter: opacity(50%);
+    display: grid;
+    grid-template-columns: 30% 1fr;
+    height: 100vh;
+    .decoration-image-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        .blurer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .decoration-image {
+            height: 100%;
+            width: 100%;
+        }
+    }
     .auth-form-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 30%;
+        width: 100%;
         padding: 0 5rem;
-        height: 100vh;
         background-color: var(--bg);
         gap: 1.5rem;
+        height: 100%;
         .return-button {
             background-color: var(--color);
             display: flex;
@@ -111,18 +130,18 @@
 
 @media (max-width: 1600px) {
     .auth-container {
-        .auth-form-container {
-            width: 40%;
-        }
+        grid-template-columns: 40% 1fr;
     }
 }
 
 @media (max-width: 1100px) {
     .auth-container {
+        grid-template-columns: 100%;
+        .decoration-image-container {
+            display: none;
+        }
         .auth-form-container {
             padding: 0 2rem;
-            width: 100%;
-
             .message {
                 font-size: 11px;
             }

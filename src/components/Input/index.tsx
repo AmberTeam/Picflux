@@ -1,15 +1,16 @@
 
-import { FC, useState, ChangeEvent, InputHTMLAttributes } from "react"
-import styles from "./index.module.scss"
-import store from "../../store/store"
+import { FC, useState, ChangeEvent, InputHTMLAttributes } from "react";
+import styles from "./index.module.scss";
+import store from "../../store/store";
+import { observer } from "mobx-react-lite";
 
 const Input: FC<InputHTMLAttributes<HTMLInputElement>> = ({ onChange, placeholder, type: defaultType, ...inputProps}) => {
-    const [content, setContent] = useState<string | null>(null)
-    const [type, setType] = useState<string>(defaultType ?? "text")
+    const [content, setContent] = useState<string | null>(null);
+    const [type, setType] = useState<string>(defaultType ?? "text");
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setContent(e.target.value)
-        onChange?.(e)
-    }
+        setContent(e.target.value);
+        onChange?.(e);
+    };
     return (
         <div className={styles["input-container"]}>
             <div className={`${styles["input-label-container"]} ${content ? styles.active : ""}`}>
@@ -35,7 +36,7 @@ const Input: FC<InputHTMLAttributes<HTMLInputElement>> = ({ onChange, placeholde
                 </button>
             }
         </div>
-    )
-}
+    );
+};
 
-export default Input
+export default observer(Input);

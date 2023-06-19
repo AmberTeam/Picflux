@@ -1,5 +1,5 @@
-import styles from "./index.module.scss"
-import { FC } from "react"
+import styles from "./index.module.scss";
+import { FC } from "react";
 
 interface ILoaderProps {
     variant?: string
@@ -7,7 +7,7 @@ interface ILoaderProps {
 
 const LoaderMini: FC<ILoaderProps> = ({ ...props }) => {
 
-    return <span className={`${styles.loader} loader-${props.variant}`}></span>
-}
+    return <span className={`${styles.loader} loader-${props.variant}`}></span>;
+};
 
-export default LoaderMini
+export default LoaderMini;

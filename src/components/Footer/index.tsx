@@ -1,19 +1,19 @@
-import { FC, useEffect, useState } from "react"
-import styles from "./footer.module.scss"
-import { observer } from "mobx-react-lite"
-import { Link, useLocation } from "react-router-dom"
-import amber_down from "../../img/amber_png_down.png"
-import store from "../../store/store"
+import { FC, useEffect, useState } from "react";
+import styles from "./footer.module.scss";
+import { observer } from "mobx-react-lite";
+import { Link, useLocation } from "react-router-dom";
+import amber_down from "../../img/amber_png_down.png";
+import store from "../../store/store";
 
 const Footer: FC = () => {
-    const [primary, setPrimary] = useState<boolean>(false)
-    const location = useLocation()
+    const [primary, setPrimary] = useState<boolean>(false);
+    const location = useLocation();
     useEffect(() => {
         if (location.pathname.includes("film") || location.pathname.includes("login") || location.pathname.includes("registration") || location.pathname.includes("inbox"))
-            setPrimary(true)
+            setPrimary(true);
         else
-            setPrimary(false)
-    }, [location])
+            setPrimary(false);
+    }, [location]);
 
     return (
         <footer className={`${styles["footer-container"]} ${primary ? styles.primary : ""}`}>
@@ -40,7 +40,7 @@ const Footer: FC = () => {
                 <span>Cimber v1.0.3</span>
             </div>
         </footer>
-    )
-}
+    );
+};
 
-export default observer(Footer)
+export default observer(Footer);

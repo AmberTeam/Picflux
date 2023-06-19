@@ -1,5 +1,5 @@
-import { FC, MouseEvent, FunctionComponent, SVGProps } from "react"
-import styles from "./index.module.scss"
+import { FC, MouseEvent, FunctionComponent, SVGProps } from "react";
+import styles from "./index.module.scss";
 
 interface Props {
     onClick: (event: MouseEvent<HTMLDivElement>) => void
@@ -16,7 +16,7 @@ const PlayerController: FC<Props> = ({ onClick, Icon, className, isSelected }) =
         >
             <Icon className={styles["controller-icon"]} />
         </div>
-    )
-}
+    );
+};
 
-export default PlayerController
+export default PlayerController;

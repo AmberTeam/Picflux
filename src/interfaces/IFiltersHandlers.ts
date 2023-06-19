@@ -4,4 +4,4 @@ interface IFiltersHandlers {
   onChangeLoadMethod: (loadMethod: string) => void
 }
 
-export default IFiltersHandlers
+export default IFiltersHandlers;

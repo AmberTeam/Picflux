@@ -1,5 +1,5 @@
-interface ILanguage {
-  [key: string]: string | ILanguage
-}
+import english from "../lang_packets/en.json";
 
-export default ILanguage
+type ILanguage = typeof english;
+
+export default ILanguage;

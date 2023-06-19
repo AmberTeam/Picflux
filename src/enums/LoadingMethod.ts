@@ -3,4 +3,4 @@ enum LoadingMethod {
   Auto = "auto"
 }
 
-export default LoadingMethod
+export default LoadingMethod;

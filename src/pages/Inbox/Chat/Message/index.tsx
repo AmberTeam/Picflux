@@ -1,15 +1,16 @@
-import { FC, useState } from "react"
-import { IMessage } from "../../../../interfaces/IMessage"
-import styles from "./index.module.scss"
-import { IUserMin } from "../../../../interfaces/IUser"
-import store from "../../../../store/store"
-import { ReactComponent as OneTickIcon } from "../../../../icons/OneTick.svg"
-import { ReactComponent as TwoTicksIcon } from "../../../../icons/TwoTicks.svg"
-import { ReactComponent as MoreIcon } from "../../../../icons/More.svg"
-import { ReactComponent as ReplyIcon } from "../../../../icons/Reply.svg"
-import { ReactComponent as DeleteIcon } from "../../../../icons/Delete.svg"
-import { ReactComponent as EditMessageIcon } from "../../../../icons/EditMessage.svg"
-import { ReactComponent as CancelIcon } from "../../../../icons/Close.svg"
+import { FC, useState } from "react";
+import { IMessage } from "../../../../interfaces/IMessage";
+import styles from "./index.module.scss";
+import { IUserMin } from "../../../../interfaces/IUser";
+import store from "../../../../store/store";
+import { ReactComponent as OneTickIcon } from "../../../../icons/OneTick.svg";
+import { ReactComponent as TwoTicksIcon } from "../../../../icons/TwoTicks.svg";
+import { ReactComponent as MoreIcon } from "../../../../icons/More.svg";
+import { ReactComponent as ReplyIcon } from "../../../../icons/Reply.svg";
+import { ReactComponent as DeleteIcon } from "../../../../icons/Delete.svg";
+import { ReactComponent as EditMessageIcon } from "../../../../icons/EditMessage.svg";
+import { ReactComponent as CancelIcon } from "../../../../icons/Close.svg";
+import { observer } from "mobx-react-lite";
 interface IMessageProps {
     message: IMessage
     observer: IUserMin
@@ -19,7 +20,7 @@ interface IMessageProps {
 }
 
 const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEdit }) => {
-    const [controllerActive, setControllerActive] = useState<boolean>(false)
+    const [controllerActive, setControllerActive] = useState<boolean>(false);
     return (
         <div
             className={`${styles["message-container"]} ${message.owner === store.user.id ? styles["own-message"] : ""}`}
@@ -32,7 +33,7 @@ const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEd
                 className={styles["message-user-avatar"]}
             />
             <div className={styles["message-data"]}>
-                {message.refer && message.refer !== "null" ?
+                {message.refer && typeof message.refer !== "string" ?
                     <div className={styles["reply-container"]}>
                         <span className={styles["reply-username"]}>{message.refer.owner === store.user.id ? store.user.username : observer.username}</span>
                         <span className={styles["reply-message"]}>{message.refer.payload}</span>
@@ -61,8 +62,8 @@ const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEd
                             title={store.lang.inbox.chat.message.title.repl}
                             className={styles.action}
                             onClick={() => {
-                                onReply(message)
-                                setControllerActive(false)
+                                onReply(message);
+                                setControllerActive(false);
                             }}
                         >
                             <ReplyIcon className={styles["action-icon"]} />
@@ -74,8 +75,8 @@ const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEd
                                     title={store.lang.inbox.chat.message.title.del}
                                     className={styles.action}
                                     onClick={() => {
-                                        onDelete(message)
-                                        setControllerActive(false)
+                                        onDelete(message);
+                                        setControllerActive(false);
                                     }}
                                 >
                                     <DeleteIcon className={styles["action-icon"]} />
@@ -84,8 +85,8 @@ const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEd
                                     title={store.lang.inbox.chat.message.title.edit}
                                     className={styles.action}
                                     onClick={() => {
-                                        onEdit(message)
-                                        setControllerActive(false)
+                                        onEdit(message);
+                                        setControllerActive(false);
                                     }}
                                 >
                                     <EditMessageIcon className={styles["action-icon"]} />
@@ -110,7 +111,7 @@ const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEd
                 }
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Message
+export default observer(Message);

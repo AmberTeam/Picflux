@@ -4,4 +4,4 @@ enum ButtonType {
   Submit = "submit"
 }
 
-export default ButtonType
+export default ButtonType;

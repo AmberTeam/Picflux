@@ -8,4 +8,4 @@ enum WebSocketActions {
   Seen = "seen"
 }
 
-export default WebSocketActions
+export default WebSocketActions;

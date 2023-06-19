@@ -3,4 +3,4 @@ enum SortDirection {
   Descendant = "desc"
 }
 
-export default SortDirection
+export default SortDirection;

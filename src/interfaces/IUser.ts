@@ -1,4 +1,4 @@
-import { IFilm } from "./IFilm"
+import { IFilm } from "./IFilm";
 
 export interface IUserInformation {
     username?: string

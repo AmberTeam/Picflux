@@ -1,23 +1,24 @@
-import { FC, useRef } from "react"
-import { IUserMin } from "../../interfaces/IUser"
-import UserService from "../../services/UserService"
-import styles from "./index.module.scss"
-import store from "../../store/store"
-import { ReactComponent as AddChatIcon } from "../../icons/AddFriend.svg"
-import { ReactComponent as NotFoundUserIcon } from "../../icons/NotFoundUser.svg"
-import { Link, useFetcher } from "react-router-dom"
-import { IChat } from "../../interfaces/IDirect"
-import LoaderMini from "../LoaderMini"
+import { FC, useRef } from "react";
+import { IUserMin } from "../../interfaces/IUser";
+import UserService from "../../services/UserService";
+import styles from "./index.module.scss";
+import store from "../../store/store";
+import { ReactComponent as AddChatIcon } from "../../icons/AddFriend.svg";
+import { ReactComponent as NotFoundUserIcon } from "../../icons/NotFoundUser.svg";
+import { Link, useFetcher } from "react-router-dom";
+import { IChat } from "../../interfaces/IDirect";
+import LoaderMini from "../LoaderMini";
+import { observer } from "mobx-react-lite";
 
 export async function searchUsersLoader({ request }: { request: Request }) {
-    const url = new URL(request.url)
-    const username = url.searchParams.get("username")
-    let users: IUserMin[] = []
+    const url = new URL(request.url);
+    const username = url.searchParams.get("username");
+    let users: IUserMin[] = [];
     if (username) {
-        const response = await UserService.searchCandidates(username)
-        users = response.data.users ?? []
+        const response = await UserService.searchCandidates(username);
+        users = response.data.users ?? [];
     }
-    return { users }
+    return { users };
 }
 
 interface Props {
@@ -27,14 +28,14 @@ interface Props {
 }
 
 const UserSelect: FC<Props> = ({ isActive, setIsActive }) => {
-    const timeoutId = useRef<number>()
-    const fetcher = useFetcher()
-    const isLoading = fetcher.state === "loading" || fetcher.state === "submitting"
-    const inputRef = useRef<HTMLInputElement>(null)
+    const timeoutId = useRef<number>();
+    const fetcher = useFetcher();
+    const isLoading = fetcher.state === "loading" || fetcher.state === "submitting";
+    const inputRef = useRef<HTMLInputElement>(null);
     return (
         <>
             <div className={`${styles.blurer} ${isActive ? styles.active : ""}`} onClick={() => {
-                setIsActive(false)
+                setIsActive(false);
             }}></div>
             <div className={`${styles["user-select-container"]} ${isActive ? styles.active : ""}`}>
                 <fetcher.Form
@@ -42,14 +43,14 @@ const UserSelect: FC<Props> = ({ isActive, setIsActive }) => {
                     method="get"
                     action="search-users"
                     onChange={(event) => {
-                        clearTimeout(timeoutId.current)
-                        const formData = new FormData(event.currentTarget)
+                        clearTimeout(timeoutId.current);
+                        const formData = new FormData(event.currentTarget);
                         timeoutId.current = window.setTimeout(() => {
                             fetcher.submit({ username: formData.get("username") as string }, {
                                 method: "get",
                                 action: "/inbox/search-users"
-                            })
-                        }, 300)
+                            });
+                        }, 300);
                     }}
                 >
                     <input
@@ -91,7 +92,7 @@ const UserSelect: FC<Props> = ({ isActive, setIsActive }) => {
                                                 </div>
                                             </button>
                                         </Link>
-                                    )
+                                    );
                                 })
                                 :
                                 <div className={styles["message-container"]}>
@@ -102,7 +103,7 @@ const UserSelect: FC<Props> = ({ isActive, setIsActive }) => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default UserSelect
+export default observer(UserSelect);

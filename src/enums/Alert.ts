@@ -2,4 +2,4 @@ enum Alert {
   Subscribed = "subscribed"
 }
 
-export default Alert
+export default Alert;

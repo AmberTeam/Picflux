@@ -1,6 +1,6 @@
-import UkranianIcon from "../../img/lang_ic/ukr.png"
-import RussianIcon from "../../img/lang_ic/ru.png"
-import EnglishIcon from "../../img/lang_ic/en.png"
+import UkranianIcon from "../../img/lang_ic/ukr.png";
+import RussianIcon from "../../img/lang_ic/ru.png";
+import EnglishIcon from "../../img/lang_ic/en.png";
 
 export default {
     "version": 1,
@@ -19,4 +19,4 @@ export default {
             "icon": RussianIcon
         }
     ]
-}
+};

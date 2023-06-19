@@ -3,4 +3,4 @@ enum Theme {
   Dark = "dark"
 }
 
-export default Theme
+export default Theme;

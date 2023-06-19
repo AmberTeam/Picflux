@@ -14,8 +14,7 @@
             "x6": "Неизвестная ошибка сервера. Повторите попытку примерно через 5 минут."
         },
         "message": {
-            "ad_ts_wrn": "Внимание, технология удаления рекламы находится в тестовом режиме, что может привести к ошибкам!",
-            "imdb_trns_att": "Attention: The translation of the movie data was made using the imdb search, and this does not guarantee a 100% correct translation for this movie"
+            "x1": "Внимание, технология удаления рекламы находится в тестовом режиме, что может привести к ошибкам!"
         },
         "success": {
             "x1": "Yop"

@@ -3,4 +3,4 @@ interface IButtonInformation<T> {
   id: T
 }
 
-export default IButtonInformation
+export default IButtonInformation;

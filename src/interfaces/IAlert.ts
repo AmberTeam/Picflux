@@ -1,4 +1,4 @@
-import { IUserMin } from "./IUser"
+import { IUserMin } from "./IUser";
 
 interface IAlert {
   id: string
@@ -8,4 +8,4 @@ interface IAlert {
   recipient: string
 }
 
-export default IAlert
+export default IAlert;

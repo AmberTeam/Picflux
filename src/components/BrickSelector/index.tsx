@@ -1,9 +1,9 @@
-import styles from "./index.module.scss"
-import BrickButton from "../BrickButton"
-import { observer } from "mobx-react-lite"
-import IButtonInformation from "../../interfaces/IButtonInformation"
-import { useState } from "react"
-import ButtonType from "../../enums/ButtonType"
+import styles from "./index.module.scss";
+import BrickButton from "../BrickButton";
+import { observer } from "mobx-react-lite";
+import IButtonInformation from "../../interfaces/IButtonInformation";
+import { useState } from "react";
+import ButtonType from "../../enums/ButtonType";
 
 interface Props<T> {
     buttonsInformation: IButtonInformation<T>[]
@@ -16,29 +16,29 @@ interface Props<T> {
     buttonType?: ButtonType
 }
 const BrickSelector = <T,>({ buttonsInformation, selectSeveral, canBeWithoutValue, defaultValue, isInput, name, onSelect, buttonType }: Props<T>) => {
-    const [selectedButtons, setSelectedButtons] = useState<Set<T>>(new Set(defaultValue !== null ? defaultValue : null))
+    const [selectedButtons, setSelectedButtons] = useState<Set<T>>(new Set(defaultValue !== null ? defaultValue : null));
     const handleClick = (id: T, isSelected: boolean) => {
         if (isSelected) {
             if(canBeWithoutValue || (selectSeveral && selectedButtons.size > 1)) {
-                const newState = new Set(selectedButtons)
-                newState.delete(id)
-                setSelectedButtons(newState)
+                const newState = new Set(selectedButtons);
+                newState.delete(id);
+                setSelectedButtons(newState);
             }
         }
         else {
             if(onSelect) {
-                onSelect(id)
+                onSelect(id);
             }
             if(selectSeveral) {
-                const newState = new Set(selectedButtons)
-                newState.add(id)
-                setSelectedButtons(newState)
+                const newState = new Set(selectedButtons);
+                newState.add(id);
+                setSelectedButtons(newState);
             }
             else {
-                setSelectedButtons(new Set([id]))
+                setSelectedButtons(new Set([id]));
             }
         }
-    }
+    };
     return (
         <div className={styles["brick-selector"]}>
             {isInput ? <input name={name} type="hidden" value={Array.from(selectedButtons).join(" ")} /> : null}
@@ -53,7 +53,7 @@ const BrickSelector = <T,>({ buttonsInformation, selectSeveral, canBeWithoutValu
                 />
             ))}
         </div>
-    )
-}
+    );
+};
 
-export default observer(BrickSelector) 
+export default observer(BrickSelector); 

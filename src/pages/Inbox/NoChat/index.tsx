@@ -1,9 +1,10 @@
-import styles from "./index.module.scss"
-import { ReactComponent as InboxIcon } from "../../../icons/Inbox.svg"
-import store from "../../../store/store"
-import { useOutletContext } from "react-router-dom"
+import styles from "./index.module.scss";
+import { ReactComponent as InboxIcon } from "../../../icons/Inbox.svg";
+import store from "../../../store/store";
+import { useOutletContext } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 const NoChat = () => {
-    const { setIsActive } = useOutletContext() as { setIsActive: (arg: boolean) => void }
+    const { setIsActive } = useOutletContext() as { setIsActive: (arg: boolean) => void };
     return (
         <div className={`${styles.container}`}>
             <InboxIcon className={styles["inbox-icon"]} />
@@ -17,7 +18,7 @@ const NoChat = () => {
                 {store.lang.inbox.chat.s_banner[2]}
             </button>
         </div>
-    )
-}
+    );
+};
 
-export default NoChat
+export default observer(NoChat);

@@ -29,4 +29,4 @@ enum Genre {
   Music = "музыка"
 }
 
-export default Genre
+export default Genre;

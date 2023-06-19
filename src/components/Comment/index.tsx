@@ -1,7 +1,7 @@
-import { FC } from "react"
-import styles from "./index.module.scss"
-import { IFilmComment } from "../../interfaces/IFilm"
-import { ReactComponent as StarIcon } from "../../icons/Star.svg"
+import { FC } from "react";
+import styles from "./index.module.scss";
+import { IFilmComment } from "../../interfaces/IFilm";
+import { ReactComponent as StarIcon } from "../../icons/Star.svg";
 
 interface Props {
     comment: IFilmComment
@@ -27,7 +27,7 @@ const Comment: FC<Props> = ({ comment, rating }) => {
             </div>
             <span className={styles.comment}>{comment.data}</span>
         </div>
-    )
-}
+    );
+};
 
-export default Comment
+export default Comment;

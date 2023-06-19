@@ -1,8 +1,8 @@
-import { IMessage } from "./IMessage"
-import { IUserMin } from "./IUser"
+import { IMessage } from "./IMessage";
+import { IUserMin } from "./IUser";
 
 export interface IChat {
-    chatid:string 
+    chatid: string 
     members: IUserMin[]
     unread: IMessage[]
 }

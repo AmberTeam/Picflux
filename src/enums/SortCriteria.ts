@@ -3,4 +3,4 @@ enum SortCriteria {
   None = "without"
 }
 
-export default SortCriteria
+export default SortCriteria;

@@ -5,4 +5,4 @@ interface IRating {
   fid: number
 }
 
-export default IRating
+export default IRating;

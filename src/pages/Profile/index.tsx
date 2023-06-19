@@ -1,21 +1,21 @@
-import { useState, useMemo, useEffect } from "react"
-import { observer } from "mobx-react-lite"
-import { Link, useFetcher, useLoaderData, ActionFunctionArgs, Params, ParamParseKey, useParams } from "react-router-dom"
-import styles from "./index.module.scss"
-import { IUser } from "../../interfaces/IUser"
-import UserService from "../../services/UserService"
-import store from "../../store/store"
-import { ReactComponent as RemoveFriendIcon } from "../../icons/RemoveFriend.svg"
-import { ReactComponent as AddFriendIcon } from "../../icons/AddFriend.svg"
-import { ReactComponent as ShareIcon } from "../../icons/Share.svg"
-import { ReactComponent as MessageIcon } from "../../icons/Message.svg"
-import { ReactComponent as EditIcon } from "../../icons/Edit.svg"
-import FilmList from "../../components/FilmList"
-import LoaderMini from "../../components/LoaderMini"
-import { wsc } from "../.."
-import WebSocketEvents from "../../enums/WebSocketEvents"
-import WebSocketActions from "../../enums/WebSocketActions"
-import EditProfileModal from "../../components/EditProfileModal"
+import { useState, useMemo, useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { Link, useFetcher, useLoaderData, ActionFunctionArgs, Params, ParamParseKey, useParams } from "react-router-dom";
+import styles from "./index.module.scss";
+import { IUser } from "../../interfaces/IUser";
+import UserService from "../../services/UserService";
+import store from "../../store/store";
+import { ReactComponent as RemoveFriendIcon } from "../../icons/RemoveFriend.svg";
+import { ReactComponent as AddFriendIcon } from "../../icons/AddFriend.svg";
+import { ReactComponent as ShareIcon } from "../../icons/Share.svg";
+import { ReactComponent as MessageIcon } from "../../icons/Message.svg";
+import { ReactComponent as EditIcon } from "../../icons/Edit.svg";
+import FilmList from "../../components/FilmList";
+import LoaderMini from "../../components/LoaderMini";
+import { wsc } from "../..";
+import WebSocketEvents from "../../enums/WebSocketEvents";
+import WebSocketActions from "../../enums/WebSocketActions";
+import EditProfileModal from "../../components/EditProfileModal";
 
 enum Tab {
     WatchLaterList = "watchLaterList"
@@ -27,7 +27,7 @@ enum ManageFriendshipAction {
     None = "none"
 }
 
-const path = "/inbox/:id" as const
+const path = "/inbox/:id" as const;
 
 interface Args extends ActionFunctionArgs {
     params: Params<ParamParseKey<typeof path>>
@@ -35,48 +35,48 @@ interface Args extends ActionFunctionArgs {
 
 export async function manageFriendshipAction({ request, params }: Args) {
     if (params.id) {
-        const { action } = Object.fromEntries(await request.formData())
+        const { action } = Object.fromEntries(await request.formData());
         if (action === ManageFriendshipAction.Subscribe) {
-            await UserService.subscribeUser(params.id)
+            await UserService.subscribeUser(params.id);
         }
         else {
-            await UserService.unsubscribeUser(params.id)
+            await UserService.unsubscribeUser(params.id);
         }
     }
 }
 
 export async function profileLoader({ params }: Args) {
     if (params.id) {
-        const user = await UserService.getUserBId(params.id, true)
-        return { user: user.data }
+        const user = await UserService.getUserBId(params.id, true);
+        return { user: user.data };
     }
 }
 
 const ProfilePage = () => {
-    const { user } = useLoaderData() as { user: IUser | undefined }
-    const params = useParams<"id">()
-    const isSameUser = useMemo(() => user?.id === store.user.id, [user, store.user.id])
-    const [tab, setTab] = useState<Tab | null>(isSameUser ? Tab.WatchLaterList : null)
-    const [isOnline, setIsOnline] = useState<boolean>(store.user.id === params.id ? true : user?.id !== undefined ? !!user.id : false)
-    const [isInEditMode, setIsInEditMode] = useState<boolean>(false)
-    const fetcher = useFetcher()
-    const isLoading = fetcher.state === "submitting" || fetcher.state === "loading"
+    const { user } = useLoaderData() as { user: IUser | undefined };
+    const params = useParams<"id">();
+    const isSameUser = useMemo(() => user?.id === store.user.id, [user, store.user.id]);
+    const [tab, setTab] = useState<Tab | null>(isSameUser ? Tab.WatchLaterList : null);
+    const [isOnline, setIsOnline] = useState<boolean>(store.user.id === params.id ? true : user?.id !== undefined ? !!user.status : false);
+    const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
+    const fetcher = useFetcher();
+    const isLoading = fetcher.state === "submitting" || fetcher.state === "loading";
     useEffect(() => {
         if (params.id && params.id !== store.user.id) {
             const handler = (event: MessageEvent) => {
-                const data = JSON.parse(event.data)
+                const data = JSON.parse(event.data);
                 if (data?.event === WebSocketEvents.UpdateUserStatus) {
-                    const payload = JSON.parse(data.payload)
-                    if (payload.uid === params.id) setIsOnline(!!payload.status)
+                    const payload = JSON.parse(data.payload);
+                    if (payload.uid === params.id) setIsOnline(!!payload.status);
                 }
-            }
-            wsc.addListener("message", handler)
-            wsc.send(WebSocketActions.InitializeSession, { uid: params.id })
+            };
+            wsc.addListener("message", handler);
+            wsc.send(WebSocketActions.InitializeSession, { uid: params.id });
             return () => {
-                wsc.removeListener("message", handler)
-            }
+                wsc.removeListener("message", handler);
+            };
         }
-    }, [params.id])
+    }, [params.id]);
     return (
         <>
             <EditProfileModal isActive={isInEditMode} setIsActive={setIsInEditMode} />
@@ -118,7 +118,7 @@ const ProfilePage = () => {
                                             action="friendship"
                                             onSubmit={(event) => {
                                                 if (isLoading) {
-                                                    event.preventDefault()
+                                                    event.preventDefault();
                                                 }
                                             }}
                                         >
@@ -188,7 +188,7 @@ const ProfilePage = () => {
                 </section>
                 : null}
         </>
-    )
-}
+    );
+};
 
-export default observer(ProfilePage)
+export default observer(ProfilePage);

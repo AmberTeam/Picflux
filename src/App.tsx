@@ -1,26 +1,26 @@
-import { FC, useContext, useEffect } from "react"
-import RegistrationPage, { registrationAction } from "./pages/Auth/Registration"
-import LoginPage, { loginAction } from "./pages/Auth/Login"
-import HomePage, { getFilmsLoader, homeLoader } from "./pages/Home"
-import { Context } from "./index"
-import { observer } from "mobx-react-lite"
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import FilmPage, { filmLoader, manageWatchLaterAction, rateFilmAction } from "./pages/Film"
-import ProfilePage, { manageFriendshipAction, profileLoader } from "./pages/Profile"
-import SettingsPage from "./pages/Settings"
-import UndefinedRoutePage from "./pages/UndefRoute"
-import InboxPage, { inboxLoader } from "./pages/Inbox"
-import "./sass/index.scss"
-import $api from "./http"
-import Root from "./pages/Root/Root"
-import store from "./store/store"
-import { editProfileModalAction } from "./components/EditProfileModal"
-import NoChat from "./pages/Inbox/NoChat"
-import Chat, { chatLoader } from "./pages/Inbox/Chat"
-import { searchUsersLoader } from "./components/UserSelect"
-import ProtectedPage from "./components/ProtectedPage"
-import CreateChat, { createChatAction } from "./components/CreateChat"
-import { getNextCommentsLoader, postCommentAction } from "./components/CommentsSection"
+import { FC, useContext, useEffect } from "react";
+import RegistrationPage, { registrationAction } from "./pages/Auth/Registration";
+import LoginPage, { loginAction } from "./pages/Auth/Login";
+import HomePage, { getFilmsLoader, homeLoader } from "./pages/Home";
+import { Context } from "./index";
+import { observer } from "mobx-react-lite";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import FilmPage, { filmLoader, manageWatchLaterAction, rateFilmAction } from "./pages/Film";
+import ProfilePage, { manageFriendshipAction, profileLoader } from "./pages/Profile";
+import SettingsPage from "./pages/Settings";
+import UndefinedRoutePage from "./pages/UndefRoute";
+import InboxPage, { inboxLoader } from "./pages/Inbox";
+import "./sass/index.scss";
+import $api from "./http";
+import Root from "./pages/Root/Root";
+import store from "./store/store";
+import { editProfileModalAction } from "./components/EditProfileModal";
+import NoChat from "./pages/Inbox/NoChat";
+import Chat, { chatLoader } from "./pages/Inbox/Chat";
+import { searchUsersLoader } from "./components/UserSelect";
+import ProtectedPage from "./components/ProtectedPage";
+import CreateChat, { createChatAction } from "./components/CreateChat";
+import { getNextCommentsLoader, postCommentAction } from "./components/CommentsSection";
 
 const router = createBrowserRouter([
     {
@@ -122,46 +122,46 @@ const router = createBrowserRouter([
             }
         ]
     }
-])
+]);
 
 const App: FC = () => {
-    const { wsc } = useContext(Context)
+    const { wsc } = useContext(Context);
     const setTilestamp = async (): Promise<void> => {
         try {
-            await $api.get("/user/tsp")
+            await $api.get("/user/tsp");
         } catch (e) {
-            console.log("Could not set timestamp.")
+            console.log("Could not set timestamp.");
         }
-    }
+    };
 
     const initSocketConnection = () => {
-        wsc.init(`ws://localhost:5000/wsedge?token=${localStorage.getItem("token")}`)
-    }
+        wsc.init(`ws://localhost:5000/wsedge?token=${localStorage.getItem("token")}`);
+    };
 
     useEffect(() => {
-        if (localStorage.getItem("token")) store.checkAuth()
-        if (localStorage.getItem("lang")) store.checkLang()
-        else store.setDefaultLang()
-        if (localStorage.getItem("theme")) store.checkTheme()
-        else store.setDefaultTheme()
-    }, [])
+        if (localStorage.getItem("token")) store.checkAuth();
+        if (localStorage.getItem("lang")) store.checkLang();
+        else store.setDefaultLang();
+        if (localStorage.getItem("theme")) store.checkTheme();
+        else store.setDefaultTheme();
+    }, []);
 
     useEffect(() => {
         if (store.isAuth) {
-            setTilestamp()
-            initSocketConnection()
-            store.setSocketAuth(true)
+            setTilestamp();
+            initSocketConnection();
+            store.setSocketAuth(true);
         }
-    }, [store.isAuth])
+    }, [store.isAuth]);
 
     if (store.isLoading || !store.lang_ready) {
-        return <div>Загрузка...</div>
+        return <div>Загрузка...</div>;
     }
     return (
         <div data-theme={store.theme} className="app">
             <RouterProvider router={router} />
         </div>
-    )
-}
+    );
+};
 
-export default observer(App)
+export default observer(App);

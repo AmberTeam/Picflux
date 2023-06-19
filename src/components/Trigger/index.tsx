@@ -1,4 +1,4 @@
-import { useEffect, useRef, FC, ReactNode } from "react"
+import { useEffect, useRef, FC, ReactNode } from "react";
 
 interface Props {
   onTrigger: () => void
@@ -7,21 +7,21 @@ interface Props {
 }
 
 const Trigger: FC<Props> = ({ onTrigger, children, className }) => {
-    const triggerRef = useRef(null)
+    const triggerRef = useRef(null);
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             if(entries[0].isIntersecting) {
-                onTrigger()
+                onTrigger();
             }
-        })
+        });
         if(triggerRef.current) {
-            observer.observe(triggerRef.current)
+            observer.observe(triggerRef.current);
         }
         return () => {
-            observer.disconnect()
-        }
-    }, [onTrigger, triggerRef.current])
-    return <div ref={triggerRef} className={className}>{children}</div>
-}
+            observer.disconnect();
+        };
+    }, [onTrigger, triggerRef.current]);
+    return <div ref={triggerRef} className={className}>{children}</div>;
+};
 
-export default Trigger
+export default Trigger;

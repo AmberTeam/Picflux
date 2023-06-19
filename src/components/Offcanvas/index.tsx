@@ -1,36 +1,36 @@
-import { FC, useEffect, useState } from "react"
-import { toJS } from "mobx"
-import styles from "./index.module.scss"
-import LanguageSettings from "../LanguageSettings"
-import ThemeTumbler from "../ThemeTumbler"
-import IAlert from "../../interfaces/IAlert"
-import { ReactComponent as CloseIcon } from "../../icons/Close.svg"
-import { ReactComponent as HomeIcon } from "../../icons/Home.svg"
-import { ReactComponent as ProfileIcon } from "../../icons/Profile.svg"
-import { ReactComponent as InboxIcon } from "../../icons/Inbox.svg"
-import { Link } from "react-router-dom"
-import store from "../../store/store"
-import { observer } from "mobx-react-lite"
+import { FC, useEffect, useState } from "react";
+import { toJS } from "mobx";
+import styles from "./index.module.scss";
+import LanguageSettings from "../LanguageSettings";
+import ThemeTumbler from "../ThemeTumbler";
+import IAlert from "../../interfaces/IAlert";
+import { ReactComponent as CloseIcon } from "../../icons/Close.svg";
+import { ReactComponent as HomeIcon } from "../../icons/Home.svg";
+import { ReactComponent as ProfileIcon } from "../../icons/Profile.svg";
+import { ReactComponent as InboxIcon } from "../../icons/Inbox.svg";
+import { Link } from "react-router-dom";
+import store from "../../store/store";
+import { observer } from "mobx-react-lite";
 interface Props {
     close: () => void
     isActive: boolean
 }
 
 const Offcanvas: FC<Props> = ({ close, isActive }) => {
-    const [alerts, setAlerts] = useState<IAlert[]>([])
-    const [alertsInbox, setAlertsInbox] = useState<number>(0)
+    const [alerts, setAlerts] = useState<IAlert[]>([]);
+    const [alertsInbox, setAlertsInbox] = useState<number>(0);
     useEffect(() => {
         if (store.alert) {
-            const alert_js = toJS(store.alert)
+            const alert_js = toJS(store.alert);
             switch (alert_js.tag) {
                 case "msg":
-                    setAlertsInbox(alertsInbox + 1)
-                    break
+                    setAlertsInbox(alertsInbox + 1);
+                    break;
                 default:
-                    setAlerts([alert_js, ...alerts] as IAlert[])
+                    setAlerts([alert_js, ...alerts] as IAlert[]);
             }
         }
-    }, [store.alert])
+    }, [store.alert]);
     return (
         <div className={`${styles["offcanvas-container"]} ${isActive ? styles.active : ""}`}>
             <div onClick={close} />
@@ -100,7 +100,7 @@ const Offcanvas: FC<Props> = ({ close, isActive }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default observer(Offcanvas)
+export default observer(Offcanvas);

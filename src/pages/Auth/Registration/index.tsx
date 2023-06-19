@@ -1,21 +1,27 @@
-import { FC } from "react"
-import { observer } from "mobx-react-lite"
-import { redirect } from "react-router-dom"
-import store from "../../../store/store"
-import AuthPage from "../index"
+import { FC } from "react";
+import { observer } from "mobx-react-lite";
+import { redirect } from "react-router-dom";
+import store from "../../../store/store";
+import AuthPage from "../index";
+import LogModal from "../../../components/LogModal";
+import Footer from "../../../components/Footer";
 
 export async function registrationAction({ request }: { request: Request }) {
-    const credentials = Object.fromEntries(await request.formData())
-    const wasSuccessful = await store.registration(credentials.email as string, credentials.password as string)
+    const credentials = Object.fromEntries(await request.formData());
+    const wasSuccessful = await store.registration(credentials.email as string, credentials.password as string);
     if (wasSuccessful) {
-        return redirect("/")
+        return redirect("/");
     }
-    return { wasSuccessful }
+    return { wasSuccessful };
 }
 const RegistrationPage: FC = () => {
     return (
-        <AuthPage type="register" navigateTo="/login" />
-    )
-}
+        <>
+            <LogModal />
+            <AuthPage type="register" navigateTo="/login" />
+            <Footer />
+        </>
+    );
+};
 
-export default observer(RegistrationPage)
+export default observer(RegistrationPage);

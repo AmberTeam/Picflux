@@ -1,5 +1,5 @@
-import { FC } from "react"
-import styles from "./index.module.scss"
+import { FC } from "react";
+import styles from "./index.module.scss";
 interface Props {
   detail: string
   value: string
@@ -10,7 +10,7 @@ const FilmDetail: FC<Props> = ({ detail, value }) => {
             <span className={styles["film-detail"]}>{detail}:</span>
             <span className={styles["film-detail-value"]}>{value}</span>
         </div>
-    )
-}
+    );
+};
 
-export default FilmDetail
+export default FilmDetail;

@@ -1,6 +1,6 @@
-import ButtonType from "../../enums/ButtonType"
-import styles from "./index.module.scss"
-import { observer } from "mobx-react-lite"
+import ButtonType from "../../enums/ButtonType";
+import styles from "./index.module.scss";
+import { observer } from "mobx-react-lite";
 
 interface Props<T> {
   text: string
@@ -19,7 +19,7 @@ const BrickButton = <T,>({ text, onButtonClick, id, isSelected, buttonType }: Pr
         >
             {text}
         </button>
-    )
-}
+    );
+};
 
-export default observer(BrickButton)
+export default observer(BrickButton);

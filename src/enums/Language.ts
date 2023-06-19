@@ -4,4 +4,4 @@ enum Language {
   English = "en-EN"
 }
 
-export default Language
+export default Language;

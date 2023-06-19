@@ -6,4 +6,4 @@ enum WebSocketEvents {
   Seen = "seen"
 }
 
-export default WebSocketEvents
+export default WebSocketEvents;

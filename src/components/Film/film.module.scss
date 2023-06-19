@@ -18,7 +18,9 @@
       }
       .film-body {
         .buttons-container {
-          height: 2rem;
+          .button {
+            display: block;
+          }
         }
       }
     }
@@ -64,14 +66,15 @@
     .buttons-container {
       transition: height 0.2s ease;
       display: flex;
-      height: 0;
       overflow: hidden;
       align-items: center;
       gap: 0.5rem;
+      height: 2rem;
       @media (max-width: 600px) {
         display: none;
       }
       .button {
+        display: none;
         text-decoration: none;
         color: var(--bg);
         background-color: var(--color);

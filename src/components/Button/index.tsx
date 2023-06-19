@@ -1,6 +1,6 @@
-import { ReactNode, FC, ButtonHTMLAttributes } from "react"
-import styles from "./index.module.scss"
-import ButtonVariant from "../../enums/ButtonVariant"
+import { ReactNode, FC, ButtonHTMLAttributes } from "react";
+import styles from "./index.module.scss";
+import ButtonVariant from "../../enums/ButtonVariant";
 interface Props {
   variant: ButtonVariant
   children: ReactNode
@@ -14,7 +14,7 @@ const Button: FC<Props & ButtonHTMLAttributes<HTMLButtonElement>> = ({ variant, 
         >
             {children}
         </button>
-    )
-}
+    );
+};
 
-export default Button
+export default Button;

@@ -4,4 +4,4 @@ enum FilteringType {
   None = "without"
 }
 
-export default FilteringType
+export default FilteringType;

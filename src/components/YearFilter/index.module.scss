@@ -1,6 +1,22 @@
+.year-filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+.year-input-container {
+  display: flex;
+  gap: 1rem;
+}
+.range-inputs-container {
+  display: flex;
+  gap: 0.5rem;
+}
 .year-sort-button {
   min-width: 30px;
+  width: 30px;
   min-height: 30px;
+  height: 30px;
   border-radius: 8px;
   background: none;
   border: 1px solid transparent;
@@ -34,15 +50,19 @@
 }
 
 .year-input {
+  box-sizing: border-box;
   background: none;
   outline: none;
   border: 1px solid var(--mtd-col);
   border-radius: 8px;
   color: var(--color);
   width: 100%;
-  padding: 0 0.5rem;
+  padding: 0.5rem;
   transition: border 0.2s ease;
   &:focus {
     border-color: var(--color-a);
+  }
+  &.inactive {
+    opacity: 0.5;
   }
 }

@@ -1,4 +1,5 @@
-import { IUserMin } from "./IUser"
+import IRating from "./IRating";
+import { IUserMin } from "./IUser";
 
 export interface IPlayer {
     url: string
@@ -43,13 +44,13 @@ export interface IFilm {
     genres: [string]
     poster: string
     language: number
-    players: IPlayer[]
-    watchLater?: any[]
+    players: string[]
+    watch_later?: string[]
     wlChangeCb?: () => void
     comments: IFilmComment[]
     imdb_translate?: IIMDBTranslate
     rated?: boolean
-    rating?: any[]
+    rating?: IRating[]
     rating_average?: number
     rated_value?: number
 }

@@ -1,23 +1,23 @@
-import YearFilter from "../YearFilter"
-import Filter from "../Filter"
-import styles from "./index.module.scss"
-import BrickSelector from "../BrickSelector"
-import { toJS } from "mobx"
-import { observer } from "mobx-react-lite"
-import { FC } from "react"
-import FilteringType from "../../enums/FilteringType"
-import LoadingMethod from "../../enums/LoadingMethod"
-import Genre from "../../enums/Genre"
-import store from "../../store/store"
-import ButtonType from "../../enums/ButtonType"
+import YearFilter from "../YearFilter";
+import Filter from "../Filter";
+import styles from "./index.module.scss";
+import BrickSelector from "../BrickSelector";
+import { toJS } from "mobx";
+import { observer } from "mobx-react-lite";
+import { FC } from "react";
+import FilteringType from "../../enums/FilteringType";
+import LoadingMethod from "../../enums/LoadingMethod";
+import Genre from "../../enums/Genre";
+import store from "../../store/store";
+import ButtonType from "../../enums/ButtonType";
 interface Props {
     isVisible: boolean
     onLoadMethodChange: (loadMethod: LoadingMethod) => void
 }
 
 const Filters: FC<Props> = ({ isVisible, onLoadMethodChange }) => {
-    const texts = toJS(store.lang)
-    const { genres } = texts.home.actions.fl_settings.fl_bgenre
+    const texts = toJS(store.lang);
+    const { genres } = texts.home.actions.fl_settings.fl_bgenre;
     return (
         <div className={`${styles["filters-container"]} ${isVisible ? "" : styles.collapsed} container`}>
             <YearFilter />
@@ -149,7 +149,7 @@ const Filters: FC<Props> = ({ isVisible, onLoadMethodChange }) => {
                 />
             </Filter>
         </div>
-    )
-}
+    );
+};
 
-export default observer(Filters)
+export default observer(Filters);

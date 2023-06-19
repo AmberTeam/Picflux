@@ -14,8 +14,7 @@
             "x6": "Unknown server error. Please try again in about 5 minutes."
         },
         "message": {
-            "ad_ts_wrn": "Attention, the technology for removing ads is in test mode, which may cause errors!",
-            "imdb_trns_att": "Attention: The translation of the movie data was made using the imdb search, and this does not guarantee a 100% correct translation for this movie"
+            "x1": "Attention, the technology for removing ads is in test mode, which may cause errors!"
         },
         "success": {
             "x1": "Yop"
@@ -269,9 +268,7 @@
             }
         },
         "tabs": {
-            "wl": "Watchlist",
-            "act": "Activity",
-            "friends": "Friends"
+            "wl": "Watchlist"
         },
         "edit": {
             "title": "Edit profile",
@@ -306,7 +303,6 @@
     },
     "time_viz": {
         "hour": "Hour(s) ago",
-        "min": "Minute(s) ago",
-        "rnow": "Right now"
+        "min": "Minute(s) ago"
     }
 }

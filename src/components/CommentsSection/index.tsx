@@ -1,21 +1,22 @@
-import { FC, useState, useEffect, useRef } from "react"
-import { useFetcher, ActionFunctionArgs, Params, ParamParseKey, useLoaderData, useParams } from "react-router-dom"
-import styles from "./index.module.scss"
-import { ReactComponent as SendIcon } from "../../icons/Send.svg"
-import store from "../../store/store"
-import Comments from "../Comments"
-import { IFilmComment } from "../../interfaces/IFilm"
-import FilmService from "../../services/FilmService"
-import IRating from "../../interfaces/IRating"
-import { ReactComponent as NoCommentsIcon } from "../../icons/NotFound.svg"
-import Button from "../Button"
-import ButtonVariant from "../../enums/ButtonVariant"
+import { FC, useState, useEffect, useRef } from "react";
+import { useFetcher, ActionFunctionArgs, Params, ParamParseKey, useLoaderData, useParams } from "react-router-dom";
+import styles from "./index.module.scss";
+import { ReactComponent as SendIcon } from "../../icons/Send.svg";
+import store from "../../store/store";
+import Comments from "../Comments";
+import { IFilmComment } from "../../interfaces/IFilm";
+import FilmService from "../../services/FilmService";
+import IRating from "../../interfaces/IRating";
+import { ReactComponent as NoCommentsIcon } from "../../icons/NotFound.svg";
+import Button from "../Button";
+import ButtonVariant from "../../enums/ButtonVariant";
+import { observer } from "mobx-react-lite";
 
 interface Props {
     ratings: IRating[]
 }
 
-const path = "/film/:id"
+const path = "/film/:id";
 
 interface Args extends ActionFunctionArgs {
     params: Params<ParamParseKey<typeof path>>
@@ -23,57 +24,54 @@ interface Args extends ActionFunctionArgs {
 
 export async function getNextCommentsLoader({ params, request }: Args) {
     if (params.id) {
-        const url = new URL(request.url)
-        const offset = url.searchParams.get("offset")
-        const response = await FilmService.getComments(params.id, offset ? parseInt(offset) : 0, 15)
+        const url = new URL(request.url);
+        const offset = url.searchParams.get("offset");
+        const response = await FilmService.getComments(params.id, offset ? parseInt(offset) : 0, 15);
         if (response.status === 200) {
-            return { comments: response.data.comments, canLoad: response.data.can_load !== false }
+            return { comments: response.data.comments, canLoad: response.data.can_load !== false };
         }
     }
 }
 
 export async function postCommentAction({ params, request }: Args) {
-    const formData = await request.formData()
-    const commentContent = formData.get("comment")
+    const formData = await request.formData();
+    const commentContent = formData.get("comment");
     if (params.id && commentContent) {
-        const response = await FilmService.addComment(params.id, commentContent.toString())
+        const response = await FilmService.addComment(params.id, commentContent.toString());
         if (response.status === 200) {
-            return response.data
+            return response.data;
         }
     }
 }
 
 const CommentsSection: FC<Props> = ({ ratings }) => {
-    const { comments: firstComments, canLoadMoreComments: canLoadMore } = useLoaderData() as { comments: IFilmComment[], canLoadMoreComments?: boolean }
-    const postCommentFetcher = useFetcher<IFilmComment>()
-    const getCommentsFetcher = useFetcher<{ canLoad: boolean, comments: IFilmComment[] }>()
-    const commentInputRef = useRef<HTMLInputElement>(null)
-    const [comments, setComments] = useState<IFilmComment[]>(firstComments)
-    const [canLoadMoreComments, setCanLoadMoreComments] = useState<boolean>(canLoadMore !== false)
-    const params = useParams<"id">()
+    const { comments: firstComments, canLoadMoreComments: canLoadMore } = useLoaderData() as { comments: IFilmComment[], canLoadMoreComments?: boolean };
+    const postCommentFetcher = useFetcher<IFilmComment>();
+    const getCommentsFetcher = useFetcher<{ canLoad: boolean, comments: IFilmComment[] }>();
+    const commentInputRef = useRef<HTMLInputElement>(null);
+    const [comments, setComments] = useState<IFilmComment[]>(firstComments);
+    const [canLoadMoreComments, setCanLoadMoreComments] = useState<boolean>(canLoadMore !== false);
+    const params = useParams<"id">();
     useEffect(() => {
         if (getCommentsFetcher.data) {
-            console.log("Get Comments Fetcher triggered")
-            setCanLoadMoreComments(getCommentsFetcher.data.canLoad)
+            setCanLoadMoreComments(getCommentsFetcher.data.canLoad);
             setComments(previousComments => {
-                console.log(getCommentsFetcher.data)
-                if (getCommentsFetcher.data?.comments) return [...previousComments, ...getCommentsFetcher.data.comments]
-                return previousComments
-            })
+                if (getCommentsFetcher.data?.comments) return [...previousComments, ...getCommentsFetcher.data.comments];
+                return previousComments;
+            });
         }
-    }, [getCommentsFetcher.data])
+    }, [getCommentsFetcher.data]);
     useEffect(() => {
         if (postCommentFetcher.data) {
-            console.log("Post Comment Fetcher triggered")
             if (commentInputRef.current) {
-                commentInputRef.current.value = ""
+                commentInputRef.current.value = "";
             }
             setComments(previousComments => {
-                if (postCommentFetcher.data) return [postCommentFetcher.data, ...previousComments]
-                return previousComments
-            })
+                if (postCommentFetcher.data) return [postCommentFetcher.data, ...previousComments];
+                return previousComments;
+            });
         }
-    }, [postCommentFetcher.data, commentInputRef.current])
+    }, [postCommentFetcher.data, commentInputRef.current]);
     return (
         <section className={styles["comments-section"]}>
             <postCommentFetcher.Form
@@ -101,7 +99,7 @@ const CommentsSection: FC<Props> = ({ ratings }) => {
                             name="offset"
                             value={comments.length}
                             onClick={() => {
-                                getCommentsFetcher.load(`/film/${params.id}/comments?offset=${comments.length}`)
+                                getCommentsFetcher.load(`/film/${params.id}/comments?offset=${comments.length}`);
                             }}
                         >
                             {store.lang.film.comments.lm}
@@ -116,7 +114,7 @@ const CommentsSection: FC<Props> = ({ ratings }) => {
                 </div>
             }
         </section>
-    )
-}
+    );
+};
 
-export default CommentsSection
+export default observer(CommentsSection);

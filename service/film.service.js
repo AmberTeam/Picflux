@@ -4,6 +4,8 @@ const {syncFilmEvent} = require("../websocket/index")
 const {checkTexts} = require("yandex-speller")
 const db = require("../utils/ndb")
 const { array2postgres, array2postgres_ex } = require("../utils/logic")
+const FilmMinDto = require("../dtos/film.min.dto")
+const FilmDto = require("../dtos/film.dto")
 class FilmService {
 
     async resolveCommentOwner(uid) {
@@ -16,7 +18,7 @@ class FilmService {
         }
     }
 
-    async getById(id, uid, lang = "en-EN") {
+    async getById(id, user, lang = "en-EN") {
 
         const row = await db.query('SELECT * FROM film WHERE id = $1', [id]).then(data => data.rows[0])
         
@@ -25,8 +27,8 @@ class FilmService {
         }
         const rating = await db.query("SELECT * FROM ratings WHERE fid = $1", [id]).then(data => data.rows.length ? data.rows : [])
         const rating_average = rating.length > 0 ? ((Math.round((rating.map(e => e.value).reduce((a, b) => a + b) / rating.length) + Number.EPSILON) * 100) / 100) : null
-        const current_rate = rating.find(r => r.owner === uid)
-        if(uid && current_rate) rated = {
+        const current_rate = rating.find(r => r.owner === user.id)
+        if(user.id && current_rate) rated = {
             rated: true, 
             rated_value: current_rate.value
         }
@@ -38,26 +40,22 @@ class FilmService {
             rating_average,
             duration: `${row.duration.hours ? row.duration.hours + " час(ов) ":""}${row.duration.minutes ? row.duration.minutes + " минут(а)":""}`
         } 
+        console.log(user)
+        console.log(res_model.id)
 
-        if(uid) {
-            const req_owner = await db.query("SELECT * FROM users WHERE id = $1", [uid]).then(data => data.rows[0])
-            
+        if(user) {
             res_model = {
                 ...res_model,
-                watch_later: req_owner.watch_later
+                is_in_watch_list: user.watch_later.includes(String(res_model.id))
             }
         } 
 
 
-        return {
-            ...res_model,
-            imdb_translate: {
-                status: "err"
-            }
-        }
+        return new FilmDto({...res_model})
     }
 
     async search(
+        watch_later,
         q,
         offs = 0,
         lim = 12,
@@ -95,56 +93,67 @@ class FilmService {
         }) 
         //CONSTRUCT SQL SCRIPT
         var flt_construct=''
-        var namedef_construct="" 
-        var segment_construct=""
-        var free_search=q_s.length===0?` ${psrt==='date' ? `ORDER BY year ${psrtt} `:''}OFFSET ${offs} LIMIT ${lim}`:""
+        var namedef_construct=``
+        const segment_construct = `${segment_start !== 'any' ? "AND year > " + segment_start : ""}${segment_end !== 'any' ? " AND year < " + segment_end + " " : ""}`
+        const free_search_ord = ` ${psrt==='date' ? `ORDER BY year ${psrtt}, id asc `:''}OFFSET ${offs} LIMIT ${lim}`
+        var free_search=q_s.length===0?` OFFSET ${offs} LIMIT ${lim}`:""
         var free_s_prefix = q_s.length===0?` WHERE year != 01100111`:""
         var req_f
 
-        if(segment_end !== "any" || segment_start !== "any") {
-            segment_construct += `${segment_start !== "any" ? ' AND year > ' + segment_start : ""} ${segment_end !== "any" ? ' AND year < ' + segment_end : ""}`
-        }
-
-        if(q_s.length>1) {
-            segment_construct = segment_construct.replace("WHERE", "")
-            for(var i=0;i<q_s.length;i++) {
-                switch(i) {
-                    case 0: 
-                        namedef_construct+=` WHERE (lowercasetitle LIKE '%${q_s[i]}%' `
-                        break
-                    case q_s.length-1:
-                        namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%') ` 
-                        break
-                    default: 
-                        namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%' ` 
-                        break
-                }  
-            }
-        }
+        if(q_s.length>1) for(var i=0;i<q_s.length;i++) {
+            switch(i) {
+                case 0: 
+                    namedef_construct+=` WHERE (lowercasetitle LIKE '%${q_s[i]}%' `
+                    break
+                case q_s.length-1:
+                    namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%') ` 
+                    break
+                default: 
+                    namedef_construct+=`OR lowercasetitle LIKE '%${q_s[i]}%' `
+                    break
+            }  
+        }  
         else if(q_s.length===1) namedef_construct=` WHERE (lowercasetitle LIKE '%${q_s[0]}%') `
-
         
         switch(flt) {
             case "without":
-                if(datesrt&&datesrt!=="any"&&psrt==="without") req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${segment_construct} AND year = ${datesrt}${free_search}`
-                else req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${segment_construct}${free_search}`
-                break
-            default:   
+                if(datesrt&&datesrt!=="any"&&psrt==="without") {
+                    req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct} AND year = ${datesrt}${free_search}`
+                    break
+                } else {
+                    switch(q_s.length) {
+                        case 0: 
+                            req_f = `SELECT * FROM film ${free_s_prefix} ${segment_construct} ${free_search}`
+                            break 
+                        default: 
+                            req_f = `SELECT * FROM film ${namedef_construct}${segment_construct} ${free_search}`
+                            break
+
+                    }
+                    break
+                    /*if(q_s.length > 1) req_f = `SELECT * FROM film ${namedef_construct}${segment_construct}${free_search}`
+                    else req_f = `SELECT * FROM film ${namedef_construct} ${free_search}`*/
+                }
+            default: 
                 if(fl.length) {
                     var genre_str = array2postgres(fl)
-                    flt_construct+=` AND ${flt === 'solely' ? ` NOT(genres && '${genre_str}')` : `genres @> '${genre_str}'`}`
+                    flt_construct=` AND ${flt === 'solely' ? ` NOT(genres && '${genre_str}')` : `genres @> '${genre_str}'`}`
                 }
                 if(datesrt&&datesrt!=="any"&&psrt==="without") flt_construct+=` AND year = ${datesrt}`
-                req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${segment_construct}${flt_construct}${free_search}`
+                switch(q_s.length) {
+                    case 0: 
+                        req_f = `SELECT * FROM film ${free_s_prefix} ${segment_construct}${namedef_construct}${flt_construct}${free_search}`
+                        break
+                    default: 
+                        req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${segment_construct}${flt_construct}${free_search}`
+                        break
+                }
+                //req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct}${flt_construct}${free_search}`
                 break
         }
-
-        console.log(req_f)
-
-        var rows = await db.query(req_f).then(data => data.rows)
-
         //FILTER FILMS
         if(free_search==="") {
+            var rows = await db.query(req_f).then(data => data.rows)
             for(var a=0;a<rows.length;a++) {
                 var name_sp = rows[a].title.replaceAll("-", " ").split(" ").map(ns => {
                     return {
@@ -225,13 +234,13 @@ class FilmService {
                         break
                 }
             }
+            return {films: rows.slice(offs, offs+lim).map(row => new FilmMinDto(row)).map(row => watch_later && watch_later.includes(String(row.id)) ? {...row, is_in_watch_list: true} : row), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
+        } else { 
+            const _rows = await db.query(req_f.replace(free_search, free_search_ord)).then(data => data.rows)
+            return {films: _rows, can_load: _rows.length>0}
         }
 
-        if(free_search==="") return {films: rows.slice(offs, offs+lim), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
-        else { 
-            const _rows = await db.query(req_f).then(data => data.rows)
-            return {films: rows, can_load: _rows.length>0}
-        }
+        //if(free_search==="") return {films: rows.slice(offs, offs+lim), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
     }
 
     async removeWillReadFilm(userid, fid) {

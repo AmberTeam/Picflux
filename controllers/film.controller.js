@@ -6,7 +6,7 @@ class FilmController {
     async getById(req, res, next) {
         try {
             const {id} = req.params
-            const filmData = await filmService.getById(id, req.user ? req.user.id : undefined, req.headers["accept-language"])
+            const filmData = await filmService.getById(id, req.user ? req.user : undefined, req.headers["accept-language"])
             return res.json(filmData)
         } catch(e) { 
             next(e)
@@ -109,11 +109,10 @@ class FilmController {
             var fl_arr = fl && result.flt.status === 1 && result.flt.data !== "without" ? fl.split(" ").filter((fle) => fle !== "") : []
             
             if(result.psrt_t.data !== "without" && !fl_arr.length) fl_arr = []
-
-            console.log(result)
-
+            
             const fdatas = await filmService.search(
-                query, 
+                req.user && req.user.watch_later ? req.user.watch_later : null,
+                "привет с", 
                 Number(offset), 
                 Number(limit), 
                 fl_arr, 

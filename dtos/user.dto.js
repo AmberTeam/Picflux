@@ -6,6 +6,7 @@ module.exports = class UserDto {
     friends
     subscribed
     biography
+    watch_later
 
     constructor(model) {
         this.avatar = `${process.env.API_URL}/static/${model.avatar}`
@@ -15,5 +16,6 @@ module.exports = class UserDto {
         this.friends = model.friends
         this.subscribed = model.subscribed
         this.biography = model.biography
+        this.watch_later = model.watch_later
     }
 }

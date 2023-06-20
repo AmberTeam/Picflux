@@ -112,7 +112,7 @@ class FilmController {
             
             const fdatas = await filmService.search(
                 req.user && req.user.watch_later ? req.user.watch_later : null,
-                "привет с", 
+                query, 
                 Number(offset), 
                 Number(limit), 
                 fl_arr, 

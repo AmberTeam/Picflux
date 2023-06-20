@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IMessage } from "../interfaces/IMessage";
+import FragmentingAction from "../enums/FragmentingAction";
 
 export default function useFragmenting(fragmentLength: number) {
     const [fragments, setFragments] = useState<IMessage[][]>([]);
@@ -49,8 +50,8 @@ export default function useFragmenting(fragmentLength: number) {
             return newFragments;
         });
     };
-    const updateFragments = (method: "push" | "unshift" | "replace", newMessages: IMessage[]) => {
-        if (method === "push") {
+    const updateFragments = (method: FragmentingAction, newMessages: IMessage[]) => {
+        if (method === FragmentingAction.Push) {
             if (newMessages.length) {
                 setFragments(previousFragments => {
                     const lastFragment = previousFragments[previousFragments.length - 1];
@@ -66,7 +67,7 @@ export default function useFragmenting(fragmentLength: number) {
                 });
             }
         }
-        else if (method === "unshift") {
+        else if (method === FragmentingAction.Unshift) {
             if (newMessages.length) {
                 setFragments(previousFragments => {
                     if (newMessages.length % fragmentLength === 0) {
@@ -83,7 +84,7 @@ export default function useFragmenting(fragmentLength: number) {
                 });
             }
         }
-        else if (method === "replace") {
+        else if (method === FragmentingAction.Replace) {
             setFragments(() => {
                 if (newMessages.length) return [newMessages];
                 else return [];

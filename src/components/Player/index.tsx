@@ -88,7 +88,7 @@ const Player: FC<Props> = ({ players }) => {
                 />
             </div>
             {error ?
-                <div style={{ height: "100%", width: "100%", color: "black", backgroundColor: "red"}}>Hola</div>
+                <div className={styles.player} style={{ color: "black", backgroundColor: "red"}}>Hola</div>
                 : <iframe ref={playerRef} className={styles.player} srcDoc={adMode ? undefined : selectedPlayerDoc} src={adMode ? selectedPlayer.url : undefined} />
             }
             <div ref={sidebarRef} className={`${styles["player-sidebar"]} ${isFixed ? "" : styles["is-not-fixed"]}`}>
@@ -102,7 +102,7 @@ const Player: FC<Props> = ({ players }) => {
                                 }}
                                 player={player}
                                 isSelected={player === selectedPlayer}
-                                index={index}
+                                playerName={`Player ${index + 1}`}
                                 key={player.url}
                             />
                         );

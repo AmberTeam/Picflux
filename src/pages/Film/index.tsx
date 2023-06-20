@@ -88,7 +88,6 @@ export async function filmLoader({ params }: Args) {
 const FilmPage: FC = () => {
     const posterRef = useRef<HTMLImageElement>(null);
     const { film, players } = useLoaderData() as { film: IFilm | undefined, players: IPlayer[] | undefined };
-    console.log(players);
     const fetcher = useFetcher();
     const isInWatchList = useMemo(() => {
         return film?.watch_later?.some(watchLaterFilmId => {

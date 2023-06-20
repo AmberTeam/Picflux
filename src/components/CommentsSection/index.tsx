@@ -1,5 +1,5 @@
-import { FC, useState, useEffect, useRef } from "react";
-import { useFetcher, ActionFunctionArgs, Params, ParamParseKey, useLoaderData, useParams } from "react-router-dom";
+import { FC, useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
 import styles from "./index.module.scss";
 import { ReactComponent as SendIcon } from "../../icons/Send.svg";
 import store from "../../store/store";
@@ -16,91 +16,68 @@ interface Props {
     ratings: IRating[]
 }
 
-const path = "/film/:id";
-
-interface Args extends ActionFunctionArgs {
-    params: Params<ParamParseKey<typeof path>>
-}
-
-export async function getNextCommentsLoader({ params, request }: Args) {
-    if (params.id) {
-        const url = new URL(request.url);
-        const offset = url.searchParams.get("offset");
-        const response = await FilmService.getComments(params.id, offset ? parseInt(offset) : 0, 15);
-        if (response.status === 200) {
-            return { comments: response.data.comments, canLoad: response.data.can_load !== false };
-        }
-    }
-}
-
-export async function postCommentAction({ params, request }: Args) {
-    const formData = await request.formData();
-    const commentContent = formData.get("comment");
-    if (params.id && commentContent) {
-        const response = await FilmService.addComment(params.id, commentContent.toString());
-        if (response.status === 200) {
-            return response.data;
-        }
-    }
-}
-
 const CommentsSection: FC<Props> = ({ ratings }) => {
     const { comments: firstComments, canLoadMoreComments: canLoadMore } = useLoaderData() as { comments: IFilmComment[], canLoadMoreComments?: boolean };
-    const postCommentFetcher = useFetcher<IFilmComment>();
-    const getCommentsFetcher = useFetcher<{ canLoad: boolean, comments: IFilmComment[] }>();
-    const commentInputRef = useRef<HTMLInputElement>(null);
     const [comments, setComments] = useState<IFilmComment[]>(firstComments);
     const [canLoadMoreComments, setCanLoadMoreComments] = useState<boolean>(canLoadMore !== false);
+    const [comment, setComment] = useState<string>("");
     const params = useParams<"id">();
-    useEffect(() => {
-        if (getCommentsFetcher.data) {
-            setCanLoadMoreComments(getCommentsFetcher.data.canLoad);
-            setComments(previousComments => {
-                if (getCommentsFetcher.data?.comments) return [...previousComments, ...getCommentsFetcher.data.comments];
-                return previousComments;
-            });
-        }
-    }, [getCommentsFetcher.data]);
-    useEffect(() => {
-        if (postCommentFetcher.data) {
-            if (commentInputRef.current) {
-                commentInputRef.current.value = "";
+    const getNextComments = async () => {
+        if(params.id) {
+            const response = await FilmService.getComments(params.id, comments.length, 15);
+            if(response.data) {
+                setCanLoadMoreComments(response.data.can_load);
+                setComments(previousComments => {
+                    if (response.data.comments.length) return [...previousComments, ...response.data.comments];
+                    return previousComments;
+                });
             }
-            setComments(previousComments => {
-                if (postCommentFetcher.data) return [postCommentFetcher.data, ...previousComments];
-                return previousComments;
-            });
         }
-    }, [postCommentFetcher.data, commentInputRef.current]);
+    };
+    const createComment = async () => {
+        if(comment) {
+            if (params.id) {
+                const createdComment = await FilmService.addComment(params.id, comment);
+                if(createdComment.data) {
+                    setComments(previousComments => {
+                        return [createdComment.data, ...previousComments];
+                    });
+                    setComment("");
+                }
+            }
+        }
+    };
     return (
         <section className={styles["comments-section"]}>
-            <postCommentFetcher.Form
+            <form
                 className={styles["upload-comment-container"]}
                 method="post"
                 action="comments"
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    createComment();
+                }}
             >
                 <input
                     type="text"
                     className={styles["upload-comment-input"]}
                     placeholder={store.lang.film.comments.placeholder.ec}
-                    name="comment"
-                    ref={commentInputRef}
+                    value={comment}
+                    onChange={(event) => {
+                        setComment(event.target.value);
+                    }}
                 />
                 <button type="submit" className={styles["upload-button"]}>
                     <SendIcon className={styles["upload-icon"]} />
                 </button>
-            </postCommentFetcher.Form>
+            </form>
             {comments.length ?
                 <>
                     <Comments comments={comments} ratings={ratings} />
                     {canLoadMoreComments !== false ?
                         <Button
                             variant={ButtonVariant.Empty}
-                            name="offset"
-                            value={comments.length}
-                            onClick={() => {
-                                getCommentsFetcher.load(`/film/${params.id}/comments?offset=${comments.length}`);
-                            }}
+                            onClick={getNextComments}
                         >
                             {store.lang.film.comments.lm}
                         </Button>

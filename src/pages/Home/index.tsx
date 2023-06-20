@@ -29,7 +29,7 @@ export async function getFilmsLoader({ request }: { request: Request }) {
     const genres = url.searchParams.get("genres") ?? "";
     const query = url.searchParams.get("query") ?? "";
     let offset: string | number | null = url.searchParams.get("offset");
-    if(typeof offset === "string" && offset) offset = parseInt(offset);
+    if (typeof offset === "string" && offset) offset = parseInt(offset);
     else offset = 0;
     const filteringType = url.searchParams.get("filtering-type") as FilteringType;
     const date = url.searchParams.get("date");
@@ -92,12 +92,12 @@ const HomePage: FC = () => {
     const [canLoadMore, setCanLoadMore] = useState<boolean>(canLoad);
     const fetcher = useFetcher<FetcherData>();
     const getNextFilms = useCallback(() => {
-        if(formRef.current) {
+        if (formRef.current) {
             const data = new FormData(formRef.current);
             data.delete("offset");
             const urlParams = new URLSearchParams();
             let query = `/get-films?offset=${films.length}`;
-            for(const [key, value] of data.entries()) {
+            for (const [key, value] of data.entries()) {
                 urlParams.append(key, value.toString());
             }
             query += urlParams;
@@ -105,8 +105,8 @@ const HomePage: FC = () => {
         }
     }, [films]);
     useEffect(() => {
-        if(fetcher.data && (fetcher.state !== "submitting" && fetcher.state !== "loading")) {
-            if(fetcher.data.isFirst) {
+        if (fetcher.data && (fetcher.state !== "submitting" && fetcher.state !== "loading")) {
+            if (fetcher.data.isFirst) {
                 setFilms(fetcher.data.films);
             }
             else {

@@ -1,4 +1,4 @@
-import { useContext, useEffect, RefObject, FC, useRef } from "react";
+import { useContext, useEffect, RefObject, FC } from "react";
 import styles from "./index.module.scss";
 import { IMessage } from "../../../../interfaces/IMessage";
 import { IUserMin } from "../../../../interfaces/IUser";
@@ -24,10 +24,8 @@ export interface IFragment {
     messages: IMessage[]
 }
 
-const MessageList: FC<Props> = ({ getPreviousMessages, fragments, updateSeenStatus, ...props }) => {
+const MessageList: FC<Props> = ({ getPreviousMessages, fragments, updateSeenStatus, onEdit, onDelete, onReply, observer, chatContainerRef }) => {
     const { wsc } = useContext(Context);
-    const chatContainerRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         function seenHandler(event: MessageEvent) {
             const data = JSON.parse(event.data);
@@ -53,12 +51,12 @@ const MessageList: FC<Props> = ({ getPreviousMessages, fragments, updateSeenStat
 
                         if (fragment.length) return (
                             <Fragment
-                                onEdit={props.onEdit}
-                                onDelete={props.onDelete}
-                                onReply={props.onReply}
+                                onEdit={onEdit}
+                                onDelete={onDelete}
+                                onReply={onReply}
                                 isFragmentSeen={!inc}
                                 fragment={fragment}
-                                observer={props.observer}
+                                observer={observer}
                                 key={fragment[0]._id}
                             />
                         );

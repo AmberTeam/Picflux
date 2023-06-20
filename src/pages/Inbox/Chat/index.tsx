@@ -16,6 +16,7 @@ import { ReactComponent as CancelIcon } from "../../../icons/Close.svg";
 import { ReactComponent as GoBackIcon } from "../../../icons/GoBack.svg";
 import useFragmenting from "../../../hooks/useFragmenting.hook";
 import { Context } from "../../..";
+import FragmentingAction from "../../../enums/FragmentingAction";
 
 const path = "/inbox/:id" as const;
 
@@ -38,10 +39,12 @@ const Chat: FC = () => {
     const { messages: fetchedMessages } = useLoaderData() as { messages: IMessage[] };
     const [replyingMessage, setReplyingMessage] = useState<IMessage | null>(null);
     const [editingMessage, setEditingMessage] = useState<string | null>(null);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
     const { chats } = useOutletContext<{ chats: IChat[] }>();
     const params = useParams<"id">();
     const chat = useMemo(() => chats.find(chat => chat.chatid === params.id), [params.id, chats]);
     const { fragments, updateFragments, setNewFragments, removeMessage } = useFragmenting(25);
+    const [pendingScroll, setPendingScroll] = useState<boolean>(false);
     const user = chat?.members[0];
     const handleMessageSubmit = async () => {
         const message = inputMessageRef.current?.value;
@@ -50,7 +53,7 @@ const Chat: FC = () => {
                 wsc.send(WebSocketActions.ChatroomEvent, { chatid: params.id, payload: { event: "edit", message: { _id: editingMessage, payload: message } } });
                 handleMessageEdited(editingMessage, message);
                 setEditingMessage(null);
-                await InboxService.editMsg(params.id, editingMessage, message);
+                InboxService.editMsg(params.id, editingMessage, message);
             }
             else {
                 const messageInformation = {
@@ -63,10 +66,11 @@ const Chat: FC = () => {
                     _id: uuid(),
                     type: replyingMessage?._id ? "reply" : "default"
                 };
+                updateFragments(FragmentingAction.Push, [{ ...messageInformation, refer: replyingMessage ?? null }]);
                 wsc.send(WebSocketActions.ChatroomMessage, { chatid: params.id, msg: { ...messageInformation, refer: replyingMessage } });
-                await InboxService.storeMsg({ ...messageInformation, refer: replyingMessage?._id ?? null });
-                updateFragments("push", [{ ...messageInformation, refer: replyingMessage ?? null }]);
+                InboxService.storeMsg({ ...messageInformation, refer: replyingMessage?._id ?? null });
                 setReplyingMessage(null);
+                setPendingScroll(true);
             }
             inputMessageRef.current.value = "";
         }
@@ -113,14 +117,23 @@ const Chat: FC = () => {
                     setCanLoadMore(false);
                 }
                 else {
-                    updateFragments("unshift", response.data.history);
+                    updateFragments(FragmentingAction.Unshift, response.data.history);
                 }
             }, 300);
         }
     }, [canLoadMore, params.id, fragments]);
     useEffect(() => {
+        if (pendingScroll) {
+            chatContainerRef.current?.scrollTo({
+                behavior: "smooth",
+                top: Number.MAX_SAFE_INTEGER
+            });
+            setPendingScroll(false);
+        }
+    }, [pendingScroll]);
+    useEffect(() => {
         setCanLoadMore(!!fetchedMessages.length);
-        updateFragments("replace", fetchedMessages);
+        updateFragments(FragmentingAction.Replace, fetchedMessages);
     }, [fetchedMessages]);
     useEffect(() => {
         const messageHandler = (event: MessageEvent) => {
@@ -128,7 +141,7 @@ const Chat: FC = () => {
             if (data.event === WebSocketEvents.ChatroomMessage) {
                 const payload = JSON.parse(data.payload);
                 if (payload) {
-                    updateFragments("push", [payload]);
+                    updateFragments(FragmentingAction.Push, [payload]);
                 }
             }
         };
@@ -168,6 +181,7 @@ const Chat: FC = () => {
                 <InformationIcon className={`${styles["action-icon"]} ${styles["show-if-desktop"]}`} />
             </div>
             <MessageList
+                chatContainerRef={chatContainerRef}
                 getPreviousMessages={getPreviousMessages}
                 fragments={fragments}
                 updateSeenStatus={updateSeenStatus}
@@ -181,7 +195,7 @@ const Chat: FC = () => {
                         if (params.id) {
                             wsc.send(WebSocketActions.ChatroomEvent, { chatid: params.id, payload: { event: "delete", message: { _id: message._id } } });
                             removeMessage(message._id);
-                            await InboxService.deleteMsg(params.id, message._id);
+                            InboxService.deleteMsg(params.id, message._id);
                         }
                     }
                 }}

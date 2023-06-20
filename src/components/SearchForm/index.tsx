@@ -1,4 +1,4 @@
-import { useState,  useRef, RefObject } from "react";
+import { useState, useRef, RefObject } from "react";
 import styles from "./index.module.scss";
 import { ReactComponent as ReloadIcon } from "../../icons/Reload.svg";
 import { ReactComponent as FilterIcon } from "../../icons/Filter.svg";
@@ -8,48 +8,54 @@ import LoadingMethod from "../../enums/LoadingMethod";
 import { observer } from "mobx-react-lite";
 import store from "../../store/store";
 import { FetcherWithComponents } from "react-router-dom";
-interface Props <T> {
+interface Props<T> {
     onLoadMethodChange: (loadMethod: LoadingMethod) => void
     formRef: RefObject<HTMLFormElement>
     fetcher: FetcherWithComponents<T>
 }
-const SearchForm = <T, >({ onLoadMethodChange, formRef, fetcher }: Props<T>) => {
+const SearchForm = <T,>({ onLoadMethodChange, formRef, fetcher }: Props<T>) => {
     const timeoutIdRef = useRef<number | null>(null);
-    const searchInputRef = useRef(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
     const [areFiltersVisible, setAreFiltersVisible] = useState<boolean>(false);
     const [isFieldFocused, setIsFieldFocused] = useState<boolean>(false);
+    const handleSubmit = () => {
+        if (typeof timeoutIdRef.current === "number") clearTimeout(timeoutIdRef.current);
+        if (formRef.current) {
+            const urlParams = new URLSearchParams();
+            let query = "/get-films?";
+            const data = new FormData(formRef.current);
+            for (const [key, value] of data) {
+                urlParams.set(key, value.toString());
+            }
+            query += urlParams;
+            fetcher.load(query);
+        }
+    };
     return (
         <fetcher.Form
             method="get"
             action="get-films"
             onInput={() => {
-                if(formRef.current) {
-                    if(typeof timeoutIdRef.current === "number") clearTimeout(timeoutIdRef.current);
-                    timeoutIdRef.current = window.setTimeout(() => {
-                        if(formRef.current !== null) {
-                            const urlParams = new URLSearchParams();
-                            let query = "/get-films?";
-                            const data = new FormData(formRef.current);
-                            for(const [key, value] of data) {
-                                urlParams.set(key, value.toString());
-                            }
-                            query += urlParams;
-                            fetcher.load(query);
-                        }
-                    }, 800);
-                }
+                const timeout = window.setTimeout(() => {
+                    handleSubmit();
+                }, 800);
+                timeoutIdRef.current = timeout;
+            }}
+            onSubmit={() => {
+                if(typeof timeoutIdRef.current === "number") clearTimeout(timeoutIdRef.current);
             }}
             ref={formRef}
         >
             <input type="hidden" name="offset" value="0" />
             <div className={styles.container}>
                 <button
-                    type="submit"
+                    type="button"
                     className={styles.tool}
                     onClick={() => {
                         if (searchInputRef.current) {
-                            (searchInputRef.current as HTMLInputElement).value = "";
+                            searchInputRef.current.value = "";
                         }
+                        handleSubmit();
                     }}
                 >
                     <ReloadIcon className={styles["tool-icon"]} />

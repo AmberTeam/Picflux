@@ -20,7 +20,6 @@ import Chat, { chatLoader } from "./pages/Inbox/Chat";
 import { searchUsersLoader } from "./components/UserSelect";
 import ProtectedPage from "./components/ProtectedPage";
 import CreateChat, { createChatAction } from "./components/CreateChat";
-import { getNextCommentsLoader, postCommentAction } from "./components/CommentsSection";
 
 const router = createBrowserRouter([
     {
@@ -61,11 +60,6 @@ const router = createBrowserRouter([
                             {
                                 path: "rate-film",
                                 action: rateFilmAction
-                            },
-                            {
-                                path: "comments",
-                                action: postCommentAction,
-                                loader: getNextCommentsLoader
                             }
                         ]
                     },

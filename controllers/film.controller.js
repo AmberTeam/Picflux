@@ -9,7 +9,8 @@ class FilmController {
             const filmData = await filmService.getById(id, req.user ? req.user : undefined, req.headers["accept-language"])
             return res.json(filmData)
         } catch(e) { 
-            next(e)
+            console.error(e)
+            return next(e)
         }
     }
 
@@ -111,7 +112,7 @@ class FilmController {
             if(result.psrt_t.data !== "without" && !fl_arr.length) fl_arr = []
             
             const fdatas = await filmService.search(
-                req.user && req.user.watch_later ? req.user.watch_later : null,
+                req.user ? req.user.id : null,
                 query, 
                 Number(offset), 
                 Number(limit), 
@@ -125,7 +126,8 @@ class FilmController {
     
             return res.json(fdatas)
         } catch(e) {
-            next(e)
+            console.log(e)
+            return next(e)
         }
     }
 
@@ -134,7 +136,8 @@ class FilmController {
             const response = await filmService.addWillReadFilm(req.user.id, req.body.id)
             return res.json(response)
         } catch(e) {
-            return next(ApiError.UnauthorizedError())
+            console.error(e)
+            return next(e)
         }
     }
 
@@ -152,6 +155,7 @@ class FilmController {
             const data = await filmService.addComment(req.params.id, req.user, req.body.data)
             return res.json(data)
         } catch(e) {
+            console.error(e)
             return next(e)
         }
     }
@@ -161,6 +165,7 @@ class FilmController {
             const data = await filmService.getComments(req.params.id, req.query.offset, req.query.limit)
             return res.json(data)
         } catch(e) {
+            console.error(e)
             return next(e)
         }
     }
@@ -169,7 +174,8 @@ class FilmController {
         try {
             const response = await filmService.pushRating(req.user.id, req.params.id, req.body.value)
             return res.status(200).json(response)
-        } catch(e) {    
+        } catch(e) {   
+            console.error(e) 
             return next(e)
         }
     }

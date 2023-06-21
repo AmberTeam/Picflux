@@ -15,19 +15,20 @@ const { array2postgres } = require('../utils/logic');
 
 class UserService {
     async setTimestamp(uid, data) { 
-        try {
-            const candidate = await db.query(`UPDATE users SET last_active = $1 WHERE id = $2 RETURNING *`, [data, uid])
-            if(!candidate) throw ApiError.UnauthorizedError()
+        const candidate = await db.query(`UPDATE users SET last_active = $1 WHERE id = $2 RETURNING *`, [data, uid]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
+        if(!candidate) throw ApiError.UnauthorizedError()
 
-            return {status: "ok"}
-        } catch(e) {
-            console.error(e)
-            return {status: "err"}
-        } 
+        return {status: "ok"}
     }
 
     async registration(email, password) {
-        const candidate = await db.query("SELECT * FROM users WHERE email = $1", [email]).then(data => data.rows.length > 0)
+        const candidate = await db.query("SELECT * FROM users WHERE email = $1", [email]).then(data => data.rows.length > 0).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         if (candidate) throw ApiError.BadRequest()
 
         const hashPassword = await bcrypt.hash(password, 3)
@@ -41,7 +42,10 @@ class UserService {
                 padding: 0
             })), 
             `user_${rid(8, 'aA0')}`]
-        ).then(data => data.rows[0])
+        ).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
 
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${user.verify_l}`);
 
@@ -54,13 +58,19 @@ class UserService {
     }
 
     async activate(activationLink) {
-        const user = await db.query("UPDATE users SET verified = true WHERE verify_l = $1 RETURNING *", activationLink).then(data => data.rows[0])
+        const user = await db.query("UPDATE users SET verified = true WHERE verify_l = $1 RETURNING *", activationLink).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         if (!user) throw ApiError.BadRequest()
         return {status: "ok"}
     }
 
     async login(email, password) {
-        const user = await db.query("SELECT * FROM users WHERE email = $1", [email]).then(data => data.rows[0])
+        const user = await db.query("SELECT * FROM users WHERE email = $1", [email]).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         //const user = await UserModel.findOne({email})
         if (!user) throw ApiError.BadRequest()
 
@@ -77,10 +87,22 @@ class UserService {
 
     async logout(refreshToken, ddf, user) {
         if(ddf === true) {
-            await db.query("DELETE FROM alerts WHERE owner = $1", [user.id])
-            await db.query("DELETE FROM ratings WHERE owner = $1", [user.id])
-            await db.query("DELETE FROM tokens WHERE uid = $1", [user.id])
-            await db.query("DELETE FROM users WHERE id = $1", [user.id])
+            await db.query("DELETE FROM alerts WHERE owner = $1", [user.id]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
+            await db.query("DELETE FROM ratings WHERE owner = $1", [user.id]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
+            await db.query("DELETE FROM tokens WHERE uid = $1", [user.id]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
+            await db.query("DELETE FROM users WHERE id = $1", [user.id]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
         }
         //if(ddf == true) await UserModel.deleteOne({email: user.email})
         const token = await tokenService.removeToken(refreshToken);
@@ -94,7 +116,10 @@ class UserService {
         const tokenFromDb = await tokenService.findToken(refreshToken);
         if (!userData || !tokenFromDb) throw ApiError.UnauthorizedError();
         
-        const user = await db.query("SELECT * FROM users WHERE id = $1", [userData.id]).then(data => data.rows[0])
+        const user = await db.query("SELECT * FROM users WHERE id = $1", [userData.id]).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
 
@@ -102,8 +127,24 @@ class UserService {
         return {...tokens, user: userDto}
     }
 
+    async get_user_by_id_min(id) { 
+        const candidate = await db.query("SELECT * FROM users WHERE id = $1", [id]).then(data => data.rows[0]).catch(e => {
+            console.error(e) 
+            throw ApiError.BadRequest()
+        })
+        if(candidate) {
+            const ownerDto = new UserDto(candidate)
+            return ownerDto
+        } else {
+            return undefined 
+        }
+    }
+
     async getUserBId(id, own, uid) {
-        const userData = await db.query("SELECT * FROM users WHERE id = $1", [id]).then(data => data.rows[0])
+        const userData = await db.query("SELECT * FROM users WHERE id = $1", [id]).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         const diff = Date.now() - userData.last_active
         if(diff >= 60000) userData.status = 0 
         else userData.status = 1
@@ -112,7 +153,10 @@ class UserService {
             userData.subscribed = userData.friends.includes(uid)
             const friends_parsed=[]
             for(var i=0;i < userData.friends.length;i++) {
-                const follower = await db.query("SELECT * FROM users WHERE id = $1", [userData.friends[i]]).then(data => data.rows[0])
+                const follower = await db.query("SELECT * FROM users WHERE id = $1", [userData.friends[i]]).then(data => data.rows[0]).catch(e => {
+                    console.log(e)
+                    throw ApiError.BadRequest()
+                })
                 if(!follower) return null 
                 friends_parsed.push(new UserMinDto(follower))
             }
@@ -124,7 +168,10 @@ class UserService {
         if(own && userData.watch_later.length) {
             const sql = `SELECT * FROM film WHERE id = any('${array2postgres(userData.watch_later)}')`
             //var sql="SELECT * FROM film WHERE id = any('{1}')"
-            userDto.watchLater = await db.query(sql ).then(data => data.rows)
+            userDto.watchLater = await db.query(sql ).then(data => data.rows).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
 
         } 
 
@@ -133,10 +180,16 @@ class UserService {
 
     async subscribe(uid, f) {
         try { 
-            const candidate = await db.query('SELECT * FROM users WHERE id = $1', [uid]).then(data => data.rows[0])
+            const candidate = await db.query('SELECT * FROM users WHERE id = $1', [uid]).then(data => data.rows[0]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
             if(!candidate && f && f.id) throw ApiError.BadRequest()
     
-            await db.query("UPDATE users SET friends = array_append(friends, $1) WHERE id = $2", [f.id, uid])
+            await db.query("UPDATE users SET friends = array_append(friends, $1) WHERE id = $2", [f.id, uid]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
             this.storeAlert(f.id, uid, 'sub_inc')
             return {status: "ok"}
         } catch(e) {
@@ -146,10 +199,16 @@ class UserService {
 
     async unsubscribe(uid, foid) {
         try {
-            const candidate = await db.query('SELECT * FROM users WHERE id = $1', [uid]).then(data => data.rows[0])
+            const candidate = await db.query('SELECT * FROM users WHERE id = $1', [uid]).then(data => data.rows[0]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
             if(!candidate && foid) throw ApiError.BadRequest()
 
-            await db.query("UPDATE users SET friends = array_remove(friends, $1) WHERE id = $2", [foid, uid])
+            await db.query("UPDATE users SET friends = array_remove(friends, $1) WHERE id = $2", [foid, uid]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
             return {status: "ok"}
         } catch(e) {
             console.error(e)
@@ -162,7 +221,10 @@ class UserService {
             var result = {}
             if(data.username) {
                 
-                const c = await db.query('SELECT * FROM users WHERE username = $1', [data.username]).then(data => data.rows.length)
+                const c = await db.query('SELECT * FROM users WHERE username = $1', [data.username]).then(data => data.rows.length).catch(e => {
+                    console.log(e)
+                    throw ApiError.BadRequest()
+                })
                 if(c) result.username = 1
                 else result.username = 0
             }
@@ -200,7 +262,10 @@ class UserService {
             }
             sql += c
         }
-        const candidate = await db.query(`UPDATE users SET ${sql} WHERE id = $1 RETURNING *`, [uid]).then(data => data.rows[0])
+        const candidate = await db.query(`UPDATE users SET ${sql} WHERE id = $1 RETURNING *`, [uid]).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
 
         if(!candidate) throw ApiError.UnauthorizedError()
         const userDto = {...new UserMinDto({
@@ -213,7 +278,10 @@ class UserService {
     async searchCandidates (uid, username) {
         const username_r = username 
                                 .replace(" ", "")
-        const data = await db.query(`SELECT * FROM users WHERE username LIKE '%${username_r}%'`).then(data => data.rows)
+        const data = await db.query(`SELECT * FROM users WHERE username LIKE '%${username_r}%'`).then(data => data.rows).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         return {
             status: "ok", 
             users: data.filter(user => user.id !== uid).map(user => new UserMinDto(user))
@@ -222,7 +290,10 @@ class UserService {
 
     async getAlertsIncoming(uid) {
 
-        const rows = await db.query(`SELECT * FROM alerts WHERE recipient = $1 AND tag NOT LIKE "msg"`, [uid]).then(data => data.rows)
+        const rows = await db.query(`SELECT * FROM alerts WHERE recipient = $1 AND tag NOT LIKE "msg"`, [uid]).then(data => data.rows).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
 
             
         const reverse = rows.reverse()
@@ -240,7 +311,10 @@ class UserService {
             $2,
             $3,
             $4
-        )`, [uid, rid, tag, Date.now()])
+        )`, [uid, rid, tag, Date.now()]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         return {status: "ok"}
     }
 

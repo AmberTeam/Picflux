@@ -6,6 +6,6 @@ module.exports = function (err, req, res, next) {
     if (err instanceof ApiError) {
         return res.status(err.config.status).json(err.config)
     }
-    return res.status(bad_request.status).json(ApiError.BadRequest())
+    return res.status(bad_request.status).json(ApiError.BadRequest().config)
 
 };

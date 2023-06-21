@@ -9,7 +9,10 @@ class OAuthService {
     async authorizeTelegram(authdata) {
         const MySiteLogin = new TelegramLogin(process.env.TG_APIKEY);
         if(MySiteLogin.checkLoginData(authdata)) {
-            var candidate = await db.query("SELECT * FROM users WHERE tg_username = $1", [authdata.username]).then(data => data.rows[0])
+            var candidate = await db.query("SELECT * FROM users WHERE tg_username = $1", [authdata.username]).then(data => data.rows[0]).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
             if(!candidate) { 
                 const avatar = await fileService.saveFileFromUrl(authdata.photo_url)
                 candidate = await db.query("INSERT INTO users(email, avatar, password, tg_username, tg_id, username) VALUES($1, $2, $3, $4, $5, $6)", [

@@ -36,6 +36,24 @@ class Utils {
         }
         return res 
     }
+    
+    verify_film_model(model) {
+        if(
+            !model||
+            !model.id ||
+            !model._id||
+            !model.language||
+            !model.title ||
+            !model.description||
+            !model.year||
+            !model.countries||
+            !model.duration ||
+            !model.genres||
+            !model.poster||
+            !model.players
+        ) return false 
+        return true
+    }
 }
 
 module.exports = new Utils()

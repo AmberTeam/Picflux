@@ -7,13 +7,21 @@ const UserMinDto = require("../dtos/user.min.dto")
  
 class ChatApiService {
     async getUserInbox(uid) {
-        const data = await db.query("SELECT * FROM chats WHERE members @> ARRAY[$1]", [uid]).then(data => data.rows)
+        const data = await db.query("SELECT * FROM chats WHERE members @> ARRAY[$1]", [uid]).then(data => data.rows).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         const chats_p = [] 
 
     
         for(var i=0;i<data.length;i++) {
             const result = []
-            const members = (await db.query(`SELECT * FROM users WHERE id = any('${array2postgres(data[i].members.map(m => m !== uid && m))}')`).then(data => data.rows)).map(member => {
+            var members = await db.query(`SELECT * FROM users WHERE id = any('${array2postgres(data[i].members.map(m => m !== uid && m))}')`).then(data => data.rows).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
+            
+            members = members.map(member => {
                 const diff = Date.now() - member.last_active
                 if(diff >= 60000) member.status = 0 
                 else member.status = 1
@@ -35,13 +43,19 @@ class ChatApiService {
     }
 
     async getMessageProaccess(expression, value) {
-        const data = await db.query(`SELECT * FROM messages WHERE ${expression} = $1`, [value]).then(data => data.rows[0])
+        const data = await db.query(`SELECT * FROM messages WHERE ${expression} = $1`, [value]).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
 
         return data
     }
 
     async getChatHistory(uid, chatid, offset, limit) {
-        const data = await db.query(`SELECT * FROM messages WHERE chatid LIKE $1 ORDER BY id DESC OFFSET $2 LIMIT $3`, [chatid, offset, limit]).then(data => data.rows)
+        const data = await db.query(`SELECT * FROM messages WHERE chatid LIKE $1 ORDER BY id DESC OFFSET $2 LIMIT $3`, [chatid, offset, limit]).then(data => data.rows).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         for(var i=0;i < data.length;i++) {
             if(data[i].type === 'reply' && data[i].refer !== 'null') {
                 const refer = await this.getMessageProaccess('_id', data[i].refer)
@@ -59,11 +73,20 @@ class ChatApiService {
         const chatid = uuid.v4()
         if(members[0] === u) return ApiError.BadRequest()
         const members_str = array2postgres(members)
-        const exists = await db.query(`SELECT * FROM chats WHERE members @> ARRAY['${members_str}']`).then(data => data.rows)
+        const exists = await db.query(`SELECT * FROM chats WHERE members @> ARRAY['${members_str}']`).then(data => data.rows).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         if(!exists || exists.length) return ApiError.BadRequest()
-        await db.query(`INSERT INTO chats(chatid, members) VALUES($1, $2)`, [chatid, members_str])
+        await db.query(`INSERT INTO chats(chatid, members) VALUES($1, $2)`, [chatid, members_str]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         const members_parsed = []
-        const members_db = await db.query(`SELECT * FROM users WHERE id = any('${members_str}')`).then(data => data.rows)
+        const members_db = await db.query(`SELECT * FROM users WHERE id = any('${members_str}')`).then(data => data.rows).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         for(var i=0;i < members_db.length;i++) {
             if(members_db[i] !== u.id) {
                 const diff = Date.now() - members_db[i].last_active
@@ -108,7 +131,10 @@ class ChatApiService {
             ||
             !msg.type
         ) return ApiError.BadRequest({visible: false})
-        const data = await db.query(`INSERT INTO messages(_id, chatid, owner, payload, timestamp, seen, type, refer) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`, [msg._id, msg.chatid, owner.id, msg.payload, Date.now(), msg.seen, msg.type, msg.refer ? msg.refer : "null"]).then(data => data.rows)
+        const data = await db.query(`INSERT INTO messages(_id, chatid, owner, payload, timestamp, seen, type, refer) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`, [msg._id, msg.chatid, owner.id, msg.payload, Date.now(), msg.seen, msg.type, msg.refer ? msg.refer : "null"]).then(data => data.rows).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
 
         return {
             status: "ok",
@@ -118,7 +144,10 @@ class ChatApiService {
 
     async deleteMsg(uid, chatid, mid) {
         if(!uid || !chatid || !mid) return ApiError.BadRequest()
-        await db.query(`DELETE FROM messages WHERE owner = $1 AND chatid = $2 AND _id = $3`, [uid, chatid, mid]) 
+        await db.query(`DELETE FROM messages WHERE owner = $1 AND chatid = $2 AND _id = $3`, [uid, chatid, mid]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
 
         return { 
             status: "ok"
@@ -126,35 +155,34 @@ class ChatApiService {
     }
 
     async editMsg(uid, chatid, mid, payload) {
-        try {
-            if(!uid || !chatid || !mid || !payload) return reject(ApiError.BadRequest(ApiError.econfig.bad_request))
-            
-            await db.query(`UPDATE messages SET payload = $1 WHERE chatid = $2 AND owner = $3 AND _id = $4`, [payload, chatid, uid, mid])
-            return {status: "ok"}
-        } catch(e) {
-            console.log(e) 
-            return ApiError.BadRequest()
-        }
+        if(!uid || !chatid || !mid || !payload) return ApiError.BadRequest()
+        
+        await db.query(`UPDATE messages SET payload = $1 WHERE chatid = $2 AND owner = $3 AND _id = $4`, [payload, chatid, uid, mid]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
+        return {status: "ok"}
     }
 
     async updateSeen(uid, chatid, messages) { 
-        try {
-            
-            const data = await db.query(`SELECT * FROM chats WHERE chatid = $1`, [chatid]).then(data => data.rows[0])
-            var f = false 
-            for(var i=0;i < data.members.length;i++) {
-                if(data.members[i] === uid) {
-                    f = true 
-                    continue 
-                }
-            }
-            if(!f) return ApiError.BadRequest()
-
-            await db.query(`UPDATE messages SET seen = 1 WHERE _id = any('${array2postgres_ex(messages, '_id')}')`)
-        } catch(e) {
+        
+        const data = await db.query(`SELECT * FROM chats WHERE chatid = $1`, [chatid]).then(data => data.rows[0]).catch(e => {
             console.log(e)
-            return ApiError.BadRequest({visible: false})
+            throw ApiError.BadRequest()
+        })
+        var f = false 
+        for(var i=0;i < data.members.length;i++) {
+            if(data.members[i] === uid) {
+                f = true 
+                continue 
+            }
         }
+        if(!f) return ApiError.BadRequest()
+
+        await db.query(`UPDATE messages SET seen = 1 WHERE _id = any('${array2postgres_ex(messages, '_id')}')`).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
     }
 } 
 

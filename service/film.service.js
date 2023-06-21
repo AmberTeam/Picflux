@@ -3,35 +3,35 @@ const ApiError = require("../exceptions/api.error")
 const {syncFilmEvent} = require("../websocket/index")
 const {checkTexts} = require("yandex-speller")
 const db = require("../utils/ndb")
-const { array2postgres, array2postgres_ex } = require("../utils/logic")
+const { array2postgres, array2postgres_ex, verify_film_model } = require("../utils/logic")
 const FilmMinDto = require("../dtos/film.min.dto")
 const FilmDto = require("../dtos/film.dto")
+const userService = require("./user.service")
 class FilmService {
-
-    async resolveCommentOwner(uid) {
-        const candidate = await db.query("SELECT * FROM users WHERE id = $1", [uid])
-        if(candidate) {
-            const ownerDto = new UserMinDto(candidate)
-            return ownerDto
-        } else {
-            return undefined 
-        }
-    }
 
     async getById(id, user, lang = "en-EN") {
 
-        const row = await db.query('SELECT * FROM film WHERE id = $1', [id]).then(data => data.rows[0])
+        const row = await db.query('SELECT * FROM film WHERE id = $1', [id]).then(data => data.rows[0]).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
+
+        if(!verify_film_model(row)) throw ApiError.BadRequest()
         
         var rated = {
             rated: false
         }
-        const rating = await db.query("SELECT * FROM ratings WHERE fid = $1", [id]).then(data => data.rows.length ? data.rows : [])
+        const rating = await db.query("SELECT * FROM ratings WHERE fid = $1", [id]).then(data => data.rows.length ? data.rows : []).catch(e => {
+            console.log(e)
+            throw ApiError.BadRequest()
+        })
         const rating_average = rating.length > 0 ? ((Math.round((rating.map(e => e.value).reduce((a, b) => a + b) / rating.length) + Number.EPSILON) * 100) / 100) : null
         const current_rate = rating.find(r => r.owner === user.id)
-        if(user.id && current_rate) rated = {
+        if(user && user.id && current_rate) rated = {
             rated: true, 
             rated_value: current_rate.value
         }
+
 
         var res_model = {
             ...row, 
@@ -40,13 +40,14 @@ class FilmService {
             rating_average,
             duration: `${row.duration.hours ? row.duration.hours + " час(ов) ":""}${row.duration.minutes ? row.duration.minutes + " минут(а)":""}`
         } 
-        console.log(user)
-        console.log(res_model.id)
+        
 
-        if(user) {
+
+        if(user && user.id) {
+            const userData = await userService.get_user_by_id_min(user.id)
             res_model = {
                 ...res_model,
-                is_in_watch_list: user.watch_later.includes(String(res_model.id))
+                is_in_watch_list: userData.watch_later.includes(String(res_model.id))
             }
         } 
 
@@ -55,7 +56,7 @@ class FilmService {
     }
 
     async search(
-        watch_later,
+        uid,
         q,
         offs = 0,
         lim = 12,
@@ -72,8 +73,7 @@ class FilmService {
         const q_s = await new Promise((resolve, reject) => checkTexts(q_f, (err, data) => {
             let q_s = []
             if(err) {
-                console.error(err) 
-                throw ApiError.BadRequest(ApiError.econfig.bad_request)
+                throw ApiError.BadRequest()
             }
             data.map((el, i) => {
                 if(el.length > 0 && el[0] && el[0].s.length && el[0].s[0]) {
@@ -153,7 +153,10 @@ class FilmService {
         }
         //FILTER FILMS
         if(free_search==="") {
-            var rows = await db.query(req_f).then(data => data.rows)
+            var rows = await db.query(req_f).then(data => data.rows).catch(e => {
+                console.error(e)
+                throw ApiError.BadRequest()
+            })
             for(var a=0;a<rows.length;a++) {
                 var name_sp = rows[a].title.replaceAll("-", " ").split(" ").map(ns => {
                     return {
@@ -234,9 +237,17 @@ class FilmService {
                         break
                 }
             }
-            return {films: rows.slice(offs, offs+lim).map(row => new FilmMinDto(row)).map(row => watch_later && watch_later.includes(String(row.id)) ? {...row, is_in_watch_list: true} : row), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
+            var watch_later = []
+            if(uid) { 
+                const userData = await userService.get_user_by_id_min(uid) 
+                watch_later = userData.watch_later
+            }
+            return {films: rows.slice(offs, offs+lim).map(row => new FilmMinDto(row)).map(row => watch_later && watch_later.includes(String(row.id)) ? {...row, is_in_watch_list: true} : {...row, is_in_watch_list: false}), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
         } else { 
-            const _rows = await db.query(req_f.replace(free_search, free_search_ord)).then(data => data.rows)
+            const _rows = await db.query(req_f.replace(free_search, free_search_ord)).then(data => data.rows).catch(e => { 
+                console.error(e) 
+                throw ApiError.BadRequest()
+            })
             return {films: _rows, can_load: _rows.length>0}
         }
 
@@ -244,27 +255,25 @@ class FilmService {
     }
 
     async removeWillReadFilm(userid, fid) {
-        try {
-            await db.query("UPDATE users SET watch_later = array_remove(watch_later, $1) WHERE id = $2", [fid, userid])
-            return {status: "ok"}
-        } catch(e) {
-            console.log(e)
-            return {status: "err"}
-        }
+        await db.query("UPDATE users SET watch_later = array_remove(watch_later, $1) WHERE id = $2", [fid, userid]).catch(e => {
+            console.error(e) 
+            throw ApiError.BadRequest()
+        })
+        return {status: "ok"}
     }
 
     async addWillReadFilm(userid, fid) {
-        try {
-            await db.query("UPDATE users SET watch_later = array_append(watch_later, $1) WHERE id = $2", [fid, userid])
-            return {status: "ok"}
-        } catch(e) {
-            console.log(e)
-            return {status: "err"}
-        }
+        await db.query("UPDATE users SET watch_later = array_append(watch_later, $1) WHERE id = $2", [fid, userid]).catch(e => {
+            console.error(e) 
+            throw ApiError.BadRequest()
+        })
     }
  
     async getComments(id, offset, limit) { 
-        const data = await db.query(`SELECT * FROM comments WHERE fid = $1 ORDER BY id DESC OFFSET $2 LIMIT $3`, [id, offset, limit]).then(data => data.rows && data.rows.length ? data.rows : [])
+        const data = await db.query(`SELECT * FROM comments WHERE fid = $1 ORDER BY id DESC OFFSET $2 LIMIT $3`, [id, offset, limit]).then(data => data.rows && data.rows.length ? data.rows : []).catch(e => {
+            console.error(e) 
+            throw ApiError.BadRequest()
+        })
 
         if(!data.length) {
             return {
@@ -273,7 +282,10 @@ class FilmService {
             }
         }
         
-        const owns = await db.query(`SELECT * FROM users WHERE id = any('${array2postgres_ex(data, 'uid')}')`).then(data => data.rows)
+        const owns = await db.query(`SELECT * FROM users WHERE id = any('${array2postgres_ex(data, 'uid')}')`).then(data => data.rows).catch(e => {
+            console.error(e) 
+            throw ApiError.BadRequest()
+        })
 
         for(var i=0;i < data.length;i++) {
             for(var a=0;a < owns.length;a++) {
@@ -301,7 +313,10 @@ class FilmService {
         let year = date.getFullYear()
         const datef_v = `${day}-${month}-${year}`
         const datef_ms = Date.now()
-        const payload = await db.query(`INSERT INTO comments(fid, uid, data, datef_ms, datef_v) VALUES($1, $2, $3, $4, $5) RETURNING *`, [fid, u.id, data, datef_ms, datef_v]).then(data => data.rows[0])
+        const payload = await db.query(`INSERT INTO comments(fid, uid, data, datef_ms, datef_v) VALUES($1, $2, $3, $4, $5) RETURNING *`, [fid, u.id, data, datef_ms, datef_v]).then(data => data.rows[0]).catch(e => {
+            console.error(e) 
+            throw ApiError.BadRequest()
+        })
         const userDto = new UserMinDto(u)
         syncFilmEvent(fid, "comment", {
             comment: {
@@ -326,12 +341,21 @@ class FilmService {
     }
 
     async pushRating(uid, fid, value) {
-        const candidate = await db.query(`SELECT * FROM ratings WHERE owner = $1 and fid = $2`, [uid, fid]).then(data => data.rows.length > 0)
+        const candidate = await db.query(`SELECT * FROM ratings WHERE owner = $1 and fid = $2`, [uid, fid]).then(data => data.rows.length > 0).catch(e => {
+            console.error(e) 
+            throw ApiError.BadRequest()
+        })
         if(!candidate) {
-            db.query("INSERT INTO ratings(owner, value, fid) VALUES($1, $2, $3)", [uid, value, fid])
+            db.query("INSERT INTO ratings(owner, value, fid) VALUES($1, $2, $3)", [uid, value, fid]).catch(e => {
+                console.error(e) 
+                throw ApiError.BadRequest()
+            })
             return {status: "ok"}
         } else {
-            db.query(`UPDATE ratings SET value = $1 WHERE owner = $2 AND fid = $3`,[ value, uid, fid])
+            db.query(`UPDATE ratings SET value = $1 WHERE owner = $2 AND fid = $3`,[ value, uid, fid]).catch(e => {
+                console.error(e) 
+                throw ApiError.BadRequest()
+            })
             return {status: "ok"}
         }
     }

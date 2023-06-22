@@ -29,10 +29,15 @@ class ChatApiService {
                 result.push(memberDto)
             })
 
+            const unread = await db.query(`SELECT * FROM messages WHERE chatid = $1 AND seen = 0 AND owner != $2`, [data[i].chatid, uid]).then(data => data.rows).catch(e => {
+                console.log(e)
+                throw ApiError.BadRequest()
+            })
 
             chats_p.push({
                 ...data[i],
-                members: result
+                members: result,
+                unread
             })
         }
 

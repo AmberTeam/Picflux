@@ -16,7 +16,7 @@ class FilmService {
             throw ApiError.BadRequest()
         })
 
-        if(!verify_film_model(row)) throw ApiError.BadRequest()
+        if(verify_film_model(row) === false) throw ApiError.BadRequest()
         
         var rated = {
             rated: false
@@ -242,9 +242,16 @@ class FilmService {
                 const userData = await userService.get_user_by_id_min(uid) 
                 watch_later = userData.watch_later
             }
-            return {films: rows.slice(offs, offs+lim).map(row => new FilmMinDto(row)).map(row => watch_later && watch_later.includes(String(row.id)) ? {...row, is_in_watch_list: true} : {...row, is_in_watch_list: false}), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
+            return {films: rows.slice(offs, offs+lim).map(row => new FilmMinDto(row)).map(row => watch_later ? (watch_later.includes(String(row.id)) ? {...row, is_in_watch_list: true} : {...row, is_in_watch_list: false}) : {...row, is_in_watch_list: false}), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
         } else { 
-            const _rows = await db.query(req_f.replace(free_search, free_search_ord)).then(data => data.rows).catch(e => { 
+            const _rows = await db.query(req_f.replace(free_search, free_search_ord)).then(async data => {
+                if(uid) { 
+                    const userData = await userService.get_user_by_id_min(uid) 
+                    watch_later = userData.watch_later
+                }
+
+                return data.rows.map(row => new FilmMinDto(row)).map(row => watch_later ? (watch_later.includes(String(row.id)) ? {...row, is_in_watch_list: true} : {...row, is_in_watch_list: false}) : {...row, is_in_watch_list: false})
+            }).catch(e => { 
                 console.error(e) 
                 throw ApiError.BadRequest()
             })

@@ -10690,6 +10690,7 @@ function HDVBPlayer(options) {
                     new Promise((function(e) {
                         let i = new XMLHttpRequest
                           , s = `${v.file_path}${t.substr(1)}.txt`;
+                        console.log(v.file_path, t)
                         i.open("POST", `__hostreplace__${v.file_path}${t.substr(1)}.txt`, !1),
                         i.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
                         i.setRequestHeader("X-CSRF-TOKEN", o.p.key),

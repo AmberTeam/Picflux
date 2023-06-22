@@ -79,7 +79,7 @@ router.get("/vid167/playerjs", async (req, res) => {
     fs.readFile(`${path.join(__dirname, "..")}/static/pjs/js/vid167/playerjs.js`, (err, data) => {
         res.contentType('text/javascript')
         const data_str = String(data).replaceAll("00abcd", "f0a832")
-        return res.send(data_str.replace("__hostreplace__", req.query.curl.replace("pw2", "pw")))
+        return res.send(data_str.replace("__hostreplace__", req.query.curl.replace("pw2", "pw").replace("12344", "")))
     })
 })
 

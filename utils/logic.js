@@ -39,18 +39,18 @@ class Utils {
     
     verify_film_model(model) {
         if(
-            !model||
-            !model.id ||
-            !model._id||
-            !model.language||
-            !model.title ||
-            !model.description||
-            !model.year||
-            !model.countries||
-            !model.duration ||
-            !model.genres||
-            !model.poster||
-            !model.players
+            (model === undefined || model === null) || 
+            (model.id  === undefined || model.id === null) || 
+            (model._id === undefined || model._id === null) || 
+            (model.language === undefined || model.language === null) || 
+            (model.title  === undefined || model.title === null) || 
+            (model.description === undefined || model.desctiption === null) || 
+            (model.year === undefined || model.year === null) || 
+            (model.countries === undefined || model.countries === null) || 
+            (model.duration  === undefined || model.duration === null) || 
+            (model.genres === undefined || model.genres === null) || 
+            (model.poster === undefined || model.poster === null) || 
+            (model.players === undefined || model.players === null)
         ) return false 
         return true
     }

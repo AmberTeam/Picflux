@@ -65,7 +65,7 @@ const EditProfileModal: FC<Props> = ({ isActive, setIsActive }) => {
                         <div className={styles["upload-avatar-icon-container"]}>
                             <UploadIcon className={styles["upload-avatar-icon"]}/>
                         </div>
-                        <img className={styles.avatar} src={avatarUrl} />
+                        <img className={styles.avatar} src={avatarUrl} alt="user's avatar" />
                     </label>
                 </div>
                 <div className={styles["inputs-container"]}>

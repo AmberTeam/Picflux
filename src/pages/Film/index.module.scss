@@ -86,12 +86,24 @@
     }
 }
 
-@media(max-width: 900px) {
+@media(max-width: 600px) {
     .film-page-container {
         width: 100%;
+        padding: 1rem;
         .film-information-container {
             flex-direction: column;
 
+            .film-information-watch-later {
+                gap: 1rem;
+            }
+        }
+    }
+}
+
+@media(max-width: 900px) {
+    .film-page-container {
+        .film-information-container {
+            flex-direction: column;
             .film-information-watch-later {
                 gap: 1rem;
             }

@@ -83,7 +83,7 @@ const ProfilePage = () => {
             {user?.id ?
 
                 <section className={styles["profile-section"]}>
-                    <img src={user.avatar} className={styles.avatar} />
+                    <img src={user.avatar} className={styles.avatar} alt="user's avatar" />
                     <div className={styles["profile-content"]}>
                         <div className={styles["user-information"]}>
                             <h1 className={styles.username}>{user.username}</h1>
@@ -144,7 +144,7 @@ const ProfilePage = () => {
                                         : null
                                 }
                                 <button
-                                    onClick={() => navigator.clipboard.writeText(location.href)}
+                                    onClick={() => navigator.clipboard.writeText(window.location.href)}
                                     className={styles["action-button"]}
                                 >
                                     <span>{store.lang.profile.intro.actions.sh}</span>

@@ -1,13 +1,6 @@
 import styles from "./index.module.scss";
-import { FC } from "react";
-
-interface ILoaderProps {
-    variant?: string
-}
-
-const LoaderMini: FC<ILoaderProps> = ({ ...props }) => {
-
-    return <span className={`${styles.loader} loader-${props.variant}`}></span>;
+const LoaderMini = () => {
+    return <div className={styles.loader}></div>;
 };
 
 export default LoaderMini;

@@ -44,8 +44,19 @@ const states = [{
 }];
 const YearFilter = () => {
     const defaultState = useMemo(() => {
-        const defaultStateIndex = states.findIndex(state => state.id === localStorage.getItem("sort-year"));
-        return defaultStateIndex !== -1 ? defaultStateIndex : 0;
+        const sortCriteria = localStorage.getItem("sort-criteria") as SortCriteria;
+        const sortDirection = localStorage.getItem("sort-direction") as SortDirection;
+        if(sortCriteria === SortCriteria.Date) {
+            if(sortDirection === SortDirection.Ascendant) {
+                return 1;
+            }
+            else {
+                return 2;
+            }
+        }
+        else {
+            return 0;
+        }
     }, []);
     const { next, state } = useCircularState<ICircularState>(states, defaultState);
     return (

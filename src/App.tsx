@@ -5,7 +5,7 @@ import HomePage, { getFilmsLoader, homeLoader } from "./pages/Home";
 import { Context } from "./index";
 import { observer } from "mobx-react-lite";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import FilmPage, { filmLoader, manageWatchLaterAction, rateFilmAction } from "./pages/Film";
+import FilmPage, { filmLoader, rateFilmAction } from "./pages/Film";
 import ProfilePage, { manageFriendshipAction, profileLoader } from "./pages/Profile";
 import SettingsPage from "./pages/Settings";
 import UndefinedRoutePage from "./pages/UndefRoute";
@@ -20,6 +20,8 @@ import Chat, { chatLoader } from "./pages/Inbox/Chat";
 import { searchUsersLoader } from "./components/UserSelect";
 import ProtectedPage from "./components/ProtectedPage";
 import CreateChat, { createChatAction } from "./components/CreateChat";
+import { Provider } from "react-redux";
+import { reduxStore } from "./store/reduxStore";
 
 const router = createBrowserRouter([
     {
@@ -53,10 +55,6 @@ const router = createBrowserRouter([
                         element: <FilmPage />,
                         loader: filmLoader,
                         children: [
-                            {
-                                path: "manage-watch-list",
-                                action: manageWatchLaterAction
-                            },
                             {
                                 path: "rate-film",
                                 action: rateFilmAction
@@ -152,9 +150,11 @@ const App: FC = () => {
         return <div>Загрузка...</div>;
     }
     return (
-        <div data-theme={store.theme} className="app">
-            <RouterProvider router={router} />
-        </div>
+        <Provider store={reduxStore}>
+            <div data-theme={store.theme} className="app">
+                <RouterProvider router={router} />
+            </div>
+        </Provider>
     );
 };
 

@@ -20,7 +20,7 @@ const Footer: FC = () => {
             <div className={styles["footer-header"]}>
                 <div />
                 <div className={styles["logo-container"]}>
-                    <img src={amber_down} className={styles.logo} />
+                    <img src={amber_down} className={styles.logo} alt="" />
                 </div>
                 <div className={styles.online}>
                     <span className={styles["online-light"]} />

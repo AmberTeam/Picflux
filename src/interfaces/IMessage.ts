@@ -11,6 +11,10 @@ export interface IMessage {
     refer: IMessage | null | string
 }
 
+export interface INotReadMessages {
+    [key: string]: IMessage[]
+}
+
 export interface IServerMessage {
     owner: string
     payload: string

@@ -8,7 +8,7 @@ import store from "../../../store/store";
 import { ReactComponent as SendIcon } from "../../../icons/Send.svg";
 import { IChat } from "../../../interfaces/IDirect";
 import MessageList from "./MessageList";
-import { IMessage } from "../../../interfaces/IMessage";
+import { IMessage, INotReadMessages } from "../../../interfaces/IMessage";
 import WebSocketActions from "../../../enums/WebSocketActions";
 import uuid from "react-uuid";
 import WebSocketEvents from "../../../enums/WebSocketEvents";
@@ -19,6 +19,11 @@ import { Context } from "../../..";
 import FragmentingAction from "../../../enums/FragmentingAction";
 
 const path = "/inbox/:id" as const;
+
+interface IOutletContext {
+    chats: IChat[]
+    setNotReadMessages: (newNotReadMessages: INotReadMessages | ((previousNotReadMessages: INotReadMessages) => INotReadMessages)) => void
+}
 
 interface Args extends ActionFunctionArgs {
     params: Params<ParamParseKey<typeof path>>
@@ -40,7 +45,7 @@ const Chat: FC = () => {
     const [replyingMessage, setReplyingMessage] = useState<IMessage | null>(null);
     const [editingMessage, setEditingMessage] = useState<string | null>(null);
     const chatContainerRef = useRef<HTMLDivElement>(null);
-    const { chats } = useOutletContext<{ chats: IChat[] }>();
+    const { chats, setNotReadMessages } = useOutletContext<IOutletContext>();
     const params = useParams<"id">();
     const chat = useMemo(() => chats.find(chat => chat.chatid === params.id), [params.id, chats]);
     const { fragments, updateFragments, setNewFragments, removeMessage } = useFragmenting(25);
@@ -48,7 +53,7 @@ const Chat: FC = () => {
     const user = chat?.members[0];
     const handleMessageSubmit = async () => {
         const message = inputMessageRef.current?.value;
-        if (message && params.id) {
+        if (message && message.trim() && params.id) {
             if (editingMessage) {
                 wsc.send(WebSocketActions.ChatroomEvent, { chatid: params.id, payload: { event: "edit", message: { _id: editingMessage, payload: message } } });
                 handleMessageEdited(editingMessage, message);
@@ -92,8 +97,21 @@ const Chat: FC = () => {
         });
     };
     const updateSeenStatus = useCallback((messages: IMessage[]) => {
-        let currentSeenMessageIndex = 0;
+        if(chat) {
+            let currentSeenMessageIndex = 0;
+            setNotReadMessages(previousNotReadMessages => {
+                return {
+                    ...previousNotReadMessages,
+                    [chat.chatid]: previousNotReadMessages[chat.chatid]?.filter(message => {
+                        const isNotSeen = message._id !== messages[currentSeenMessageIndex]._id;
+                        if(!isNotSeen) currentSeenMessageIndex++;
+                        return isNotSeen;
+                    }) ?? []
+                };
+            });
+        }
         setNewFragments((previousFragments) => {
+            let currentSeenMessageIndex = 0;
             return previousFragments.map(fragment => {
                 return fragment.map(message => {
                     const currentSeenMessage = messages[currentSeenMessageIndex];
@@ -122,6 +140,7 @@ const Chat: FC = () => {
             }, 300);
         }
     }, [canLoadMore, params.id, fragments]);
+
     useEffect(() => {
         if (pendingScroll) {
             chatContainerRef.current?.scrollTo({
@@ -185,6 +204,7 @@ const Chat: FC = () => {
                 getPreviousMessages={getPreviousMessages}
                 fragments={fragments}
                 updateSeenStatus={updateSeenStatus}
+                editingMessage={editingMessage}
                 observer={user ?? {
                     id: "",
                     username: "No Username",
@@ -202,8 +222,12 @@ const Chat: FC = () => {
                 onEdit={(message) => {
                     if (inputMessageRef.current) {
                         inputMessageRef.current.value = message.payload;
+                        inputMessageRef.current.focus();
                         setEditingMessage(message._id);
                     }
+                }}
+                onCancelEdit={() => {
+                    setEditingMessage(null);
                 }}
                 onReply={(message) => setReplyingMessage(message)}
             />

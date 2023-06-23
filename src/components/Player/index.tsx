@@ -41,27 +41,6 @@ const Player: FC<Props> = ({ players }) => {
                 }
             });
     }, [selectedPlayer]);
-    useEffect(() => {
-        const handleMouseEnter = () => {
-            controllersRef.current?.classList.add(styles.inactive);
-            sidebarRef.current?.classList.add(styles.inactive);
-        };
-        const handleMouseLeave = () => {
-            controllersRef.current?.classList.remove(styles.inactive);
-            sidebarRef.current?.classList.remove(styles.inactive);
-        };
-        if (playerRef.current) {
-            playerRef.current.addEventListener("mouseenter", handleMouseEnter);
-            playerRef.current.addEventListener("mouseleave", handleMouseLeave);
-        }
-        
-        return () => {
-            if (playerRef.current) {
-                playerRef.current.removeEventListener("mouseenter", handleMouseEnter);
-                playerRef.current.removeEventListener("mouseleave", handleMouseLeave);
-            }
-        };
-    }, [selectedPlayerDoc]);
     return (
         <div className={styles["player-container"]}>
             <div ref={controllersRef} className={`${styles["player-controllers"]} ${isFixed ? "" : styles["is-not-fixed"]}`}>
@@ -88,8 +67,22 @@ const Player: FC<Props> = ({ players }) => {
                 />
             </div>
             {error ?
-                <div className={styles.player} style={{ color: "black", backgroundColor: "red"}}>Hola</div>
-                : <iframe ref={playerRef} className={styles.player} srcDoc={adMode ? undefined : selectedPlayerDoc} src={adMode ? selectedPlayer.url : undefined} />
+                <div className={styles.player} style={{ color: "black", backgroundColor: "red" }}>Hola</div>
+                : 
+                <iframe 
+                    ref={playerRef}
+                    className={styles.player}
+                    srcDoc={adMode ? undefined : selectedPlayerDoc}
+                    src={adMode ? selectedPlayer.url : undefined}
+                    onMouseEnter={() => {
+                        controllersRef.current?.classList.add(styles.inactive);
+                        sidebarRef.current?.classList.add(styles.inactive);
+                    }}
+                    onMouseLeave={() => {
+                        controllersRef.current?.classList.remove(styles.inactive);
+                        sidebarRef.current?.classList.remove(styles.inactive);
+                    }}
+                />
             }
             <div ref={sidebarRef} className={`${styles["player-sidebar"]} ${isFixed ? "" : styles["is-not-fixed"]}`}>
                 <div className={styles["change-player-container"]}>

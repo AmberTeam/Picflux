@@ -35,7 +35,7 @@ const CommentsSection: FC<Props> = ({ ratings }) => {
         }
     };
     const createComment = async () => {
-        if(comment) {
+        if(comment.trim()) {
             if (params.id) {
                 const createdComment = await FilmService.addComment(params.id, comment);
                 if(createdComment.data) {

@@ -17,9 +17,11 @@ interface IMessageProps {
     onReply: (arg: IMessage) => void
     onDelete: (arg: IMessage) => void
     onEdit: (arg: IMessage) => void
+    isBeingEdited: boolean
+    onCancelEdit: () => void
 }
 
-const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEdit }) => {
+const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEdit, isBeingEdited, onCancelEdit }) => {
     const [controllerActive, setControllerActive] = useState<boolean>(false);
     return (
         <div
@@ -32,7 +34,7 @@ const Message: FC<IMessageProps> = ({ observer, message, onReply, onDelete, onEd
                 src={message.owner === store.user.id ? store.user.avatar : observer.avatar}
                 className={styles["message-user-avatar"]}
             />
-            <div className={styles["message-data"]}>
+            <div className={`${styles["message-data"]} ${isBeingEdited ? styles["editing"] : ""}`}>
                 {message.refer && typeof message.refer !== "string" ?
                     <div className={styles["reply-container"]}>
                         <span className={styles["reply-username"]}>{message.refer.owner === store.user.id ? store.user.username : observer.username}</span>

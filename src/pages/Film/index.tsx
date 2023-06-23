@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef } from "react";
+import { FC, useMemo, useState } from "react";
 import styles from "./index.module.scss";
 import { observer } from "mobx-react-lite";
 import { Helmet } from "react-helmet";
@@ -6,7 +6,7 @@ import UserService from "../../services/UserService";
 import store from "../../store/store";
 import FilmDetail from "../../components/FilmDetail";
 import RatingCounter from "../../components/RatingCounter";
-import { useFetcher, useLoaderData, ActionFunctionArgs, Params, ParamParseKey } from "react-router-dom";
+import { useLoaderData, ActionFunctionArgs, Params, ParamParseKey } from "react-router-dom";
 import Button from "../../components/Button";
 import ButtonVariant from "../../enums/ButtonVariant";
 import { ReactComponent as WatchLaterIcon } from "../../icons/WatchLater.svg";
@@ -17,10 +17,7 @@ import LoaderMini from "../../components/LoaderMini";
 import { IFilmComment, IPlayer, IFilm } from "../../interfaces/IFilm";
 import FCRService from "../../services/FCRService";
 import PlaceholderPoster from "../../img/poster_placeholder.png";
-enum ManageWatchLaterAction {
-    Add = "add",
-    Remove = "remove"
-}
+import { AxiosResponse } from "axios";
 
 const path = "/film/:id";
 interface Args extends ActionFunctionArgs {
@@ -39,29 +36,9 @@ export async function rateFilmAction({ request, params }: Args) {
     return {};
 }
 
-export async function manageWatchLaterAction({ request, params }: Args) {
-    if (params.id) {
-        const formData = await request.formData();
-        const action = formData.get("action");
-        const filmId = parseInt(params.id);
-        if (action === ManageWatchLaterAction.Add) {
-            await UserService.addWLFilm(filmId);
-        }
-        else if (action === ManageWatchLaterAction.Remove) {
-            await UserService.removeWLFilm(filmId);
-        }
-    }
-}
 
-const definePlayerGeo = (purl: string): string => {
+const definePlayerGeo = (): string => {
     return "ru";
-    const { hostname } = new URL(purl);
-    switch (hostname) {
-        case "ashdi.vip":
-            return "ukr";
-        default:
-            return "ru";
-    }
 };
 
 export async function filmLoader({ params }: Args) {
@@ -71,7 +48,7 @@ export async function filmLoader({ params }: Args) {
             const url = FCRService.deartefactUrl(player);
             return {
                 url: url,
-                geo: definePlayerGeo(player)
+                geo: definePlayerGeo()
             };
         });
         let comments: IFilmComment[] = [];
@@ -86,14 +63,9 @@ export async function filmLoader({ params }: Args) {
     return {};
 }
 const FilmPage: FC = () => {
-    const posterRef = useRef<HTMLImageElement>(null);
     const { film, players } = useLoaderData() as { film: IFilm | undefined, players: IPlayer[] | undefined };
-    const fetcher = useFetcher();
-    const isInWatchList = useMemo(() => {
-        return film?.watch_later?.some(watchLaterFilmId => {
-            return watchLaterFilmId === film?.id.toString();
-        }) ?? false;
-    }, [film]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isInWatchList, setIsInWatchList] = useState<boolean>(film?.is_in_watch_list !== false);
     const rating = useMemo(() => {
         if (film?.rated) {
             const userRating = film.rating?.find(rating => rating.owner === store.user.id);
@@ -101,35 +73,21 @@ const FilmPage: FC = () => {
         }
         return 0;
     }, [store.user, film?.rating, film?.rated]);
-    useEffect(() => {
-        const errorHandler = () => {
-            if (posterRef.current) {
-                posterRef.current.src = PlaceholderPoster;
-            }
-        };
-        posterRef.current?.addEventListener("error", errorHandler);
-        return () => {
-            posterRef.current?.removeEventListener("error", errorHandler);
-        };
-    }, [posterRef.current]);
-    if(film) {
+    if (film) {
         return (
             <div className={styles["film-page-container"]}>
                 <Helmet>
                     <title>Cimber: {film.title}</title>
-                    <meta name="viewport" content="width=1000" />
-                    <meta httpEquiv="X-UA-Compatible" content="chrome=IE8" />
-                    <meta property="og:type" content="video.tv_series" />
-                    <meta property="og:video:height" content="430" />
-                    <meta property="og:video:width" content="600" />
-                    <meta property="og:duration" content="2700" />
-                    <meta property="og:video:type" content="application/x-shockwave-flash" />
-                    <meta property="og:site_name" content="rezka.ag" />
-                    <meta property="og:title" content="Ветреный дворец / Ветреное место / Встреча с собой (2023)" />
-                    <meta property="og:image" content={film.poster} />
                 </Helmet>
                 <div className={styles["film-information-container"]}>
-                    <img ref={posterRef} src={film.poster} className={styles["film-poster"]} />
+                    <img
+                        alt="film poster"
+                        src={film.poster}
+                        className={styles["film-poster"]}
+                        onError={(event) => {
+                            event.currentTarget.src = PlaceholderPoster;
+                        }}
+                    />
                     <div className={styles["film-information-watch-later"]}>
                         <div className={styles["film-information"]}>
                             <h1 className={styles["film-name"]}>{film.title}</h1>
@@ -160,29 +118,40 @@ const FilmPage: FC = () => {
                             </div>
                         </div>
                         {store.isAuth ?
-                            <fetcher.Form
-                                method="post"
-                                action="manage-watch-list"
-                            >
-                                <Button
-                                    variant={ButtonVariant.Empty}
-                                    className={styles["watch-later-button"]}
-                                    value={isInWatchList ? ManageWatchLaterAction.Remove : ManageWatchLaterAction.Add}
-                                    name="action"
-                                    type="submit"
-                                >
-                                    {fetcher.state === "loading" || fetcher.state === "submitting" ?
-                                        <LoaderMini />
-                                        :
-                                        <>
-                                            <WatchLaterIcon className={`${styles["watch-later-icon"]} ${isInWatchList ? styles.active : ""}`} />
-                                            <span>
-                                                {store.lang.film.actions[isInWatchList ? "watch_later_svd" : "watch_later"]}
-                                            </span>
-                                        </>
+                            <Button
+                                variant={ButtonVariant.Empty}
+                                className={styles["watch-later-button"]}
+                                onClick={() => {
+                                    if(!isLoading) {
+                                        setIsLoading(true);
+                                        const handleResponse = (response: AxiosResponse) => {
+                                            if(response.status === 200) {
+                                                setIsInWatchList(wasInWatchList => !wasInWatchList);
+                                            }
+                                            setIsLoading(false);
+                                        };
+                                        if(isInWatchList) {
+                                            UserService.removeWLFilm(film.id)
+                                                .then(handleResponse);
+                                        }
+                                        else {
+                                            UserService.addWLFilm(film.id)
+                                                .then(handleResponse);
+                                        }
                                     }
-                                </Button>
-                            </fetcher.Form>
+                                }}
+                            >
+                                {isLoading ?
+                                    <LoaderMini />
+                                    :
+                                    <>
+                                        <WatchLaterIcon className={`${styles["watch-later-icon"]} ${isInWatchList ? styles.active : ""}`} />
+                                        <span>
+                                            {store.lang.film.actions[isInWatchList ? "watch_later_svd" : "watch_later"]}
+                                        </span>
+                                    </>
+                                }
+                            </Button>
                             : null
                         }
                     </div>

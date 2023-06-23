@@ -18,9 +18,11 @@ interface Props {
     onReply: (arg: IMessage) => void
     onDelete: (arg: IMessage) => void
     onEdit: (arg: IMessage) => void
+    editingMessage: string | null
+    onCancelEdit: () => void
 }
 
-const Fragment: FC<Props> = ({ fragment, observer, isFragmentSeen, onReply, onDelete, onEdit }) => {
+const Fragment: FC<Props> = ({ fragment, observer, isFragmentSeen, onReply, onDelete, onEdit, editingMessage, onCancelEdit }) => {
     const params = useParams<"id">();
     const { wsc } = useContext(Context);
 
@@ -28,7 +30,7 @@ const Fragment: FC<Props> = ({ fragment, observer, isFragmentSeen, onReply, onDe
         if (params.id && !isFragmentSeen) {
             InboxService.updateSeen(params.id, JSON.stringify(fragment));
             const messages = fragment.filter(message => {
-                return message.owner !== store.user.id;
+                return message.owner !== store.user.id && message.seen === 0;
             });
             wsc.send(WebSocketActions.Seen, {
                 chatid: params.id,
@@ -41,8 +43,17 @@ const Fragment: FC<Props> = ({ fragment, observer, isFragmentSeen, onReply, onDe
             className={styles["fragment-container"]}
         >
             {
-                fragment.map((msg: IMessage) =>
-                    <Message onEdit={onEdit} onDelete={onDelete} onReply={onReply} observer={observer} message={msg} key={msg._id} />
+                fragment.map((message: IMessage) =>
+                    <Message 
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        onReply={onReply}
+                        onCancelEdit={onCancelEdit}
+                        observer={observer}
+                        message={message}
+                        key={message._id}
+                        isBeingEdited={editingMessage === message._id}
+                    />
                 )
             }
             <Trigger onTrigger={updateSeenStatus} />

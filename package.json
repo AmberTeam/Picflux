@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@mswjs/interceptors": "^0.19.0",
+    "@reduxjs/toolkit": "^1.9.5",
     "@smakss/react-scroll-direction": "^1.0.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -20,6 +21,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-telegram-auth": "^1.0.3",

@@ -96,7 +96,7 @@ const HomePage: FC = () => {
             const data = new FormData(formRef.current);
             data.delete("offset");
             const urlParams = new URLSearchParams();
-            let query = `/get-films?offset=${films.length}`;
+            let query = `/get-films?offset=${films.length}&`;
             for (const [key, value] of data.entries()) {
                 urlParams.append(key, value.toString());
             }
@@ -114,7 +114,7 @@ const HomePage: FC = () => {
             }
             setCanLoadMore(fetcher.data.canLoad);
         }
-    }, [fetcher.data]);
+    }, [fetcher.data, fetcher.state]);
     return (
         <section className={styles["home-section"]}>
             <div className={styles["home-header"]}>

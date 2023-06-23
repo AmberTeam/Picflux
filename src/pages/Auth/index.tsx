@@ -74,7 +74,7 @@ const AuthPage: FC<Props> = ({ type, navigateTo }) => {
             </div>
             <div className={styles["decoration-image-container"]}>
                 <div className={styles["blurer"]} />
-                <img className={styles["decoration-image"]} src={Images} draggable={false} />
+                <img alt="" className={styles["decoration-image"]} src={Images} draggable={false} />
             </div>
         </div>
     );

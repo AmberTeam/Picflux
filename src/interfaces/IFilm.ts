@@ -45,7 +45,7 @@ export interface IFilm {
     poster: string
     language: number
     players: string[]
-    watch_later?: string[]
+    is_in_watch_list: boolean
     wlChangeCb?: () => void
     comments: IFilmComment[]
     imdb_translate?: IIMDBTranslate

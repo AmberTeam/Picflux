@@ -13,7 +13,7 @@ const Comment: FC<Props> = ({ comment, rating }) => {
         <div className={styles["comment-container"]}>
             <div className={styles["comment-details"]}>
                 <div className={styles["comment-user-information"]}>
-                    <img src={comment.user.avatar} className={styles["user-avatar"]} />
+                    <img src={comment.user.avatar} className={styles["user-avatar"]} alt="comment's user's avatar" />
                     <span>{comment.user.username}</span>
                     {rating ?
                         <div className={styles["comment-user-rating-container"]}>

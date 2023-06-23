@@ -8,6 +8,7 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--mtd-col);
   margin: 0 auto 3rem auto;
+
   &.collapsed {
     max-height: 0;
     padding: 0;
@@ -26,9 +27,15 @@
 
 @media(max-width: 800px) {
   .filters-container {
-    max-height: 90vh;
+    max-height: 100vh;
     grid-template-columns: auto;
     border-bottom: none;
     padding-bottom: 0;
+  }
+}
+
+@media(max-width: 400px) {
+  .filters-container {
+    max-height: 120vh;
   }
 }

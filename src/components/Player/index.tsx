@@ -1,9 +1,8 @@
-import { useState, useRef, useEffect, FC, useMemo } from "react";
+import { useState, useRef, FC, useMemo } from "react";
 import store from "../../store/store";
 import styles from "./index.module.scss";
 import { ReactComponent as PinIcon } from "../../icons/Pin.svg";
 import { ReactComponent as AdIcon } from "../../icons/Ad.svg";
-import FCRService from "../../services/FCRService";
 import { IPlayer } from "../../interfaces/IFilm";
 import PlayerController from "../PlayerController";
 import PlayerTab from "../PlayerTab";
@@ -27,20 +26,6 @@ const Player: FC<Props> = ({ players }) => {
     const playerRef = useRef<HTMLIFrameElement>(null);
     const controllersRef = useRef<HTMLDivElement>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
-    const [selectedPlayerDoc, setSelectedPlayerDoc] = useState<string>("");
-    const [error, setError] = useState<boolean>(false);
-    useEffect(() => {
-        FCRService.rewriteByHostname(selectedPlayer.url)
-            .then(response => {
-                if (response.status === "ok") {
-                    setSelectedPlayerDoc(response.data ?? "");
-                    setError(false);
-                }
-                else {
-                    setError(true);
-                }
-            });
-    }, [selectedPlayer]);
     return (
         <div className={styles["player-container"]}>
             <div ref={controllersRef} className={`${styles["player-controllers"]} ${isFixed ? "" : styles["is-not-fixed"]}`}>
@@ -66,24 +51,19 @@ const Player: FC<Props> = ({ players }) => {
                     isSelected={adMode}
                 />
             </div>
-            {error ?
-                <div className={styles.player} style={{ color: "black", backgroundColor: "red" }}>Hola</div>
-                : 
-                <iframe 
-                    ref={playerRef}
-                    className={styles.player}
-                    srcDoc={adMode ? undefined : selectedPlayerDoc}
-                    src={adMode ? selectedPlayer.url : undefined}
-                    onMouseEnter={() => {
-                        controllersRef.current?.classList.add(styles.inactive);
-                        sidebarRef.current?.classList.add(styles.inactive);
-                    }}
-                    onMouseLeave={() => {
-                        controllersRef.current?.classList.remove(styles.inactive);
-                        sidebarRef.current?.classList.remove(styles.inactive);
-                    }}
-                />
-            }
+            <iframe
+                ref={playerRef}
+                className={styles.player}
+                src={`http://localhost:5000/api/sra/bhostname?h=${selectedPlayer.url}`}
+                onMouseEnter={() => {
+                    controllersRef.current?.classList.add(styles.inactive);
+                    sidebarRef.current?.classList.add(styles.inactive);
+                }}
+                onMouseLeave={() => {
+                    controllersRef.current?.classList.remove(styles.inactive);
+                    sidebarRef.current?.classList.remove(styles.inactive);
+                }}
+            />
             <div ref={sidebarRef} className={`${styles["player-sidebar"]} ${isFixed ? "" : styles["is-not-fixed"]}`}>
                 <div className={styles["change-player-container"]}>
                     {players.map((player, index) => {

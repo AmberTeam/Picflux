@@ -126,7 +126,7 @@ const Chat: FC = () => {
         });
     }, []);
     const getPreviousMessages = useCallback(() => {
-        if (canLoadMore && params.id, fragments.length) {
+        if (canLoadMore && params.id && fragments.length) {
             setTimeout(async () => {
                 const response = await InboxService.getChatHistory(params.id ?? "", fragments.reduce((acc, fragment) => {
                     return fragment.length + acc;

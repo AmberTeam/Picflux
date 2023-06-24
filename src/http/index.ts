@@ -35,14 +35,14 @@ $api.interceptors.response.use((config) => {
         } else {
             if (error.response.data.config?.visible === false) return console.log("not visible");
             else {
-                store.callLogModal({
-                    code: "x1",
+                return store.callLogModal({
+                    code: error.response.data.code,
                     status: 0
                 });
             }
         }
     } else if (error.request) {
-        store.callLogModal({
+        return store.callLogModal({
             code: "x6",
             status: 0
         });

@@ -2,7 +2,7 @@
 
 namespace Cimber.Scraper
 {
-    public static class Logger
+    public static class LoggerService
     {
         private static ILogger log = LogManager.GetCurrentClassLogger();
 

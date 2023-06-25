@@ -128,12 +128,9 @@ namespace Cimber.Scraper.Scrapers
                     LowercaseTitle = name!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",
-                    EnglishDescription = description ?? "",
                     Countries = countries!,
-                    EnglishCountries = countries!,
                     Duration = getDuration(duration!) ?? new TimeSpan(0, 0, 0),
                     Genres = genres!,
-                    EnglishGenres = genres!,
                     Poster = poster ?? "",
                     Players = players ?? new List<string>(),
                 };

@@ -1,54 +1,51 @@
 ﻿using Cimber.Scraper.Models;
 using HtmlAgilityPack;
 using Spectre.Console;
+using System.Collections.Concurrent;
 
 namespace Cimber.Scraper.Scrapers
 {
     public class KinoprofiScraper : BaseScraper
     {
+        private readonly object filmsLock = new object();
+        private readonly object taskLock = new object();
+
         public override void Start()
         {
             try
             {
-                try
-                {
-                    getFilms(Website.KINOPROFI);
-                    var pagesCount = getPagesCount();
+                getFilms(Website.UAKINO);
+                var pagesCount = getPagesCount();
 
-                    AnsiConsole.Progress()
-                        .Columns(new ProgressColumn[]
-                        {
-                            new TaskDescriptionColumn(),
-                            new ProgressBarColumn(),
-                            new PercentageColumn(),
-                            new ElapsedTimeColumn(),
-                            new RemainingTimeColumn()
-                        }).Start(ctx =>
-                        {
-                            var task = ctx.AddTask($"[green]Scraping {Website.KINOPROFI}[/]");
-                            task.MaxValue = pagesCount;
+                AnsiConsole.Progress()
+                    .Columns(new ProgressColumn[]
+                    {
+                        new TaskDescriptionColumn(),
+                        new ProgressBarColumn(),
+                        new PercentageColumn(),
+                        new ElapsedTimeColumn(),
+                        new RemainingTimeColumn()
+                    }).Start(ctx =>
+                    {
+                        var task = ctx.AddTask($"[green]Scraping {Website.UAKINO}[/]");
+                        task.MaxValue = pagesCount;
 
-                            while (!ctx.IsFinished)
+                        Parallel.For(2, pagesCount + 1, i =>
+                        {
+                            var url = $"{Website.UAKINO}/page/{i}";
+
+                            getFilms(url);
+
+                            Console.Clear();
+                            lock (taskLock)
                             {
-                                for (int i = 2; i <= pagesCount; i++)
-                                {
-                                    var url = $"{Website.KINOPROFI}/page/{i}";
-
-                                    getFilms(url);
-                                    Console.Clear();
-                                    task.Increment(1);
-                                    task.Description($"[green]Scraping url({url}) page {i} of {pagesCount}[/]");
-                                }
-
-                                task.StopTask();
+                                task.Increment(1);
+                                task.Description($"[green]Scraping url({url}) page {i} of {pagesCount}[/]");
                             }
                         });
-                }
-                catch (Exception ex)
-                {
-                    Start();
-                    Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-                }
+
+                        task.StopTask();
+                    });
             }
             catch (Exception ex)
             {
@@ -62,19 +59,36 @@ namespace Cimber.Scraper.Scrapers
             {
                 var links = getLinks(url);
 
-                foreach (var link in links!)
+                var films = new ConcurrentBag<Film>();
+
+                Parallel.ForEach(links!, link =>
                 {
                     try
                     {
                         var film = getFilm(link.Attributes["href"].Value);
 
                         if (film != null)
-                            if (film!.Players!.Count > 0)
-                                DatabaseService.AddFilm(film);
+                        {
+                            lock (filmsLock)
+                            {
+                                if (film.Players.Count > 0)
+                                {
+                                    films.Add(film);
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
                         Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+                    }
+                });
+
+                lock (filmsLock)
+                {
+                    foreach (var film in films)
+                    {
+                        DatabaseService.AddFilm(film);
                     }
                 }
             }
@@ -155,12 +169,9 @@ namespace Cimber.Scraper.Scrapers
                     LowercaseTitle = name!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",
-                    RussianDescription = description ?? "",
                     Countries = countries!,
-                    RussianCountries = countries!,
                     Duration = getDuration(duration!) ?? new TimeSpan(0, 0, 0),
                     Genres = genres!,
-                    RussianGenres = genres!,
                     Poster = poster ?? "",
                     Players = players ?? new List<string>(),
                 };

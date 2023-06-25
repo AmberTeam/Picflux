@@ -1,54 +1,51 @@
 ﻿using Cimber.Scraper.Models;
 using HtmlAgilityPack;
 using Spectre.Console;
+using System.Collections.Concurrent;
 
 namespace Cimber.Scraper.Scrapers
 {
     public class KinokradScraper : BaseScraper
     {
+        private readonly object filmsLock = new object();
+        private readonly object taskLock = new object();
+
         public override void Start()
         {
             try
             {
-                try
-                {
-                    getFilms(Website.KINOKRAD);
-                    var pagesCount = getPagesCount();
+                getFilms(Website.KINOKRAD);
+                var pagesCount = getPagesCount();
 
-                    AnsiConsole.Progress()
-                        .Columns(new ProgressColumn[]
-                        {
-                            new TaskDescriptionColumn(),
-                            new ProgressBarColumn(),
-                            new PercentageColumn(),
-                            new ElapsedTimeColumn(),
-                            new RemainingTimeColumn()
-                        }).Start(ctx =>
-                        {
-                            var task = ctx.AddTask($"[green]Scraping {Website.KINOKRAD}[/]");
-                            task.MaxValue = pagesCount;
+                AnsiConsole.Progress()
+                    .Columns(new ProgressColumn[]
+                    {
+                        new TaskDescriptionColumn(),
+                        new ProgressBarColumn(),
+                        new PercentageColumn(),
+                        new ElapsedTimeColumn(),
+                        new RemainingTimeColumn()
+                    }).Start(ctx =>
+                    {
+                        var task = ctx.AddTask($"[green]Scraping {Website.KINOKRAD}[/]");
+                        task.MaxValue = pagesCount;
 
-                            while (!ctx.IsFinished)
+                        Parallel.For(2, pagesCount + 1, i =>
+                        {
+                            var url = $"{Website.KINOKRAD}/page/{i}";
+
+                            getFilms(url);
+
+                            Console.Clear();
+                            lock (taskLock)
                             {
-                                for (int i = 2; i <= pagesCount; i++)
-                                {
-                                    var url = $"{Website.KINOKRAD}/page/{i}";
-
-                                    getFilms(url);
-                                    Console.Clear();
-                                    task.Increment(1);
-                                    task.Description($"[green]Scraping url({url}) page {i} of {pagesCount}[/]");
-                                }
-
-                                task.StopTask();
+                                task.Increment(1);
+                                task.Description($"[green]Scraping url({url}) page {i} of {pagesCount}[/]");
                             }
                         });
-                }
-                catch (Exception ex)
-                {
-                    Start();
-                    Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-                }
+
+                        task.StopTask();
+                    });
             }
             catch (Exception ex)
             {
@@ -62,19 +59,33 @@ namespace Cimber.Scraper.Scrapers
             {
                 var links = getLinks(url);
 
-                foreach (var link in links!)
+                var films = new ConcurrentBag<Film>();
+
+                Parallel.ForEach(links!, link =>
                 {
                     try
                     {
                         var film = getFilm(link.Attributes["href"].Value);
 
-                        if (film != null)
-                            if (film!.Players!.Count > 0)
-                                DatabaseService.AddFilm(film);
+                        if (film != null && film.Players.Count > 0)
+                        {
+                            lock (filmsLock)
+                            {
+                                films.Add(film);
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
                         Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+                    }
+                });
+
+                lock (filmsLock)
+                {
+                    foreach (var film in films)
+                    {
+                        DatabaseService.AddFilm(film);
                     }
                 }
             }
@@ -89,9 +100,17 @@ namespace Cimber.Scraper.Scrapers
             try
             {
                 var document = GetDocument(url)?.DocumentNode;
-                var name = document?.SelectSingleNode(".//h1[@itemprop=\"name\"]").InnerText.Split(
+                var title = document?.SelectSingleNode(".//h1[@itemprop=\"name\"]").InnerText.Split(
                     "("
                 )[0].Trim();
+                string? englishTitle = null;
+                try
+                {
+                    englishTitle = document?.SelectSingleNode(
+                    ".//span[contains(concat(\" \",normalize-space(@class),\" \"),\" orange \")][contains(normalize-space(),\"Оригинальное название:\")]/parent::*"
+                ).InnerText.Split(":")[1].Trim();
+                }
+                catch { }
                 var year = document?.SelectSingleNode(
                     ".//span[contains(concat(\" \",normalize-space(@class),\" \"),\" orange \")][contains(normalize-space(),\"Год:\")]/parent::*"
                 ).InnerText.Split(":")[1].Trim();
@@ -116,13 +135,11 @@ namespace Cimber.Scraper.Scrapers
                     ?.SelectSingleNode(".//div[@itemprop=\"description\"]")
                     .InnerText.Trim();
                 var poster = document
-                    ?.SelectSingleNode(".//img[@itemprop=\"image\"]").Attributes["data-src"]
+                    ?.SelectSingleNode(""".//div[contains(concat(" ",normalize-space(@class)," ")," bigposter ")]//picture//img""").Attributes["src"]
                     .Value;
                 var players = document
-                                ?.SelectSingleNode(".//div[@id=\"player-iframe\"]")
-                                .SelectNodes("input")
-                                .Where(i => i.Attributes.Contains("value"))
-                                .Select(i => i.Attributes["value"].Value.Trim())
+                                ?.SelectNodes(".//div[contains(concat(\" \",normalize-space(@class),\" \"),\" tabs \")]//ul[contains(concat(\" \",normalize-space(@class),\" \"),\" film \")]//li")
+                                .Select(i => i.Attributes["data-iframe"].Value.Trim())
                                 .Select(i => i.StartsWith("https") ? i : $"https{i}")
                                 .ToList();
                 players!.RemoveAll(i => i.Contains("youtube"));
@@ -131,18 +148,16 @@ namespace Cimber.Scraper.Scrapers
                 return new Film()
                 {
                     Language = Language.Russian,
-                    Title = name ?? "",
-                    RussianTitle = name ?? "",
-                    LowercaseTitle = name!.ToLower() ?? "",
+                    Title = title ?? "",
+                    RussianTitle = title ?? "",
+                    EnglishTitle = englishTitle ?? "",
+                    LowercaseTitle = title!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",
-                    RussianDescription = description ?? "",
                     Countries = countries!,
-                    RussianCountries = countries!,
                     Duration = getDuration(duration!) ?? new TimeSpan(0, 0, 0),
                     Genres = genres!,
-                    RussianGenres = genres!,
-                    Poster = poster ?? "",
+                    Poster = $"{Website.KINOKRAD}{poster}" ?? "",
                     Players = players ?? new List<string>(),
                 };
             }

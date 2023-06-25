@@ -132,12 +132,9 @@ namespace Cimber.Scraper.Scrapers
                     LowercaseTitle = name!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",
-                    RussianDescription = description ?? "",
                     Countries = countries!,
-                    RussianCountries = countries!,
                     Duration = getDuration(duration!) ?? new TimeSpan(0, 0, 0),
                     Genres = genres!,
-                    RussianGenres = genres!,
                     Poster = poster ?? "",
                     Players = players ?? new List<string>(),
                 };

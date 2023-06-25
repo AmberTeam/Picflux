@@ -1,54 +1,53 @@
 ﻿using Cimber.Scraper.Models;
 using HtmlAgilityPack;
 using Spectre.Console;
+using System.Collections.Concurrent;
 
 namespace Cimber.Scraper.Scrapers
 {
     public class KinogoScraper : BaseScraper
     {
+        private readonly object filmsLock = new object();
+        private readonly object taskLock = new object();
+
         public override void Start()
         {
             try
             {
-                try
-                {
-                    getFilms(Website.KINOGO);
-                    var pagesCount = getPagesCount();
+                getFilms(Website.KINOGO);
+                var pagesCount = getPagesCount();
 
-                    AnsiConsole.Progress()
-                        .Columns(new ProgressColumn[]
-                        {
-                            new TaskDescriptionColumn(),
-                            new ProgressBarColumn(),
-                            new PercentageColumn(),
-                            new ElapsedTimeColumn(),
-                            new RemainingTimeColumn()
-                        }).Start(ctx =>
-                        {
-                            var task = ctx.AddTask($"[green]Scraping {Website.KINOGO}[/]");
-                            task.MaxValue = pagesCount;
+                AnsiConsole.Progress()
+                    .Columns(new ProgressColumn[]
+                    {
+                        new TaskDescriptionColumn(),
+                        new ProgressBarColumn(),
+                        new PercentageColumn(),
+                        new ElapsedTimeColumn(),
+                        new RemainingTimeColumn()
+                    }).Start(ctx =>
+                    {
+                        var task = ctx.AddTask($"[green]Scraping {Website.KINOGO}[/]");
+                        task.MaxValue = pagesCount;
 
-                            while (!ctx.IsFinished)
+                        var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+
+                        Parallel.For(2, pagesCount + 1, options, i =>
+                        {
+                            var url = $"{Website.KINOGO}/page/{i}";
+
+                            getFilms(url);
+
+                            Console.Clear();
+                            lock (taskLock)
                             {
-                                for (int i = 2; i <= pagesCount; i++)
-                                {
-                                    var url = $"{Website.KINOGO}/page/{i}";
-
-                                    getFilms(url);
-                                    Console.Clear();
-                                    task.Increment(1);
-                                    task.Description($"[green]Scraping url({url}) page {i} of {pagesCount}[/]");
-                                }
-
-                                task.StopTask();
+                                task.Increment(1);
+                                task.Description($"[green]Scraping {Website.KINOGO}[/]");
                             }
                         });
-                }
-                catch (Exception ex)
-                {
-                    Start();
-                    Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
-                }
+
+                        task.StopTask();
+                    });
             }
             catch (Exception ex)
             {
@@ -56,25 +55,43 @@ namespace Cimber.Scraper.Scrapers
             }
         }
 
+        // Modify the getFilms method to make it thread-safe
         protected override void getFilms(string url)
         {
             try
             {
                 var links = getLinks(url);
 
-                foreach (var link in links!)
+                // Use a local list to temporarily store films
+                var films = new List<Film>();
+
+                // Parallelize the processing of links
+                Parallel.ForEach(links!, link =>
                 {
                     try
                     {
                         var film = getFilm(link.Attributes["href"].Value);
 
-                        if (film != null)
-                            if (film!.Players!.Count > 0)
-                                DatabaseService.AddFilm(film);
+                        if (film != null && film.Players.Count > 0)
+                        {
+                            lock (filmsLock)
+                            {
+                                films.Add(film);
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
                         Logger.Error($"[{ex.GetLine()}] [{ex.Source}]\n\t{ex.Message}");
+                    }
+                });
+
+                // Add the films to the database outside of the parallel loop
+                lock (filmsLock)
+                {
+                    foreach (var film in films)
+                    {
+                        DatabaseService.AddFilm(film);
                     }
                 }
             }
@@ -89,7 +106,13 @@ namespace Cimber.Scraper.Scrapers
             try
             {
                 var document = GetDocument(url)?.DocumentNode;
-                var name = document?.SelectSingleNode(".//h1[contains(concat(\" \",normalize-space(@class),\" \"),\" kino-h \")]").InnerText.Trim();
+                var title = document?.SelectSingleNode(".//h1[contains(concat(\" \",normalize-space(@class),\" \"),\" kino-h \")]").InnerText.Trim();
+                string? englishTitle = null;
+                try
+                {
+                    englishTitle = document?.SelectSingleNode(""".//h2[@itemprop="alternativeHeadline"]""").InnerText.Trim();
+                }
+                catch { }
                 var year = document?.SelectSingleNode(
                     "/html/body/div[1]/div/div[2]/div/div[2]/div[1]/article/div[2]/div/div[2]/ul[1]/li/div/span[contains(normalize-space(),\"Год выпуска:\")]/parent::*/parent::*"
                 ).InnerText.Split(":")[1].Trim();
@@ -107,12 +130,17 @@ namespace Cimber.Scraper.Scrapers
                     .Split(",")
                     .Select(i => i.Trim())
                     .ToList();
-                var duration = document?.SelectSingleNode(@"/html/body/div[1]/div/div[2]/div/div[2]/div[1]/article/div[2]/div/div[2]/ul[1]/li/div/span[contains(normalize-space(),""Продолжительность:"")]/parent::*/parent::*").InnerText.Trim();
+                string? duration = null;
+                try
+                {
+                    duration = document?.SelectSingleNode(@".//ul//li//div//span[contains(normalize-space(),""Продолжительность:"")]/parent::*/parent::*").InnerText.Trim();
+                }
+                catch { }
                 var description = document
                     ?.SelectSingleNode(".//span[@itemprop=\"description\"]")
                     .InnerText.Trim();
                 var poster = Website.KINOGO + document
-                    ?.SelectSingleNode(".//img[@itemprop=\"image\"]").Attributes["src"]
+                    ?.SelectSingleNode(""".//img[@itemprop="image"]""").Attributes["src"]
                     .Value;
                 var players = document
                     ?.SelectNodes(".//iframe")
@@ -127,17 +155,15 @@ namespace Cimber.Scraper.Scrapers
                 return new Film()
                 {
                     Language = Language.Russian,
-                    Title = name ?? "",
-                    RussianTitle = name ?? "",
-                    LowercaseTitle = name!.ToLower() ?? "",
+                    Title = title ?? "",
+                    EnglishTitle = englishTitle ?? "",
+                    RussianTitle = title ?? "",
+                    LowercaseTitle = title!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",
-                    RussianDescription = description ?? "",
                     Countries = countries!,
-                    RussianCountries = countries!,
                     Duration = getDuration(duration!) ?? new TimeSpan(0, 0, 0),
                     Genres = genres!,
-                    RussianGenres = genres!,
                     Poster = poster ?? "",
                     Players = players ?? new List<string>(),
                 };

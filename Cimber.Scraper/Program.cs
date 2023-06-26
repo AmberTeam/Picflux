@@ -5,7 +5,7 @@ using Spectre.Console;
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 Logger.InitLogger();
 
-AnsiConsole.Markup("[purple][bold]Cimber Scraper v3.0.1[/][/]\n");
+AnsiConsole.Markup("[purple][bold]Cimber Scraper v3.0.2[/][/]\n");
 
 var table = new Table();
 
@@ -75,14 +75,14 @@ else if (website!.Contains("All"))
     var kinoprofiScraper = new KinoprofiScraper();
     var kinogoScraper = new KinogoScraper();
     var kinogouaScraper = new KinogouaScraper();
-    var uakinoScraper = new UakinoScraper();
+    //var uakinoScraper = new UakinoScraper();
     //var _123MoviesScraper = new _123MoviesScraper();
 
     //gidonlineScraper.Start();
     kinogoScraper.Start();
-    uakinoScraper.Start();
-    kinoprofiScraper.Start();
+    //uakinoScraper.Start();
     kinokradScraper.Start();
     kinogouaScraper.Start();
+    //kinoprofiScraper.Start();
     //_123MoviesScraper.Start();
 }

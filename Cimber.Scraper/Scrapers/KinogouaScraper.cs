@@ -1,4 +1,5 @@
 ﻿using Cimber.Scraper.Models;
+using Cimber.Scraper.Services;
 using HtmlAgilityPack;
 using Spectre.Console;
 using System.Collections.Concurrent;
@@ -86,10 +87,10 @@ namespace Cimber.Scraper.Scrapers
 
                 lock (filmsLock)
                 {
-                    foreach (var film in films)
+                    Parallel.ForEach(films, film =>
                     {
                         DatabaseService.AddFilm(film);
-                    }
+                    });
                 }
             }
             catch (Exception ex)
@@ -103,7 +104,7 @@ namespace Cimber.Scraper.Scrapers
             try
             {
                 var document = GetDocument(url)?.DocumentNode;
-                var name = document?.SelectSingleNode("/html/body/div[1]/div/div/main/div[2]/article/div[1]/header/h1").InnerText;
+                var title = document?.SelectSingleNode("/html/body/div[1]/div/div/main/div[2]/article/div[1]/header/h1").InnerText;
                 var year = document
                     ?.SelectNodes("/html/body/div[1]/div/div/main/div[2]/article/div[1]/div[2]/div[1]/a")
                     .Where(a => a.Attributes["href"].Value.Contains("year"))
@@ -152,14 +153,28 @@ namespace Cimber.Scraper.Scrapers
 
                 players!.RemoveAll(i => i.Contains("youtube"));
                 players!.RemoveAll(i => i.Contains("red.uboost"));
+                /* Translation */
+                string? enTitle = null;
+                try
+                {
+                    enTitle = GoogleService.Translate(Language.English, $"{title!} {year}").Result;
+
+                    if (enTitle == null)
+                    {
+                        enTitle = TranslationService.Translate(Language.Ukrainian, Language.English, title!).Result;
+                    }
+                }
+                catch { }
+
 
 
                 return new Film()
                 {
                     Language = Language.Ukrainian,
-                    Title = name ?? "",
-                    UkrainianTitle = name ?? "",
-                    LowercaseTitle = name!.ToLower() ?? "",
+                    EnglishTitle = enTitle ?? "",
+                    Title = title ?? "",
+                    UkrainianTitle = title ?? "",
+                    LowercaseTitle = title!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",
                     Countries = countries!,

@@ -1,4 +1,5 @@
 ﻿using Cimber.Scraper.Models;
+using Cimber.Scraper.Services;
 using HtmlAgilityPack;
 using Spectre.Console;
 using System.Collections.Concurrent;
@@ -83,10 +84,10 @@ namespace Cimber.Scraper.Scrapers
 
                 lock (filmsLock)
                 {
-                    foreach (var film in films)
+                    Parallel.ForEach(films, film =>
                     {
                         DatabaseService.AddFilm(film);
-                    }
+                    });
                 }
             }
             catch (Exception ex)
@@ -103,14 +104,6 @@ namespace Cimber.Scraper.Scrapers
                 var title = document?.SelectSingleNode(".//h1[@itemprop=\"name\"]").InnerText.Split(
                     "("
                 )[0].Trim();
-                string? englishTitle = null;
-                try
-                {
-                    englishTitle = document?.SelectSingleNode(
-                    ".//span[contains(concat(\" \",normalize-space(@class),\" \"),\" orange \")][contains(normalize-space(),\"Оригинальное название:\")]/parent::*"
-                ).InnerText.Split(":")[1].Trim();
-                }
-                catch { }
                 var year = document?.SelectSingleNode(
                     ".//span[contains(concat(\" \",normalize-space(@class),\" \"),\" orange \")][contains(normalize-space(),\"Год:\")]/parent::*"
                 ).InnerText.Split(":")[1].Trim();
@@ -128,9 +121,14 @@ namespace Cimber.Scraper.Scrapers
                     .SelectNodes(".//a")
                     .Select(a => a.InnerText)
                     .ToList();
-                var duration = document?.SelectSingleNode(
-                    @".//span[contains(concat("" "",normalize-space(@class),"" ""),"" orange "")][contains(normalize-space(),""Продолжительность:"")]/parent::*"
-                ).InnerText.Split(":")[1].Trim();
+                string? duration = null;
+                try
+                {
+                    duration = document?.SelectSingleNode(
+                        @".//span[contains(concat("" "",normalize-space(@class),"" ""),"" orange "")][contains(normalize-space(),""Продолжительность:"")]/parent::*"
+                    ).InnerText.Split(":")[1].Trim();
+                }
+                catch { }
                 var description = document
                     ?.SelectSingleNode(".//div[@itemprop=\"description\"]")
                     .InnerText.Trim();
@@ -145,12 +143,26 @@ namespace Cimber.Scraper.Scrapers
                 players!.RemoveAll(i => i.Contains("youtube"));
                 players!.RemoveAll(i => i.Contains("red.uboost"));
 
+
+                /* Translation */
+                string? enTitle = null;
+                try
+                {
+                    enTitle = GoogleService.Translate(Language.English, $"{title!} {year}").Result;
+
+                    if (enTitle == null)
+                    {
+                        enTitle = TranslationService.Translate(Language.Russian, Language.English, title!).Result;
+                    }
+                }
+                catch { }
+
                 return new Film()
                 {
                     Language = Language.Russian,
                     Title = title ?? "",
+                    EnglishTitle = enTitle ?? "",
                     RussianTitle = title ?? "",
-                    EnglishTitle = englishTitle ?? "",
                     LowercaseTitle = title!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",

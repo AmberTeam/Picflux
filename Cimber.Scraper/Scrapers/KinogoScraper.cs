@@ -1,4 +1,5 @@
 ﻿using Cimber.Scraper.Models;
+using Cimber.Scraper.Services;
 using HtmlAgilityPack;
 using Spectre.Console;
 using System.Collections.Concurrent;
@@ -89,10 +90,10 @@ namespace Cimber.Scraper.Scrapers
                 // Add the films to the database outside of the parallel loop
                 lock (filmsLock)
                 {
-                    foreach (var film in films)
+                    Parallel.ForEach(films, film =>
                     {
                         DatabaseService.AddFilm(film);
-                    }
+                    });
                 }
             }
             catch (Exception ex)
@@ -107,12 +108,6 @@ namespace Cimber.Scraper.Scrapers
             {
                 var document = GetDocument(url)?.DocumentNode;
                 var title = document?.SelectSingleNode(".//h1[contains(concat(\" \",normalize-space(@class),\" \"),\" kino-h \")]").InnerText.Trim();
-                string? englishTitle = null;
-                try
-                {
-                    englishTitle = document?.SelectSingleNode(""".//h2[@itemprop="alternativeHeadline"]""").InnerText.Trim();
-                }
-                catch { }
                 var year = document?.SelectSingleNode(
                     "/html/body/div[1]/div/div[2]/div/div[2]/div[1]/article/div[2]/div/div[2]/ul[1]/li/div/span[contains(normalize-space(),\"Год выпуска:\")]/parent::*/parent::*"
                 ).InnerText.Split(":")[1].Trim();
@@ -152,12 +147,26 @@ namespace Cimber.Scraper.Scrapers
                 players!.RemoveAll(i => i.Contains("youtube"));
                 players!.RemoveAll(i => i.Contains("red.uboost"));
 
+                /* Translation */
+                string? enTitle = null;
+                try
+                {
+                    enTitle = GoogleService.Translate(Language.English, $"{title!} {year}").Result;
+
+                    if (enTitle == null)
+                    {
+                        enTitle = TranslationService.Translate(Language.Russian, Language.English, title!).Result;
+                    }
+                }
+                catch { }
+
+
                 return new Film()
                 {
                     Language = Language.Russian,
                     Title = title ?? "",
-                    EnglishTitle = englishTitle ?? "",
                     RussianTitle = title ?? "",
+                    EnglishTitle = enTitle ?? "",
                     LowercaseTitle = title!.ToLower() ?? "",
                     Year = int.Parse(year ?? "0"),
                     Description = description ?? "",

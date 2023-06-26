@@ -2,6 +2,7 @@
 {
     public enum Language
     {
+        Detect,
         English,
         Ukrainian,
         Russian

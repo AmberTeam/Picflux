@@ -1,0 +1,4 @@
+U:\Dev\Amber\Cimber\Cimber.Scraper\bin\Release\net7.0\publish\linux-x64\Cimber.Scraper.pdb
+U:\Dev\Amber\Cimber\Cimber.Scraper\bin\Release\net7.0\publish\linux-x64\appsettings.json
+U:\Dev\Amber\Cimber\Cimber.Scraper\bin\Release\net7.0\publish\linux-x64\nlog.config
+U:\Dev\Amber\Cimber\Cimber.Scraper\bin\Release\net7.0\publish\linux-x64\Cimber.Scraper

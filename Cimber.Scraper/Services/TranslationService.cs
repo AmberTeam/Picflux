@@ -8,7 +8,7 @@ namespace Cimber.Scraper.Services
         private static int retryCount = 0;
         private static readonly string URL = "https://lingva.ml/api/v1/";
 
-        public static string? Translate(Language source, Language target, string text)
+        public static async Task<string?> Translate(Language source, Language target, string text)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Cimber.Scraper.Services
 
                 if (retryCount <= 2)
                 {
-                    return Translate(source, target, text);
+                    return await Translate(source, target, text);
                 }
                 else
                 {

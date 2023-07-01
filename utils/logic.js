@@ -54,6 +54,13 @@ class Utils {
         ) return false 
         return true
     }
+
+    string_up_to_char(str, starter_val, char, limit = 10) {
+        const starter_i = str.indexOf(starter_val) + starter_val.length
+        for(var i=starter_i;i < starter_i + limit;i++) {
+            if(str[i] === char) return str.slice(starter_i, i)
+        }
+    }
 }
 
 module.exports = new Utils()

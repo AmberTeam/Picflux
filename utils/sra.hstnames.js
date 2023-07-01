@@ -31,12 +31,16 @@ const static_hostnames = Object.freeze({
 
 const dynamic_hostnames = [
     {
-        domain_wprefix: 'vid167wprefix',
-        overlaps: ['vid167']
+        domain_wprefix: 'vid16wprefix',
+        overlaps: ['vb', "pw"]
     },
     {
         domain_wprefix: 'api_wprefix_ws',
         overlaps: ['api', 'ws']
+    },
+    {
+        domain_wprefix: 'wprefix_svetacdn_in',
+        overlaps: ['svetacdn']
     }
 ]
 

@@ -6,8 +6,9 @@ class SRAController {
             const {h} = req.query
         
             const data = await sra_service.rewritebhostname(h)
-    
-            return res.json(data)
+            
+            res.setHeader("Content-Type", "text/html")
+            return res.send(data)
         } catch(e) {
             console.error(e) 
             return next(e)

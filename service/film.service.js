@@ -377,15 +377,13 @@ class FilmService {
             console.error(e)
             throw ApiError.BadRequest()
         })
-        console.log(dbd)
         if(!dbd) throw ApiError.BadRequest({status: 404, message: "Cannot find film with the same id."})
         
-        const results = []
+        var results = []
         for(var i=0;i < pls_avail.length;i++) { 
             let r = null
             switch(dbd.type) {
                 case 'movie': 
-                //items[Math.floor(Math.random()*items.length)]
                     r = pls_avail[i].hrefs[Math.floor(Math.random()*pls_avail[i].hrefs.length)]
                     results.push(r + pls_avail[i].path_movie + pls_avail[i].construct(fid))
                     break
@@ -399,6 +397,12 @@ class FilmService {
                     break
             }
         }
+        results = results.map(r => {
+            return { 
+                force: r, 
+                sra: process.env.API_URL + "/api/sra/bhostname?h=" + r
+            }
+        })
         return results
     }
 }

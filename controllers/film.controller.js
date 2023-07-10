@@ -6,7 +6,7 @@ class FilmController {
     async get_players(req, res, next) {
         try {
             const rs = await filmService.get_players(req.params.id)
-            return res.json(rs)
+            return res.status(200).json(rs)
         } catch(e) {
             next(e)
         }

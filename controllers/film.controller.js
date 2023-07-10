@@ -2,20 +2,29 @@ const ApiError = require("../exceptions/api.error")
 const filmService = require("../service/film.service")
 
 class FilmController {
+
+    async get_players(req, res, next) {
+        try {
+            const rs = await filmService.get_players(req.params.id)
+            return res.json(rs)
+        } catch(e) {
+            next(e)
+        }
+    }
      
-    async getById(req, res, next) {
+    async get_by_id(req, res, next) {
         try {
             const {id} = req.params
-            const filmData = await filmService.getById(id, req.user ? req.user : undefined, req.headers["accept-language"])
+            const filmData = await filmService.get_by_id(id, req.user ? req.user : undefined, req.headers["accept-language"])
             return res.json(filmData)
         } catch(e) { 
-            console.error(e)
             return next(e)
         }
     }
 
     async search(req, res, next) {
         try {
+
             const {fl, flt, datesrt, psrt, psrt_t, segment_start,segment_end} = req.query
             const {limit, offset, query} = req.body
             const ACTIVATORS = {
@@ -126,56 +135,51 @@ class FilmController {
     
             return res.json(fdatas)
         } catch(e) {
-            console.log(e)
             return next(e)
         }
     }
 
-    async addWillReadFilm(req, res) {
+    async add_will_read_film(req, res) {
         try {
-            const response = await filmService.addWillReadFilm(req.user.id, req.body.id)
+            const response = await filmService.add_will_read_film(req.user.id, req.body.id)
             return res.json(response)
         } catch(e) {
-            console.error(e)
             return next(e)
         }
     }
 
-    async removeWillReadFilm(req, res, next) {
+    async remove_will_read_film(req, res, next) {
         try {
-            const response = await filmService.removeWillReadFilm(req.user.id, req.body.id)
+            const response = await filmService.remove_will_read_film(req.user.id, req.body.id)
             return res.json(response)
         } catch(e) {
             return next(ApiError.UnauthorizedError())
         }
     }
 
-    async addComment(req, res, next) {
+    async add_comment(req, res, next) {
         try { 
-            const data = await filmService.addComment(req.params.id, req.user, req.body.data)
+            const data = await filmService.add_comment(req.params.id, req.user, req.body.data)
             return res.json(data)
         } catch(e) {
-            console.error(e)
             return next(e)
         }
     }
 
-    async getComments(req, res, next) { 
+    async get_comments(req, res, next) { 
         try {
-            const data = await filmService.getComments(req.params.id, req.query.offset, req.query.limit)
+            const data = await filmService.get_comments(req.params.id, req.query.offset, req.query.limit)
             return res.json(data)
         } catch(e) {
-            console.error(e)
             return next(e)
         }
     }
 
-    async pushRating(req, res, next) {
+    async push_rating(req, res, next) {
         try {
-            const response = await filmService.pushRating(req.user.id, req.params.id, req.body.value)
+            const response = await filmService.push_rating(req.user.id, req.params.id, req.body.value)
             return res.status(200).json(response)
         } catch(e) {   
-            console.error(e) 
             return next(e)
         }
     }

@@ -10,7 +10,6 @@ class SRAController {
             res.setHeader("Content-Type", "text/html")
             return res.send(data)
         } catch(e) {
-            console.error(e) 
             return next(e)
         }
     }

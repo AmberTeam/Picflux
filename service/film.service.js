@@ -3,26 +3,31 @@ const ApiError = require("../exceptions/api.error")
 const {syncFilmEvent} = require("../websocket/index")
 const {checkTexts} = require("yandex-speller")
 const db = require("../utils/ndb")
-const { array2postgres, array2postgres_ex, verify_film_model } = require("../utils/logic")
+const { array2postgres, array2postgres_ex, verify_film_model, split2n } = require("../utils/logic")
 const FilmMinDto = require("../dtos/film.min.dto")
 const FilmDto = require("../dtos/film.dto")
 const userService = require("./user.service")
+const pls_avail = require("../utils/pls.avail")
 class FilmService {
 
-    async getById(id, user, lang = "en-EN") {
+    async get_by_id(id, user, lang = "en-EN") {
 
         const row = await db.query('SELECT * FROM film WHERE id = $1', [id]).then(data => data.rows[0]).catch(e => {
             console.log(e)
+        console.log("dsdasdsadsadasd")
             throw ApiError.BadRequest()
         })
 
+        console.log("222dsdasdsadsadasd")
         if(verify_film_model(row) === false) throw ApiError.BadRequest()
+        console.log("333dsdasdsadsadasd")
         
         var rated = {
             rated: false
         }
         const rating = await db.query("SELECT * FROM ratings WHERE fid = $1", [id]).then(data => data.rows.length ? data.rows : []).catch(e => {
             console.log(e)
+            console.log("11111dsdasdsadsadasd")
             throw ApiError.BadRequest()
         })
         const rating_average = rating.length > 0 ? ((Math.round((rating.map(e => e.value).reduce((a, b) => a + b) / rating.length) + Number.EPSILON) * 100) / 100) : null
@@ -82,7 +87,7 @@ class FilmService {
                 q_s.push(q_f[i].toLowerCase())
             })
             return resolve(q_s)
-        }, {
+        }, { 
             lang: "ru"
         }))
         const q_s_cf = q_s.map(el => {
@@ -94,10 +99,10 @@ class FilmService {
         //CONSTRUCT SQL SCRIPT
         var flt_construct=''
         var namedef_construct=``
-        const segment_construct = `${segment_start !== 'any' ? "AND year > " + segment_start : ""}${segment_end !== 'any' ? " AND year < " + segment_end + " " : ""}`
-        const free_search_ord = ` ${psrt==='date' ? `ORDER BY year ${psrtt}, id asc `:''}OFFSET ${offs} LIMIT ${lim}`
+        const segment_construct = `${segment_start !== 'any' ? "AND endreleaseyear > " + segment_start : ""}${segment_end !== 'any' ? " AND endreleaseyear < " + segment_end + " " : ""}`
+        const free_search_ord = ` ${psrt==='date' ? `ORDER BY endreleaseyear ${psrtt}, id asc `:''}OFFSET ${offs} LIMIT ${lim}`
         var free_search=q_s.length===0?` OFFSET ${offs} LIMIT ${lim}`:""
-        var free_s_prefix = q_s.length===0?` WHERE year != 01100111`:""
+        var free_s_prefix = q_s.length===0?` WHERE endreleaseyear != 01100111`:""
         var req_f
 
         if(q_s.length>1) for(var i=0;i<q_s.length;i++) {
@@ -118,7 +123,7 @@ class FilmService {
         switch(flt) {
             case "without":
                 if(datesrt&&datesrt!=="any"&&psrt==="without") {
-                    req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct} AND year = ${datesrt}${free_search}`
+                    req_f = `SELECT * FROM film ${free_s_prefix}${namedef_construct} AND endreleaseyear = ${datesrt}${free_search}`
                     break
                 } else {
                     switch(q_s.length) {
@@ -139,7 +144,7 @@ class FilmService {
                     var genre_str = array2postgres(fl)
                     flt_construct=` AND ${flt === 'solely' ? ` NOT(genres && '${genre_str}')` : `genres @> '${genre_str}'`}`
                 }
-                if(datesrt&&datesrt!=="any"&&psrt==="without") flt_construct+=` AND year = ${datesrt}`
+                if(datesrt&&datesrt!=="any"&&psrt==="without") flt_construct+=` AND endreleaseyear = ${datesrt}`
                 switch(q_s.length) {
                     case 0: 
                         req_f = `SELECT * FROM film ${free_s_prefix} ${segment_construct}${namedef_construct}${flt_construct}${free_search}`
@@ -261,7 +266,7 @@ class FilmService {
         //if(free_search==="") return {films: rows.slice(offs, offs+lim), can_load: rows.slice(offs+lim, offs+(lim*2)).length > 0}
     }
 
-    async removeWillReadFilm(userid, fid) {
+    async remove_will_read_film(userid, fid) {
         await db.query("UPDATE users SET watch_later = array_remove(watch_later, $1) WHERE id = $2", [fid, userid]).catch(e => {
             console.error(e) 
             throw ApiError.BadRequest()
@@ -269,14 +274,14 @@ class FilmService {
         return {status: "ok"}
     }
 
-    async addWillReadFilm(userid, fid) {
+    async add_will_read_film(userid, fid) {
         await db.query("UPDATE users SET watch_later = array_append(watch_later, $1) WHERE id = $2", [fid, userid]).catch(e => {
             console.error(e) 
             throw ApiError.BadRequest()
         })
     }
  
-    async getComments(id, offset, limit) { 
+    async get_comments(id, offset, limit) { 
         const data = await db.query(`SELECT * FROM comments WHERE fid = $1 ORDER BY id DESC OFFSET $2 LIMIT $3`, [id, offset, limit]).then(data => data.rows && data.rows.length ? data.rows : []).catch(e => {
             console.error(e) 
             throw ApiError.BadRequest()
@@ -313,7 +318,7 @@ class FilmService {
         return {comments: data}
     }
 
-    async addComment(fid, u, data) { 
+    async add_comment(fid, u, data) { 
         const date = new Date()
         let day = date.getDate()
         let month = date.getMonth()
@@ -347,7 +352,7 @@ class FilmService {
         
     }
 
-    async pushRating(uid, fid, value) {
+    async push_rating(uid, fid, value) {
         const candidate = await db.query(`SELECT * FROM ratings WHERE owner = $1 and fid = $2`, [uid, fid]).then(data => data.rows.length > 0).catch(e => {
             console.error(e) 
             throw ApiError.BadRequest()
@@ -365,6 +370,36 @@ class FilmService {
             })
             return {status: "ok"}
         }
+    }
+
+    async get_players(fid) { 
+        const dbd = await db.query("SELECT * FROM film WHERE id = $1", [fid]).then(data => data.rows[0]).catch(e => {
+            console.error(e)
+            throw ApiError.BadRequest()
+        })
+        console.log(dbd)
+        if(!dbd) throw ApiError.BadRequest({status: 404, message: "Cannot find film with the same id."})
+        
+        const results = []
+        for(var i=0;i < pls_avail.length;i++) { 
+            let r = null
+            switch(dbd.type) {
+                case 'movie': 
+                //items[Math.floor(Math.random()*items.length)]
+                    r = pls_avail[i].hrefs[Math.floor(Math.random()*pls_avail[i].hrefs.length)]
+                    results.push(r + pls_avail[i].path_movie + pls_avail[i].construct(fid))
+                    break
+                case 'tv-series': 
+                    r = pls_avail[i].hrefs[Math.floor(Math.random()*pls_avail[i].hrefs.length)]
+                    results.push(r + pls_avail[i].path_serial + pls_avail[i].construct(fid))
+                    break
+                default: 
+                    r = pls_avail[i].hrefs[Math.floor(Math.random()*pls_avail[i].hrefs.length)]
+                    results.push(r + pls_avail[i].path_movie + pls_avail[i].construct(fid))
+                    break
+            }
+        }
+        return results
     }
 }
 

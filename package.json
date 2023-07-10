@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev nodemon index.js",
-    "prod": "cross-env NODE_ENV=prod node index.js",
+    "dev": "cross-env NODE_ENV=dev nodemon --max_old_space_size=4096 index.js",
+    "prod": "cross-env NODE_ENV=prod node --max_old_space_size=4096 index.js",
     "psprod": "cross-env NODE_ENV=psprod nodemon index.js"
   },
   "keywords": [],

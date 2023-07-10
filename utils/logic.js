@@ -39,18 +39,7 @@ class Utils {
     
     verify_film_model(model) {
         if(
-            (model === undefined || model === null) || 
-            (model.id  === undefined || model.id === null) || 
-            (model._id === undefined || model._id === null) || 
-            (model.language === undefined || model.language === null) || 
-            (model.title  === undefined || model.title === null) || 
-            (model.description === undefined || model.desctiption === null) || 
-            (model.year === undefined || model.year === null) || 
-            (model.countries === undefined || model.countries === null) || 
-            (model.duration  === undefined || model.duration === null) || 
-            (model.genres === undefined || model.genres === null) || 
-            (model.poster === undefined || model.poster === null) || 
-            (model.players === undefined || model.players === null)
+            (model === undefined || model === null) 
         ) return false 
         return true
     }
@@ -59,6 +48,17 @@ class Utils {
         const starter_i = str.indexOf(starter_val) + starter_val.length
         for(var i=starter_i;i < starter_i + limit;i++) {
             if(str[i] === char) return str.slice(starter_i, i)
+        }
+    }
+
+    split2n(v, n) {
+        const s = v.split("") 
+        for(var i=0;i < s.length;i+=n) {
+            var r = s[i]
+            for(var a=1;a < n;a++) {
+                if(s[i+a]) r += s[i+a]
+            }
+            return r
         }
     }
 }

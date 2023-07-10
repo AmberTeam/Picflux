@@ -6,8 +6,6 @@ const { JSDOM } = require("jsdom")
 const { string_up_to_char } = require("../utils/logic")
 const logger = require("../utils/logger")
 const https = require("https")
-const request = require("request")
-
 
 class SRAService { 
 
@@ -73,7 +71,7 @@ class SRAService {
             return dom.window.document.documentElement.outerHTML
         }).catch((error) => {
             console.error("Got err: " + error)
-            return NOT_FOUND_RES
+            return this.construct_error_response(url, 500, error)
         })
     }
 

@@ -11,7 +11,7 @@ class UserController {
             const data = await userService.setTimestamp(req.user.id, Date.now())
             return res.status(200).json(data)
         } catch(e) {
-            console.log(e)
+            return next(e)
         }
     } 
 

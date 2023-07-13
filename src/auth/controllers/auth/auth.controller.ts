@@ -36,6 +36,7 @@ export class AuthController {
           HttpStatus.CONFLICT,
         );
       } else {
+        console.log(error);
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
       }
     }
@@ -54,7 +55,7 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  async logout(@GetUser("sub") id: number) {
+  async logout(@GetUser("sub") id: string) {
     try {
       return await this.authService.logout(id);
     } catch (error) {
@@ -66,7 +67,7 @@ export class AuthController {
   @Public()
   @UseGuards(RtGuard)
   @HttpCode(HttpStatus.OK)
-  async refresh(@GetUser("sub") id:number, @GetUser("refreshToken") rt: string) {
+  async refresh(@GetUser("sub") id: string, @GetUser("refreshToken") rt: string) {
     try {
       return await this.authService.refreshTokens(id, rt);
     } catch (error) {

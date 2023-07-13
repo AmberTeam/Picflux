@@ -31,7 +31,7 @@ export class AuthService {
     return tokens;
   }
 
-  async logout(id: number) {
+  async logout(id: string) {
     const user = await this.usersService.findById(id);
 
     if (!user) throw new ForbiddenException();
@@ -39,7 +39,7 @@ export class AuthService {
     await this.usersService.logout(user.id);
   }
 
-  async refreshTokens(id: number, rt: string) {
+  async refreshTokens(id: string, rt: string) {
     const user = await this.usersService.findById(id);
 
     if (!user) throw new ForbiddenException();
@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   async getTokens(
-    id: number,
+    id: string,
     email: string,
     username: string,
   ): Promise<Tokens> {
@@ -78,7 +78,7 @@ export class AuthService {
     };
   }
 
-  async updateRtHash(id: number, rt: string) {
+  async updateRtHash(id: string, rt: string) {
     const hash = await encode(rt);
 
     await this.usersService.updateRtHash(id, hash);

@@ -1,16 +1,21 @@
 import { Exclude } from "class-transformer";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { v4 as uuidv4 } from "uuid";
+import { Alert } from './alert.entity';
 
 @Entity({"name": "users"})
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string = uuidv4();
 
     @Column({unique: true})
     email: string;
 
     @Column({unique: true})
     username: string;
+
+    @Column()
+    biography: string = "";
 
     @Column()
     password: string;
@@ -21,11 +26,15 @@ export class User {
     @Column()
     isVerified: boolean = false;
 
-    @Column("integer", { array: true, default: [] })
-    followers: number[];
+    @Column("text", { array: true, default: [] })
+    followers: string[];
 
     @Column()
-    avatar: string = "";
+    avatar: string = "/statics/avatars/default.png";
+
+    @OneToMany(() => Alert, (alert) => alert.owner)
+    @JoinColumn()
+    alerts: Alert[];
 
     @Column({nullable: true})
     hashedRt: string;
@@ -35,7 +44,7 @@ export class User {
 }
 
 export class SerializedUser {
-    id: number;
+    id: string;
     email: string;
     username: string;
 
@@ -45,7 +54,10 @@ export class SerializedUser {
     @Exclude()
     hashedRt: string;
 
+    alerts: Alert[];
+    biography: string = "";
+    followers: string[] = [];
     isVerified: boolean = false;
-    avatar: string = "";
+    avatar: string = "/statics/avatars/default.png";
     createdAt: Date = new Date();
 }

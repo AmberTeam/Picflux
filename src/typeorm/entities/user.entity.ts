@@ -16,7 +16,13 @@ export class User {
     password: string;
 
     @Column()
+    lastActive: Date = new Date();
+
+    @Column()
     isVerified: boolean = false;
+
+    @Column("integer", { array: true, default: [] })
+    followers: number[];
 
     @Column()
     avatar: string = "";

@@ -6,6 +6,7 @@ import { User } from './typeorm/entities/user.entity';
 import { config } from 'dotenv';
 import { AtGuard } from './auth/guards/at.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { FilmsModule } from './films/films.module';
 
 config();
 
@@ -19,7 +20,7 @@ config();
     "database": process.env.POSTGRES_DATABASE,
     "entities": [User],
     synchronize: true
-  }), UsersModule, AuthModule],
+  }), UsersModule, AuthModule, FilmsModule],
   providers: [
     {
       provide: APP_GUARD,

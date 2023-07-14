@@ -1,0 +1,3 @@
+interface Country {
+  name: string;
+}

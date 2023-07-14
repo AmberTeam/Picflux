@@ -7,24 +7,30 @@ import {
   HttpException,
   Query,
   Patch,
-  Req,
   UseInterceptors,
   UploadedFile,
   Get,
   BadRequestException,
+  Param,
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { UpdateUserDto } from 'src/users/dto/UpdateUser.dto';
 import { UsersService } from 'src/users/services/users/users.service';
-import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { CreateAlertDto } from 'src/users/dto/CreateAlert.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get(":id")
+  @Public()
+  async getUser(@Param("id") id: string) {
+    return this.usersService.getUserById(id);
+  }
 
   @Patch('last_active/update')
   @HttpCode(HttpStatus.OK)

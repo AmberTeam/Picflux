@@ -8,6 +8,7 @@ import { AtGuard } from './auth/guards/at.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { FilmsModule } from './films/films.module';
 import { Alert } from './typeorm/entities/alert.entity';
+import { Film } from './typeorm/entities/film.entity';
 
 config();
 
@@ -19,7 +20,7 @@ config();
     "username": process.env.POSTGRES_USERNAME,
     "password": process.env.POSTGRES_PASSWORD,
     "database": process.env.POSTGRES_DATABASE,
-    "entities": [User, Alert],
+    "entities": [User, Alert, Film],
     synchronize: true
   }), UsersModule, AuthModule, FilmsModule],
   providers: [

@@ -25,6 +25,10 @@ export class UsersService {
     return await this.usersRepository.findOneBy({ id });
   }
 
+  async getUserById(id: string) {
+    return plainToClass(SerializedUser, await this.usersRepository.findOneBy({ id }));
+  }
+
   async updateRtHash(id: string, hash: string) {
     const user = await this.usersRepository.findOneBy({ id });
     user.hashedRt = hash;

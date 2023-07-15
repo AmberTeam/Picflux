@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Film } from 'src/typeorm/entities/film.entity';
@@ -25,35 +29,52 @@ export class FilmsService {
   async getFilm(uuid: string): Promise<SerializedFilm> {
     const film = await this.filmsRepository.findOne({
       where: { uuid: uuid },
-      relations: { ratings: true },
     });
 
     return plainToClass(SerializedFilm, {
       ...film,
-      averageRating:
-        film.ratings.reduce((total, rating) => total + rating.rating, 0) /
-        film.ratings.length,
+      averageRating: await this.getAverageRatingByFilmId(uuid),
     });
   }
 
-  /**
-   *
-   * @param uuid User Id: uuid
-   * @returns error or nothing
-   */
+  async getAverageRatingByFilmId(filmId: string): Promise<number> {
+    const ratings = await this.ratingsRepository.find({
+      where: {
+        film: {
+          uuid: filmId,
+        },
+      },
+    });
+    const totalRatings = ratings.length;
+    if (totalRatings === 0) return 0;
+
+    const sum = ratings.reduce(
+      (accumulator, rating) => accumulator + (rating.rating || 0),
+      0,
+    );
+    return sum / totalRatings;
+  }
+
   async rateFilm(filmId: string, dto: CreateRatingDto, owner: string) {
     const user = await this.usersRepository.findOneBy({ id: owner });
-    if (!user) throw new UnauthorizedException("User not found");
+    if (!user) throw new UnauthorizedException('User not found');
 
     const film = await this.filmsRepository.findOneBy({ uuid: filmId });
-    if (!film) throw new BadRequestException("Film not found");
+    if (!film) throw new BadRequestException('Film not found');
 
-    const rating = await this.ratingsRepository.create({
-      rating: dto.rating,
-      owner: user,
-      film: film
+    let rating = await this.ratingsRepository.findOne({
+      where: { owner: { id: user.id }, film: { uuid: film.uuid } },
     });
-    if (!rating) throw new BadRequestException();
+
+    if (!rating) {
+      rating = this.ratingsRepository.create({
+        rating: dto.rating,
+        owner: user,
+        film: film,
+      });
+    } else {
+      rating.rating = dto.rating;
+    }
 
     await this.ratingsRepository.save(rating);
   }

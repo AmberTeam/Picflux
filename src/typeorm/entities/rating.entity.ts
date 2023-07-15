@@ -8,16 +8,15 @@ export class Rating {
     @PrimaryGeneratedColumn('uuid')
     id: string = uuidv4();
 
-
-    @ManyToOne(() => Film, (film) => film)
+    @ManyToOne(() => Film, (film) => film.ratings)
     @JoinColumn()
     film?: Film;
 
-    @ManyToOne(() => Film, (film) => film.ratings)
+    @ManyToOne(() => User, (user) => user)
     @JoinColumn()
     owner?: User;
 
-    @Column('integer')
+    @Column()
     rating?: number;
 
     @Column()

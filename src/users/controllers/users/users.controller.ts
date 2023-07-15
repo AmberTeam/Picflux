@@ -12,6 +12,7 @@ import {
   Get,
   BadRequestException,
   Param,
+  Delete,
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { UpdateUserDto } from 'src/users/dto/UpdateUser.dto';
@@ -26,23 +27,42 @@ import { Public } from 'src/auth/decorators/public.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get("alerts")
+  @Get('watch_list')
+  async getWatchlist(@GetUser('sub') id: string) {
+    return this.usersService.getWatchlist(id);
+  }
+
+  @Post('watch_list/:id')
+  async addToWatchlist(@GetUser('sub') id: string, @Param("id") filmId: string) {
+    return this.usersService.addToWatchlist(id, filmId);
+  }
+
+  @Delete('watch_list/:id')
+  async removeFromWatchlist(@GetUser('sub') id: string, @Param("id") filmId: string) {
+    return this.usersService.removeFromWatchlist(id, filmId);
+  }
+
+
+  @Get('alerts')
   async getAlerts(@GetUser('sub') id: string) {
     return await this.usersService.getAlerts(id);
   }
 
   @Post('alerts/create')
   async createAlert(@GetUser('sub') id: string, @Body() dto: CreateAlertDto) {
-    if (dto.recipient === id || !dto.recipient) throw new BadRequestException("Can't create alert with the same owner and the same recipient!");
+    if (dto.recipient === id || !dto.recipient)
+      throw new BadRequestException(
+        "Can't create alert with the same owner and the same recipient!",
+      );
 
     dto.owner = await this.usersService.findById(id);
 
     return await this.usersService.createAlert(id, dto);
   }
 
-  @Get(":id")
+  @Get(':id')
   @Public()
-  async getUser(@Param("id") id: string) {
+  async getUser(@Param('id') id: string) {
     return this.usersService.getUserById(id);
   }
 

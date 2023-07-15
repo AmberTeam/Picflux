@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -17,14 +18,6 @@ import { GetUser } from 'src/auth/decorators/get-user.decorator';
 export class FilmsController {
   constructor(private readonly filmsService: FilmsService) {}
 
-  @Get(':id')
-  @Public()
-  async getFilm(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) uuid: string,
-  ) {
-    return this.filmsService.getFilm(uuid);
-  }
-
   /**
    *
    * @param dto rating: number
@@ -36,7 +29,18 @@ export class FilmsController {
     @Body() dto: CreateRatingDto,
     @GetUser('sub') userId: string,
   ) {
+    if (dto.rating < 1 || dto.rating > 10)
+      throw new BadRequestException('Rating must be between 1 and 10');
+
     dto.rating = parseInt(dto.rating.toString());
     return this.filmsService.rateFilm(filmId, dto, userId);
+  }
+
+  @Get(':id')
+  @Public()
+  async getFilm(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) uuid: string,
+  ) {
+    return this.filmsService.getFilm(uuid);
   }
 }

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SerializedUser, User } from 'src/typeorm/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -16,6 +20,34 @@ export class UsersService {
     @InjectRepository(Alert)
     private readonly alertsRepository: Repository<Alert>,
   ) {}
+
+  async getWatchlist(id: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+    console.log(user);
+    return user.watchList;
+  }
+
+  async addToWatchlist(id: string, filmId: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user.watchList.includes(filmId)) {
+      user.watchList.push(filmId);
+    }
+
+    return plainToClass(SerializedUser, this.usersRepository.save(user));
+  }
+
+  async removeFromWatchlist(id: string, filmId: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (user.watchList.includes(filmId)) {
+      const index = user.watchList.indexOf(filmId);
+
+      if (index !== -1) {
+        user.watchList.splice(index, 1);
+      }
+    }
+
+    return plainToClass(SerializedUser, this.usersRepository.save(user));
+  }
 
   async findByEmail(email: string) {
     return await this.usersRepository.findOneBy({ email });

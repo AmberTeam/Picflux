@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsNumberString, IsUUID, isInt } from "class-validator";
+import { IsInt, IsNotEmpty, IsNumberString, IsUUID, Length, Max, Min, isInt } from "class-validator";
 
 export class CreateRatingDto {
     @IsNotEmpty()

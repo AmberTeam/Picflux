@@ -10,11 +10,11 @@ import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'films' })
 export class Film {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: 'uuid', default: () => 'uuid_generate_v4()', nullable: true })
+  @PrimaryGeneratedColumn('uuid')
   uuid: string;
+
+  @Column({name: 'kpid'})
+  kpId: number;
 
   @Column({ name: 'externalkphd', length: 255, nullable: true })
   externalKpHD: string;

@@ -9,6 +9,6 @@ export class SraController {
     @Get("by_hostname")
     @Public()
     async rewriteByHostname(@Query("url") url: string) {
-        return this.sraService.rewriteByHostname(url);
+        // return this.sraService.rewriteByHostname(url);
     }
 }

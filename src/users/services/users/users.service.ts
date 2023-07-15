@@ -23,7 +23,6 @@ export class UsersService {
 
   async getWatchlist(id: string) {
     const user = await this.usersRepository.findOneBy({ id });
-    console.log(user);
     return user.watchList;
   }
 

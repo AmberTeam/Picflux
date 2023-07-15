@@ -96,7 +96,7 @@ export class UsersController {
     return await this.usersService.unfollow(userId, targetId);
   }
 
-  @Post('avatar')
+  @Post('update')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -116,7 +116,7 @@ export class UsersController {
     }),
   )
   @HttpCode(HttpStatus.OK)
-  async updateAvatars(
+  async updateUser(
     @GetUser('sub') id: string,
     @Body() dto: UpdateUserDto,
     @UploadedFile() avatar: Express.Multer.File,

@@ -14,6 +14,8 @@ import { CreateRatingDto } from 'src/films/dto/CreateRating.dto';
 import { User } from 'src/typeorm/entities/user.entity';
 import { Comment } from 'src/typeorm/entities/comment.entity';
 import { CreateCommentDto } from 'src/films/dto/CreateComment.dto';
+import { availablePlayers } from 'src/utils/available_players';
+import { config } from 'dotenv';
 
 @Injectable()
 export class FilmsService {
@@ -25,6 +27,65 @@ export class FilmsService {
     @InjectRepository(Comment)
     private readonly commentsRepository: Repository<Comment>,
   ) {}
+
+  async getPlayers(uuid: string) {
+    config();
+
+    const film = await this.filmsRepository.findOne({
+      where: { uuid: uuid },
+    });
+    const kpId = film.kpId;
+    if (!film)
+      throw new NotFoundException(`Couldn't fond film with id: ${uuid}`);
+
+    let results = [];
+
+    for (let i = 0; i < availablePlayers.length; i++) {
+      let result = null;
+      switch (film.type) {
+        case 'movie':
+          result =
+            availablePlayers[i].hrefs[
+              Math.floor(Math.random() * availablePlayers[i].hrefs.length)
+            ];
+          results.push(
+            result +
+              availablePlayers[i].path_movie +
+              availablePlayers[i].construct(kpId),
+          );
+          break;
+        case 'tv-series':
+          result =
+            availablePlayers[i].hrefs[
+              Math.floor(Math.random() * availablePlayers[i].hrefs.length)
+            ];
+          results.push(
+            result +
+              availablePlayers[i].path_serial +
+              availablePlayers[i].construct(kpId),
+          );
+          break;
+        default:
+          result =
+            availablePlayers[i].hrefs[
+              Math.floor(Math.random() * availablePlayers[i].hrefs.length)
+            ];
+          results.push(
+            result +
+              availablePlayers[i].path_movie +
+              availablePlayers[i].construct(kpId),
+          );
+          break;
+      }
+      results = results.map((result) => {
+        return {
+          force: result,
+          sra: process.env.API_URL + '/api/sra/by_hostname?link=' + result,
+        };
+      });
+      return results;
+    }
+  }
 
   /**
    *

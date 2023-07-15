@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { Rating } from './rating.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'films' })
 export class Film {
@@ -109,4 +117,77 @@ export class Film {
 
   @Column({ name: 'releaseyears', type: 'jsonb', nullable: true })
   releaseYears: any;
+
+  @Column({ default: 0 })
+  averageRating: number;
+
+  @OneToMany(() => Rating, (rating) => rating.owner)
+  @JoinColumn()
+  ratings: Rating[];
+}
+
+export class SerializedFilm {
+  uuid: string;
+  externalKpHD: string;
+  externalImdb: string;
+  externalTmdb: string;
+  ratingKp: number;
+  ratingImdb: number;
+  ratingFilmCritics: number;
+  ratingRussianFilmCritics: number;
+  votesKp: number;
+  votesImdb: number;
+  votesFilmCritics: number;
+  votesRussianFilmCritics: number;
+
+  @Exclude()
+  enImdbPoster: string;
+
+  @Exclude()
+  uaImdbPoster: string;
+
+  @Exclude()
+  ruImdbPoster: string;
+
+  posterUrl: string;
+
+  @Exclude()
+  posterPreviewUrl: string;
+
+  @Exclude()
+  externalId: any;
+
+  @Exclude()
+  rating: any;
+
+  @Exclude()
+  votes: any;
+
+  movieLength: number;
+  type: string;
+  name: string;
+  description: string;
+  year: number;
+
+  @Exclude()
+  poster: any;
+
+  @Exclude()
+  genres: any;
+
+  genresList: string[];
+
+  @Exclude()
+  countries: any;
+
+  countriesList: string[];
+  alternativeName: string;
+  enName: string;
+  names: any;
+  shortDescription: string;
+  releaseYears: any;
+  averageRating: number;
+
+  @Exclude()
+  ratings: Rating[];
 }

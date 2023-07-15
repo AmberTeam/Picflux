@@ -1,11 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
 import { User } from './user.entity';
 
 @Entity({"name": "alerts"})
 export class Alert {
     @PrimaryGeneratedColumn('uuid')
-    id: string = uuidv4();
+    id: string;
 
     @ManyToOne(() => User, (user) => user.alerts)
     @JoinColumn()

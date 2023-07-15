@@ -8,7 +8,7 @@ import { Alert } from 'src/typeorm/entities/alert.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Alert])],
   providers: [UsersService],
-  controllers: [UsersController],
+  controllers: [UsersController,],
   exports: [UsersService]
 })
 export class UsersModule {}

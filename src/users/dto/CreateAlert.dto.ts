@@ -1,9 +1,13 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsUUID } from 'class-validator';
+import { User } from 'src/typeorm/entities/user.entity';
 
 export class CreateAlertDto {
-    @IsNotEmpty()
-    recipient: string;
+  @IsNotEmpty()
+  @IsUUID()
+  recipient: string;
 
-    @IsNotEmpty()
-    tag: string;
+  owner: User;
+
+  @IsNotEmpty()
+  tag: string;
 }

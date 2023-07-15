@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SerializedUser, User } from 'src/typeorm/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -26,7 +26,10 @@ export class UsersService {
   }
 
   async getUserById(id: string) {
-    return plainToClass(SerializedUser, await this.usersRepository.findOneBy({ id }));
+    return plainToClass(
+      SerializedUser,
+      await this.usersRepository.findOneBy({ id }),
+    );
   }
 
   async updateRtHash(id: string, hash: string) {
@@ -105,9 +108,9 @@ export class UsersService {
     return plainToClass(SerializedUser, await this.usersRepository.save(user));
   }
 
-  async getAlerts(id: string) {
+  async getAlerts(uuid: string) {
     const user = await this.usersRepository.findOne({
-      where: { id },
+      where: { id: uuid },
       relations: { alerts: true },
     });
 
@@ -115,9 +118,16 @@ export class UsersService {
   }
 
   async createAlert(id: string, dto: CreateAlertDto) {
-    const alert = await this.alertsRepository.create({
-      ...plainToClass(Alert, dto),
+    const alert = await this.alertsRepository.create(plainToClass(Alert, dto));
+
+    const recipient = await this.usersRepository.findOne({
+      where: { id: dto.recipient },
     });
+    if (!recipient) {
+      throw new NotFoundException(
+        `Recipient with ID ${dto.recipient} not found`,
+      );
+    }
 
     return await this.alertsRepository.save(alert);
   }

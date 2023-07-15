@@ -26,6 +26,20 @@ import { Public } from 'src/auth/decorators/public.decorator';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Get("alerts")
+  async getAlerts(@GetUser('sub') id: string) {
+    return await this.usersService.getAlerts(id);
+  }
+
+  @Post('alerts/create')
+  async createAlert(@GetUser('sub') id: string, @Body() dto: CreateAlertDto) {
+    if (dto.recipient === id || !dto.recipient) throw new BadRequestException("Can't create alert with the same owner and the same recipient!");
+
+    dto.owner = await this.usersService.findById(id);
+
+    return await this.usersService.createAlert(id, dto);
+  }
+
   @Get(":id")
   @Public()
   async getUser(@Param("id") id: string) {
@@ -88,17 +102,5 @@ export class UsersController {
     @UploadedFile() avatar: Express.Multer.File,
   ) {
     return this.usersService.updateUser(id, dto, avatar);
-  }
-
-  @Get('alerts')
-  async getAlerts(@GetUser('sub') id: string) {
-    return await this.usersService.getAlerts(id);
-  }
-
-  @Post('alerts')
-  async createAlert(@GetUser('sub') id: string, @Body() dto: CreateAlertDto) {
-    if (dto.recipient === id || !dto.recipient) throw new BadRequestException();
-
-    return await this.usersService.createAlert(id, dto);
   }
 }

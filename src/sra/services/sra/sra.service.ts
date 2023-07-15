@@ -452,11 +452,3 @@ export class SraService {
     }
   }
 }
-function getStringUpToChar(
-  chunks: string,
-  arg1: string,
-  arg2: string,
-  arg3: number,
-) {
-  throw new Error('Function not implemented.');
-}

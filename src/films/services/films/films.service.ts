@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +12,8 @@ import { Repository } from 'typeorm';
 import { SerializedFilm } from '../../../typeorm/entities/film.entity';
 import { CreateRatingDto } from 'src/films/dto/CreateRating.dto';
 import { User } from 'src/typeorm/entities/user.entity';
+import { Comment } from 'src/typeorm/entities/comment.entity';
+import { CreateCommentDto } from 'src/films/dto/CreateComment.dto';
 
 @Injectable()
 export class FilmsService {
@@ -19,6 +22,8 @@ export class FilmsService {
     @InjectRepository(Rating)
     private readonly ratingsRepository: Repository<Rating>,
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    @InjectRepository(Comment)
+    private readonly commentsRepository: Repository<Comment>,
   ) {}
 
   /**
@@ -77,5 +82,66 @@ export class FilmsService {
     }
 
     await this.ratingsRepository.save(rating);
+  }
+
+  async getComments(filmId: string) {
+    return await this.commentsRepository.find({
+      where: { film: { uuid: filmId } },
+      select: ['id', 'text', 'createdAt'],
+    });
+  }
+
+  // async getAllComments(filmId: string) {
+  //   const comments = await this.commentsRepository.find({
+  //     where: { film: { uuid: filmId } },
+  //   });
+
+  //   const commentsWithSubComments = [];
+
+  //   for (const comment of comments) {
+  //     if (!comment.commentId) {
+  //       const subComments = await this.commentsRepository.find({
+  //         where: { commentId: comment.id },
+  //       });
+
+  //       const commentWithSubComments = {
+  //         comment: { ...comment, commentId: undefined },
+  //         comments: subComments.map((subComment) => ({
+  //           comment: subComment,
+  //           comments: [],
+  //         })),
+  //       };
+
+  //       commentsWithSubComments.push(commentWithSubComments);
+  //     }
+  //   }
+
+  //   return commentsWithSubComments;
+  // }
+
+  async getSubComments(parent_uuid: string) {
+    return await this.commentsRepository.find({
+      where: { commentId: parent_uuid },
+    });
+  }
+
+  async addComment(filmId: string, userId: string, dto: CreateCommentDto) {
+    let comment: Comment;
+    if (!dto.commentId) {
+      comment = await this.commentsRepository.create({
+        owner: { id: userId },
+        film: { uuid: filmId },
+        text: dto.text,
+      });
+    } else {
+      comment = await this.commentsRepository.create({
+        owner: { id: userId },
+        film: { uuid: filmId },
+        text: dto.text,
+        commentId: dto.commentId,
+      });
+    }
+
+    return await this.commentsRepository.save(comment);
   }
 }

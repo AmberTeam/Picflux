@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Rating } from './rating.entity';
 import { Exclude } from 'class-transformer';
+import { Comment } from './comment.entity';
 
 @Entity({ name: 'films' })
 export class Film {
@@ -124,6 +125,10 @@ export class Film {
   @OneToMany(() => Rating, (rating) => rating.owner)
   @JoinColumn()
   ratings: Rating[];
+
+  @OneToMany(() => Comment, (comment) => comment.owner)
+  @JoinColumn()
+  comments: Comment[];
 }
 
 export class SerializedFilm {

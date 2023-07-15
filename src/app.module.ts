@@ -10,6 +10,7 @@ import { FilmsModule } from './films/films.module';
 import { Alert } from './typeorm/entities/alert.entity';
 import { Film } from './typeorm/entities/film.entity';
 import { Rating } from './typeorm/entities/rating.entity';
+import { Comment } from './typeorm/entities/comment.entity';
 
 config();
 
@@ -21,7 +22,7 @@ config();
     "username": process.env.POSTGRES_USERNAME,
     "password": process.env.POSTGRES_PASSWORD,
     "database": process.env.POSTGRES_DATABASE,
-    "entities": [User, Alert, Film, Rating],
+    "entities": [User, Alert, Film, Rating, Comment],
     synchronize: true
   }), UsersModule, AuthModule, FilmsModule],
   providers: [

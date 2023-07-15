@@ -11,6 +11,9 @@ import { Alert } from './typeorm/entities/alert.entity';
 import { Film } from './typeorm/entities/film.entity';
 import { Rating } from './typeorm/entities/rating.entity';
 import { Comment } from './typeorm/entities/comment.entity';
+import { ChatsModule } from './chats/chats.module';
+import { Chat } from './typeorm/entities/chat.entity';
+import { SraModule } from './sra/sra.module';
 
 config();
 
@@ -22,9 +25,9 @@ config();
     "username": process.env.POSTGRES_USERNAME,
     "password": process.env.POSTGRES_PASSWORD,
     "database": process.env.POSTGRES_DATABASE,
-    "entities": [User, Alert, Film, Rating, Comment],
+    "entities": [User, Alert, Film, Rating, Comment, Chat],
     synchronize: true
-  }), UsersModule, AuthModule, FilmsModule],
+  }), UsersModule, AuthModule, FilmsModule, ChatsModule, SraModule],
   providers: [
     {
       provide: APP_GUARD,

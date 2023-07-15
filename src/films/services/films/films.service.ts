@@ -41,6 +41,7 @@ export class FilmsService {
     let results = [];
 
     for (let i = 0; i < availablePlayers.length; i++) {
+      console.log('mapped');
       let result = null;
       switch (film.type) {
         case 'movie':
@@ -77,14 +78,14 @@ export class FilmsService {
           );
           break;
       }
-      results = results.map((result) => {
-        return {
-          force: result,
-          sra: process.env.API_URL + '/api/sra/by_hostname?link=' + result,
-        };
-      });
-      return results;
     }
+    results = results.map((result) => {
+      return {
+        force: result,
+        sra: process.env.API_URL + '/api/sra/by_hostname?link=' + result,
+      };
+    });
+    return results;
   }
 
   /**

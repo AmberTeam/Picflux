@@ -25,7 +25,7 @@ export const availablePlayers = [
     path_movie: '',
     path_serial: '',
     key: 'kp',
-    construct: (arg) => {
+    construct: (arg) => {``
       return '?kp_id=' + arg;
     },
   },

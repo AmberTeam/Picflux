@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export class Film {
     uuid: string = uuidv4();
-    id?: number;
+    kpId?: number;
     externalKpHD?: string;
     externalImdb?: string;
     externalTmdb?: string;

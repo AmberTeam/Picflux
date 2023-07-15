@@ -15,6 +15,7 @@ function convertToFilms(apiFilms: Film[]): Film[] {
   return apiFilms.map((apiMovie: Film) => {
     const movie: Film = {
       uuid: uuidv4(),
+      kpId: apiMovie.kpId,
       externalKpHD: (apiMovie.externalId && apiMovie.externalId["KpHD"]) || "",
       externalImdb: (apiMovie.externalId && apiMovie.externalId["imdb"]) || "",
       externalTmdb: (apiMovie.externalId && apiMovie.externalId["tmdb"]) || "",
@@ -68,7 +69,6 @@ function convertToFilms(apiFilms: Film[]): Film[] {
       rating: apiMovie.rating || {},
       votes: apiMovie.votes || {},
       movieLength: apiMovie.movieLength || 0,
-      id: apiMovie.id || 0,
       type: apiMovie.type || "",
       name: apiMovie.name || "",
       description: apiMovie.description || "",
@@ -119,7 +119,7 @@ async function fetchFilms(page: number, limit: number): Promise<Film[]> {
       movie.rating = movieData.rating;
       movie.votes = movieData.votes;
       movie.movieLength = movieData.movieLength;
-      movie.id = movieData.id;
+      movie.kpId = movieData.id;
       movie.type = movieData.type;
       movie.name = movieData.name;
       movie.description = movieData.description;
@@ -155,8 +155,8 @@ async function createFilmsTable(): Promise<void> {
 
     const query = `
       CREATE TABLE IF NOT EXISTS films (
-        id SERIAL PRIMARY KEY,
         uuid UUID DEFAULT uuid_generate_v4(),
+        kpId  INTEGER,
         externalKpHD VARCHAR(255),
         externalImdb VARCHAR(255),
         externalTmdb VARCHAR(255),
@@ -238,7 +238,7 @@ async function addFilmsToDatabase(films: Film[]): Promise<void> {
       JSON.stringify(movie.rating) || "{}",
       JSON.stringify(movie.votes) || "{}",
       movie.movieLength ?? 0,
-      movie.id ?? 0,
+      movie.kpId ?? 0,
       movie.type ?? "",
       movie.name ?? "",
       movie.description ?? "",
@@ -276,7 +276,7 @@ async function addFilmsToDatabase(films: Film[]): Promise<void> {
     rating,
     votes,
     movieLength,
-    id,
+    kpId,
     type,
     name,
     description,

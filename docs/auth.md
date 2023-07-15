@@ -1,6 +1,6 @@
 # Picflux API Docs
 
-![Background Image](/logo.jpg)
+<img src="https://i.ibb.co/0QJnfPx/Logo.jpg" alt="Logo" border="0"/>
 
 ## Routes
 

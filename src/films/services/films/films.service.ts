@@ -6,7 +6,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Film } from 'src/typeorm/entities/film.entity';
+import {
+  Film,
+  SerializedPaginationFilm,
+} from 'src/typeorm/entities/film.entity';
 import { Rating } from 'src/typeorm/entities/rating.entity';
 import { Repository } from 'typeorm';
 import { SerializedFilm } from '../../../typeorm/entities/film.entity';
@@ -27,6 +30,21 @@ export class FilmsService {
     @InjectRepository(Comment)
     private readonly commentsRepository: Repository<Comment>,
   ) {}
+
+  async getFilms(offset: number, limit: number) {
+    if (limit > 50) limit = 50;
+    const films = await this.filmsRepository.find({
+      skip: offset,
+      take: limit,
+    });
+
+    return films.map((film) =>
+      plainToClass(SerializedPaginationFilm, {
+        ...film,
+        averageRating: this.getAverageRatingByFilmId(film.uuid),
+      }),
+    );
+  }
 
   async getPlayers(uuid: string) {
     config();
@@ -146,11 +164,45 @@ export class FilmsService {
     await this.ratingsRepository.save(rating);
   }
 
-  async getComments(filmId: string) {
-    return await this.commentsRepository.find({
+  async getComments(filmId: string, offset: number, limit: number) {
+    if (limit > 50) limit = 50;
+
+    const comments = await this.commentsRepository.find({
       where: { film: { uuid: filmId } },
-      select: ['id', 'text', 'createdAt'],
+      skip: offset,
+      take: limit,
+      relations: ['owner'],
     });
+
+    const parentComments = comments.filter((comment) => !comment.commentId);
+    const commentsWithSubComments = [];
+
+    for (const comment of parentComments) {
+      console.log(comment);
+      const subCommentsCount = await this.commentsRepository.count({
+        where: { commentId: comment.id },
+      });
+
+      console.log(comment.owner);
+      const ownerWithoutPassword = { ...comment.owner };
+      delete ownerWithoutPassword.password;
+      delete ownerWithoutPassword.hashedRt;
+      delete ownerWithoutPassword.watchList;
+      delete ownerWithoutPassword.lastActive;
+
+      const commentWithSubComments = {
+        comment: { ...comment, owner: ownerWithoutPassword },
+        subCommentsCount: subCommentsCount,
+      };
+
+      commentsWithSubComments.push(commentWithSubComments);
+    }
+
+    if (commentsWithSubComments.length === 0) {
+      throw new NotFoundException('No comments found');
+    }
+
+    return commentsWithSubComments;
   }
 
   // async getAllComments(filmId: string) {
@@ -181,10 +233,35 @@ export class FilmsService {
   //   return commentsWithSubComments;
   // }
 
-  async getSubComments(parent_uuid: string) {
-    return await this.commentsRepository.find({
+  async getSubComments(parent_uuid: string, offset: number, limit: number) {
+    if (limit > 50) limit = 50;
+
+    const subComments = await this.commentsRepository.find({
       where: { commentId: parent_uuid },
+      skip: offset,
+      take: limit,
+      relations: ['owner'],
     });
+
+    if (subComments.length === 0) {
+      throw new NotFoundException('No subcomments found');
+    }
+
+    const subCommentsWithUserInfo = subComments.map((subComment) => {
+      const { owner, ...commentData } = subComment;
+
+      const ownerWithoutSensitiveInfo = { ...owner };
+      delete ownerWithoutSensitiveInfo.password;
+      delete ownerWithoutSensitiveInfo.hashedRt;
+      delete ownerWithoutSensitiveInfo.watchList;
+      delete ownerWithoutSensitiveInfo.lastActive;
+      return {
+        ...commentData,
+        owner: ownerWithoutSensitiveInfo,
+      };
+    });
+
+    return subCommentsWithUserInfo;
   }
 
   async addComment(filmId: string, userId: string, dto: CreateCommentDto) {

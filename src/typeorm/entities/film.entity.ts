@@ -14,7 +14,7 @@ export class Film {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
 
-  @Column({name: 'kpid'})
+  @Column({ name: 'kpid' })
   kpId: number;
 
   @Column({ name: 'externalkphd', length: 255, nullable: true })
@@ -133,66 +133,42 @@ export class Film {
 
 export class SerializedFilm {
   uuid: string;
-  externalKpHD: string;
-  externalImdb: string;
-  externalTmdb: string;
-  ratingKp: number;
-  ratingImdb: number;
-  ratingFilmCritics: number;
-  ratingRussianFilmCritics: number;
-  votesKp: number;
-  votesImdb: number;
-  votesFilmCritics: number;
-  votesRussianFilmCritics: number;
-
-  @Exclude()
-  enImdbPoster: string;
-
-  @Exclude()
-  uaImdbPoster: string;
-
-  @Exclude()
-  ruImdbPoster: string;
+  externalId: Record<string, string>;
+  rating: Record<string, string>;
+  votes: Record<string, string>;
 
   posterUrl: string;
-
-  @Exclude()
-  posterPreviewUrl: string;
-
-  @Exclude()
-  externalId: any;
-
-  @Exclude()
-  rating: any;
-
-  @Exclude()
-  votes: any;
 
   movieLength: number;
   type: string;
   name: string;
   description: string;
-  year: number;
-
-  @Exclude()
-  poster: any;
-
-  @Exclude()
-  genres: any;
 
   genresList: string[];
 
-  @Exclude()
-  countries: any;
-
   countriesList: string[];
   alternativeName: string;
-  enName: string;
-  names: any;
   shortDescription: string;
   releaseYears: any;
   averageRating: number;
-
-  @Exclude()
-  ratings: Rating[];
 }
+
+export class SerializedPaginationFilm {
+  uuid: string;
+  rating: Record<string, string>;
+
+  posterUrl: string;
+
+  movieLength: number;
+  type: string;
+  name: string;
+
+  genresList: string[];
+
+  countriesList: string[];
+  alternativeName: string;
+  shortDescription: string;
+  releaseYears: any;
+  averageRating: number;
+}
+

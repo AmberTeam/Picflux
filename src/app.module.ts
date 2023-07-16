@@ -14,25 +14,41 @@ import { Comment } from './typeorm/entities/comment.entity';
 import { ChatsModule } from './chats/chats.module';
 import { Chat } from './typeorm/entities/chat.entity';
 import { SraModule } from './sra/sra.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 config();
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    "type": "postgres",
-    "host": process.env.POSTGRES_HOST,
-    "port": parseInt(process.env.POSTGRES_PORT),
-    "username": process.env.POSTGRES_USERNAME,
-    "password": process.env.POSTGRES_PASSWORD,
-    "database": process.env.POSTGRES_DATABASE,
-    "entities": [User, Alert, Film, Rating, Comment, Chat],
-    synchronize: true
-  }), UsersModule, AuthModule, FilmsModule, ChatsModule, SraModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: parseInt(process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USERNAME,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
+      entities: [User, Alert, Film, Rating, Comment, Chat],
+      synchronize: true,
+    }),
+    UsersModule,
+    AuthModule,
+    FilmsModule,
+    ChatsModule,
+    SraModule,
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 5,
+    }),
+  ],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AtGuard
+      useClass: AtGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
     }
-  ]
+  ],
 })
 export class AppModule {}

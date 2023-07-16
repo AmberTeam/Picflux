@@ -36,8 +36,8 @@ config();
     ChatsModule,
     SraModule,
     ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 5,
+      ttl: parseInt(process.env.RATE_TIME),
+      limit: parseInt(process.env.RATE_LIMIT),
     }),
   ],
   providers: [

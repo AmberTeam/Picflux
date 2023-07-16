@@ -10,6 +10,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use('/static', express.static('static'));
   app.useGlobalPipes(new ValidationPipe())
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

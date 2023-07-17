@@ -1,3 +1,0 @@
-interface Country {
-  name: string;
-}

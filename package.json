@@ -24,6 +24,9 @@
     "dotenv": "^16.3.1",
     "pg": "^8.11.1",
     "pg-promise": "^11.5.0",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
+    "typeorm": "^0.3.17",
     "user-agents": "^1.0.1435",
     "uuid": "^9.0.0"
   }

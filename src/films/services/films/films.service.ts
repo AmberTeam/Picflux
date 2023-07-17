@@ -6,22 +6,20 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import {
-  Film,
-  SerializedPaginationFilm,
-} from 'src/typeorm/entities/film.entity';
 import { Rating } from 'src/typeorm/entities/rating.entity';
-import { Repository } from 'typeorm';
-import { SerializedFilm } from '../../../typeorm/entities/film.entity';
+import { NumericType, Repository } from 'typeorm';
+import { SerializedFilm, Film, SerializedPaginationFilm } from '../../../typeorm/entities/film.entity';
 import { CreateRatingDto } from 'src/films/dto/CreateRating.dto';
 import { User } from 'src/typeorm/entities/user.entity';
 import { Comment } from 'src/typeorm/entities/comment.entity';
 import { CreateCommentDto } from 'src/films/dto/CreateComment.dto';
-import { availablePlayers } from 'src/utils/available_players';
+import { KinopoiskDev } from '@openmoviedb/kinopoiskdev_client';
 import { config } from 'dotenv';
+import { availablePlayers } from 'src/utils/available_players';
 
 @Injectable()
 export class FilmsService {
+  api;
   constructor(
     @InjectRepository(Film) private readonly filmsRepository: Repository<Film>,
     @InjectRepository(Rating)
@@ -29,37 +27,36 @@ export class FilmsService {
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(Comment)
     private readonly commentsRepository: Repository<Comment>,
-  ) {}
+  ) {
+    config();
+    this.api = new KinopoiskDev(process.env.TOKEN);
+  }
 
   async getFilms(offset: number, limit: number) {
-    if (limit > 50) limit = 50;
-    const films = await this.filmsRepository.find({
-      skip: offset,
-      take: limit,
-    });
+    const films = (await this.api.movie.getByFilters({page: offset, limit: limit})).data.docs;
 
     return films.map((film) =>
       plainToClass(SerializedPaginationFilm, {
         ...film,
-        averageRating: this.getAverageRatingByFilmId(film.uuid),
+        averageRating: this.getAverageRatingByFilmId(film.id)
       }),
     );
   }
 
-  async getPlayers(uuid: string) {
+  async search(query: string, offset: number, limit: number) {
+    return await this.api.movie.getBySearchQuery({query, limit: limit, page: offset});
+  }
+
+  async getPlayers(id: number) {
     config();
 
-    const film = await this.filmsRepository.findOne({
-      where: { uuid: uuid },
-    });
-    const kpId = film.kpId;
+    const film = (await this.api.movie.getById(id)).data;
     if (!film)
-      throw new NotFoundException(`Couldn't fond film with id: ${uuid}`);
+      throw new NotFoundException(`Couldn't fond film with id: ${id}`);
 
     let results = [];
 
     for (let i = 0; i < availablePlayers.length; i++) {
-      console.log('mapped');
       let result = null;
       switch (film.type) {
         case 'movie':
@@ -70,7 +67,7 @@ export class FilmsService {
           results.push(
             result +
               availablePlayers[i].path_movie +
-              availablePlayers[i].construct(kpId),
+              availablePlayers[i].construct(id),
           );
           break;
         case 'tv-series':
@@ -81,7 +78,7 @@ export class FilmsService {
           results.push(
             result +
               availablePlayers[i].path_serial +
-              availablePlayers[i].construct(kpId),
+              availablePlayers[i].construct(id),
           );
           break;
         default:
@@ -92,7 +89,7 @@ export class FilmsService {
           results.push(
             result +
               availablePlayers[i].path_movie +
-              availablePlayers[i].construct(kpId),
+              availablePlayers[i].construct(id),
           );
           break;
       }
@@ -111,25 +108,27 @@ export class FilmsService {
    * @param uuid Film Id: uuid
    * @returns Serialized User
    */
-  async getFilm(uuid: string): Promise<SerializedFilm> {
-    const film = await this.filmsRepository.findOne({
-      where: { uuid: uuid },
-    });
+  async getFilm(id: number): Promise<SerializedFilm> {
+    // const film = await this.filmsRepository.findOne({
+    //   where: { uuid: uuid },
+    // });
+    const film = await this.api.movie.getById(id);
 
     return plainToClass(SerializedFilm, {
       ...film,
-      averageRating: await this.getAverageRatingByFilmId(uuid),
+      averageRating: await this.getAverageRatingByFilmId(id),
     });
   }
 
-  async getAverageRatingByFilmId(filmId: string): Promise<number> {
+  async getAverageRatingByFilmId(filmId: number): Promise<number> {
     const ratings = await this.ratingsRepository.find({
       where: {
         film: {
-          uuid: filmId,
+          kpId: filmId,
         },
       },
     });
+    if (!ratings) return 0;
     const totalRatings = ratings.length;
     if (totalRatings === 0) return 0;
 
@@ -140,22 +139,31 @@ export class FilmsService {
     return sum / totalRatings;
   }
 
-  async rateFilm(filmId: string, dto: CreateRatingDto, owner: string) {
+  async rateFilm(filmId: number, dto: CreateRatingDto, owner: string) {
     const user = await this.usersRepository.findOneBy({ id: owner });
     if (!user) throw new UnauthorizedException('User not found');
 
-    const film = await this.filmsRepository.findOneBy({ uuid: filmId });
-    if (!film) throw new BadRequestException('Film not found');
+    const film = (await this.api.movie.getById(filmId)).data;
+    let dbFilm: Film;
+    if (film.id != null) {
+      dbFilm = await this.filmsRepository.create({kpId: film.id});
+      dbFilm = await this.filmsRepository.save(dbFilm);
+    }
+    else{
+      throw new NotFoundException("Film not found");
+    }
 
     let rating = await this.ratingsRepository.findOne({
-      where: { owner: { id: user.id }, film: { uuid: film.uuid } },
+      where: { owner: { id: user.id }, film: { kpId: film.id } },
     });
 
     if (!rating) {
       rating = this.ratingsRepository.create({
         rating: dto.rating,
         owner: user,
-        film: film,
+        film: {
+          id: dbFilm.id
+        },
       });
     } else {
       rating.rating = dto.rating;
@@ -164,11 +172,11 @@ export class FilmsService {
     await this.ratingsRepository.save(rating);
   }
 
-  async getComments(filmId: string, offset: number, limit: number) {
+  async getComments(filmId: number, offset: number, limit: number) {
     if (limit > 50) limit = 50;
 
     const comments = await this.commentsRepository.find({
-      where: { film: { uuid: filmId } },
+      where: { film: { kpId: filmId } },
       skip: offset,
       take: limit,
       relations: ['owner'],
@@ -178,12 +186,10 @@ export class FilmsService {
     const commentsWithSubComments = [];
 
     for (const comment of parentComments) {
-      console.log(comment);
       const subCommentsCount = await this.commentsRepository.count({
         where: { commentId: comment.id },
       });
 
-      console.log(comment.owner);
       const ownerWithoutPassword = { ...comment.owner };
       delete ownerWithoutPassword.password;
       delete ownerWithoutPassword.hashedRt;
@@ -264,18 +270,19 @@ export class FilmsService {
     return subCommentsWithUserInfo;
   }
 
-  async addComment(filmId: string, userId: string, dto: CreateCommentDto) {
+  async addComment(filmId: number, userId: string, dto: CreateCommentDto) {
     let comment: Comment;
+    const film = await this.filmsRepository.findOneBy({kpId: filmId});
     if (!dto.commentId) {
       comment = await this.commentsRepository.create({
         owner: { id: userId },
-        film: { uuid: filmId },
+        film: film,
         text: dto.text,
       });
     } else {
       comment = await this.commentsRepository.create({
         owner: { id: userId },
-        film: { uuid: filmId },
+        film: film,
         text: dto.text,
         commentId: dto.commentId,
       });

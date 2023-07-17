@@ -20,19 +20,28 @@ import { SkipThrottle } from '@nestjs/throttler';
 export class FilmsController {
   constructor(private readonly filmsService: FilmsService) {}
 
+  @Get('search')
+  @Public()
+  async search(
+    @Query('q') query: string,
+    @Query('limit', new ParseIntPipe()) limit: number,
+    @Query('offset', new ParseIntPipe()) offset: number,
+  ) {
+    return this.filmsService.search(query, offset, limit);
+  }
+
   @Get(':id/players')
   @Public()
   async getPlayers(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) uuid: string,
+    @Param('id') id: number,
   ) {
-    return this.filmsService.getPlayers(uuid);
+    return this.filmsService.getPlayers(id);
   }
 
-  @Get(':id/comments/:parent_id')
+  @Get('comments/:parent_id')
   @SkipThrottle()
   @Public()
   async getSubComments(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) uuid: string,
     @Param('parent_id', new ParseUUIDPipe({ version: '4' }))
     parent_uuid: string,
     @Query('offset', new ParseIntPipe()) offset: number,
@@ -45,20 +54,20 @@ export class FilmsController {
   @Get(':id/comments')
   @Public()
   async getComments(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) uuid: string,
+    @Param('id') id: number,
     @Query('offset', new ParseIntPipe()) offset: number,
     @Query('limit', new ParseIntPipe()) limit: number,
   ) {
-    return this.filmsService.getComments(uuid, offset, limit);
+    return this.filmsService.getComments(id, offset, limit);
   }
 
   @Post(':id/comments')
   async addComment(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) uuid: string,
+    @Param('id') id: number,
     @GetUser('sub') userId: string,
     @Body() dto: CreateCommentDto,
   ) {
-    return this.filmsService.addComment(uuid, userId, dto);
+    return this.filmsService.addComment(id, userId, dto);
   }
 
   /**
@@ -68,7 +77,7 @@ export class FilmsController {
    */
   @Post(':id/rate')
   async rateFilm(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) filmId: string,
+    @Param('id') id: number,
     @Body() dto: CreateRatingDto,
     @GetUser('sub') userId: string,
   ) {
@@ -76,15 +85,15 @@ export class FilmsController {
       throw new BadRequestException('Rating must be between 1 and 10');
 
     dto.rating = parseInt(dto.rating.toString());
-    return this.filmsService.rateFilm(filmId, dto, userId);
+    return this.filmsService.rateFilm(id, dto, userId);
   }
 
   @Get(':id')
   @Public()
   async getFilm(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) uuid: string,
+    @Param('id') id: number,
   ) {
-    return this.filmsService.getFilm(uuid);
+    return this.filmsService.getFilm(id);
   }
 
   @Get()

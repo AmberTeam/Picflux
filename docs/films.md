@@ -838,7 +838,7 @@
 ```
 
 <h1 style="color: #98c370; font-weight: bold">Get films with pagination <span style="color: #8c8caf;">Public</span></h1>
-- <span style="color: #69d797; font-weight: bold">GET</span> /api/films?offset=(1+)&limit=<250&required=[possible: poster, backdrop]
+- <span style="color: #69d797; font-weight: bold">GET</span> /api/films?offset=(1+)&limit=<250&required=poster,backdrop
 
 **Body**
 

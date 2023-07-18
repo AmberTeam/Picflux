@@ -33,12 +33,12 @@ export class UsersController {
   }
 
   @Post('watch_list/:id')
-  async addToWatchlist(@GetUser('sub') id: string, @Param("id") filmId: string) {
+  async addToWatchlist(@GetUser('sub') id: string, @Param("id") filmId: number) {
     return this.usersService.addToWatchlist(id, filmId);
   }
 
   @Delete('watch_list/:id')
-  async removeFromWatchlist(@GetUser('sub') id: string, @Param("id") filmId: string) {
+  async removeFromWatchlist(@GetUser('sub') id: string, @Param("id") filmId: number) {
     return this.usersService.removeFromWatchlist(id, filmId);
   }
 

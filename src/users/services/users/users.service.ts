@@ -26,7 +26,7 @@ export class UsersService {
     return user.watchList;
   }
 
-  async addToWatchlist(id: string, filmId: string) {
+  async addToWatchlist(id: string, filmId: number) {
     const user = await this.usersRepository.findOneBy({ id });
     if (!user.watchList.includes(filmId)) {
       user.watchList.push(filmId);
@@ -35,7 +35,7 @@ export class UsersService {
     return plainToClass(SerializedUser, this.usersRepository.save(user));
   }
 
-  async removeFromWatchlist(id: string, filmId: string) {
+  async removeFromWatchlist(id: string, filmId: number) {
     const user = await this.usersRepository.findOneBy({ id });
     if (user.watchList.includes(filmId)) {
       const index = user.watchList.indexOf(filmId);

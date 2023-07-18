@@ -46,8 +46,8 @@ export class User {
   @Column({ nullable: true })
   hashedRt: string;
 
-  @Column('text', {array: true, default: []})
-  watchList: string[];
+  @Column('integer', {array: true, default: []})
+  watchList: number[];
 
   @Column()
   createdAt: Date = new Date();

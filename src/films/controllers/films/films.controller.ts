@@ -8,6 +8,7 @@ import {
   ParseUUIDPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { FilmsService } from '../../services/films/films.service';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -15,6 +16,8 @@ import { CreateRatingDto } from 'src/films/dto/CreateRating.dto';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { CreateCommentDto } from '../../dto/CreateComment.dto';
 import { SkipThrottle } from '@nestjs/throttler';
+import { AtOptionalGuard } from 'src/auth/guards/at-optional.guard';
+import { RequiredFields } from 'src/films/types/required.type';
 
 @Controller('api/films')
 export class FilmsController {
@@ -32,9 +35,7 @@ export class FilmsController {
 
   @Get(':id/players')
   @Public()
-  async getPlayers(
-    @Param('id') id: number,
-  ) {
+  async getPlayers(@Param('id') id: number) {
     return this.filmsService.getPlayers(id);
   }
 
@@ -90,10 +91,12 @@ export class FilmsController {
 
   @Get(':id')
   @Public()
+  @UseGuards(AtOptionalGuard)
   async getFilm(
     @Param('id') id: number,
+    @GetUser() user
   ) {
-    return this.filmsService.getFilm(id);
+    return this.filmsService.getFilm(id, user);
   }
 
   @Get()
@@ -101,7 +104,16 @@ export class FilmsController {
   async getFilms(
     @Query('offset', new ParseIntPipe()) offset: number,
     @Query('limit', new ParseIntPipe()) limit: number,
+    @Query('required') required?: string,
   ) {
-    return this.filmsService.getFilms(offset, limit);
+    let requiredFields: RequiredFields;
+    if (required) {
+      const fields = required.split(',');
+      requiredFields = {
+        poster: fields.includes('poster'),
+        backdrop: fields.includes('bacxkdrop'),
+      };
+    }
+    return this.filmsService.getFilms(offset, limit, requiredFields);
   }
 }
